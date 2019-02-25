@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="all_left_bar">
     <!-- <ul class="nav nav-pills nav-stacked">
       <li
         v-for="(item, index) in menu_list"
@@ -10,7 +10,7 @@
     </ul> -->
     <div
       class="nav flex-column nav-pills col-md-1"
-      id="v-pills-tab"
+      id="left_top_bar"
       role="tablist"
       aria-orientation="vertical"
     >
@@ -24,8 +24,15 @@
         aria-selected="true"
         v-for="item in menu_list"
         :key="item.id"
-      >{{item.name}}</a>
+      >
+        <router-link :to="{path:item.url}">
+          {{item.name}}
+        </router-link>
+      </a>
+
     </div>
+    <router-view>
+    </router-view>
 
   </div>
 </template>
@@ -44,8 +51,8 @@ export default class right_bar extends Vue {
   message: string = "Hello!";
   menu_index: number = 0;
   menu_list: Menu_Mid_Model[] = [
-    new Menu_Mid_Model("测试菜单1"),
-    new Menu_Mid_Model("测试菜单2")
+    new Menu_Mid_Model("条件搜索", "/search/condition"),
+    new Menu_Mid_Model("搜索2", "")
   ];
   // 组件方法也可以直接声明为实例的方法
   onClick(): void {
@@ -55,4 +62,12 @@ export default class right_bar extends Vue {
 </script>
 
 <style>
+#all_left_bar {
+  position: relative;
+}
+#left_top_bar {
+  position: absolute;
+  margin-top: 0px;
+  margin-left: 5px;
+}
 </style>
