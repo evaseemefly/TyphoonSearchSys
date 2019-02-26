@@ -18,7 +18,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import ConditionSearch from "@/views/Main/LeftBar/SubItem/ConditionSearch";
+import ConditionSearch from "@/views/Main/LeftBar/SubItem/ConditionSearch.vue";
 export default Vue.extend({
   data() {
     return {

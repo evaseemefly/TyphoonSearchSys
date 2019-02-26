@@ -1,14 +1,7 @@
-<<<<<<< .merge_file_hiN8kn
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
-import ConditionSearch from './views/member/secondBar/second_bar_condition_search.vue'
-=======
-// tslint:disable-next-line:quotemark
-import Vue from 'vue';
+import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
->>>>>>> .merge_file_dgliOd
+import ConditionSearch from "./views/member/secondBar/second_bar_condition_search.vue";
 
 Vue.use(Router);
 
@@ -27,28 +20,25 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-<<<<<<< .merge_file_hiN8kn
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
+        import(/* webpackChunkName: "about" */ "./views/About.vue")
     },
     {
-      path: '/index',
-      name: 'index',
+      path: "/index",
+      name: "index",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       children: [
         {
-          path: '/search/condition',
-          name: 'condition',
+          path: "/search/condition",
+          name: "condition",
           component: ConditionSearch
         }
       ],
+
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/index/index_bar.vue')
-=======
-      component: () => import(/* webpackChunkName: "about" */ "./views/About.vue")
->>>>>>> .merge_file_dgliOd
+        import(/* webpackChunkName: "about" */ "./views/index/index_bar.vue")
     }
     // {
     //   path: '/search',
