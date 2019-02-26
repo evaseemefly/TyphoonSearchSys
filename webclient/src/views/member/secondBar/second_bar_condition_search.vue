@@ -1,11 +1,11 @@
 <template>
   <div
     id="condition"
-    class="col-md-4"
+    class="col-md-8"
   >
     <form
       id="search_form"
-      class="form-horizontal"
+      class="form-horizontal col-md-6"
     >
       <!--输入权限名称以及是否选中信息-->
       <!--权限基本信息-->
@@ -118,17 +118,22 @@
         </div>
       </fieldset>
     </form>
-    <div id="data_list">
+    <div
+      id="data_list"
+      class="col-md-6"
+    >
       <ul>
         <!-- <li v-for="(item,index) in data_list">{{item.name}}</li> -->
         <li
           v-for="(item,index) in data_list"
           :key="index"
+          @click="onClick(item)"
         >
           {{item.name}}
         </li>
       </ul>
     </div>
+    <endBar></endBar>
   </div>
 </template>
 
@@ -137,8 +142,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 import { DataList_Mid_Model } from "../../../middle_model/common";
 
+import endBar from "../endBar/end_bar_data_list.vue";
+
 @Component({
-  components: {}
+  components: { endBar }
 })
 export default class second_bar_condition_search extends Vue {
   // 初始数据可以直接声明为实例的属性
@@ -148,8 +155,8 @@ export default class second_bar_condition_search extends Vue {
     new DataList_Mid_Model("台风3", 3, "code_c")
   ];
   // 组件方法也可以直接声明为实例的方法
-  onClick(): void {
-    // window.alert(this.message);
+  onClick(message: string): void {
+    window.alert(message);
   }
 }
 </script>
@@ -161,18 +168,22 @@ export default class second_bar_condition_search extends Vue {
   margin-top: 0px;
 }
 #search_form {
-  background: rgba(41, 80, 128, 0.701);
+  background: #34495ee9;
   padding-right: 8px;
   border-radius: 5px;
 }
 #data_list {
   margin-top: 5px;
-  background: rgba(58, 106, 164, 0.701);
+  background: rgba(73, 115, 165, 0.701);
   padding-right: 8px;
   border-radius: 5px;
 }
 li {
   list-style: none;
   text-align: left;
+}
+.form-group .control-label {
+  color: #ffffff;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
 }
 </style>
