@@ -1,14 +1,22 @@
 <template>
   <div id="app">
+<<<<<<< HEAD
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>|
       <router-link to="/index">测试页面</router-link>
     </div>
     <router-view />
+=======
+    <LeftBar/>
+    <!-- <router-view/> -->
+>>>>>>> pr/1
   </div>
 </template>
+<script>
+import LeftBar from "@/views/Main/LeftBar/LeftBar";
 
+<<<<<<< HEAD
 <style>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -20,13 +28,14 @@
 #nav {
   padding: 30px;
 }
+=======
+export default {
+  components: {
+    LeftBar
+  }
+};
+</script>
+>>>>>>> pr/1
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+<style scoped>
 </style>
