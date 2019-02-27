@@ -19,7 +19,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { DataList_Mid_Model } from "../../../middle_model/common";
-// import { DataList_Mid_Model } from "@/middle_model/common";
 @Component({
   props: {
     target_typhoon: DataList_Mid_Model // 由二级菜单传入的选中的台风
@@ -38,6 +37,8 @@ export default class end_bar_data_list extends Vue {
     new Date(2019, 2, 19),
     new Date(2019, 2, 20)
   ]; // 加载的时间列表
+
+
   loadDateList(target_typhoon: DataList_Mid_Model): void {
     // 1 后台请求加载当前的date_list
   }
