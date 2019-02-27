@@ -3,7 +3,10 @@
     <li class="item-title">
       <a>历史暴风潮查询</a>
     </li>
-    <li class="item-title" v-on:click="showCondition=!showCondition">
+    <li
+      class="item-title"
+      v-on:click="showCondition=!showCondition"
+    >
       <a>条件搜索</a>
     </li>
     <transition name="fade">

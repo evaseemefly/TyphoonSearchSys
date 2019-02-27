@@ -22,36 +22,32 @@
         </div>
       </div>
     </div>
-    <endData></endData>
+    <endDataList></endDataList>
   </div>
+
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { DataList_Mid_Model } from "../../../middle_model/common";
-// import endDataList from "@/views/member/endBar/end_data_list.vue";
 import endDataList from "../endBar/end_data_list.vue";
+
 @Component({
-  components: { endData: endDataList },
+  components: { endDataList },
   filters: {
     formatDate(date: Date): String {
       return date.toDateString();
     }
-  },
-  props: {
-    target_typhoon: DataList_Mid_Model // 由二级菜单传入的选中的台风
   }
 })
 // @Component({
-//   components: {
-//     endDataList
+//   filters: {
+//     formatDate(date: Date): String {
+//       return date.toDateString();
+//     }
 //   }
 // })
-// @Component({
-//   components: { endDataList }
-// })
-// @Component({})
-export default class end_bar_data_list extends Vue {
+export default class end_bar_test extends Vue {
   date_list: Date[] = [
     new Date(2019, 2, 18),
     new Date(2019, 2, 19),
@@ -65,12 +61,4 @@ export default class end_bar_data_list extends Vue {
 </script>
 
 <style>
-#end_bar_div {
-  /* position: absolute; */
-  display: flex;
-  top: 0px;
-  /* margin-left: 460px; */
-  /* background: rgb(166, 187, 187); */
-  bottom: 12px;
-}
 </style>

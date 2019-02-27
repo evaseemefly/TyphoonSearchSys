@@ -4,33 +4,54 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">First Name</th>
-          <th scope="col">Last Name</th>
-          <th scope="col">Username</th>
+          <th scope="col">当前时间</th>
+          <th scope="col">气压</th>
+          <th scope="col">最大风速</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <td>2019-02-27</td>
+          <td>1002.2</td>
+          <td>3.5</td>
+        </tr>
+
+      </tbody>
+    </table>
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">站位</th>
+          <th scope="col">波向</th>
+          <th scope="col">有效波高</th>
+          <th scope="col">潮位</th>
+          <th scope="col">风速</th>
+          <th scope="col">风向</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>福鼎</td>
+          <td>35</td>
+          <td>2.5</td>
+          <td>1.7</td>
+          <td>5.2</td>
+          <td>120</td>
         </tr>
         <tr>
           <th scope="row">2</th>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-        <tr>
-          <th scope="row">3</th>
-          <td>Larry</td>
-          <td>the Bird</td>
-          <td>@twitter</td>
+          <td>平潭</td>
+          <td>35</td>
+          <td>2.5</td>
+          <td>1.7</td>
+          <td>5.2</td>
+          <td>120</td>
         </tr>
       </tbody>
     </table>
-
   </div>
 </template>
 
@@ -42,6 +63,7 @@ import {
   MeteorologyRealData_Mid_Model,
   TideRealData_Mid_Model
 } from "../../../middle_model/typhoon";
+
 @Component({
   props: {
     target_date: Date, //由父组件传入的选中的时间
