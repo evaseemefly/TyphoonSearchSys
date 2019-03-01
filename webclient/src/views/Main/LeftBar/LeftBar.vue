@@ -3,7 +3,10 @@
     <li class="item-title">
       <a>历史暴风潮查询</a>
     </li>
-    <li class="item-title" v-on:click="showCondition=!showCondition">
+    <li
+      class="item-title"
+      v-on:click="showCondition=!showCondition"
+    >
       <a>条件搜索</a>
     </li>
     <transition name="fade">
@@ -18,7 +21,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import ConditionSearch from "@/views/Main/LeftBar/SubItem/ConditionSearch";
+import ConditionSearch from "@/views/Main/LeftBar/SubItem/ConditionSearch.vue";
 export default Vue.extend({
   data() {
     return {
