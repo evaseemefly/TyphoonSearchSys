@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <table class="table">
+  <div class="card bg-secondary col-md-12 text-white">
+    <table class="table text-white">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -19,7 +19,7 @@
 
       </tbody>
     </table>
-    <table class="table">
+    <table class="table text-white">
       <thead>
         <tr>
           <th scope="col">#</th>

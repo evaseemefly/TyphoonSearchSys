@@ -1,3 +1,4 @@
+
 import Vue from "vue";
 import Router from "vue-router";
 import Home from "./views/Home.vue";
@@ -5,36 +6,46 @@ import ConditionSearch from "./views/member/secondBar/second_bar_condition_searc
 import ConditionSearchByStation from "./views/member/searchByStationMenu/searchByStationMenu_main.vue";
 
 
-Vue.use(Router);
+
+Vue.use(Router)
 
 export default new Router({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     {
-      path: "/",
-      name: "home",
+      path: '/',
+      name: 'home',
       component: Home
     },
     {
-      path: "/about",
-      name: "about",
+      path: '/about',
+      name: 'about',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+        import(/* webpackChunkName: "about" */ './views/About.vue')
     },
     {
-      path: "/index",
-      name: "index",
+      path: '/map',
+      name: 'map',
+      // route level code-splitting
+      // this generates a separate chunk (about.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () =>
+        import(/* webpackChunkName: "about" */ './views/content/center_map.vue')
+    },
+    {
+      path: '/index',
+      name: 'index',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       children: [
         {
-          path: "/search/condition",
-          name: "condition",
+          path: '/search/condition',
+          name: 'condition',
           component: ConditionSearch
         }, {
           path: "/search/conditionByStation",
@@ -44,7 +55,7 @@ export default new Router({
       ],
 
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/index/index_bar.vue")
+        import(/* webpackChunkName: "about" */ './views/index/index_bar.vue')
     }
     // {
     //   path: '/search',
@@ -63,4 +74,4 @@ export default new Router({
     //   component: ConditionSearch
     // }
   ]
-});
+})
