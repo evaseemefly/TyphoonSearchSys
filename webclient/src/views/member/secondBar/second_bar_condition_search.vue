@@ -8,7 +8,14 @@
           <div class="form-group row">
             <label class="col-form-label col-form-label-sm" for="ds_host">死亡</label>
             <div class="col-sm-4">
-              <input class="form-control form-control-sm" id="ds_host" type="text" placeholder="人数">
+
+              <input
+                class="form-control form-control-sm"
+                id="ds_host"
+                type="text"
+                placeholder="人数"
+              />
+
             </div>
             <label class="col-form-label col-form-label-sm" for="ds_host">损失</label>
             <div class="col-sm-4">
@@ -17,7 +24,9 @@
                 id="ds_username"
                 type="text"
                 placeholder="损失"
-              >
+
+              />
+
             </div>
           </div>
           <div class="form-group row">
@@ -28,7 +37,10 @@
                 id="ds_username"
                 type="text"
                 placeholder="增水"
+
               >
+
+
             </div>
             <label class="col-form-label col-form-label-sm" for="ds_username">潮位</label>
             <div class="col-sm-4">
@@ -37,7 +49,9 @@
                 id="ds_username"
                 type="text"
                 placeholder="潮位"
-              >
+
+              />
+
             </div>
           </div>
           <div class="form-group row">
@@ -48,7 +62,9 @@
                 id="ds_username"
                 type="text"
                 placeholder="级别"
-              >
+
+              />
+
             </div>
             <label class="col-form-label col-form-label-sm" for="ds_username">风速</label>
             <div class="col-sm-4">
@@ -57,7 +73,9 @@
                 id="ds_username"
                 type="text"
                 placeholder="风速"
-              >
+
+              />
+
             </div>
           </div>
           <div class="form-group row">
@@ -68,7 +86,9 @@
                 id="ds_username"
                 type="text"
                 placeholder="气压"
-              >
+
+              />
+
             </div>
           </div>
           <div class="form-group row">
@@ -91,7 +111,11 @@
                     v-for="(item,index) in data_list"
                     :key="index"
                     @click="onClick(item)"
-                  >{{item.name}}</li>
+
+                  >
+                    {{item.name}}
+                  </li>
+
                 </ul>
               </div>
             </div>
@@ -100,12 +124,14 @@
       </transition>
     </div>
     <transition name="fade">
+
       <endBar
         v-show="end_bar_show"
         :target_typhoon="typhoon"
         :code="code"
         :end_bar_show="end_bar_show"
       ></endBar>
+
     </transition>
 
     <!-- <endDataList></endDataList> -->
@@ -142,6 +168,7 @@ export default class second_bar_condition_search extends Vue {
     myself.code = obj.code;
     myself.end_bar_show = true;
     myself.typhoon = obj;
+
   }
 }
 </script>
