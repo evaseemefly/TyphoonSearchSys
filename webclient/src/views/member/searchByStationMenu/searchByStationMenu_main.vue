@@ -1,8 +1,8 @@
 <template>
-  <div id="condition" class="col-md-8">
+  <div id="condition" class="col-md-4">
     <div class="col-md-6 subitem_div">
       <!-- 次级菜单，顶部搜索区域 -->
-      <div class="card bg-info">
+      <div class="card bg-info w-100">
         <div class="card-header">多条件搜索</div>
         <div class="card-body">
           <div class="form-group row">

@@ -1,8 +1,8 @@
 <template>
   <div id="condition" class="col-md-8">
-    <div class="col-md-6 subitem_div">
+    <div class="col-md-4 subitem_div">
       <!-- 次级菜单，顶部搜索区域 -->
-      <div class="card bg-info">
+      <div class="card bg-info text-white">
         <div class="card-header">多条件搜索</div>
         <div class="card-body">
           <div class="form-group row">
@@ -81,7 +81,7 @@
       <!-- 次级菜单，搜索后加载的台风列表 -->
       <transition name="fade">
         <div class="card bg-info" v-show="is_show" id="ty_list">
-          <div class="card-header">台风列表</div>
+          <div class="card-header text-white">台风列表</div>
           <div class="card-body">
             <div class="row">
               <div class="col">
@@ -100,7 +100,12 @@
       </transition>
     </div>
     <transition name="fade">
-      <endBar v-show="end_bar_show" :target_typhoon="typhoon" :code="code"></endBar>
+      <endBar
+        v-show="end_bar_show"
+        :target_typhoon="typhoon"
+        :code="code"
+        :end_bar_show="end_bar_show"
+      ></endBar>
     </transition>
 
     <!-- <endDataList></endDataList> -->
@@ -130,28 +135,21 @@ export default class second_bar_condition_search extends Vue {
   is_show: boolean = false;
   end_bar_show: boolean = false;
   code: string = "";
-
-  typhoon: DataList_Mid_Model = this.data_list[0];
+  typhoon: DataList_Mid_Model = new DataList_Mid_Model("", 0, "");
   // 组件方法也可以直接声明为实例的方法
   onClick(obj: DataList_Mid_Model): void {
     var myself = this;
     myself.code = obj.code;
     myself.end_bar_show = true;
     myself.typhoon = obj;
-    // window.alert(message.code);
-    // console.log(myself);
-    // console.log(message);
   }
-  // onClickEndBar():void{
-
-  // }
 }
 </script>
 
-<style>
+<style scoped>
 #condition {
   position: absolute;
-  margin-left: 110px;
+  /* margin-left: 110px; */
   margin-top: 0px;
   display: flex;
 }
@@ -181,5 +179,15 @@ li {
 
 #ty_list {
   margin-top: 5px;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+  /* 0.5s动画过渡的时间 */
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

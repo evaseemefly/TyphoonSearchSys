@@ -1,7 +1,7 @@
 <template>
-  <div class="col-md-6 subitem">
-    <div class="card bg-info">
-      <div class="card-header">测站</div>
+  <div class="col-md-8 subitem">
+    <div class="card bg-info w-100">
+      <div class="card-header">观测站</div>
       <div class="card-body">
         <div class="row">
           <div class="col">
@@ -18,22 +18,24 @@
           <div class="col" v-show="currentTimeSeries.length">
             <ul class="list-group">
               <li
-                class="list-group-item"
+                class="list-group-item datetimeItem"
                 v-for="(item,index) in currentTimeSeries"
                 :key="index"
                 @click="listTypoon(item)"
-              >{{item.toDateString()}}</li>
+              >{{`${item.getFullYear()}-${item.getMonth()+1}-${item.getDate()}`}}</li>
             </ul>
           </div>
         </div>
-        <div class="row mt-1" v-show="currentTypoonSeries.length">
-          <ul class="list-group w-100">
-            <li
-              class="list-group-item"
-              v-for="(item,index) in currentTypoonSeries"
-              :key="index"
-            >{{item}}</li>
-          </ul>
+        <div class="row mt-2" v-show="currentTypoonSeries.length">
+          <div class="typoonSeriesBoard col">
+            <ul class="list-group w-100">
+              <li
+                class="list-group-item"
+                v-for="(item,index) in currentTypoonSeries"
+                :key="index"
+              >{{item}}</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -96,7 +98,10 @@ export default class SearchByStationMenu_Stations extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+.datetimeItem {
+  text-align: left;
+}
 .subitem {
   /* position: absolute; */
   display: flex;
