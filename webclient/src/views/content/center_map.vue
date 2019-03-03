@@ -14,7 +14,7 @@ import { TyphoonCircleStatus } from "@/common/Status.ts";
 import "leaflet";
 import L, { LatLng } from "leaflet";
 import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
-
+import { DivIcon, DivIconOptions } from "leaflet";
 // 需要引入leaflet的样式
 import "leaflet/dist/leaflet.css";
 
@@ -151,7 +151,9 @@ export default class center_map extends Vue {
       });
       //加入鼠标移入时的操作
       circle_temp.on("mouseover", function(e) {
-        console.log(e);
+        // console.log(e);
+        console.log(temp);
+        myself.addTyphoonDiv2Map(temp);
       });
       circle_temp.addTo(myself.mymap);
     });
@@ -162,8 +164,46 @@ export default class center_map extends Vue {
     var polyline = L.polyline(myself.latlons, { color: "red" }).addTo(
       myself.mymap
     );
+
+    //4 暂时添加一个divIcon的测试
+    this.addTestDiv2Map();
   }
 
+  addTestDiv2Map(): void {
+    [18.3, 119.5];
+  }
+  // 向地图中添加台风的div样式
+  addTyphoonDiv2Map(typhoon_temp: MeteorologyRealData_Mid_Model): void {
+    var myself = this;
+    let typhoon_div_html = typhoon_temp.toHtml();
+    // L.DivIcon({});
+    // L.divIcon();
+    // var div_icon_options = new DivIconOptions(
+    //   (html = typhoon_div_html),
+    //   (className = "icon_default")
+    // );
+    // L.DivIcon(
+    //   DivIconOptions((html = typhoon_div_html), (className = "icon_default"))
+    // );
+
+    let typhoon_div_icon = L.divIcon({
+      className: "typhoon_icon_default",
+      html: typhoon_div_html,
+      // 坐标，[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]
+      iconAnchor: [-20, 30]
+    });
+
+    console.log(typhoon_div_icon);
+    L.marker([typhoon_temp.latlon[0], typhoon_temp.latlon[1]], {
+      icon: typhoon_div_icon
+    }).addTo(myself.mymap);
+    // let typhoon_div_icon = L.divCion({
+    //   className: "icon_default",
+    //   html: typhoon_div_html,
+    //   // 坐标，[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]
+    //   iconAnchor: [-20, 30]
+    // });
+  }
   // 将typhoon_list 的点加载至地图中
   loadTyphoonPoint(): void {
     var myself = this;
@@ -194,5 +234,68 @@ export default class center_map extends Vue {
   height: 100%;
   width: 100%;
   position: absolute;
+}
+
+.typhoon_icon_default {
+  width: 750px !important;
+}
+
+.card-header {
+  text-align: center;
+  text-shadow: 2px 2px 10px grey;
+}
+.row {
+  text-align: center;
+  text-shadow: 2px 2px 10px grey;
+  margin-bottom: 10px;
+}
+/* 注意card有一个左右15px的padding */
+.card {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.row_footer {
+  margin-left: -21px;
+  margin-right: -21px;
+  margin-bottom: -21px;
+}
+
+/* 底部div */
+.typhoon_footer {
+  display: flex;
+  flex-direction: row;
+  background: #0044cc;
+  width: 100%;
+  color: white;
+  border: 1px;
+  text-align: center;
+  /* 设置圆角 */
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  /* margin-left: -21px;
+				margin-right: -21px; */
+}
+
+.typhoon_footer .columnar {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  border-right: 1px solid #0000ff;
+}
+
+.typhoon_footer .columnar .subitem_top {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+}
+
+.typhoon_footer .columnar .subitem_foot {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.625rem;
 }
 </style>

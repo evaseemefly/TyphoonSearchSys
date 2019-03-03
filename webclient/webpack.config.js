@@ -1,18 +1,18 @@
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
-  mode: 'development',
+  mode: "development",
   context: __dirname,
-  entry: './src/main.ts',
+  entry: "./src/main.ts",
   output: {
     path: __dirname,
-    filename: 'build.js'
+    filename: "build.js"
   },
   resolve: {
     alias: {
-      vue$: 'vue/dist/vue.esm.js'
+      vue$: "vue/dist/vue.esm.js"
     },
-    extensions: ['.ts', '.tsx', '.js']
+    extensions: [".ts", ".tsx", ".js"]
   },
   module: {
     rules: [
@@ -20,9 +20,9 @@ module.exports = {
         test: /\.tsx?$/,
         exclude: /node_modules/,
         use: [
-          'babel-loader',
+          "babel-loader",
           {
-            loader: 'ts-loader',
+            loader: "ts-loader",
             options: {
               appendTsSuffixTo: [/\.vue$/],
               appendTsxSuffixTo: [/\.vue$/]
@@ -32,10 +32,12 @@ module.exports = {
       },
       {
         test: /\.vue$/,
-        use: ['vue-loader']
+        use: ["vue-loader"]
       }
     ]
   },
-  devtool: 'source-map',
+  // devtool: 'source-map',
+  // devtool: "#cheap-module-eval-source-map",
+  devtool: "cheap-module-eval-source-map",
   plugins: [new VueLoaderPlugin()]
-}
+};
