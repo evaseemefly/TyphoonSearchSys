@@ -20,8 +20,10 @@ import "leaflet/dist/leaflet.css";
 
 @Component({})
 export default class center_map extends Vue {
-  typhoon_data: MeteorologyRealData_Mid_Model[];
-  mymap: any;
+  typhoon_data: MeteorologyRealData_Mid_Model[] = null;
+  mymap: any = null;
+  typhoon_div_icon_temp: any = null;
+  pythoon_temp: MeteorologyRealData_Mid_Model = undefined;
   latlons: Array<LatLng> = []; // 经纬度的数组(数组嵌套数组)
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = [];
   // color: Color = Color.red;
@@ -152,8 +154,20 @@ export default class center_map extends Vue {
       //加入鼠标移入时的操作
       circle_temp.on("mouseover", function(e) {
         // console.log(e);
-        console.log(temp);
+        // console.log(temp);
         myself.addTyphoonDiv2Map(temp);
+      });
+
+      //加入鼠标移出时的操作
+      circle_temp.on("mouseout", function(e) {
+        myself.clearDivIcon();
+      });
+
+      //加入点击鼠标时的操作
+      circle_temp.on("click", function(e) {
+        // console.log(e);
+        myself.pythoon_temp = temp;
+        console.log(myself.pythoon_temp);
       });
       circle_temp.addTo(myself.mymap);
     });
@@ -172,6 +186,14 @@ export default class center_map extends Vue {
   addTestDiv2Map(): void {
     [18.3, 119.5];
   }
+
+  // 讲divicon从map中清除
+  clearDivIcon(): void {
+    var myself = this;
+    myself.mymap.removeLayer(myself.typhoon_div_icon_temp);
+    myself.typhoon_div_icon_temp = null;
+  }
+
   // 向地图中添加台风的div样式
   addTyphoonDiv2Map(typhoon_temp: MeteorologyRealData_Mid_Model): void {
     var myself = this;
@@ -193,10 +215,15 @@ export default class center_map extends Vue {
       iconAnchor: [-20, 30]
     });
 
-    console.log(typhoon_div_icon);
-    L.marker([typhoon_temp.latlon[0], typhoon_temp.latlon[1]], {
-      icon: typhoon_div_icon
-    }).addTo(myself.mymap);
+    // console.log(typhoon_div_icon);
+    var typhoon_div_icon_temp = L.marker(
+      [typhoon_temp.latlon[0], typhoon_temp.latlon[1]],
+      {
+        icon: typhoon_div_icon
+      }
+    ).addTo(myself.mymap);
+    myself.typhoon_div_icon_temp = typhoon_div_icon_temp;
+    // console.log(typhoon_div_icon_temp);
     // let typhoon_div_icon = L.divCion({
     //   className: "icon_default",
     //   html: typhoon_div_html,
@@ -212,6 +239,7 @@ export default class center_map extends Vue {
     var point = L.circle(myself.latlons[0], { color: "blue" }).addTo(
       myself.mymap
     );
+    // console.log(point);
   }
   mounted() {
     this.initMap();
