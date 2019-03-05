@@ -2,8 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
 import ConditionSearch from './views/member/secondBar/second_bar_condition_search.vue'
+import ConditionSearchByStation from "./views/member/searchByStationMenu/searchByStationMenu_main.vue";
 
-Vue.use(Router)
+
+Vue.use(Router);
 
 export default new Router({
   mode: 'history',
@@ -43,6 +45,10 @@ export default new Router({
           path: '/search/condition',
           name: 'condition',
           component: ConditionSearch
+        }, {
+          path: "/search/conditionByStation",
+          name: "conditionByStation",
+          component: ConditionSearchByStation
         }
       ],
 

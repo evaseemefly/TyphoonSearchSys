@@ -7,7 +7,7 @@
       >
         {{item}}
       </li>
-    </ul> -->
+    </ul>-->
     <div
       class="nav flex-column nav-pills col-md-1"
       id="left_top_bar"
@@ -25,15 +25,10 @@
         v-for="item in menu_list"
         :key="item.id"
       >
-        <router-link :to="{path:item.url}">
-          {{item.name}}
-        </router-link>
+        <router-link :to="{path:item.url}">{{item.name}}</router-link>
       </a>
-
     </div>
-    <router-view>
-    </router-view>
-
+    <router-view></router-view>
   </div>
 </template>
 
@@ -52,7 +47,7 @@ export default class right_bar extends Vue {
   menu_index: number = 0;
   menu_list: Menu_Mid_Model[] = [
     new Menu_Mid_Model("条件搜索", "/search/condition"),
-    new Menu_Mid_Model("搜索2", "")
+    new Menu_Mid_Model("搜索2", "/search/conditionByStation")
   ];
   // 组件方法也可以直接声明为实例的方法
   onClick(): void {

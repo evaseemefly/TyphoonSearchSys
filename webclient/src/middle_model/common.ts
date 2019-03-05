@@ -17,4 +17,14 @@ class DataList_Mid_Model {
     this.code = code
   }
 }
-export { Menu_Mid_Model, DataList_Mid_Model }
+
+class DemoStationDto {
+  public name: String;
+  public timeSeries: Date[];
+  constructor(name: string, timeSeries: Date[]) {
+    this.name = name;
+    this.timeSeries = timeSeries;
+  }
+
+}
+export { Menu_Mid_Model, DataList_Mid_Model, DemoStationDto };
