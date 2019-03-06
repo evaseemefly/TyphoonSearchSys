@@ -1,24 +1,24 @@
 // 台风 middel model
 class TyphoonData_Mid_Model {
-  public meteorology_realdata: MeteorologyRealData_Mid_Model; //气象数据
-  public tide_reldata: TideRealData_Mid_Model; //测站数据
+  public meteorology_realdata: MeteorologyRealData_Mid_Model //气象数据
+  public tide_reldata: TideRealData_Mid_Model //测站数据
   constructor(
     mete: MeteorologyRealData_Mid_Model,
     tide: TideRealData_Mid_Model
   ) {
-    this.meteorology_realdata = mete;
-    this.tide_reldata = tide;
+    this.meteorology_realdata = mete
+    this.tide_reldata = tide
   }
 }
 // 气象数据
 // 主要包含气压、最大风速（台风相关数据）
 // 不包含风向数据
 class MeteorologyRealData_Mid_Model {
-  public code: string; //台风代码（编号）
-  public latlon: number[]; //台风经纬度信息
-  public date: Date = new Date(); //当前时间
-  public bp: number; //气压
-  public wsm: number; //最大风速
+  public code: string //台风代码（编号）
+  public latlon: number[] //台风经纬度信息
+  public date: Date = new Date() //当前时间
+  public bp: number //气压
+  public wsm: number //最大风速
   constructor(
     code: string,
     date: Date,
@@ -26,11 +26,11 @@ class MeteorologyRealData_Mid_Model {
     bp: number,
     wsm: number
   ) {
-    this.code = code;
-    this.date = date;
-    this.latlon = latlon;
-    this.bp = bp;
-    this.wsm = wsm;
+    this.code = code
+    this.date = date
+    this.latlon = latlon
+    this.bp = bp
+    this.wsm = wsm
   }
 
   toHtml(): string {
@@ -60,22 +60,23 @@ class MeteorologyRealData_Mid_Model {
 					</div>
 				</div>
 			</div>
-    `;
-    return htmlStr;
+    `
+    return htmlStr
   }
 }
 //测站数据 middel model
 //水文数据：主要包含 1-潮位 2-波浪（波向、有效波高） 3-风（风速、风向）
 class TideRealData_Mid_Model {
-  public name: string;
-  public code: string;
-  public latlon: number[];
-  public date: Date = new Date();
-  public bx: number; //波向
-  public ybg: number; //有效波高
-  public tide: number; //潮位
-  public ws: number; //风速
-  public wd: number; //风向
+  public name: string
+  public station_code: string //站代码
+  public code: string //台风code
+  public latlon: number[]
+  public date: Date = new Date()
+  public bx: number //波向
+  public ybg: number //有效波高
+  public tide: number //潮位
+  public ws: number //风速
+  public wd: number //风向
 
   //
   constructor(
@@ -87,17 +88,37 @@ class TideRealData_Mid_Model {
     ybg: number,
     tide: number,
     ws: number,
-    wd: number
+    wd: number,
+    station_code: string
   ) {
-    this.name = name;
-    this.code = code;
-    this.latlon = latlon;
-    this.date = date;
-    this.bx = bx;
-    this.ybg = ybg;
-    this.tide = tide;
-    this.ws = ws;
-    this.wd = wd;
+    this.name = name
+    this.code = code
+    this.latlon = latlon
+    this.date = date
+    this.bx = bx
+    this.ybg = ybg
+    this.tide = tide
+    this.ws = ws
+    this.wd = wd
+    this.station_code = station_code
+  }
+  toHtml(): string {
+    var htmlStr = `
+    <div id="station_form">
+					<table class="table table-bordered" border="1">
+						<tr>
+							<td class="station_name" rowspan="2">海洋站A</td>
+							<td class="surge" >5.2</td>
+							<td class="surge" >120</td>
+						</tr>
+						<tr>
+							<td class="tide" >2.9</td>
+							<td class="tide">94</td>
+						</tr>
+					</table>
+				</div>
+    `
+    return htmlStr
   }
 }
 
@@ -105,4 +126,4 @@ export {
   TyphoonData_Mid_Model,
   MeteorologyRealData_Mid_Model,
   TideRealData_Mid_Model
-};
+}

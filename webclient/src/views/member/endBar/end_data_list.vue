@@ -94,7 +94,8 @@ export default class end_data_list extends Vue {
           90,
           2.3,
           2.5,
-          5.6
+          5.6,
+          ""
         )
       )
     );
