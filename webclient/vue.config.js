@@ -1,7 +1,7 @@
 // vue.config.js
 // const HtmlWebpackPlugin = require('html-webpack-plugin') //通过 npm 安装
-const webpack = require("webpack"); //访问内置的插件
-const path = require("path");
+const webpack = require('webpack') //访问内置的插件
+const path = require('path')
 
 module.exports = {
   // 选项...
@@ -11,7 +11,7 @@ module.exports = {
   //   loaders: [{}]
   // }
   chainWebpack: config => {
-    config.module;
+    config.module
     //   .rule("images")
     //   .use("image-webpack-loader")
     //   .loader("image-webpack-loader")
@@ -23,12 +23,12 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new webpack.ProvidePlugin({
-        $: "jquery",
-        jQuery: "jquery",
-        "windows.jQuery": "jquery"
+        $: 'jquery',
+        jQuery: 'jquery',
+        'windows.jQuery': 'jquery'
       })
     ],
-    devtool: "cheap-module-eval-source-map"
+    devtool: 'cheap-module-eval-source-map'
   },
   devServer: {
     overlay: {
@@ -54,4 +54,4 @@ module.exports = {
   //   },
   //   lintOnSave: false
   // }
-};
+}

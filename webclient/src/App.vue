@@ -1,10 +1,12 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>|
-      <router-link to="/index">测试页面</router-link>|
-      <router-link to="/map">地图页面</router-link>
+      <!-- <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>| -->
+      <router-link to="/index">导航栏页面</router-link>|
+      <router-link to="/map">地图页面</router-link>|
+      <router-link to="/vue2map">vue2map</router-link>|
+      <router-link to="/vue2mapclear">vue2mapclear</router-link>
     </div>
     <router-view />
   </div>

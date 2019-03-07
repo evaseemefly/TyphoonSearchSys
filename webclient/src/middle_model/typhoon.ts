@@ -1,4 +1,6 @@
 // 台风 middel model
+import { TyphoonCircleStatus } from '@/common/Status.ts'
+
 class TyphoonData_Mid_Model {
   public meteorology_realdata: MeteorologyRealData_Mid_Model //气象数据
   public tide_reldata: TideRealData_Mid_Model //测站数据
@@ -19,6 +21,7 @@ class MeteorologyRealData_Mid_Model {
   public date: Date = new Date() //当前时间
   public bp: number //气压
   public wsm: number //最大风速
+  public typhoonCircleStatus: TyphoonCircleStatus
   constructor(
     code: string,
     date: Date,
@@ -31,6 +34,7 @@ class MeteorologyRealData_Mid_Model {
     this.latlon = latlon
     this.bp = bp
     this.wsm = wsm
+    this.typhoonCircleStatus = new TyphoonCircleStatus(wsm, bp)
   }
 
   toHtml(): string {
@@ -62,6 +66,16 @@ class MeteorologyRealData_Mid_Model {
 			</div>
     `
     return htmlStr
+  }
+
+  // 获取台风divicon的颜色
+  getColor(): string {
+    return this.typhoonCircleStatus.getColor()
+  }
+
+  // 获取divicon的宽度（weight）
+  getWeight(): number {
+    return this.typhoonCircleStatus.getWeight()
   }
 }
 //测站数据 middel model
@@ -104,7 +118,7 @@ class TideRealData_Mid_Model {
   }
   toHtml(): string {
     var htmlStr = `
-    <div id="station_form">
+    <div id="station_form" class="fade_enter">
 					<table class="table table-bordered" border="1">
 						<tr>
 							<td class="station_name" rowspan="2">海洋站A</td>
