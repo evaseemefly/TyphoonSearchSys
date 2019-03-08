@@ -1,44 +1,89 @@
 <template>
   <div id="mycontent">
-    <l-map
-      ref="basemap"
-      style="width: 100%; height: 600px;"
-      :zoom="zoom"
-      :center="center"
-    >
+    <l-map ref="basemap" style="width: 100%; height: 600px;" :zoom="zoom" :center="center">
       <l-tile-layer :url="url"></l-tile-layer>
-      <l-polyline
-        :lat-lngs="polyline.latlngs"
-        :color="polyline.color"
-        :fill=false
-      >
+      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill=false>
       </l-polyline>
-      <l-circle
-        v-for="typhoon in typhoon_list"
-        :key=typhoon.id
-        :lat-lng="typhoon.latlon"
-        :color="typhoon.getColor()"
-        :weight="typhoon.getWeight()"
-        @mouseover="showTyphoonDiv(typhoon)"
-        @mouseout="clearTyphoonDivIcon()"
-        @click="changeTyphoon(typhoon)"
-      />
-      <l-marker
-        v-for="station in station_tide_list"
-        :key=station.id
-        :lat-lng="station.latlon"
-        :icon="icon"
-      > </l-marker>
+      <l-circle v-for="typhoon in typhoon_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
 
-      <!-- 下面icon嵌套再marker中，必须指定iconUrl -->
-      <!-- <l-marker
-        v-for="station in station_tide_list"
-        :key=station.id
-        :lat-lng="station.latlon"
-      >
-        <l-icon>
+      <!-- 方式1 -->
+      <!-- <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon">
+        <l-icon icon-url="/leaflet/images/marker-icon.png">
         </l-icon>
       </l-marker> -->
+
+      <!-- 方式2 -->
+      <!-- 下面icon嵌套再marker中，必须指定iconUrl -->
+      <!-- <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon">
+        <l-icon>
+        </l-icon>
+      </l-marker>-->
+
+      <!-- 方式3 -->
+      <!-- 海洋站所在位置的marker -->
+      <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @click="openStationDivIcon(station)">
+      </l-marker>
+
+      <!-- <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @mouseover="upZIndex(station)"> -->
+      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @click="changeStationIndex(index)" @mouseover="upZIndex(station)">
+        <!-- <l-icon :icon-anchor="staticAnchor" :options="icon_div_station_option" @click="changeStationIndex(index)"> -->
+        <l-icon :options="icon_div_station_option">
+
+          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
+            <table class="table table-bordered" border="1">
+              <tr>
+                <td class="station_name" rowspan="2">{{station.name}}</td>
+                <td class="surge">{{station.ws}}</td>
+                <td class="surge">{{station.wd}}</td>
+              </tr>
+              <tr>
+                <td class="tide">{{station.ybg}}</td>
+                <td class="tide">{{station.bx}}</td>
+              </tr>
+            </table>
+          </div>
+          <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
+            <div class="card-header">{{station.name+index}}</div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">时间</div>
+                <div class="col-md-8">{{station.date}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">风向</div>
+                <div class="col-md-8">{{station.wd}}</div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">波向</div>
+                <div class="col-md-8">{{station.bx}}</div>
+              </div>
+              <div class="row row_footer">
+                <div class="typhoon_footer">
+                  <div class="columnar">
+                    <div class="subitem_top">5.6</div>
+                    <div class="subitem_foot">{{station.ws}}</div>
+                  </div>
+                  <div class="columnar">
+                    <div class="subitem_top">2.3</div>
+                    <div class="subitem_foot">{{station.ybg}}</div>
+                  </div>
+                  <div class="columnar">
+                    <div class="subitem_top">2.5</div>
+                    <div class="subitem_foot">{{station.tide}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </l-icon>
+      </l-marker>
+
+      <!-- 海洋站的divIcon
+      暂时使用l-icon -->
+      <!-- <l-icon>
+
+      </l-icon> -->
     </l-map>
     <!-- <div id="basemap">
 
@@ -48,11 +93,6 @@
 </template>
 
 <script lang="ts">
-// 解决默认icon找不到的问题
-import "leaflet/dist/leaflet.css";
-import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
-import "leaflet-defaulticon-compatibility";
-
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import {
   MeteorologyRealData_Mid_Model,
@@ -65,8 +105,15 @@ import { TyphoonCircleStatus } from "@/common/Status.ts";
 // import "leaflet-tilelayer-mbtiles-ts";
 // import "leaflet-tilelayer-mbtiles";
 
+// 解决默认icon找不到的问题
+import "leaflet/dist/leaflet.css";
+// 需要引入leaflet的样式
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
+
 import "leaflet";
 import "Leaflet.TileLayer.MBTiles";
+import "leaflet-defaulticon-compatibility";
 import L, { LatLng } from "leaflet";
 import {
   LMap,
@@ -78,8 +125,6 @@ import {
   LIcon
 } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
-// 需要引入leaflet的样式
-import "leaflet/dist/leaflet.css";
 
 @Component({
   components: {
@@ -102,6 +147,41 @@ export default class center_vue2map extends Vue {
   latlons: Array<LatLng> = []; // 经纬度的数组(数组嵌套数组)
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = []; //台风列表
   station_tide_list: Array<TideRealData_Mid_Model> = []; //测站潮位测值列表
+  select_station_index: number = -1; // 选中的海洋站序号（需要切换对应海洋站的两个div的显示于隐藏）
+  station_div_icon_option_hidden: {
+    zIndexOffset: 10;
+  };
+  station_div_icon_option_show: {
+    zIndexOffset: 19999;
+  };
+
+  //TODO 海洋站icon（防止偏移）
+  icon_marker = L.icon({
+    iconUrl: "/leaflet/images/marker-icon.png",
+    // iconSize: [32, 37],
+    iconAnchor: [16, 37] // 防止地图缩放时产品偏移，需固定绝对位置
+  });
+
+  //TODO 海洋站divicon（防止偏移）
+  icon_div_station_option = {
+    html: `
+    <div id="station_form" class="fade_enter">
+					<table class="table table-bordered" border="1">
+						<tr>
+							<td class="station_name" rowspan="2">海洋站A</td>
+							<td class="surge" >5.2</td>
+							<td class="surge" >120</td>
+						</tr>
+						<tr>
+							<td class="tide" >2.9</td>
+							<td class="tide">94</td>
+						</tr>
+					</table>
+				</div>
+    `,
+    iconAnchor: [-20, 30] //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
+  };
+
   polyline: any = {
     latlngs: [],
     color: "green"
@@ -305,11 +385,21 @@ export default class center_vue2map extends Vue {
   loadStationDivs(): void {
     var myself = this;
     this.station_tide_list.map(temp => {
-      myself.addStationDiv2Map(temp);
+      // myself.addStationDiv2Map(temp);
     });
   }
   addTestDiv2Map(): void {
     [18.3, 119.5];
+  }
+  // TODO 改变当前选中的海洋站的编号
+  changeStationIndex(index: number): void {
+    console.log(index);
+    var myself = this;
+    if (index === myself.select_station_index) {
+      myself.select_station_index = -1;
+    } else {
+      myself.select_station_index = index;
+    }
   }
 
   // 清除当前移入的台风DivIcon
@@ -352,6 +442,64 @@ export default class center_vue2map extends Vue {
   }
 
   addStationDiv2Map(station_temp: TideRealData_Mid_Model): void {
+    var myself = this;
+    var mymap: any = this.$refs.basemap["mapObject"];
+    let station_div_html = station_temp.toHtml();
+    // this.markers.push({
+    //   // id: "m1",
+    //   position: { lat: station_temp.latlon[0], lng: station_temp.latlon[1] },
+    //   tooltip: "tooltip for marker1",
+    //   draggable: true,
+    //   visible: true,
+    //   options: {
+    //     html: station_div_html
+    //   }
+    // });
+    let station_div_icon = L.divIcon({
+      className: "station_icon",
+      html: station_div_html,
+      // 坐标，[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]
+      iconAnchor: [-20, 30]
+    });
+
+    // console.log(typhoon_div_icon);
+    var station_div_icon_temp = L.marker(
+      [station_temp.latlon[0], station_temp.latlon[1]],
+      {
+        icon: station_div_icon
+      }
+    ).addTo(mymap);
+    //当移入时，需要修改该div的index
+    station_div_icon_temp.on("mouseover", function(e) {
+      // console.log(e);
+      // console.log(station_div_icon_temp._zIndex);
+      station_div_icon_temp.setZIndexOffset(19999);
+    });
+    station_div_icon_temp.on("mouseout", function(e) {
+      // console.log(e);
+      // console.log(station_div_icon_temp._zIndex);
+      station_div_icon_temp.setZIndexOffset(99);
+    });
+    // 鼠标点击时展开div
+    station_div_icon_temp.on("click", function(e) {
+      /*
+        鼠标点击时：
+          -1 展开div
+          -2 隐藏之前的div
+      */
+      // console.log(this);
+    });
+  }
+
+  openStationDivIcon(val): void {
+    console.log(val);
+  }
+
+  // 鼠标移入时，将其置顶
+  upZIndex(val): void {}
+
+  // 手动向地图中添加marker（会引起icon的动态url错误的问题）——暂时不使用
+  addStationDiv2Map_backup(station_temp: TideRealData_Mid_Model): void {
     var myself = this;
     var mymap: any = this.$refs.basemap["mapObject"];
     let station_div_html = station_temp.toHtml();
@@ -585,5 +733,17 @@ export default class center_vue2map extends Vue {
 
 #station_form table tr td {
   width: 50px;
+}
+
+#station_detail {
+  display: inline-block;
+  width: 340px;
+  /* background: rgba(0, 0, 255, 0.829); */
+  text-align: center;
+  color: rgba(9, 137, 249, 0.927);
+  box-shadow: 10px 10px 5px #888888;
+  box-shadow: 0 0 10px whitesmoke;
+  /* 边角圆滑处理 */
+  border-radius: 10px;
 }
 </style>
