@@ -16,6 +16,7 @@
     "bootstrap": "^4.3.1",
     "jquery": "^3.3.1",
     "leaflet": "^1.4.0",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
     "leaflet-tilelayer-mbtiles": "^1.4.1",
     "popper.js": "^1.14.7",
     "sql.js": "^0.5.0",

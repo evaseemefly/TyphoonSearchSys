@@ -7,20 +7,6 @@
       :center="center"
     >
       <l-tile-layer :url="url"></l-tile-layer>
-      <!-- <l-marker
-        v-for="marker in markers"
-        :key="marker.id"
-        :visible="marker.visible"
-        :draggable="marker.draggable"
-        :lat-lng.sync="marker.position"
-        :icon="marker.icon"
-        :options="marker.options"
-        @click="alert(marker)"
-      >
-        <l-popup :content="marker.tooltip" />
-        <l-tooltip :content="marker.tooltip" />
-      </l-marker> -->
-
       <l-polyline
         :lat-lngs="polyline.latlngs"
         :color="polyline.color"
@@ -37,6 +23,22 @@
         @mouseout="clearTyphoonDivIcon()"
         @click="changeTyphoon(typhoon)"
       />
+      <l-marker
+        v-for="station in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        :icon="icon"
+      > </l-marker>
+
+      <!-- 下面icon嵌套再marker中，必须指定iconUrl -->
+      <!-- <l-marker
+        v-for="station in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+      >
+        <l-icon>
+        </l-icon>
+      </l-marker> -->
     </l-map>
     <!-- <div id="basemap">
 
@@ -46,6 +48,11 @@
 </template>
 
 <script lang="ts">
+// 解决默认icon找不到的问题
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.webpack.css";
+import "leaflet-defaulticon-compatibility";
+
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import {
   MeteorologyRealData_Mid_Model,
@@ -67,7 +74,8 @@ import {
   LMarker,
   LPopup,
   LPolyline,
-  LCircle
+  LCircle,
+  LIcon
 } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
 // 需要引入leaflet的样式
@@ -79,7 +87,8 @@ import "leaflet/dist/leaflet.css";
     "l-map": LMap,
     "l-tile-layer": LTileLayer,
     "l-polyline": LPolyline,
-    "l-circle": LCircle
+    "l-circle": LCircle,
+    "l-icon": LIcon
   }
 })
 export default class center_vue2map extends Vue {
@@ -93,19 +102,8 @@ export default class center_vue2map extends Vue {
   latlons: Array<LatLng> = []; // 经纬度的数组(数组嵌套数组)
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = []; //台风列表
   station_tide_list: Array<TideRealData_Mid_Model> = []; //测站潮位测值列表
-  // polyline = {
-  //   latlngs: [
-  //     // [47.334852, -1.509485], // eg 数组形式
-  //   ],
-  //   color: "green"
-  // };
   polyline: any = {
-    latlngs: [
-      // [47.334852, -1.509485],
-      // [47.342596, -1.328731],
-      // [47.241487, -1.190568],
-      // [47.234787, -1.358337]
-    ],
+    latlngs: [],
     color: "green"
   };
   markers: any = [];

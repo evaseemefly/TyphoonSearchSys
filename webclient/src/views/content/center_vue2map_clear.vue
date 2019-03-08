@@ -83,7 +83,7 @@ export default class center_vue2map_clear extends Vue {
   /* height: 600px; */
 
   /* bottom: 0px; */
-  height: 600px;
+  /* height: 600px; */
   width: 600px;
   overflow: hidden;
 }
