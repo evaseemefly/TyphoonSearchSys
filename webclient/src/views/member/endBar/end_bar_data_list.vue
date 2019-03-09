@@ -1,8 +1,8 @@
 <template>
   <div id="end_bar_div" class="col-md-8 card-columns" @mouseleave="mouseleave" v-show="end_bar_show">
     <div class="card bg-secondary col-md-12 ">
-      <div class="card-header text-white">台风编号{{target_typhoon.code}}</div>
-      <div class="card-body">
+      <div class="card-header card-my-end-header text-white">台风编号{{target_typhoon.code}}</div>
+      <div class="card-body card-my-end-body">
         <div class="row">
           <div class="col">
             <ul class="list-group">
@@ -93,5 +93,14 @@ export default class end_bar_data_list extends Vue {
 .fade-enter,
 .fade-leave-to {
   opacity: 0;
+}
+
+/* 自定义的末级菜单样式 */
+.card-my-end-header {
+  background: linear-gradient(to right, #07ae81 30%, rgba(8, 189, 126, 0.639));
+}
+
+.card-my-end-body {
+  background: linear-gradient(to right, #07ae81 30%, rgba(8, 189, 126, 0.639));
 }
 </style>

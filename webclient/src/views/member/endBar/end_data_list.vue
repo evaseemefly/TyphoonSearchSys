@@ -1,57 +1,64 @@
 <template>
-  <div class="card bg-secondary col-md-12 text-white">
-    <table class="table text-white">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">当前时间</th>
-          <th scope="col">气压</th>
-          <th scope="col">最大风速</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>2019-02-27</td>
-          <td>1002.2</td>
-          <td>3.5</td>
-        </tr>
+  <!-- <div class="card bg-secondary card-my-end col-md-12 text-white"> -->
+  <div class="card col-md-12 text-white">
+    <div class="card-header card-my-end">
+      观测数据
+    </div>
+    <div class="card-body card-my-end">
+      <table class="table text-white table-my-typhoon">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">当前时间</th>
+            <th scope="col">气压</th>
+            <th scope="col">最大风速</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>2019-02-27</td>
+            <td>1002.2</td>
+            <td>3.5</td>
+          </tr>
 
-      </tbody>
-    </table>
-    <table class="table text-white">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">站位</th>
-          <th scope="col">波向</th>
-          <th scope="col">有效波高</th>
-          <th scope="col">潮位</th>
-          <th scope="col">风速</th>
-          <th scope="col">风向</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>福鼎</td>
-          <td>35</td>
-          <td>2.5</td>
-          <td>1.7</td>
-          <td>5.2</td>
-          <td>120</td>
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>平潭</td>
-          <td>35</td>
-          <td>2.5</td>
-          <td>1.7</td>
-          <td>5.2</td>
-          <td>120</td>
-        </tr>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+      <table class="table text-white table-my-station">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">站位</th>
+            <th scope="col">波向</th>
+            <th scope="col">有效波高</th>
+            <th scope="col">潮位</th>
+            <th scope="col">风速</th>
+            <th scope="col">风向</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>福鼎</td>
+            <td>35</td>
+            <td>2.5</td>
+            <td>1.7</td>
+            <td>5.2</td>
+            <td>120</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>平潭</td>
+            <td>35</td>
+            <td>2.5</td>
+            <td>1.7</td>
+            <td>5.2</td>
+            <td>120</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 
@@ -103,5 +110,14 @@ export default class end_data_list extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
+.card-my-end {
+  background: #1a6865;
+}
+.table-my-typhoon {
+  background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639));
+}
+.table-my-station {
+  background: linear-gradient(to right, #854a16 30%, rgba(148, 105, 11, 0.639));
+}
 </style>

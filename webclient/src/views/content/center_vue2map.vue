@@ -2,8 +2,10 @@
   <div id="mycontent">
     <l-map ref="basemap" style="width: 100%; height: 600px;" :zoom="zoom" :center="center">
       <l-tile-layer :url="url"></l-tile-layer>
+      <!-- 台风路径 -->
       <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill=false>
       </l-polyline>
+      <!-- 台风中心的圆点 -->
       <l-circle v-for="typhoon in typhoon_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
 
       <!-- 方式1 -->
@@ -25,10 +27,30 @@
       </l-marker>
 
       <!-- <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @mouseover="upZIndex(station)"> -->
-      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @click="changeStationIndex(index)" @mouseover="upZIndex(station)">
-        <!-- <l-icon :icon-anchor="staticAnchor" :options="icon_div_station_option" @click="changeStationIndex(index)"> -->
-        <l-icon :options="icon_div_station_option">
 
+      <!-- 海洋站的潮位圆柱marker -->
+      <!-- 注意此处关于偏移量（写在option中的）需要写在l-marker中，不能写在l-icon中！！ -->
+      <!-- <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :zIndexOffset=999>
+        <l-icon :icon-anchor="icon_div_station_cylinder_anchor" :iconSize=[] icon-url="/leaflet/images/marker-icon.png">
+          <div class="ellipse"></div>
+        </l-icon>
+      </l-marker> -->
+
+      <!-- 此处注意：
+      对于icon，若不指定图片url，设置iconSize无效 -->
+      <!-- 对于l-icon可以直接指定icon-anchor设置偏移量 -->
+      <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :zIndexOffset=999>
+        <!-- <l-icon :icon-anchor="icon_div_station_cylinder_anchor"> -->
+        <l-icon :icon-anchor="iconStationCylinderAnchor(station.tide)">
+          <div class="ellipse"></div>
+          <!-- <div class="ellipse"></div> -->
+          <div class="ellipse-after" :style="{height:iconDivWeight(station)+'px'}"></div>
+        </l-icon>
+      </l-marker>
+
+      <!-- 海洋站的div以及table样式 -->
+      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" @click="changeStationIndex(index)" @mouseout="upZIndex(station)" :options="icon_div_station_option" :zIndexOffset="getIconStationZIndex(index,station)">
+        <l-icon :options="icon_div_station_option">
           <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
             <table class="table table-bordered" border="1">
               <tr>
@@ -60,22 +82,21 @@
               <div class="row row_footer">
                 <div class="typhoon_footer">
                   <div class="columnar">
-                    <div class="subitem_top">5.6</div>
-                    <div class="subitem_foot">{{station.ws}}</div>
+                    <div class="subitem_top">{{station.ws}}</div>
+                    <div class="subitem_foot">风向</div>
                   </div>
                   <div class="columnar">
-                    <div class="subitem_top">2.3</div>
-                    <div class="subitem_foot">{{station.ybg}}</div>
+                    <div class="subitem_top">{{station.ybg}}</div>
+                    <div class="subitem_foot">有效波高</div>
                   </div>
                   <div class="columnar">
-                    <div class="subitem_top">2.5</div>
-                    <div class="subitem_foot">{{station.tide}}</div>
+                    <div class="subitem_top">{{station.tide}}</div>
+                    <div class="subitem_foot">潮位</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
         </l-icon>
       </l-marker>
 
@@ -148,11 +169,12 @@ export default class center_vue2map extends Vue {
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = []; //台风列表
   station_tide_list: Array<TideRealData_Mid_Model> = []; //测站潮位测值列表
   select_station_index: number = -1; // 选中的海洋站序号（需要切换对应海洋站的两个div的显示于隐藏）
-  station_div_icon_option_hidden: {
-    zIndexOffset: 10;
+  station_div_icon_option_hidden: any = {
+    zIndexOffset: 10
   };
-  station_div_icon_option_show: {
-    zIndexOffset: 19999;
+  station_div_icon_option_show: any = {
+    zIndexOffset: 199,
+    iconAnchor: [-20, 30] //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
   };
 
   //TODO 海洋站icon（防止偏移）
@@ -161,24 +183,17 @@ export default class center_vue2map extends Vue {
     // iconSize: [32, 37],
     iconAnchor: [16, 37] // 防止地图缩放时产品偏移，需固定绝对位置
   });
+  // TODO 海洋站圆柱体
+  icon_div_station_cylinder_anchor: Array<number> = [-10, 10]; //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
+
+  // TODO 计算圆柱体的偏移量
+  iconStationCylinderAnchor(val): Array<number> {
+    // return [120, 10];
+    return [40, 10 + val * 5];
+  }
 
   //TODO 海洋站divicon（防止偏移）
-  icon_div_station_option = {
-    html: `
-    <div id="station_form" class="fade_enter">
-					<table class="table table-bordered" border="1">
-						<tr>
-							<td class="station_name" rowspan="2">海洋站A</td>
-							<td class="surge" >5.2</td>
-							<td class="surge" >120</td>
-						</tr>
-						<tr>
-							<td class="tide" >2.9</td>
-							<td class="tide">94</td>
-						</tr>
-					</table>
-				</div>
-    `,
+  icon_div_station_option: any = {
     iconAnchor: [-20, 30] //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
   };
 
@@ -393,7 +408,7 @@ export default class center_vue2map extends Vue {
   }
   // TODO 改变当前选中的海洋站的编号
   changeStationIndex(index: number): void {
-    console.log(index);
+    // console.log(val);
     var myself = this;
     if (index === myself.select_station_index) {
       myself.select_station_index = -1;
@@ -492,11 +507,24 @@ export default class center_vue2map extends Vue {
   }
 
   openStationDivIcon(val): void {
-    console.log(val);
+    // console.log(val);
   }
 
-  // 鼠标移入时，将其置顶
-  upZIndex(val): void {}
+  // TODO  鼠标移入station Div时，将其置顶
+  upZIndex(val): void {
+    // var myself = this;
+    // var opt = this.icon_div_station_option;
+    this.select_station_index = -1;
+
+    // // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
+    // if (myself.select_station_index === index) {
+    //   // 点击了当前海洋站，则将该海洋站的zindex设置为最高
+    //   opt["zIndexOffset"] = "19999";
+    // } else {
+    //   opt["zIndexOffset"] = "99";
+    // }
+    // return opt;
+  }
 
   // 手动向地图中添加marker（会引起icon的动态url错误的问题）——暂时不使用
   addStationDiv2Map_backup(station_temp: TideRealData_Mid_Model): void {
@@ -564,23 +592,51 @@ export default class center_vue2map extends Vue {
     //以下为模拟的台站数据
     this.station_tide_list.push(
       new TideRealData_Mid_Model(
-        "宁德",
+        "大陈",
         "code_1",
         [19.1, 114.2],
         new Date(),
-        2.5,
-        3.6,
-        2.1,
-        52,
-        210,
+        5.3,
+        6.6,
+        20,
+        122,
+        310,
         "dachen"
       )
     );
     this.station_tide_list.push(
       new TideRealData_Mid_Model(
         "宁德",
-        "code_1",
+        "code_2",
         [20.1, 113.2],
+        new Date(),
+        2.5,
+        3.6,
+        10,
+        52,
+        210,
+        "ningde"
+      )
+    );
+    // this.station_tide_list.push(
+    //   new TideRealData_Mid_Model(
+    //     "宁德",
+    //     "code_1",
+    //     [20.1, 113.2],
+    //     new Date(),
+    //     2.5,
+    //     3.6,
+    //     50,
+    //     52,
+    //     210,
+    //     "dachen"
+    //   )
+    // );
+    this.station_tide_list.push(
+      new TideRealData_Mid_Model(
+        "宁德",
+        "code_1",
+        [20.4, 115.7],
         new Date(),
         2.5,
         3.6,
@@ -591,6 +647,54 @@ export default class center_vue2map extends Vue {
       )
     );
     this.loadStationDivs();
+  }
+
+  // TODO 根据传入的index返回当前div的options（主要是修改zIndex
+  getIconStationOption(index: number, val): any {
+    var myself = this;
+    var opt = this.station_div_icon_option_show;
+    console.log(val);
+    // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
+    if (myself.select_station_index === index) {
+      // 点击了当前海洋站，则将该海洋站的zindex设置为最高
+      // opt["zIndexOffset"] = 19999;
+      opt["zIndexOffset"] = 19999;
+      // opt.zIndexOffset = 19999;
+    } else {
+      opt["zIndexOffset"] = 99;
+    }
+    return opt;
+  }
+
+  getIconStationZIndex(index: number, val): any {
+    var myself = this;
+    var opt = this.station_div_icon_option_show;
+
+    console.log(val);
+    var zIndex = opt.zIndexOffset;
+    // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
+    if (myself.select_station_index === index) {
+      // 点击了当前海洋站，则将该海洋站的zindex设置为最高
+      // opt["zIndexOffset"] = 19999;
+      zIndex = 19999;
+      // opt.zIndexOffset = 19999;
+    } else {
+      zIndex = 99;
+    }
+
+    return zIndex;
+  }
+
+  // TODO 相当于computed
+  get icon_div_station_option_ext() {
+    var opt = this.icon_div_station_option;
+    opt["zIndexOffset"] = "19999";
+    return opt;
+  }
+
+  // TODO 计算海洋站圆柱体的高度
+  iconDivWeight(val) {
+    return val.tide * 5;
   }
   // watch: {
 
@@ -745,5 +849,30 @@ export default class center_vue2map extends Vue {
   box-shadow: 0 0 10px whitesmoke;
   /* 边角圆滑处理 */
   border-radius: 10px;
+}
+
+/* 海洋站的柱体样式 */
+.ellipse {
+  /* margin-left: 100px; */
+  width: 20px;
+  height: 20px;
+  border: solid 0.5px rgb(62, 105, 171);
+  background: rgb(51, 152, 125);
+  border-radius: 10px;
+  transform: rotateX(70deg);
+}
+
+.ellipse-after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 100px;
+  position: relative;
+  opacity: 0.9;
+  background: rgb(51, 152, 125);
+  top: -10px;
+  left: -0.5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 </style>
