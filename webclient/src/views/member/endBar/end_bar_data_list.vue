@@ -83,6 +83,7 @@ export default class end_bar_data_list extends Vue {
   /* background: rgb(166, 187, 187); */
   /* bottom: 12px; */
   display: -webkit-box;
+  z-index: 1999;
 }
 
 .fade-enter-active,

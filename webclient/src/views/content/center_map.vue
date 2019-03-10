@@ -426,6 +426,10 @@ export default class center_map extends Vue {
   /* height: 600px; */
 
   /* bottom: 0px; */
+  position: absolute;
+  left: 100px;
+  bottom: 30px;
+  top: 80px;
   height: 100%;
   width: 100%;
   overflow: hidden;

@@ -714,9 +714,8 @@ export default class center_vue2map extends Vue {
   /* bottom: 0px; */
   height: 100%;
   width: 100%;
-  left: 200px;
   overflow: hidden;
-  position: absolute;
+  /* position: absolute; */
 }
 #basemap {
   height: 100%;

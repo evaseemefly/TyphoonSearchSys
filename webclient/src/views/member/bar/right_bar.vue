@@ -1,35 +1,29 @@
 <template>
   <div id="all_left_bar">
-    <!-- <ul class="nav nav-pills nav-stacked">
-      <li
-        v-for="(item, index) in menu_list"
-        :key="index"
-      >
-        {{item}}
-      </li>
-    </ul>-->
-    <div
-      class="nav flex-column nav-pills col-md-1"
-      id="left_top_bar"
-      role="tablist"
-      aria-orientation="vertical"
-    >
-      <a
-        class="nav-link active"
-        id="v-pills-home-tab"
-        data-toggle="pill"
-        href="#v-pills-home"
-        role="tab"
-        aria-controls="v-pills-home"
-        aria-selected="true"
-        v-for="item in menu_list"
-        :key="item.id"
-      >
-        <router-link :to="{path:item.url}">{{item.name}}</router-link>
-      </a>
-    </div>
-    <router-view></router-view>
+    <!-- 此处使用bt的手风琴效果实现 -->
+    <el-col :span="4">
+      <h5>自定义颜色</h5>
+      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+        <el-submenu index="1">
+          <template slot="title">
+            <i class="el-icon-location"></i>
+            <span>历史台风风暴潮查询</span>
+          </template>
+          <el-menu-item-group>
+            <el-menu-item index="1-1">选项1</el-menu-item>
+            <el-menu-item index="1-2">选项2</el-menu-item>
+          </el-menu-item-group>
+        </el-submenu>
+        <el-menu-item index="2">
+          <i class="el-icon-menu"></i>
+          <span slot="title">导航二</span>
+        </el-menu-item>
+      </el-menu>
+    </el-col>
+    <SecondBar v-show="is_show_condition_bar"></SecondBar>
+    <!-- <router-view></router-view> -->
   </div>
+
 </template>
 
 <script lang="ts">
@@ -38,8 +32,10 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 // import { menu } from "../src/middle_model/common";
 import { Menu_Mid_Model } from "../../../middle_model/common";
 
+import SecondBar from "@/views/member/secondBar/second_bar_condition_search.vue";
+
 @Component({
-  components: {}
+  components: { SecondBar }
 })
 export default class right_bar extends Vue {
   // 初始数据可以直接声明为实例的属性
@@ -49,6 +45,7 @@ export default class right_bar extends Vue {
     new Menu_Mid_Model("条件搜索", "/search/condition"),
     new Menu_Mid_Model("搜索2", "/search/conditionByStation")
   ];
+  is_show_condition_bar: boolean = false;
   // 组件方法也可以直接声明为实例的方法
   onClick(): void {
     window.alert(this.message);
@@ -56,13 +53,8 @@ export default class right_bar extends Vue {
 }
 </script>
 
-<style>
+<style scoped>
 #all_left_bar {
   position: relative;
-}
-#left_top_bar {
-  position: absolute;
-  margin-top: 0px;
-  margin-left: 5px;
 }
 </style>

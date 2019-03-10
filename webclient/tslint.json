@@ -1,0 +1,9 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint-config-standard" // <-- Don't forget to npm install this package.
+  ],
+  "jsRules": {},
+  "rules": {},
+  "rulesDirectory": []
+}

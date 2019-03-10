@@ -122,9 +122,10 @@ export default class second_bar_condition_search extends Vue {
 <style scoped>
 #condition {
   position: absolute;
-  margin-left: 110px;
+  margin-left: 200px;
   margin-top: 0px;
   display: flex;
+  z-index: 1999;
 }
 .subitem_div {
   display: flex;
