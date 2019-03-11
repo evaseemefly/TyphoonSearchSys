@@ -1,12 +1,29 @@
 <template>
   <div id="mycontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center">
+    <l-map
+      ref="basemap"
+      :zoom="zoom"
+      :center="center"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill=false>
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :fill=false
+      >
       </l-polyline>
       <!-- 台风中心的圆点 -->
-      <l-circle v-for="typhoon in typhoon_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
+      <l-circle
+        v-for="typhoon in typhoon_list"
+        :key=typhoon.id
+        :lat-lng="typhoon.latlon"
+        :color="typhoon.getColor()"
+        :weight="typhoon.getWeight()"
+        @mouseover="showTyphoonDiv(typhoon)"
+        @mouseout="clearTyphoonDivIcon()"
+        @click="changeTyphoon(typhoon)"
+      />
 
       <!-- 方式1 -->
       <!-- <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon">
@@ -23,7 +40,13 @@
 
       <!-- 方式3 -->
       <!-- 海洋站所在位置的marker -->
-      <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @click="openStationDivIcon(station)">
+      <l-marker
+        v-for="station in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        :icon="icon_marker"
+        @click="openStationDivIcon(station)"
+      >
       </l-marker>
 
       <!-- <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @mouseover="upZIndex(station)"> -->
@@ -39,22 +62,48 @@
       <!-- 此处注意：
       对于icon，若不指定图片url，设置iconSize无效 -->
       <!-- 对于l-icon可以直接指定icon-anchor设置偏移量 -->
-      <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :zIndexOffset=999>
-        <!-- <l-icon :icon-anchor="icon_div_station_cylinder_anchor"> -->
+      <!-- 效果不好暂时注释掉 -->
+      <!-- <l-marker
+        v-for="station in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        :zIndexOffset=999
+      >
+
         <l-icon :icon-anchor="iconStationCylinderAnchor(station.tide)">
           <div class="ellipse"></div>
-          <!-- <div class="ellipse"></div> -->
-          <div class="ellipse-after" :style="{height:iconDivWeight(station)+'px'}"></div>
+          <div
+            class="ellipse-after"
+            :style="{height:iconDivWeight(station)+'px'}"
+          ></div>
         </l-icon>
-      </l-marker>
+      </l-marker> -->
 
       <!-- 海洋站的div以及table样式 -->
-      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" @click="changeStationIndex(index)" @mouseout="upZIndex(station)" :options="icon_div_station_option" :zIndexOffset="getIconStationZIndex(index,station)">
+      <l-marker
+        v-for="(station,index) in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        @click="changeStationIndex(index)"
+        @mouseout="upZIndex(station)"
+        :options="icon_div_station_option"
+        :zIndexOffset="getIconStationZIndex(index,station)"
+      >
         <l-icon :options="icon_div_station_option">
-          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-            <table class="table table-bordered" border="1">
+          <div
+            id="station_form"
+            v-show="index!=select_station_index"
+            class="fade_enter"
+          >
+            <table
+              class="table table-bordered"
+              border="1"
+            >
               <tr>
-                <td class="station_name" rowspan="2">{{station.name}}</td>
+                <td
+                  class="station_name"
+                  rowspan="2"
+                >{{station.name}}</td>
                 <td class="surge">{{station.ws}}</td>
                 <td class="surge">{{station.wd}}</td>
               </tr>
@@ -64,7 +113,11 @@
               </tr>
             </table>
           </div>
-          <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
+          <div
+            id="station_detail"
+            v-show="index==select_station_index"
+            class="card box-shadow"
+          >
             <div class="card-header">{{station.name+index}}</div>
             <div class="card-body">
               <div class="row">
@@ -99,12 +152,6 @@
           </div>
         </l-icon>
       </l-marker>
-
-      <!-- 海洋站的divIcon
-      暂时使用l-icon -->
-      <!-- <l-icon>
-
-      </l-icon> -->
     </l-map>
     <!-- <div id="basemap">
 
@@ -618,25 +665,39 @@ export default class center_vue2map extends Vue {
         "ningde"
       )
     );
-    // this.station_tide_list.push(
-    //   new TideRealData_Mid_Model(
-    //     "宁德",
-    //     "code_1",
-    //     [20.1, 113.2],
-    //     new Date(),
-    //     2.5,
-    //     3.6,
-    //     50,
-    //     52,
-    //     210,
-    //     "dachen"
-    //   )
-    // );
+    this.station_tide_list.push(
+      new TideRealData_Mid_Model(
+        "石浦",
+        "code_1",
+        [18.3, 113.0],
+        new Date(),
+        3.6,
+        4.1,
+        3.1,
+        52,
+        210,
+        "dachen"
+      )
+    );
     this.station_tide_list.push(
       new TideRealData_Mid_Model(
         "宁德",
         "code_1",
         [20.4, 115.7],
+        new Date(),
+        1.9,
+        2.2,
+        3.5,
+        52,
+        210,
+        "dachen"
+      )
+    );
+    this.station_tide_list.push(
+      new TideRealData_Mid_Model(
+        "宁德",
+        "code_1",
+        [21.2, 114.2],
         new Date(),
         2.5,
         3.6,
@@ -724,6 +785,16 @@ export default class center_vue2map extends Vue {
   position: absolute;
 }
 
+.typhoon_data_div .row {
+  color: black;
+}
+
+.typhoon_data_div .card-body {
+  color: black;
+}
+.typhoon_data_div {
+  /* color: black; */
+}
 .typhoon_icon_default {
   width: 750px !important;
 }
@@ -733,6 +804,7 @@ export default class center_vue2map extends Vue {
   text-shadow: 2px 2px 10px grey;
 }
 .row {
+  /* color: black; */
   text-align: center;
   text-shadow: 2px 2px 10px grey;
   margin-bottom: 10px;
@@ -793,7 +865,8 @@ export default class center_vue2map extends Vue {
   /* border: 2px solid white; */
   width: 180px;
   display: inline-block;
-  background: rgba(50, 124, 164, 0.829);
+  /* background: rgba(50, 124, 164, 0.829); */
+  background: #2c3e50;
   text-align: center;
   color: aliceblue;
   box-shadow: 10px 10px 5px #888888;
@@ -825,14 +898,14 @@ export default class center_vue2map extends Vue {
 }
 
 #station_form .surge {
-  background: yellow;
-  color: rgb(0, 80, 251);
+  background: rgba(5, 213, 140, 0.646);
+  color: rgba(43, 33, 108, 0.872);
   padding-top: 2px !important;
   padding-bottom: 2px !important;
 }
 
 #station_form .tide {
-  background: red;
+  background: rgba(45, 244, 174, 0.557);
   padding-top: 2px !important;
   padding-bottom: 2px !important;
 }
@@ -846,11 +919,25 @@ export default class center_vue2map extends Vue {
   width: 340px;
   /* background: rgba(0, 0, 255, 0.829); */
   text-align: center;
-  color: rgba(9, 137, 249, 0.927);
+  /* color: rgba(9, 137, 249, 0.927); */
+  color: rgba(53, 83, 203, 0.783);
   box-shadow: 10px 10px 5px #888888;
   box-shadow: 0 0 10px whitesmoke;
   /* 边角圆滑处理 */
   border-radius: 10px;
+}
+
+#station_detail .card-header {
+  text-align: center;
+  text-shadow: 2px 2px 10px grey;
+  background: rgb(51, 152, 125);
+  color: white;
+  font-size: 120%;
+}
+
+#station_detail .card-body {
+  background: rgb(47, 68, 84);
+  color: white;
 }
 
 /* 海洋站的柱体样式 */

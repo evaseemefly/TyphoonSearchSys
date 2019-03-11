@@ -1,70 +1,141 @@
 <template>
-  <div id="condition" class="col-md-8">
+  <div
+    id="condition"
+    class="col-md-8"
+  >
     <div class="col-md-4 subitem_div">
       <!-- 次级菜单，顶部搜索区域 -->
       <div class="card text-white">
         <div class="card-header card-my-header">多条件搜索</div>
         <div class="card-body card-my-body">
           <div class="form-group row">
-            <label class="col-form-label col-form-label-sm" for="ds_host">死亡</label>
+            <label
+              class="col-form-label col-form-label-sm"
+              for="ds_host"
+            >死亡</label>
             <div class="col-sm-4">
 
-              <input class="form-control form-control-sm" id="ds_host" type="text" placeholder="人数" />
-
-            </div>
-            <label class="col-form-label col-form-label-sm" for="ds_host">损失</label>
-            <div class="col-sm-4">
-              <input class="form-control form-control-sm" id="ds_username" type="text" placeholder="损失" />
-
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-form-label col-form-label-sm" for="ds_username">增水</label>
-            <div class="col-sm-4">
-              <input class="form-control form-control-sm" id="ds_username" type="text" placeholder="增水">
+              <input
+                class="form-control form-control-sm"
+                id="ds_host"
+                type="text"
+                placeholder="人数"
+              />
 
             </div>
-            <label class="col-form-label col-form-label-sm" for="ds_username">潮位</label>
+            <label
+              class="col-form-label col-form-label-sm"
+              for="ds_host"
+            >损失</label>
             <div class="col-sm-4">
-              <input class="form-control form-control-sm" id="ds_username" type="text" placeholder="潮位" />
-
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-form-label col-form-label-sm" for="ds_username">级别</label>
-            <div class="col-sm-4">
-              <input class="form-control form-control-sm" id="ds_username" type="text" placeholder="级别" />
-
-            </div>
-            <label class="col-form-label col-form-label-sm" for="ds_username">风速</label>
-            <div class="col-sm-4">
-              <input class="form-control form-control-sm" id="ds_username" type="text" placeholder="风速" />
+              <input
+                class="form-control form-control-sm"
+                id="ds_username"
+                type="text"
+                placeholder="损失"
+              />
 
             </div>
           </div>
           <div class="form-group row">
-            <label class="col-form-label col-form-label-sm" for="ds_username">气压</label>
+            <label
+              class="col-form-label col-form-label-sm"
+              for="ds_username"
+            >增水</label>
             <div class="col-sm-4">
-              <input class="form-control form-control-sm" id="ds_username" type="text" placeholder="气压" />
+              <input
+                class="form-control form-control-sm"
+                id="ds_username"
+                type="text"
+                placeholder="增水"
+              >
+
+            </div>
+            <label
+              class="col-form-label col-form-label-sm"
+              for="ds_username"
+            >潮位</label>
+            <div class="col-sm-4">
+              <input
+                class="form-control form-control-sm"
+                id="ds_username"
+                type="text"
+                placeholder="潮位"
+              />
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <label
+              class="col-form-label col-form-label-sm"
+              for="ds_username"
+            >级别</label>
+            <div class="col-sm-4">
+              <input
+                class="form-control form-control-sm"
+                id="ds_username"
+                type="text"
+                placeholder="级别"
+              />
+
+            </div>
+            <label
+              class="col-form-label col-form-label-sm"
+              for="ds_username"
+            >风速</label>
+            <div class="col-sm-4">
+              <input
+                class="form-control form-control-sm"
+                id="ds_username"
+                type="text"
+                placeholder="风速"
+              />
+
+            </div>
+          </div>
+          <div class="form-group row">
+            <label
+              class="col-form-label col-form-label-sm"
+              for="ds_username"
+            >气压</label>
+            <div class="col-sm-4">
+              <input
+                class="form-control form-control-sm"
+                id="ds_username"
+                type="text"
+                placeholder="气压"
+              />
 
             </div>
           </div>
           <div class="form-group row">
             <div class="col-sm-10">
-              <button @click="is_show=!is_show" class="btn btn-my">搜索</button>
+              <button
+                @click="is_show=!is_show"
+                class="btn btn-my"
+              >搜索</button>
             </div>
           </div>
         </div>
       </div>
       <!-- 次级菜单，搜索后加载的台风列表 -->
       <transition name="fade">
-        <div class="card bg-info" v-show="is_show" id="ty_list">
+        <div
+          class="card bg-info"
+          v-show="is_show"
+          id="ty_list"
+        >
           <div class="card-header card-my-header text-white">台风列表</div>
           <div class="card-body card-my-body">
             <div class="row">
               <div class="col">
                 <ul class="list-group">
-                  <li class="list-group-item" v-for="(item,index) in data_list" :key="index" @click="onClick(item)">
+                  <li
+                    class="list-group-item"
+                    v-for="(item,index) in data_list"
+                    :key="index"
+                    @click="onClick(item)"
+                  >
                     {{item.name}}
                   </li>
 
@@ -77,7 +148,12 @@
     </div>
     <transition name="fade">
 
-      <endBar v-show="end_bar_show" :target_typhoon="typhoon" :code="code" :end_bar_show="end_bar_show"></endBar>
+      <endBar
+        v-show="end_bar_show"
+        :target_typhoon="typhoon"
+        :code="code"
+        :end_bar_show="end_bar_show"
+      ></endBar>
 
     </transition>
 
@@ -145,6 +221,9 @@ export default class second_bar_condition_search extends Vue {
 li {
   list-style: none;
   text-align: left;
+}
+.list-group-item {
+  color: black;
 }
 .form-group .control-label {
   color: #ffffff;

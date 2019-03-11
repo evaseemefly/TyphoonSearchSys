@@ -39,10 +39,10 @@ class MeteorologyRealData_Mid_Model {
 
   toHtml(): string {
     var htmlStr = `
-    <div class="card mb-4 col-md-4 box-shadow">
+    <div class="typhoon_data_div card mb-4 col-md-4 box-shadow">
 				<div class="card-header">台风数据</div>
 				<div class="card-body">
-					<div class="row">
+					<div class="row typhoon_data_div">
 						<div class="col-md-4">时间</div>
 						<div class="col-md-8">2019-02-23</div>
 					</div>
