@@ -2,6 +2,7 @@
   <div id="index_map">
     <rightBar></rightBar>
     <centerMap></centerMap>
+    <rightBarDetail></rightBarDetail>
   </div>
 </template>
 
@@ -9,14 +10,15 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import rightBar from "@/views/member/bar/right_bar.vue";
 import centerMap from "@/views/content/center_vue2map.vue";
-
+import rightBarDetail from "@/views/member/bar/rightBarDetail.vue";
 @Component({
   components: {
     rightBar,
-    centerMap
+    centerMap,
+    rightBarDetail
   }
 })
-export default class index_bar extends Vue {
+export default class index_map extends Vue {
   // 初始数据可以直接声明为实例的属性
   message: string = "Hello!";
 

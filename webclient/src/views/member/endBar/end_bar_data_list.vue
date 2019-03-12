@@ -21,6 +21,9 @@
 </template>
 
 <script lang="ts">
+// 引入fecha
+import fecha from "fecha";
+
 import { Component, Prop, Vue } from "vue-property-decorator";
 import { DataList_Mid_Model } from "../../../middle_model/common";
 // import endDataList from "@/views/member/endBar/end_data_list.vue";
@@ -29,7 +32,8 @@ import endDataList from "../endBar/end_data_list.vue";
   components: { endData: endDataList },
   filters: {
     formatDate(date: Date): String {
-      return date.toDateString();
+      var str_format = fecha.format(date, "YY-MM-DD HH:mm:ss");
+      return str_format;
     }
   },
   props: {

@@ -6,34 +6,20 @@
         <div class="row">
           <div class="col">
             <ul class="list-group">
-              <li
-                class="list-group-item"
-                v-for="(item,index) in date_list"
-                :key="index"
-                @click="listStationTimeSeries(item)"
-              >{{item}}</li>
+              <li class="list-group-item" v-for="(item,index) in date_list" :key="index" @click="listStationTimeSeries(item)">{{item}}</li>
             </ul>
           </div>
 
           <div class="col" v-show="currentTimeSeries.length">
             <ul class="list-group">
-              <li
-                class="list-group-item datetimeItem"
-                v-for="(item,index) in currentTimeSeries"
-                :key="index"
-                @click="listTypoon(item)"
-              >{{`${item.getFullYear()}-${item.getMonth()+1}-${item.getDate()}`}}</li>
+              <li class="list-group-item datetimeItem" v-for="(item,index) in currentTimeSeries" :key="index" @click="listTypoon(item)">{{`${item.getFullYear()}-${item.getMonth()+1}-${item.getDate()}`}}</li>
             </ul>
           </div>
         </div>
         <div class="row mt-2" v-show="currentTypoonSeries.length">
           <div class="typoonSeriesBoard col">
             <ul class="list-group w-100">
-              <li
-                class="list-group-item"
-                v-for="(item,index) in currentTypoonSeries"
-                :key="index"
-              >{{item}}</li>
+              <li class="list-group-item" v-for="(item,index) in currentTypoonSeries" :key="index">{{item}}</li>
             </ul>
           </div>
         </div>
