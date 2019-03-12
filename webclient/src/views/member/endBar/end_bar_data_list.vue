@@ -1,22 +1,12 @@
 <template>
-  <div
-    id="end_bar_div"
-    class="col-md-8 card-columns"
-    @mouseleave="mouseleave"
-    v-show="end_bar_show"
-  >
+  <div id="end_bar_div" class="col-md-8 card-columns" @mouseleave="mouseleave" v-show="end_bar_show">
     <div class="card bg-secondary col-md-12 ">
       <div class="card-header card-my-end-header text-white">台风编号{{target_typhoon.code}}</div>
       <div class="card-body card-my-end-body">
         <div class="row">
           <div class="col">
             <ul class="list-group">
-              <li
-                class="list-group-item"
-                v-for="(item,index) in date_list"
-                :key="index"
-                @click="onClick(item)"
-              >
+              <li class="list-group-item list-my-group-item" v-for="(item,index) in date_list" :key="index" @click="onClick(item)">
                 {{item|formatDate}}
               </li>
             </ul>
@@ -111,11 +101,31 @@ export default class end_bar_data_list extends Vue {
 }
 
 /* 自定义的末级菜单样式 */
+/* 自定义的末级菜单样式 */
 .card-my-end-header {
-  background: linear-gradient(to right, #07ae81 30%, rgba(8, 189, 126, 0.639));
+  background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639));
+  font-size: 90%;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
 }
-
+.list-my-group-item {
+  color: rgb(4, 4, 4);
+  font-size: 85%;
+  background: rgba(184, 206, 200, 0.557);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 400;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
+.list-my-group-item:hover {
+  color: rgb(255, 255, 255);
+  font-size: 85%;
+  background: rgba(111, 238, 204, 0.557);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 600;
+}
 .card-my-end-body {
-  background: linear-gradient(to right, #07ae81 30%, rgba(8, 189, 126, 0.639));
+  background: linear-gradient(to right, #248e8a 30%, rgba(4, 107, 114, 0.639));
+  padding: 8px 8px 8px 8px;
 }
 </style>

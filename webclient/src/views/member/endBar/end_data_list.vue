@@ -112,12 +112,61 @@ export default class end_data_list extends Vue {
 
 <style scoped>
 .card-my-end {
-  background: #1a6865;
+  background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639));
+  font-size: 90%;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
+.card-my-end-body {
+  background: linear-gradient(to right, #248e8a 30%, rgba(4, 107, 114, 0.639));
+  padding: 8px 8px 8px 8px;
 }
 .table-my-typhoon {
   background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639));
 }
+.table-my-typhoon th {
+  font-size: 85%;
+  color: rgb(255, 196, 0);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 400;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
+
+.table-my-typhoon td {
+  font-size: 85%;
+  color: rgb(255, 255, 255);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 400;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
 .table-my-station {
-  background: linear-gradient(to right, #854a16 30%, rgba(148, 105, 11, 0.639));
+  background: linear-gradient(to right, #328a87 30%, rgba(47, 113, 118, 0.639));
+}
+.table-my-station th {
+  font-size: 85%;
+  color: rgb(255, 196, 0);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 400;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
+
+.table-my-station td {
+  font-size: 95%;
+  color: rgb(255, 255, 255);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 500;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
+.table-my-station tr:hover {
+  font-size: 105%;
+  color: rgb(255, 255, 255);
+  background: rgba(111, 238, 204, 0.557);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-weight: 700;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
 }
 </style>
