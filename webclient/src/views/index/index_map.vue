@@ -3,6 +3,8 @@
     <rightBar></rightBar>
     <centerMap></centerMap>
     <rightBarDetail></rightBarDetail>
+    <rightBarDisaster></rightBarDisaster>
+    <rightBarRealData></rightBarRealData>
   </div>
 </template>
 
@@ -11,11 +13,15 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import rightBar from "@/views/member/bar/right_bar.vue";
 import centerMap from "@/views/content/center_vue2map.vue";
 import rightBarDetail from "@/views/member/bar/rightBarDetail.vue";
+import rightBarDisaster from "@/views/member/bar/rightBarDisaster.vue";
+import rightBarRealData from "@/views/member/bar/rightBarRealData.vue";
 @Component({
   components: {
     rightBar,
     centerMap,
-    rightBarDetail
+    rightBarDetail,
+    rightBarDisaster,
+    rightBarRealData
   }
 })
 export default class index_map extends Vue {
