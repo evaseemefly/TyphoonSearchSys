@@ -3,7 +3,15 @@
     <!-- 此处使用bt的手风琴效果实现 -->
     <el-col :span="4">
       <!-- <h5>自定义颜色</h5> -->
-      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+      >
         <el-submenu index="1">
 
           <template slot="title">
@@ -11,7 +19,10 @@
             <span>历史台风风暴潮查询</span>
           </template>
           <el-menu-item-group>
-            <el-menu-item index="1-1" @click="is_show_condition_bar=!is_show_condition_bar">条件搜索</el-menu-item>
+            <el-menu-item
+              index="1-1"
+              @click="is_show_condition_bar=!is_show_condition_bar"
+            >条件搜索</el-menu-item>
             <el-menu-item index="1-2">条件搜索2</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -56,6 +67,8 @@ export default class right_bar extends Vue {
 
 <style scoped>
 #all_left_bar {
-  position: relative;
+  /* position: relative; */
+  order: -1;
+  flex: 1;
 }
 </style>

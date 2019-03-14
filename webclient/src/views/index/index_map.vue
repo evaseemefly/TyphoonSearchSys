@@ -37,11 +37,13 @@ export default class index_map extends Vue {
 
 <style scoped>
 #index_map {
-  position: fixed;
+  /* position: fixed;
   top: 80px;
   left: 0px;
   right: 0px;
-  bottom: 20px;
+  bottom: 20px; */
+  flex: 12;
+  display: flex;
   background: #2c3e50;
 }
 </style>

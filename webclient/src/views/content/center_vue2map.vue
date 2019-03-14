@@ -1,12 +1,29 @@
 <template>
   <div id="mycontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center">
+    <l-map
+      ref="basemap"
+      :zoom="zoom"
+      :center="center"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill=false>
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :fill=false
+      >
       </l-polyline>
       <!-- 台风中心的圆点 -->
-      <l-circle v-for="typhoon in typhoon_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
+      <l-circle
+        v-for="typhoon in typhoon_list"
+        :key=typhoon.id
+        :lat-lng="typhoon.latlon"
+        :color="typhoon.getColor()"
+        :weight="typhoon.getWeight()"
+        @mouseover="showTyphoonDiv(typhoon)"
+        @mouseout="clearTyphoonDivIcon()"
+        @click="changeTyphoon(typhoon)"
+      />
 
       <!-- 方式1 -->
       <!-- <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon">
@@ -23,7 +40,13 @@
 
       <!-- 方式3 -->
       <!-- 海洋站所在位置的marker -->
-      <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @click="openStationDivIcon(station)">
+      <l-marker
+        v-for="station in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        :icon="icon_marker"
+        @click="openStationDivIcon(station)"
+      >
       </l-marker>
 
       <!-- <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @mouseover="upZIndex(station)"> -->
@@ -57,12 +80,30 @@
       </l-marker> -->
 
       <!-- 海洋站的div以及table样式 -->
-      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" @click="changeStationIndex(index)" @mouseout="upZIndex(station)" :options="icon_div_station_option" :zIndexOffset="getIconStationZIndex(index,station)">
+      <l-marker
+        v-for="(station,index) in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        @click="changeStationIndex(index)"
+        @mouseout="upZIndex(station)"
+        :options="icon_div_station_option"
+        :zIndexOffset="getIconStationZIndex(index,station)"
+      >
         <l-icon :options="icon_div_station_option">
-          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-            <table class="table table-bordered" border="1">
+          <div
+            id="station_form"
+            v-show="index!=select_station_index"
+            class="fade_enter"
+          >
+            <table
+              class="table table-bordered"
+              border="1"
+            >
               <tr>
-                <td class="station_name" rowspan="2">{{station.name}}</td>
+                <td
+                  class="station_name"
+                  rowspan="2"
+                >{{station.name}}</td>
                 <td class="surge">{{station.ws}}</td>
                 <td class="surge">{{station.wd}}</td>
               </tr>
@@ -72,7 +113,11 @@
               </tr>
             </table>
           </div>
-          <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
+          <div
+            id="station_detail"
+            v-show="index==select_station_index"
+            class="card box-shadow"
+          >
             <div class="card-header">{{station.name+index}}</div>
             <div class="card-body">
               <div class="row">
@@ -738,11 +783,14 @@ export default class center_vue2map extends Vue {
   /* height: 600px; */
 
   /* bottom: 0px; */
-  height: 100%;
+
+  /* height: 100%;
   width: 100%;
   left: 200px;
   overflow: hidden;
-  position: absolute;
+  position: absolute; */
+
+  flex: 8;
 }
 #basemap {
   height: 100%;
