@@ -85,7 +85,9 @@ DATABASES = {
     # 使用mongodb
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'typhoon'
+        'NAME': 'typhoon',
+        # 忽略强制的字段与模型的检索
+        'ENFORCE_SCHEMA':False
     }
 }
 

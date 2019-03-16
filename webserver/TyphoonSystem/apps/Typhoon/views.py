@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
-from .models import Point
+
+import json
+
+from .models import Point,GeoTyphoonRealData
+from .serializers import *
 # Create your views here.
 
 class PointInfoView(APIView):
@@ -15,3 +19,10 @@ class PointInfoView(APIView):
         # return Response(serialize('json',bbxlist))
         return Response("")
         # pass
+
+class TyphoonRealDataView(APIView):
+    def get(self,request):
+        realtime_list=GeoTyphoonRealData.objects.all()
+        json_data = GeoTyphoonRealDataSerializer(realtime_list, many=True).data
+        # json_data=json.dump(realtime_list.data)
+        return Response(json_data)

@@ -3,9 +3,10 @@ from django.urls import path
 from .views import *
 from . import views
 
-app_name='[gis]'
+app_name = '[gis]'
 urlpatterns = [
-    #获取指定日期的预报数据
+    # 获取指定日期的预报数据
     url(r'^point/$', PointInfoView.as_view(), name="gis-get-point"),
+    url(r'^typhoon_list/$', TyphoonRealDataView.as_view(), name="gis-get-point"),
 
 ]

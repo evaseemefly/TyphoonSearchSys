@@ -39,11 +39,14 @@ class Point(models.Model):
     '''
     lat=models.FloatField()
     lon=models.FloatField()
+    class Meta:
+        abstract=True
 
 class GeoTyphoonRealData(models.Model):
     '''
         支持geojson的存储至mongodb的model
     '''
+
     code=models.CharField(max_length=10)
     date=models.DateTimeField()
     bp=models.FloatField()
