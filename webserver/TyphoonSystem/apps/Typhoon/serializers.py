@@ -13,5 +13,5 @@ class GeoTyphoonRealDataSerializer(serializers.Serializer):
     date = serializers.DateTimeField()
     bp = serializers.FloatField()
     wsm = serializers.FloatField()
-    # latlon=models.ForeignKey(Point,on_delete=models.CASCADE)
+    level=serializers.IntegerField()
     latlon = PointSerializer()

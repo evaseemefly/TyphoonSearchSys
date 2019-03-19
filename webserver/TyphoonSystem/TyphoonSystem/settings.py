@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 
 import os, sys
 
+import mongoengine
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 将当前路径加入到系统索引中
@@ -82,12 +84,16 @@ DATABASES = {
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # }
 
-    # 使用mongodb
+    # 使用djongo
+    # 'default': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'typhoon',
+    #     # 忽略强制的字段与模型的检索
+    #     'ENFORCE_SCHEMA':False
+    # }
+    # 使用mongoengine
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'typhoon',
-        # 忽略强制的字段与模型的检索
-        'ENFORCE_SCHEMA':False
+        'ENGINE': ''
     }
 }
 
@@ -127,4 +133,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-default_typhoon_code="(nameless)"
+default_typhoon_code = "(nameless)"
+
+# 使用mongoengine
+# TODO [*] 此处暂时注释掉，不然会报错，稍后解决
+# SESSION_ENGINE = 'mongoengine.django.sessions'
+_MONGODB_USER = 'mongouser'
+_MONGODB_PASSWD = 'password'
+_MONGODB_HOST = 'thehost'
+_MONGODB_NAME = 'typhoon'
+_MONGODB_DATABASE_HOST = \
+    'mongodb://%s:%s@%s/%s' \
+    % (_MONGODB_USER, _MONGODB_PASSWD, _MONGODB_HOST, _MONGODB_NAME)
+
+# mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
+mongoengine.connect(_MONGODB_NAME)
