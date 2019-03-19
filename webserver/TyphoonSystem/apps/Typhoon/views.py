@@ -109,10 +109,10 @@ class FilterByRange(BaseView):
         latlon=request.GET.get('latlon')
         # latlon=latlon.split(',')
         # TODO 注意python3开始，map返回的是一个迭代器，不是list，需要手动转一下
-        latlon=list(map(lambda x:float(x),latlon.split(',')))
-        range=request.GET.get('range')
-        list=self.getTyphoonList(latlon=latlon,range=range)
-        json_data=GeoTyphoonRealDataSerializer(list,many=True).data
+        latlons=list(map(lambda x:float(x),latlon.split(',')))
+        range=int(request.GET.get('range'))
+        list_data=self.getTyphoonList(latlon=latlons,range=range)
+        json_data=GeoTyphoonRealDataSerializer(list_data,many=True).data
         return Response(json_data)
 
     def getTyphoonList(self, *args, **kwargs):

@@ -30,13 +30,13 @@ class GeoTyphoonRealData(Document):
     '''
     code=StringField(max_length=10)
     date=DateTimeField()
-    level=IntField()
     bp=FloatField()
     wsm=FloatField()
-    latlon=EmbeddedDocumentField(Point)
-    meta={
-        'collection':'Typhoon_geotyphoonrealdata'
-    }
+    # 注意此处与django中的类型不同，django的类型为IntegerField，mongoengine为IntField！
+    level=IntField()
+    # latlon=models.ForeignKey(Point,on_delete=models.CASCADE)
+    latlon=PointField()
+    meta = {'collection': 'geotyphoonrealdata'}
     # object=MongoDBManager()
 
 # 实现方式2：使用djongo
