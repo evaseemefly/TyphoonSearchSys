@@ -106,7 +106,7 @@ class FilterByRange(BaseView):
         根据经纬度[lat,lon]以及range 返回在指定范围内的台风编号
     '''
     def get(self,request):
-        # TODO [*]优先完成此部分
+        # TODO [-]优先完成此部分
         latlon=request.GET.get('latlon')
         # latlon=latlon.split(',')
         # TODO 注意python3开始，map返回的是一个迭代器，不是list，需要手动转一下
