@@ -10,7 +10,10 @@
       <router-link to="/vue2mapclear">vue2mapclear</router-link>|
       <router-link to="/main">整合页面</router-link>|
     </div> -->
-    <router-view />
+    <div id="index_map">
+      <rightBar></rightBar>
+      <router-view></router-view>
+    </div>
     <!-- <div id="my-footer"></div> -->
     <Footer></Footer>
   </div>
@@ -19,9 +22,9 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import Footer from "@/views/footer/footer.vue";
 import Header from "@/views/head/header.vue";
-
+import rightBar from "@/views/member/bar/right_bar.vue";
 @Component({
-  components: { Footer, Header }
+  components: { Footer, Header, rightBar }
 })
 export default class right_bar extends Vue {}
 </script>
@@ -59,5 +62,16 @@ export default class right_bar extends Vue {}
 }
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+#index_map {
+  /* position: fixed;
+  top: 80px;
+  left: 0px;
+  right: 0px;
+  bottom: 20px; */
+  flex: 12;
+  display: flex;
+  background: #2c3e50;
 }
 </style>

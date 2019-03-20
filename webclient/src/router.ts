@@ -15,7 +15,9 @@ export default new Router({
     {
       path: "/",
       name: "home",
-      component: Home
+      // component: Home
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/index/index_map.vue")
     },
     {
       path: "/about",
@@ -42,7 +44,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/content/center_vue2map.vue")
+        import(/* webpackChunkName: "about" */ "./views/index/index_map.vue")
     },
     {
       path: "/vue2mapclear",

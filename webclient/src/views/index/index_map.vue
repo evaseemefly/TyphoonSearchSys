@@ -1,6 +1,5 @@
 <template>
   <div id="index_map">
-    <rightBar></rightBar>
     <centerMap></centerMap>
     <rightBarDetail></rightBarDetail>
     <rightBarDisaster></rightBarDisaster>
@@ -37,12 +36,7 @@ export default class index_map extends Vue {
 
 <style scoped>
 #index_map {
-  /* position: fixed;
-  top: 80px;
-  left: 0px;
-  right: 0px;
-  bottom: 20px; */
-  flex: 12;
+  flex: 8;
   display: flex;
   background: #2c3e50;
 }
