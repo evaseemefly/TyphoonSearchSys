@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
 
@@ -102,7 +103,7 @@ class FilterByYear(BaseView):
 
 class FilterByRange(BaseView):
     '''
-        根据
+        根据经纬度[lat,lon]以及range 返回在指定范围内的台风编号
     '''
     def get(self,request):
         # TODO [*]优先完成此部分
@@ -112,8 +113,8 @@ class FilterByRange(BaseView):
         latlons=list(map(lambda x:float(x),latlon.split(',')))
         range=int(request.GET.get('range'))
         list_data=self.getTyphoonList(latlon=latlons,range=range)
-        json_data=GeoTyphoonRealDataSerializer(list_data,many=True).data
-        return Response(json_data)
+        # json_data=GeoTyphoonRealDataSerializer(list_data,many=True).data
+        return Response(list_data,status=status.HTTP_200_OK)
 
     def getTyphoonList(self, *args, **kwargs):
         '''
@@ -125,4 +126,4 @@ class FilterByRange(BaseView):
         latlon = kwargs.get('latlon')
         range = kwargs.get('range')
 
-        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1],latlon__max_distance=range)
+        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1],latlon__max_distance=range).distinct('code')
