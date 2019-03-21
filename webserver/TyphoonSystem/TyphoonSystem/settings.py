@@ -30,24 +30,29 @@ SECRET_KEY = 'b8vj5ic&h83qk$d-myrvmy2))+^ftw9s(neoc6#rh&uung5618'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 允许跨域
+    'corsheaders',
     # "django_mongoengine",
     'Typhoon'
 ]
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -56,6 +61,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'TyphoonSystem.urls'
+
+# 跨域增加忽略
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {

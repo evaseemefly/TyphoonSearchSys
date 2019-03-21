@@ -3,7 +3,15 @@
     <!-- 此处使用bt的手风琴效果实现 -->
     <el-col :span="4">
       <!-- <h5>自定义颜色</h5> -->
-      <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
+        @open="handleOpen"
+        @close="handleClose"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+      >
         <el-submenu index="1">
 
           <template slot="title">
@@ -16,8 +24,8 @@
               <!-- 条件搜索 -->
               <router-link to='/vue2map'>条件搜索</router-link>
             </el-menu-item>
-            <el-menu-item index="/vue2map">
-              <router-link to='/vue2map'>条件搜索</router-link>
+            <el-menu-item index="/range">
+              <router-link to='/range'>范围搜索</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

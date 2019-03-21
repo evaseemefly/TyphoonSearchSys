@@ -106,11 +106,16 @@ class FilterByRange(BaseView):
         根据经纬度[lat,lon]以及range 返回在指定范围内的台风编号
     '''
     def get(self,request):
-        # TODO [-]优先完成此部分
-        latlon=request.GET.get('latlon')
-        # latlon=latlon.split(',')
+        # TODO [-]优先完成此部分 对于第一种传输组的方式
+        # latlon=request.GET.get('latlon')
         # TODO 注意python3开始，map返回的是一个迭代器，不是list，需要手动转一下
-        latlons=list(map(lambda x:float(x),latlon.split(',')))
+        # latlons=list(map(lambda x:float(x),latlon.split(',')))
+        # TODO [-] 使用此种方式接收
+
+        latlons=request.GET.getlist('latlon[]')
+        # 处理后的latlong=[lat,lon]
+        latlons = list(map(lambda x: float(x), latlons))
+
         range=int(request.GET.get('range'))
         list_data=self.getTyphoonList(latlon=latlons,range=range)
         # json_data=GeoTyphoonRealDataSerializer(list_data,many=True).data
