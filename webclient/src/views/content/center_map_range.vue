@@ -188,7 +188,7 @@ import { DivIcon, DivIconOptions } from "leaflet";
 
   // @Mutation()
 })
-export default class center_vue2map extends Vue {
+export default class center_map_range extends Vue {
   zoom: number = 5;
   center: any = [30.09, 127.75];
   url: string = "/mapfiles/{z}/{x}/{y}.jpg";
