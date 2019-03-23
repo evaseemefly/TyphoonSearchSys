@@ -1,0 +1,73 @@
+{
+  "name": "webclient",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "test:unit": "vue-cli-service test:unit"
+  },
+  "dependencies": {
+    "@types/jquery": "^3.3.29",
+    "@types/leaflet": "^1.4.3",
+    "Leaflet.TileLayer.MBTiles": "^1.0.0",
+    "bootstrap": "^4.3.1",
+    "element-ui": "^2.6.1",
+    "fecha": "^3.0.2",
+    "jquery": "^3.3.1",
+    "jshint": "^2.10.1",
+    "leaflet": "^1.4.0",
+    "leaflet-defaulticon-compatibility": "^0.1.1",
+    "leaflet-tilelayer-mbtiles": "^1.4.1",
+    "popper.js": "^1.14.7",
+    "vue": "^2.6.6",
+    "vue-class-component": "^6.0.0",
+    "vue-property-decorator": "^7.0.0",
+    "vue-router": "^3.0.1",
+    "vue2-leaflet": "^1.2.3",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.0",
+    "@types/mocha": "^5.2.4",
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-plugin-typescript": "^3.4.0",
+    "@vue/cli-plugin-unit-mocha": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "@vue/eslint-config-typescript": "^4.0.0",
+    "@vue/test-utils": "^1.0.0-beta.20",
+    "babel-eslint": "^10.0.1",
+    "chai": "^4.1.2",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "typescript": "~3.2.2",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/typescript"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "@typescript-eslint/parser"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
