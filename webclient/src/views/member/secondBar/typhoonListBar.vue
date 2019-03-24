@@ -1,25 +1,13 @@
 <template>
-  <div
-    id="condition"
-    class="col-md-8"
-  >
+  <div id="condition" class="col-md-8">
     <div class="col-md-4 subitem_div">
       <!-- 次级菜单，搜索后加载的台风列表 -->
       <transition name="fade">
-        <div
-          id="ty_list"
-          class="card bg-info"
-          v-show="is_show"
-        >
+        <div id="ty_list" class="card bg-info" v-show="is_show">
           <div class="card-header card-my-header text-white">台风列表</div>
           <div class="card-body card-my-body">
             <ul class="list-group">
-              <li
-                class="list-group-item list-my-group-item"
-                v-for="(item,index) in typhoon_list"
-                :key="index"
-                @click="onClick(item)"
-              >
+              <li class="list-group-item list-my-group-item" v-for="(item,index) in typhoon_list" :key="index" @click="onClick(item)">
                 {{item.name}}
               </li>
             </ul>
@@ -42,23 +30,30 @@ import { DataList_Mid_Model } from "../../../middle_model/common";
 export default class typhoonListBar extends Vue {
   // 初始数据可以直接声明为实例的属性
   // TODO [*] 由父类传入的台风列表
-  @Prop()
-  typhoon_list: DataList_Mid_Model[];
+  @Prop() typhoon_list: DataList_Mid_Model[];
   // data_list: DataList_Mid_Model[] = [
   //   new DataList_Mid_Model("台风1", 1, "code_a"),
   //   new DataList_Mid_Model("台风2", 2, "code_b"),
   //   new DataList_Mid_Model("台风3", 3, "code_c")
   // ];
-  @Prop()
-  is_show: boolean;
+  @Prop() is_show: boolean;
 
   code: string = "";
-  typhoon: DataList_Mid_Model = new DataList_Mid_Model("", 0, "");
+  // typhoon: DataList_Mid_Model = new DataList_Mid_Model("", 0, "");
   // 组件方法也可以直接声明为实例的方法
   onClick(obj: DataList_Mid_Model): void {
     var myself = this;
     myself.code = obj.code;
     myself.typhoon = obj;
+  }
+
+  // TODO [*] 19-03-22 通过vuex获取当前选中的台风
+  get typhoon(): DataList_Mid_Model {
+    return this.$store.state.map.typhoon;
+  }
+
+  set typhoon(val: DataList_Mid_Model) {
+    this.$store.commit("typhoon", val);
   }
 
   @Watch("is_show")

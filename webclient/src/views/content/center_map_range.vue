@@ -1,67 +1,24 @@
 <template>
   <div id="mycontent">
-    <l-map
-      ref="basemap"
-      :zoom="zoom"
-      :center="center"
-      @click="createMarker"
-    >
+    <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline
-        :lat-lngs="polyline.latlngs"
-        :color="polyline.color"
-        :fill=false
-      >
+      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill=false>
       </l-polyline>
       <!-- 台风中心的圆点 -->
-      <l-circle
-        v-for="typhoon in typhoon_list"
-        :key=typhoon.id
-        :lat-lng="typhoon.latlon"
-        :color="typhoon.getColor()"
-        :weight="typhoon.getWeight()"
-        @mouseover="showTyphoonDiv(typhoon)"
-        @mouseout="clearTyphoonDivIcon()"
-        @click="changeTyphoon(typhoon)"
-      />
+      <l-circle v-for="typhoon in typhoon_realdata_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
       <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
-      <l-marker
-        :lat-lng="targetMarkerLatLon"
-        :icon="icon_marker"
-      >
+      <l-marker :lat-lng="targetMarkerLatLon" :icon="icon_marker">
       </l-marker>
       <!-- 鼠标点击某个位置之后根据slider获取的半径 -->
-      <l-circle
-        :lat-lng="targetMarkerLatLon"
-        :weight=4
-        :radius="range"
-      />
+      <l-circle :lat-lng="targetMarkerLatLon" :weight=4 :radius="range" />
       <!-- 海洋站的div以及table样式 -->
-      <l-marker
-        v-for="(station,index) in station_tide_list"
-        :key=station.id
-        :lat-lng="station.latlon"
-        @click="changeStationIndex(index)"
-        @mouseout="upZIndex(station)"
-        :options="icon_div_station_option"
-        :zIndexOffset="getIconStationZIndex(index,station)"
-      >
+      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" @click="changeStationIndex(index)" @mouseout="upZIndex(station)" :options="icon_div_station_option" :zIndexOffset="getIconStationZIndex(index,station)">
         <l-icon :options="icon_div_station_option">
-          <div
-            id="station_form"
-            v-show="index!=select_station_index"
-            class="fade_enter"
-          >
-            <table
-              class="table table-bordered"
-              border="1"
-            >
+          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
+            <table class="table table-bordered" border="1">
               <tr>
-                <td
-                  class="station_name"
-                  rowspan="2"
-                >{{station.name}}</td>
+                <td class="station_name" rowspan="2">{{station.name}}</td>
                 <td class="surge">{{station.ws}}</td>
                 <td class="surge">{{station.wd}}</td>
               </tr>
@@ -71,11 +28,7 @@
               </tr>
             </table>
           </div>
-          <div
-            id="station_detail"
-            v-show="index==select_station_index"
-            class="card box-shadow"
-          >
+          <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
             <div class="card-header">{{station.name+index}}</div>
             <div class="card-body">
               <div class="row">
@@ -117,10 +70,7 @@
     </div> -->
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
-    <TyphoonList
-      :typhoon_list="typhoon_code_list"
-      :is_show="is_show_typhoon_list"
-    ></TyphoonList>
+    <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
   </div>
 </template>
 
@@ -129,7 +79,12 @@
 import fecha from "fecha";
 
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import { loadTyphoonList, TyphoonParams } from "@/api/api.ts";
+import {
+  loadTyphoonList,
+  TyphoonParams,
+  loadTyphoonRealData,
+  TyphoonRealDataParamas
+} from "@/api/api.ts";
 
 import {
   MeteorologyRealData_Mid_Model,
@@ -195,9 +150,12 @@ export default class center_map_range extends Vue {
   typhoon_data: MeteorologyRealData_Mid_Model[] = null;
   // mymap: any = null; // 地图
   typhoon_div_icon_temp: any = null; // 当前的divICon对象
+
+  // TODO [*] 19-03-22 选中的当前台风对象
   typhoon_temp: MeteorologyRealData_Mid_Model = null; // 点击某个台风div后记录的该台风对象
   latlons: Array<LatLng> = []; // 经纬度的数组(数组嵌套数组)
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = []; //台风列表
+  typhoon_realdata_list: Array<MeteorologyRealData_Mid_Model> = []; // 台风气象实时数据列表
   // TODO [*] 19-03-21 台风 code集合
   typhoon_code_list: Array<DataList_Mid_Model> = [];
   // 是否显示台风列表
@@ -211,6 +169,11 @@ export default class center_map_range extends Vue {
   // TODO [-] 由rangeSlider通过vuex传过来的range
   get range(): number {
     return this.$store.state.map.range;
+  }
+
+  // TODO [*] 当前选择的台风（由vuex获取）
+  get targetTyphoon(): MeteorologyRealData_Mid_Model {
+    return this.$store.state.map.typhoon;
   }
 
   // markerLatLng: [47.31322, -1.319482];
@@ -285,7 +248,7 @@ export default class center_map_range extends Vue {
   // 根据指定时间及code查询对应台风的实时数据
   loadTyphoonData(): void {
     // 此处只做模拟
-    this.typhoon_list.push(
+    this.typhoon_realdata_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
         new Date(),
@@ -295,31 +258,13 @@ export default class center_map_range extends Vue {
         1
       )
     );
-    this.typhoon_list.push(
+    this.typhoon_realdata_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
         new Date(),
         [13.5, 116.0],
         1001.2,
         1.5
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [14.4, 116.6],
-        1001.2,
-        2
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [15.2, 116.9],
-        1001.2,
-        3
       )
     );
   }
@@ -349,7 +294,7 @@ export default class center_map_range extends Vue {
 
   // }
 
-  // 将typhoon_list 加载值地图中
+  // TODO [*] 准备去掉！将typhoon_list 加载值地图中
   loadTyphoonLine(): void {
     var myself = this;
     /*
@@ -611,36 +556,38 @@ export default class center_map_range extends Vue {
         "dachen"
       )
     );
-    this.station_tide_list.push(
-      new TideRealData_Mid_Model(
-        "宁德",
-        "code_2",
-        [20.1, 113.2],
-        new Date(),
-        2.5,
-        3.6,
-        10,
-        52,
-        210,
-        "ningde"
-      )
-    );
-    this.station_tide_list.push(
-      new TideRealData_Mid_Model(
-        "石浦",
-        "code_1",
-        [18.3, 113.0],
-        new Date(),
-        3.6,
-        4.1,
-        3.1,
-        52,
-        210,
-        "dachen"
-      )
-    );
-
     this.loadStationDivs();
+  }
+
+  // TODO [*] 19-03-23 监听由vuex更新的targetTyphoon（当前选择的台风）
+  //更新typhoon_realdata_list以及polyline
+  @Watch("targetTyphoon")
+  onTargetTyphoon(val: DataList_Mid_Model) {
+    var myself = this;
+    // 更新后
+    loadTyphoonRealData(val).then(res => {
+      console.log(res.data);
+      if (res.status === 200) {
+        //记得每次需要清空
+        myself.typhoon_realdata_list = [];
+        myself.polyline.latlngs = [];
+        res.data.map(temp => {
+          myself.typhoon_realdata_list.push(
+            new MeteorologyRealData_Mid_Model(
+              temp.code,
+              temp.date,
+              [temp.latlon.coordinates[1], temp.latlon.coordinates[0]],
+              temp.bp,
+              temp.wsm
+            )
+          );
+          myself.polyline.latlngs.push([
+            temp.latlon.coordinates[1],
+            temp.latlon.coordinates[0]
+          ]);
+        });
+      }
+    });
   }
 
   // TODO 根据传入的index返回当前div的options（主要是修改zIndex

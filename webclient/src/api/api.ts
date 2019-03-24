@@ -18,9 +18,21 @@ export interface TyphoonParams {
   range: number
 }
 
+export interface TyphoonRealDataParamas{
+  code:string
+}
+
+
 export const loadTyphoonList = (par: TyphoonParams) => {
   let typhoonlistUrl = `${host}/gis/filter/range/`
   return axios.get(typhoonlistUrl, {
+    params: par
+  })
+}
+
+export const loadTyphoonRealData = (par:TyphoonRealDataParamas) => {
+  let typhoonrealdataUrl = `${host}/gis/data/typhoonrealdata/`
+  return axios.get(typhoonrealdataUrl, {
     params: par
   })
 }
