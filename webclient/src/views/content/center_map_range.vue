@@ -1,24 +1,59 @@
 <template>
   <div id="mycontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
+    <l-map
+      ref="basemap"
+      :zoom="zoom"
+      :center="center"
+      @click="createMarker"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill=false>
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :fill=false
+      >
       </l-polyline>
       <!-- 台风中心的圆点 -->
       <l-circle v-for="typhoon in typhoon_realdata_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
+     
       <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
-      <l-marker :lat-lng="targetMarkerLatLon" :icon="icon_marker">
+      <l-marker
+        :lat-lng="targetMarkerLatLon"
+        :icon="icon_marker"
+      >
       </l-marker>
       <!-- 鼠标点击某个位置之后根据slider获取的半径 -->
-      <l-circle :lat-lng="targetMarkerLatLon" :weight=4 :radius="range" />
+      <l-circle
+        :lat-lng="targetMarkerLatLon"
+        :weight=4
+        :radius="range"
+      />
       <!-- 海洋站的div以及table样式 -->
-      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" @click="changeStationIndex(index)" @mouseout="upZIndex(station)" :options="icon_div_station_option" :zIndexOffset="getIconStationZIndex(index,station)">
+      <l-marker
+        v-for="(station,index) in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        @click="changeStationIndex(index)"
+        @mouseout="upZIndex(station)"
+        :options="icon_div_station_option"
+        :zIndexOffset="getIconStationZIndex(index,station)"
+      >
         <l-icon :options="icon_div_station_option">
-          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-            <table class="table table-bordered" border="1">
+          <div
+            id="station_form"
+            v-show="index!=select_station_index"
+            class="fade_enter"
+          >
+            <table
+              class="table table-bordered"
+              border="1"
+            >
               <tr>
-                <td class="station_name" rowspan="2">{{station.name}}</td>
+                <td
+                  class="station_name"
+                  rowspan="2"
+                >{{station.name}}</td>
                 <td class="surge">{{station.ws}}</td>
                 <td class="surge">{{station.wd}}</td>
               </tr>
@@ -28,7 +63,11 @@
               </tr>
             </table>
           </div>
-          <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
+          <div
+            id="station_detail"
+            v-show="index==select_station_index"
+            class="card box-shadow"
+          >
             <div class="card-header">{{station.name+index}}</div>
             <div class="card-body">
               <div class="row">
@@ -70,7 +109,10 @@
     </div> -->
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
-    <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
+    <TyphoonList
+      :typhoon_list="typhoon_code_list"
+      :is_show="is_show_typhoon_list"
+    ></TyphoonList>
   </div>
 </template>
 
@@ -151,7 +193,7 @@ export default class center_map_range extends Vue {
   // mymap: any = null; // 地图
   typhoon_div_icon_temp: any = null; // 当前的divICon对象
 
-  // TODO [*] 19-03-22 选中的当前台风对象
+  // TODO [-] 19-03-22 选中的当前台风对象
   typhoon_temp: MeteorologyRealData_Mid_Model = null; // 点击某个台风div后记录的该台风对象
   latlons: Array<LatLng> = []; // 经纬度的数组(数组嵌套数组)
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = []; //台风列表
@@ -677,7 +719,9 @@ export default class center_map_range extends Vue {
   color: black;
 }
 .typhoon_data_div {
-  /* color: black; */
+  color: black;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 .typhoon_icon_default {
   width: 750px !important;
@@ -699,9 +743,9 @@ export default class center_map_range extends Vue {
   padding-right: 0px;
 }
 .row_footer {
-  margin-left: -21px;
-  margin-right: -21px;
-  margin-bottom: -21px;
+  margin-left: -21px !important;
+  margin-right: -21px !important;
+  margin-bottom: -21px !important;
 }
 
 /* 底部div */
