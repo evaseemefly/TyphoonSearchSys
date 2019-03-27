@@ -1,9 +1,12 @@
-from datetime import datetime
+from datetime import datetime,timedelta
+import calendar
+import datetime as superdatetime
 
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
+from django.http import HttpRequest,HttpResponse,JsonResponse
 
 from mongoengine import *
 
@@ -12,7 +15,7 @@ from .views_base import BaseView
 import json
 
 # 引入mongoengine
-# import mongoengine
+# import mongoengineFilterByMonth
 
 from .models import Point,GeoTyphoonRealData
 from .serializers import *
@@ -127,3 +130,57 @@ class FilterByRange(BaseView):
         range = kwargs.get('range')
 
         return GeoTyphoonRealData.objects(latlon__near=latlon[::-1],latlon__max_distance=range).distinct('code')
+
+
+class FilterByComplexCondition(BaseView):
+    '''
+    复杂条件查询 风速，级别，气压
+    测试url:
+    http://127.0.0.1:8000/gis/filter/complex/?bp=1006
+    http://127.0.0.1:8000/gis/filter/complex/?bp=1006&wsm=13&level=1
+    '''
+    def get(self,request):
+        level = request.GET.get('level')
+        wsm = request.GET.get('wsm')
+        bp = request.GET.get('bp')
+        query = GeoTyphoonRealData.objects()
+        if level is not None:
+            query = query.filter(level=level)
+        if wsm is not None:
+            query = query.filter(wsm=wsm)
+        if bp is not None:
+            query = query.filter(bp=bp)
+        json_data = GeoTyphoonRealDataSerializer(query, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
+
+
+
+class FilterByDateRange(BaseView):
+    '''
+    根据传过来的月份区间查找台风数据 类似2019-03 2019-03
+    测试url:
+    http://127.0.0.1:8000/gis/filter/daterange/?startdate=2017-11&enddate=2017-12
+    '''
+    def get(self, request):
+        start_date = request.GET.get("startdate")
+        end_date = request.GET.get("enddate")
+        query = GeoTyphoonRealData.objects()
+        if start_date is not None:
+            start_date=start_date+'-01 00:00:00'
+            stime = datetime.strptime(start_date,"%Y-%m-%d %H:%M:%S")
+            query = query.filter(date__gte=stime)
+        if end_date is not None:
+            end_date = datetime.strptime(end_date,'%Y-%m')
+            end_date=add_months(end_date,1)
+            etime=end_date+timedelta(seconds=-1)
+            query = query.filter(date__lte=etime)
+        json_data = GeoTyphoonRealDataSerializer(query, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
+
+
+def add_months(sourcedate, months):
+    month = sourcedate.month - 1 + months
+    year = sourcedate.year + month // 12
+    month = month % 12 + 1
+    day = min(sourcedate.day, calendar.monthrange(year,month)[1])
+    return superdatetime.date(year, month, day)
