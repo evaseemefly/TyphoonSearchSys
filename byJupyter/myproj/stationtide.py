@@ -105,8 +105,34 @@ class StationTideRealData:
         :return:
         '''
 
+        # 1 获取截取的数组
+        checkpoint_arr=self.getCheckPointList()
+        # 2 循环进行数据截取
+        for index_checkpoint,val_checkpoint in enumerate(checkpoint_arr):
+            for index,val in range(0,checkpoint_arr[index_checkpoint+1]-val_checkpoint):
+                temp_ser = self._data.iloc[val_checkpoint + index][0]
+                # 判断是否为下一个时间节点标记为
+                if self.checkIsNextDateDataPoint(temp_ser) == False:
+                    print(self.convert2RealData(self._data[val_checkpoint]))
+                else:
+                    break
+            # for index in range(3):
+
 
         pass
+
+    # 判断是否为下一个时间时间的起始位置
+    def checkIsNextDateDataPoint(ser:Series):
+        '''
+            判断是否为日期的标志点
+            传入一行进来
+        '''
+
+        if len(ser.split()) == 1:
+            if ser.split()[0] in ["MAX", "MIN"]:
+                return True
+        else:
+            return False
 
     def convert2RealData(self,ser:Series,**kwargs):
         '''
@@ -115,6 +141,10 @@ class StationTideRealData:
         :param ser:
         :return:
         '''
+        # S1 -获取起始时间
+        start_date=kwargs.get('start_date')
+        # S2 -获取要加的天数
+        days=kwargs.get('adddays')
         temp=ser[0]
         realdata_arr=[]
         # 24小时的实时数据的步长
@@ -151,8 +181,12 @@ class StationTideRealData:
                 #         print(val)
                 print(f'val:{temp[val:val+step]}|val2:{temp[val+step:val+step*2]}')
                 print(f'hour:{int(temp[val:val+step][:2])}|min:{int(temp[val:val+step][2:])}')
-                # 时间
-                temp_datetime = datetime.datetime(year, month, day, int(temp[val:val + step][:2]),
+                # TODO [*] 时间
+                now_date=start_date+ datetime.timedelta(days = days)
+                temp_datetime = datetime.datetime(year,
+                                                  month,
+                                                  day,
+                                                  int(temp[val:val + step][:2]),
                                                   int(temp[val:val + step][2:]))
                 realdata_arr.append(temp_datetime)
                 # 潮位
