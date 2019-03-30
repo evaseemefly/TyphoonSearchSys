@@ -5,13 +5,14 @@ import datetime
 
 from data.model import *
 
-class StationTideRealData:
 
+class StationTideRealData:
     # 读取的数据
     _data = None
+
     # _checkpoint_arr=[]
 
-    def __init__(self, dirPath, filename, * args, **kwargs):
+    def __init__(self, dirPath, filename, *args, **kwargs):
 
         self.dirPath = dirPath
         self.filename = filename
@@ -32,26 +33,24 @@ class StationTideRealData:
         '''
 
         with open(self.fullname, 'rb') as f:
-            self._data = pd.read_table(f, sep='\n', encoding='utf-8',
-                                  header=None, infer_datetime_format=False)
-
+            self._data = pd.read_table(f, sep='\n', encoding='utf-8', header=None, infer_datetime_format=False)
 
     def getCheckPointList(self):
         '''
             获取标志位的列表
         :return:返回标志位数组
         '''
-        checkpoint_arr=[]
+        checkpoint_arr = []
         for index in range(len(self._data)):
             #     temp= data.iloc[index][0]
             temp = self._data.iloc[index][0].split()[0]
-        #     print(temp)
+            #     print(temp)
             if temp == '+':
                 checkpoint_arr.append(index)
 
         return checkpoint_arr
 
-    def convert2StationBaseModel(self,ser: Series = None, **kwargs):
+    def convert2StationBaseModel(self, ser: Series = None, **kwargs):
         '''
             根据传入的series，根据指定位置进行截取
         '''
@@ -104,10 +103,10 @@ class StationTideRealData:
         :return:
         '''
         self.open()
-        df=self._data
-        self.splitData(df,year='1958')
+        df = self._data
+        self.splitData(df, year='1958')
 
-    def splitData(self,df:DataFrame,**kwargs):
+    def splitData(self, df: DataFrame, **kwargs):
         '''
             TODO [*] 根据df按行进行拆分
         :param df:
@@ -115,15 +114,15 @@ class StationTideRealData:
         '''
 
         # 1 获取截取的数组
-        checkpoint_arr=self.getCheckPointList()
-        add_days=0
-        year=int(kwargs.get('year'))
-        index_current=0
+        checkpoint_arr = self.getCheckPointList()
+        add_days = 0
+        year = int(kwargs.get('year'))
+        index_current = 0
         # 2 循环进行数据截取
         # [3,21,...]
         # '+'标志位的循环
-        for index_checkpoint,val_checkpoint in enumerate(checkpoint_arr):
-            index_current=val_checkpoint
+        for index_checkpoint, val_checkpoint in enumerate(checkpoint_arr):
+            index_current = val_checkpoint
             # S 基本信息所在的行
             baseinfo_ser = Series(self._data.iloc[val_checkpoint - 2][0].split())
             # 2.1 先读取基本信息
@@ -135,16 +134,44 @@ class StationTideRealData:
             # 两个标志位之间的逐行循环
             # TODO [*] 此处修改为while，不使用range循环
             # for index, val in enumerate(range(1, checkpoint_arr[index_checkpoint + 1] - val_checkpoint)):
-            while index_current<checkpoint_arr[index_checkpoint+1]-2:
-                # TODO 19-03-29 注意此处不需要转换为series了，因为无法切分（4位数的情况会与下一个位置的数字连在一起）
+            if index_checkpoint+1<len(checkpoint_arr):
+                while index_current < checkpoint_arr[index_checkpoint + 1] - 2:
+                    # TODO 19-03-29 注意此处不需要转换为series了，因为无法切分（4位数的情况会与下一个位置的数字连在一起）
+                    # temp_str=self._data.iloc[val_checkpoint+index+1][0]
+                    index_current = index_current + 1
+                    temp_str = self._data.iloc[index_current][0]
+                    # 当前日期加1
+                    temp_date = temp_date + datetime.timedelta(days=1)
+                    print(temp_date)
+                    # TODO 此处的series只是单纯为了判断是否为下一个时间标记位使用（对于其他无效果！）
+                    temp_ser = Series(temp_str.split())
+                    add_days = 0
+                    # while self.checkIsNextDateDataPoint(index_current) == False:
+                    # realdata_ser=self._data.iloc(val_checkpoint)
+                    # 判断是否为下一个时间节点标记位
+                    # 注意 +1 操作放在此处
+                    if self.checkIsNextDateDataPoint(index_current) == False:
+                        realdata, index_current = self.convert2RealData4Day(temp_str,
+                                                                            start_date=temp_date,
+                                                                            adddays=add_days,
+                                                                            index_current=index_current)
+                        print(f'第1行:{realdata[0]}')
+                        print(f'第2行:{realdata[1]}')
+                    # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
+                    # index_current = index_current + 1
+                    print(f'当前位置{index_current-1}')
+                    print('-----------')
+                # for index in range(3):
+            else:
+                # TODO
                 # temp_str=self._data.iloc[val_checkpoint+index+1][0]
-                index_current=index_current+1
+                index_current = index_current + 1
                 temp_str = self._data.iloc[index_current][0]
                 # 当前日期加1
                 temp_date = temp_date + datetime.timedelta(days=1)
                 print(temp_date)
-                # TODO 此处的series只是单纯为了判断是否为下一个时间标记位使用（对于其他无效果！）
-                temp_ser=Series(temp_str.split())
+                # 此处的series只是单纯为了判断是否为下一个时间标记位使用（对于其他无效果！）
+                temp_ser = Series(temp_str.split())
                 add_days = 0
                 # while self.checkIsNextDateDataPoint(index_current) == False:
                 # realdata_ser=self._data.iloc(val_checkpoint)
@@ -157,16 +184,14 @@ class StationTideRealData:
                                                                         index_current=index_current)
                     print(f'第1行:{realdata[0]}')
                     print(f'第2行:{realdata[1]}')
-                index_current = index_current + 1
+                # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
+                # index_current = index_current + 1
                 print(f'当前位置{index_current-1}')
                 print('-----------')
-            # for index in range(3):
-
-
         pass
 
     # 判断是否为下一个时间时间的起始位置
-    def checkIsNextDateDataPoint1(self,ser:Series)->bool:
+    def checkIsNextDateDataPoint1(self, ser: Series) -> bool:
         '''
             判断是否为日期的标志点
             传入一行进来
@@ -179,21 +204,21 @@ class StationTideRealData:
         else:
             return False
 
-    def checkIsNextDateDataPoint(self,index:int)->bool:
+    def checkIsNextDateDataPoint(self, index: int) -> bool:
         '''
             判断是否为日期的标志点
             传入一行进来
         '''
 
         # 此处的ser_temp是一个数组，判断长度是否为1，若为1，则取出唯一的值并判断是否是在指定的数组中的值
-        ser_temp=self._data.iloc[index][0].split()
+        ser_temp = self._data.iloc[index][0].split()
         if len(ser_temp) == 1:
             if ser_temp[0] in ["MAX", "MIN"]:
                 return True
         else:
             return False
 
-    def convert2RealData4Day(self,ser:str,**kwargs):
+    def convert2RealData4Day(self, ser: str, **kwargs):
         '''
             将当前行，转成实时model
             将经过处理后的数组返回
@@ -201,21 +226,21 @@ class StationTideRealData:
         :return:
         '''
         # S1 -获取起始时间
-        start_date=kwargs.get('start_date')
+        start_date = kwargs.get('start_date')
         # S2 -获取要加的天数 暂时不需要了
-        days=kwargs.get('adddays')
+        days = kwargs.get('adddays')
         # 获取当前的index
-        index_current=kwargs.get('index_current')
+        index_current = kwargs.get('index_current')
         # target_line=ser
         # 获取当前的line（str）
         # 读取一日的数据（共3行，有可能出现第4行——可能为max或min——交给外面判断）
-        index_temp=0
-        finial_data_list=[]
-        none_list=['','--']
+        index_temp = 0
+        finial_data_list = []
+        none_list = ['', '--']
         for index_recycle in range(3):
             # 当前读取的行
-            index_temp=index_current+index_recycle
-            if index_recycle+1<3:
+            index_temp = index_current + index_recycle
+            if index_recycle + 1 < 3:
                 index_recycle = index_recycle + 1
                 target_line_str = self._data.iloc[index_temp][0]
                 realdata_arr = []
@@ -233,8 +258,12 @@ class StationTideRealData:
                         # #         print(val)
                         # print(target_line_str[val:val + step_24h])
                         # TODO [*] 注意此处可能出现空置
-                        val_temp=target_line_str[val:val + step_24h].strip()
-                        realdata_arr.append(('--') if val_temp in none_list else int(val_temp))
+                        val_temp = target_line_str[val:val + step_24h].strip()
+                        try:
+
+                            realdata_arr.append(('--') if val_temp in none_list else int(val_temp))
+                        except ValueError as ex:
+                            print(str(ex))
                 # print('-------------')
                 step = 4
                 # 极值的列起始位置
@@ -259,23 +288,23 @@ class StationTideRealData:
                         year = now_date.year
                         month = now_date.month
                         day = now_date.day
-                        val_hour =target_line_str[val:val + step][:2]
-                        val_min=target_line_str[val:val + step][2:]
+                        val_hour = target_line_str[val:val + step][:2]
+                        val_min = target_line_str[val:val + step][2:]
                         # TODO [*] 可能出现空值
                         if val_hour.strip() in none_list:
-                            datetime_temp=None
-                            val_temp=None
+                            datetime_temp = None
+                            val_temp = None
                         else:
                             try:
                                 datetime_temp = datetime.datetime(year,
-                                                              month,
-                                                              day,
-                                                              int(target_line_str[val:val + step][:2]),
-                                                              int(target_line_str[val:val + step][2:]))
-                                val_temp=int(target_line_str[val + step:val + step * 2])
+                                                                  month,
+                                                                  day,
+                                                                  int(target_line_str[val:val + step][:2]),
+                                                                  int(target_line_str[val:val + step][2:]))
+                                val_temp = int(target_line_str[val + step:val + step * 2])
                             except:
-                                datetime_temp=None
-                                val_temp=None
+                                datetime_temp = None
+                                val_temp = None
                                 print(f'出错所在位置{index_temp}')
 
                         realdata_arr.append(datetime_temp)
@@ -291,6 +320,4 @@ class StationTideRealData:
 
         # while index_recycle<3:
 
-        return finial_data_list,index_temp
-
-
+        return finial_data_list, index_temp
