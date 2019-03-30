@@ -2,6 +2,7 @@ import os
 import pandas as pd
 from pandas import Series, DataFrame
 import datetime
+from mongoengine import *
 
 from data.model import *
 
@@ -50,7 +51,7 @@ class StationTideRealData:
 
         return checkpoint_arr
 
-    def convert2StationBaseModel(self, ser: Series = None, **kwargs):
+    def convert2StationBaseModel(self, ser: Series = None, **kwargs)->StationTideData:
         '''
             根据传入的series，根据指定位置进行截取
         '''
@@ -103,6 +104,7 @@ class StationTideRealData:
         :return:
         '''
         self.open()
+        connect('typhoon')
         df = self._data
         self.splitData(df, year='1958')
 
@@ -130,36 +132,58 @@ class StationTideRealData:
             print(baseinfo_ser)
             # 获取当前时间
             temp_date = base_model.startdate
+
+            # 每次到标志位时，将循环时 +1 的days清零
+            add_days = 0
+
             # 从当前 标志位+1处（2.1已经完成了读取站点基本信息的操作）开始到下一个标志位按行进行检索，并读取实时数据
             # 两个标志位之间的逐行循环
             # TODO [*] 此处修改为while，不使用range循环
             # for index, val in enumerate(range(1, checkpoint_arr[index_checkpoint + 1] - val_checkpoint)):
-            if index_checkpoint+1<len(checkpoint_arr):
-                while index_current < checkpoint_arr[index_checkpoint + 1] - 2:
+            if index_checkpoint + 1 < len(checkpoint_arr):
+                # 是否未到下一个mark_point 并且日期计数 <4(0，1，2，3）——未读到第四天的数据（实际读取的次数——其中可能有max和min，需要跳过并不计数）
+                while index_current < checkpoint_arr[index_checkpoint + 1] - 2 and add_days < setting.DAYS:
+                    # 将日期计数器 +1
+                    add_days = add_days + 1
                     # TODO 19-03-29 注意此处不需要转换为series了，因为无法切分（4位数的情况会与下一个位置的数字连在一起）
                     # temp_str=self._data.iloc[val_checkpoint+index+1][0]
                     index_current = index_current + 1
                     temp_str = self._data.iloc[index_current][0]
-                    # 当前日期加1
-                    temp_date = temp_date + datetime.timedelta(days=1)
-                    print(temp_date)
+                    print(f'当前行数据{temp_str}')
+
                     # TODO 此处的series只是单纯为了判断是否为下一个时间标记位使用（对于其他无效果！）
                     temp_ser = Series(temp_str.split())
-                    add_days = 0
+
                     # while self.checkIsNextDateDataPoint(index_current) == False:
                     # realdata_ser=self._data.iloc(val_checkpoint)
                     # 判断是否为下一个时间节点标记位
                     # 注意 +1 操作放在此处
                     if self.checkIsNextDateDataPoint(index_current) == False:
+
                         realdata, index_current = self.convert2RealData4Day(temp_str,
                                                                             start_date=temp_date,
-                                                                            adddays=add_days,
+                                                                            adddays=0,
                                                                             index_current=index_current)
+
                         print(f'第1行:{realdata[0]}')
                         print(f'第2行:{realdata[1]}')
+                        # 方式1：
+                        # self.insert2model(realdata[0], base_model, type='forecast')
+                        # TODO [*] 19-03-30 将返回的realdata写入model中
+                        # 方式2
+                        # 已对base_model中的tidedata进行了append操作
+                        self.insert2model(realdata, base_model, targetdate=temp_date)
+                        # 当前日期加1
+                        temp_date = temp_date + datetime.timedelta(days=1)
+                        print(temp_date)
                     # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
                     # index_current = index_current + 1
+                    else:
+                        add_days = add_days - 1
+                        print(f'出现MAX或MIN')
+
                     print(f'当前位置{index_current-1}')
+                    print(f'当前日期{temp_date},循环{add_days}')
                     print('-----------')
                 # for index in range(3):
             else:
@@ -180,14 +204,69 @@ class StationTideRealData:
                 if self.checkIsNextDateDataPoint(index_current) == False:
                     realdata, index_current = self.convert2RealData4Day(temp_str,
                                                                         start_date=temp_date,
-                                                                        adddays=add_days,
+                                                                        adddays=0,
                                                                         index_current=index_current)
                     print(f'第1行:{realdata[0]}')
+
                     print(f'第2行:{realdata[1]}')
+                    self.insert2model(realdata, base_model, targetdate=temp_date)
                 # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
                 # index_current = index_current + 1
                 print(f'当前位置{index_current-1}')
                 print('-----------')
+            # TODO [*] 19-03-30调用写入mongo的操作
+            try:
+                base_model.save()
+                print('保存成功！！')
+            except Exception as e:
+                print(str(e))
+
+        pass
+
+    def insert2model(self, arr_data: [], model: StationTideData, **kwargs):
+        '''
+            测试使用将arr写入model的方法
+        :param arr_data:
+        :param model:
+        :return:
+        '''
+
+        # 方式1：
+        # if 'type' in kwargs:
+        #     # 找到type（real,forecast)
+        #     type=kwargs.get('type')
+        #     if type=='real':
+        #         # 实测数据
+        #         model.forecast_arr
+        #
+        #
+        #         pass
+        #     elif type=='forecast':
+        #         # 预报天文潮
+        #         model.realtidedata.append(TideData(forecast_arr=arr_data[:24]))
+        #         pass
+        # tide_data=None
+        # 方式2：TODO [*] 直接将预报值与实际值都传入
+        if 'targetdate' in kwargs:
+            targetdate = kwargs.get('targetdate')
+            extremum_realdata = arr_data[1][24:]
+            extremum_forecast = arr_data[0][24:]
+            real_data = RealData(realdata_arr=arr_data[1][:24],
+                                 heigh_heigh_tide=Extremum(extremum_realdata[0], extremum_realdata[1]),
+                                 heigh_low_tide=Extremum(extremum_realdata[2], extremum_realdata[3]),
+                                 low_heigh_tide=Extremum(extremum_realdata[4], extremum_realdata[5]),
+                                 low_low_tide=Extremum(extremum_realdata[6], extremum_realdata[7]))
+            forecast_data = ForecastData(forecast_arr=arr_data[0][:24],
+                                         heigh_heigh_tide=Extremum(extremum_forecast[0], extremum_forecast[1]),
+                                         heigh_low_tide=Extremum(extremum_forecast[2], extremum_forecast[3]),
+                                         low_heigh_tide=Extremum(extremum_forecast[4], extremum_forecast[5]),
+                                         low_low_tide=Extremum(extremum_forecast[6], extremum_forecast[7]))
+            tide_data = TideData(targetdate=targetdate,
+                                 forecastdata=forecast_data,
+                                 realdata=real_data
+                                 )
+            # 将tide_data写入model
+            model.realtidedata.append(tide_data)
         pass
 
     # 判断是否为下一个时间时间的起始位置
@@ -261,7 +340,7 @@ class StationTideRealData:
                         val_temp = target_line_str[val:val + step_24h].strip()
                         try:
 
-                            realdata_arr.append(('--') if val_temp in none_list else int(val_temp))
+                            realdata_arr.append((setting.DEFAULT_VAL) if val_temp in none_list else int(val_temp))
                         except ValueError as ex:
                             print(str(ex))
                 # print('-------------')
@@ -292,8 +371,8 @@ class StationTideRealData:
                         val_min = target_line_str[val:val + step][2:]
                         # TODO [*] 可能出现空值
                         if val_hour.strip() in none_list:
-                            datetime_temp = None
-                            val_temp = None
+                            datetime_temp = setting.DEFAULT_DATE
+                            val_temp = setting.DEFAULT_VAL
                         else:
                             try:
                                 datetime_temp = datetime.datetime(year,

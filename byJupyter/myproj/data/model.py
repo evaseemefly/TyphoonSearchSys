@@ -1,28 +1,62 @@
 from mongoengine import *
+import datetime
+from conf import setting
 
 class Extremum(EmbeddedDocument):
     '''
         极值
     '''
-    occurredTime = DateTimeField()
-    val = IntField()
+    occurredTime = DateTimeField(required=False,default=None)
+    val = IntField(required=False,default=None)
 
+    # def __init__(self,date:datetime,val:str):
+    #     # self.occurredTime=date
+    #     # self.val=val
+    #     self._toModel(date,val)
+    #
+    # def _toModel(self,date:datetime,val:str):
+    #     '''
+    #         加入一个数据验证
+    #     :param date:
+    #     :param val:
+    #     :return:
+    #     '''
+    #     occurredTime= None if (date is '--' or date is None) else date
+    #     val=None if (val is '--' or val is None) else val
+
+class ForecastData(EmbeddedDocument):
+    # 极大值的24小时观测数组
+    forecast_arr = ListField(IntField(default=None))
+    heigh_heigh_tide = EmbeddedDocumentField(Extremum)
+    heigh_low_tide = EmbeddedDocumentField(Extremum)
+    low_heigh_tide = EmbeddedDocumentField(Extremum)
+    low_low_tide = EmbeddedDocumentField(Extremum)
+
+class RealData(EmbeddedDocument):
+    # 极大值的24小时观测数组
+    realdata_arr = ListField(IntField(default=None),default=None)
+    heigh_heigh_tide = EmbeddedDocumentField(Extremum)
+    heigh_low_tide = EmbeddedDocumentField(Extremum)
+    low_heigh_tide = EmbeddedDocumentField(Extremum)
+    low_low_tide = EmbeddedDocumentField(Extremum)
 
 class TideData(EmbeddedDocument):
     '''
         测站数据
     '''
     # 极大值的24小时观测数组
-    forecast_arr = ListField(IntField())
-    # 极小值得24小时观测数组
-    realdata_arr = ListField(IntField())
+    # forecast_arr = ListField(IntField())
+    # # 极小值得24小时观测数组
+    # realdata_arr = ListField(IntField())
     # 目标日期（年-月-日）
     #     targetdate=DateTimeField()
-    targetdate = DateField()
-    heigh_heigh_tide = EmbeddedDocumentField(Extremum)
-    heigh_low_tide = EmbeddedDocumentField(Extremum)
-    low_heigh_tide = EmbeddedDocumentField(Extremum)
-    low_low_tide = EmbeddedDocumentField(Extremum)
+    targetdate = DateField(default=None)
+    forecastdata=EmbeddedDocumentField(ForecastData)
+    realdata=EmbeddedDocumentField(RealData)
+    # heigh_heigh_tide = EmbeddedDocumentField(Extremum)
+    # heigh_low_tide = EmbeddedDocumentField(Extremum)
+    # low_heigh_tide = EmbeddedDocumentField(Extremum)
+    # low_low_tide = EmbeddedDocumentField(Extremum)
 
 
 class StationTideData(Document):
@@ -46,3 +80,4 @@ class StationTideData(Document):
     #     潮位数据
     realtidedata = ListField(EmbeddedDocumentField(TideData))
     # tideDataMin = EmbeddedDocumentField(TideData)
+    meta={'collection': setting.MONGO_STATIONTIDEDATA_DOCUMENT_NAME}
