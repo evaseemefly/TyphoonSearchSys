@@ -1,14 +1,26 @@
 <template>
-  <div id="condition" class="col-md-8">
+  <div
+    id="condition"
+    class="col-md-8"
+  >
     <div class="col-md-4 subitem_div">
       <!-- 次级菜单，搜索后加载的台风列表 -->
       <transition name="fade">
-        <div id="ty_list" class="card bg-info" v-show="is_show">
+        <div
+          id="ty_list"
+          class="card bg-info"
+          v-show="is_show"
+        >
           <div class="card-header card-my-header text-white">台风列表</div>
           <div class="card-body card-my-body">
             <ul class="list-group">
-              <li class="list-group-item list-my-group-item" v-for="(item,index) in typhoon_list" :key="index" @click="onClick(item)">
-                {{item.name}}
+              <li
+                class="list-group-item list-my-group-item"
+                v-for="(item,index) in typhoon_list"
+                :key="index"
+                @click="onClick(item)"
+              >
+                {{item.name}}|{{item.year}}
               </li>
             </ul>
           </div>

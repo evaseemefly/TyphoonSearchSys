@@ -106,7 +106,7 @@ class StationTideRealData:
         self.open()
         connect('typhoon')
         df = self._data
-        self.splitData(df, year='1958')
+        self.splitData(df, year='1956')
 
     def splitData(self, df: DataFrame, **kwargs):
         '''

@@ -15,8 +15,17 @@
       >
       </l-polyline>
       <!-- 台风中心的圆点 -->
-      <l-circle v-for="typhoon in typhoon_realdata_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
-     
+      <l-circle
+        v-for="typhoon in typhoon_realdata_list"
+        :key=typhoon.id
+        :lat-lng="typhoon.latlon"
+        :color="typhoon.getColor()"
+        :weight="typhoon.getWeight()"
+        @mouseover="showTyphoonDiv(typhoon)"
+        @mouseout="clearTyphoonDivIcon()"
+        @click="changeTyphoonRealBase(typhoon)"
+      />
+
       <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
       <l-marker
         :lat-lng="targetMarkerLatLon"
@@ -138,7 +147,10 @@ import RangeSlider from "@/views/member/slider/rangeSlider.vue";
 import TyphoonList from "@/views/member/secondBar/typhoonListBar.vue";
 // 引入公共的枚举
 import { TyphoonCircleStatus } from "@/common/Status.ts";
-import { DataList_Mid_Model } from "@/middle_model/common.ts";
+import {
+  DataList_Mid_Model,
+  TyphoonRealBase_Mid_Model
+} from "@/middle_model/common.ts";
 
 // import "leaflet-tilelayer-mbtiles-ts";
 // import "leaflet-tilelayer-mbtiles";
@@ -213,9 +225,19 @@ export default class center_map_range extends Vue {
     return this.$store.state.map.range;
   }
 
-  // TODO [*] 当前选择的台风（由vuex获取）
+  // TODO [-] 当前选择的台风（由vuex获取）
   get targetTyphoon(): MeteorologyRealData_Mid_Model {
     return this.$store.state.map.typhoon;
+  }
+
+  // TODO [*] 当前选择的 台风实时model(由vuex获取)
+  get targetTyphoonRealBase(): TyphoonRealBase_Mid_Model {
+    return this.$store.state.map.typhoonRealBase;
+  }
+
+  // TODO [*] 更改当前的 台风实时model(存在vuex中)
+  set targetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
+    this.$store.commit("typhoonRealBase", val);
   }
 
   // markerLatLng: [47.31322, -1.319482];
@@ -242,7 +264,9 @@ export default class center_map_range extends Vue {
         myself.typhoon_code_list = [];
         // data中为台风列表
         data.forEach(obj => {
-          myself.typhoon_code_list.push(new DataList_Mid_Model(obj, -1, obj));
+          myself.typhoon_code_list.push(
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
+          );
         });
         myself.is_show_typhoon_list = true;
       }
@@ -287,7 +311,7 @@ export default class center_map_range extends Vue {
     this.is_show_typhoon_list = false;
   }
 
-  // 根据指定时间及code查询对应台风的实时数据
+  // TODO [*] 最终要去掉
   loadTyphoonData(): void {
     // 此处只做模拟
     this.typhoon_realdata_list.push(
@@ -311,8 +335,15 @@ export default class center_map_range extends Vue {
     );
   }
 
-  changeTyphoon(val): void {
+  // 更改当前的选中台风real model
+  changeTyphoonRealBase(val): void {
     this.typhoon_temp = val;
+    var typhoon_real = new TyphoonRealBase_Mid_Model(
+      val.name,
+      val.code,
+      val.date
+    );
+    this.targetTyphoonRealBase = typhoon_real;
   }
 
   showTyphoonDiv(val): void {
@@ -614,10 +645,11 @@ export default class center_map_range extends Vue {
         myself.typhoon_realdata_list = [];
         myself.polyline.latlngs = [];
         res.data.map(temp => {
+          var date_str = temp.date;
           myself.typhoon_realdata_list.push(
             new MeteorologyRealData_Mid_Model(
               temp.code,
-              temp.date,
+              new Date(date_str),
               [temp.latlon.coordinates[1], temp.latlon.coordinates[0]],
               temp.bp,
               temp.wsm
@@ -631,6 +663,8 @@ export default class center_map_range extends Vue {
       }
     });
   }
+
+  // @Watch("")
 
   // TODO 根据传入的index返回当前div的options（主要是修改zIndex
   getIconStationOption(index: number, val): any {

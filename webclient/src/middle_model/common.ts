@@ -12,10 +12,26 @@ class DataList_Mid_Model {
   public name: string
   public id: number
   public code: string
-  constructor(name: string, id: number, code: string) {
+  public year: number
+
+  constructor(name: string, id: number, code: string, year: number = null) {
     this.name = name
     this.id = id
     this.code = code
+    this.year = year
+  }
+}
+
+// 保存选中台风时刻基础model(主要用来配合选择的台风model——新加入了一个指定的时刻)
+class TyphoonRealBase_Mid_Model {
+  public name: string
+  public code: string
+  public date: Date
+
+  constructor(name: string, code: string, date: Date) {
+    this.name = name
+    this.code = code
+    this.date = date
   }
 }
 
@@ -27,4 +43,9 @@ class DemoStationDto {
     this.timeSeries = timeSeries
   }
 }
-export { Menu_Mid_Model, DataList_Mid_Model, DemoStationDto }
+export {
+  Menu_Mid_Model,
+  DataList_Mid_Model,
+  DemoStationDto,
+  TyphoonRealBase_Mid_Model
+}
