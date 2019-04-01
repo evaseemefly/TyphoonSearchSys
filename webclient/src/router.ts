@@ -85,7 +85,7 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "about" */ "./views/index/index_map.vue")
-    }
+    },
     // {
     //   path: '/search',
     //   name: 'search',
@@ -101,6 +101,12 @@ export default new Router({
     //   path: '/search/condition',
     //   name: 'condition',
     //   component: ConditionSearch
-    // }
+    // },
+    {
+      path: "/search",
+      name: "search",
+      component: () =>
+        import("./views/Test/Search.vue")
+    }
   ]
 });

@@ -30,7 +30,7 @@ SECRET_KEY = 'b8vj5ic&h83qk$d-myrvmy2))+^ftw9s(neoc6#rh&uung5618'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -44,8 +44,10 @@ INSTALLED_APPS = [
     # "django_mongoengine",
     'Typhoon'
 ]
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

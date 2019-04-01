@@ -143,13 +143,27 @@ class FilterByComplexCondition(BaseView):
         level = request.GET.get('level')
         wsm = request.GET.get('wsm')
         bp = request.GET.get('bp')
+        startMonth = request.GET.get('startMonth')
+        endMonth = request.GET.get('endMonth')
         query = GeoTyphoonRealData.objects()
-        if level is not None:
+
+        if level is not None and level != '':
             query = query.filter(level=level)
-        if wsm is not None:
+        if wsm is not None and wsm != '':
             query = query.filter(wsm=wsm)
-        if bp is not None:
+        if bp is not None and bp != '':
             query = query.filter(bp=bp)
+        if startMonth is not None and startMonth != '':
+            start_date = startMonth + '-01 00:00:00'
+            stime = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
+            query = query.filter(date__gte=stime)
+        if endMonth is not None and endMonth != '':
+            end_date = datetime.strptime(endMonth, '%Y-%m')
+            end_date = add_months(end_date, 1)
+            etime = end_date + timedelta(seconds=-1)
+            query = query.filter(date__lte=etime)
+
+
         json_data = GeoTyphoonRealDataSerializer(query, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
 
