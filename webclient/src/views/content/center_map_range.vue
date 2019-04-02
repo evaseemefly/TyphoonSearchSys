@@ -132,9 +132,11 @@ import fecha from "fecha";
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import {
   loadTyphoonList,
-  TyphoonParams,
+  ITyphoonParams,
   loadTyphoonRealData,
-  TyphoonRealDataParamas
+  ITyphoonRealDataParamas,
+  loadStationTideDataList,
+  ITyphoonRealBaseParams
 } from "@/api/api.ts";
 
 import {
@@ -253,7 +255,7 @@ export default class center_map_range extends Vue {
     var myself = this;
     var range: number = this.range;
     var latlon: number[] = this.targetMarkerLatLon;
-    var obj: TyphoonParams = {
+    var obj: ITyphoonParams = {
       latlon: latlon,
       range: range
     };
@@ -632,7 +634,7 @@ export default class center_map_range extends Vue {
     this.loadStationDivs();
   }
 
-  // TODO [*] 19-03-23 监听由vuex更新的targetTyphoon（当前选择的台风）
+  // TODO [-] 19-03-23 监听由vuex更新的targetTyphoon（当前选择的台风）
   //更新typhoon_realdata_list以及polyline
   @Watch("targetTyphoon")
   onTargetTyphoon(val: DataList_Mid_Model) {
@@ -664,6 +666,14 @@ export default class center_map_range extends Vue {
     });
   }
 
+  // TODO [*] 19-04-01 监听当前选择的实时台风（含date）
+  @Watch("targetTyphoonRealBase")
+  onTargetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
+    var myself = this;
+    loadStationTideDataList(val).then(res => {
+      console.log(res.data);
+    });
+  }
   // @Watch("")
 
   // TODO 根据传入的index返回当前div的options（主要是修改zIndex

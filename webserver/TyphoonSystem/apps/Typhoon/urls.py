@@ -10,5 +10,7 @@ urlpatterns = [
     url(r'^data/typhoonrealdata/$', TyphoonRealDataView.as_view(), name="gis-get-point"),
     url(r'^filter/month/$', FilterByMonth.as_view()),
     url(r'^filter/year/$', FilterByYear.as_view()),
-    url(r'^filter/range/$', FilterByRange.as_view())
+    url(r'^filter/range/$', FilterByRange.as_view()),
+    # 根据code以及date查询 测站的潮位数据
+    url(r'data/stationtide/$',StationTideDataListView.as_view())
 ]

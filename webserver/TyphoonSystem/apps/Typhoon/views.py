@@ -14,7 +14,7 @@ import json
 # 引入mongoengine
 # import mongoengine
 
-from .models import Point, GeoTyphoonRealData
+from .models import *
 from .serializers import *
 from .middle_models import *
 from common import dateCommon
@@ -49,6 +49,57 @@ class TyphoonRealDataView(APIView):
         json_data = GeoTyphoonRealDataSerializer(realtime_list, many=True).data
 
         return Response(json_data)
+
+
+class StationTideDataListView(APIView):
+    code = ''
+    '''
+        根据code以及date获取测站的数据
+    '''
+
+    def get(self, request):
+        '''
+
+        :param request:
+        :return:
+        '''
+
+        '''
+            大致步骤：
+                1-获取传入date以及code
+                2-根据code以及date获取geostationtidedata中的一个 StationTideData（model）
+                3-从realdata中获取过程中的极值出现时间以及值
+        '''
+        # 1- 获取date以及code
+        code = request.GET.get("code", settings.DEFAULT_TYPHOON_CODE_BYSTATION)
+        self.code = code
+        date_str = request.GET.get("date", settings.DEFAULT_TYPHOON_DATE)
+        targetdate = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
+        print(targetdate)
+        # 2- 获取geostationtidedate-> realtidedata
+        filter_list = StationTideData.objects(code=code, startdate=targetdate)
+        # 2.1找到每一个测站的极值及出现时间
+
+        pass
+
+    # TODO [*] 获取传入的实时数据的返回极值时刻(暂时不实现)
+    def dataListMax(self, realdata: RealData):
+        for temp in realdata:
+            pass
+
+    # TODO [*] 19-04-02 未完成
+    def getTargetDateRealData(self, data: StationTideData, date: datetime.date, **kwargs):
+        '''
+            根据时间获取该时刻的观测值
+        :param date:
+        :return:
+        '''
+        days = 0
+        if 'days' in kwargs:
+            days = int(kwargs.get('days'))
+
+        for temp in data.realtidedata.realdata_arr:
+            pass
 
 
 class FilterByMonth(BaseView):
@@ -131,7 +182,7 @@ class FilterByRange(BaseView):
         codes = self.getTyphoonList(latlon=latlons, range=range)
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
         # list_data = [GeoTyphoonRealData.objects(code=code)[:1].code
-                     # for code in codes]
+        # for code in codes]
 
         # list_data = []
         # for code in codes:
@@ -140,7 +191,7 @@ class FilterByRange(BaseView):
         #
         # 使用列表推导
         list_data = [
-            TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code,GeoTyphoonRealData.objects(code=code)[0].date)
+            TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code, GeoTyphoonRealData.objects(code=code)[0].date)
             for code in codes]
         json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)

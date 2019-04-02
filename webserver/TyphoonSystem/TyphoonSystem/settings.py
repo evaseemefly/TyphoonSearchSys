@@ -144,6 +144,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 default_typhoon_code = "(nameless)"
+# 为查询station而设置的tpyhoon code
+DEFAULT_TYPHOON_CODE_BYSTATION = "default"
+
+DEFAULT_TYPHOON_DATE='1700-1-1'
+
+
+# mongodb中保存stationtidedata的document的名字
+MONGO_STATIONTIDEDATA_DOCUMENT_NAME = 'geostationtidedata'
 
 # 使用mongoengine
 # TODO [*] 此处暂时注释掉，不然会报错，稍后解决

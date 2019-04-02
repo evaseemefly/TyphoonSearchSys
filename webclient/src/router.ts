@@ -47,6 +47,7 @@ export default new Router({
       //   import(/* webpackChunkName: "about" */ './views/index/index_map_range.vue')
       component: IndexMapRange
     },
+
     {
       path: '/vue2map',
       name: 'vue2map',
