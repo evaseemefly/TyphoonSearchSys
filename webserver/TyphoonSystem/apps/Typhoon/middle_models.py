@@ -1,5 +1,6 @@
 
 import datetime
+from apps.Typhoon.models import *
 
 class TyphoonModel:
     def __init__(self,code:str,date:datetime.datetime):
@@ -19,3 +20,17 @@ class TideRealMidModel:
     def __init__(self,val:int,occurred:datetime.datetime):
         self.val=val
         self.occurred=occurred
+
+class StationTideMidModel:
+    __slots__ = ['station','tide_arr']
+
+    def __init__(self,station:StationTideData,tide_arr:[]):
+        self.station=station
+        self.tide_arr=tide_arr
+
+class StationTideMaxMidModel:
+    __slots__ = ['station','tide']
+
+    def __init__(self,station:StationTideData,tide:TideRealMidModel):
+        self.station=station
+        self.tide=tide

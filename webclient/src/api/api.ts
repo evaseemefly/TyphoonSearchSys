@@ -45,7 +45,7 @@ export const loadTyphoonRealData = (par: ITyphoonRealDataParamas) => {
 
 // 根据 台风（含时间信息）获取潮位站数据
 export const loadStationTideDataList = (par: ITyphoonRealBaseParams) => {
-  let stationTideUrl = `${host}/gis/data/typhoonrealdata/`
+  let stationTideUrl = `${host}/gis/data/stationtide/`
   return axios.get(stationTideUrl, {
     params: par
   })

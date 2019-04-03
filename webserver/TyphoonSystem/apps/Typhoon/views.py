@@ -1,4 +1,5 @@
 from datetime import datetime
+import dateutil
 
 from django.shortcuts import render
 from rest_framework import status
@@ -74,32 +75,60 @@ class StationTideDataListView(APIView):
         code = request.GET.get("code", settings.DEFAULT_TYPHOON_CODE_BYSTATION)
         self.code = code
         date_str = request.GET.get("date", settings.DEFAULT_TYPHOON_DATE)
-        targetdate = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
+        targetdate = dateutil.parser.parse(date_str)
+        # targetdate = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
         print(targetdate)
         # 2- 获取geostationtidedate-> realtidedata
         filter_list = StationTideData.objects(code=code, startdate=targetdate)
+
         # 2.1找到每一个测站的极值及出现时间
+        list_data = []
+        for temp in filter_list:
+            max_data = self.dataListMax(temp, targetdate)
+            list_data.append(StationTideMaxMidModel(temp, max_data))
+            # list_data.append(StationTideMidModel(temp,self.getTargetDateRealData(temp,targetdate,days=0)))
+            # list_tide.extend()
+        json_data = StationTideMaxMidModelSerializer(list_data, many=True).data
+        return Response(json_data)
 
-        pass
-
-    # TODO [*] 获取传入的实时数据的返回极值时刻(暂时不实现)
-    def dataListMax(self, realdata: RealData):
-        for temp in realdata:
-            pass
-
-    # TODO [*] 19-04-02 未完成
-    def getTargetDateRealData(self, data: StationTideData, date: datetime.date, **kwargs):
+    #  [-] 获取传入的实时数据的返回极值时刻(暂时不实现)
+    def dataListMax(self, data: StationTideData, date: datetime.date) -> TideRealMidModel:
         '''
-            根据时间获取该时刻的观测值
+            找到传入的站点的极值（极大值）
+        :param data:
+        :param date:
+        :return: 极大值（TideRealMidModel）
+        '''
+        # 找到极值
+        list = self.getTargetDateRealData(data, date)
+        max_data = max(list, key=lambda x: x.val)
+        return max_data
+
+    #  [-] 19-04-02 未完成
+    def getTargetDateRealData(self, data: StationTideData, date: datetime.date, **kwargs) -> []:
+        '''
+            根据时间获取该时刻的观测值list
         :param date:
         :return:
         '''
         days = 0
+        list_tidedata = []
         if 'days' in kwargs:
             days = int(kwargs.get('days'))
+        # index_days = 0
+        for temp_realtidedata in data.realtidedata:
 
-        for temp in data.realtidedata.realdata_arr:
-            pass
+            # print(temp_realtidedata.targetdate)
+            # print(temp_realtidedata)
+            for index, temp_realdata in enumerate(temp_realtidedata.realdata.realdata_arr):
+                # print(index)
+                # print(temp_realdata)
+                temp_datetime = datetime.datetime(temp_realtidedata.targetdate.year, temp_realtidedata.targetdate.month,
+                                                  temp_realtidedata.targetdate.day, 0, 0) + datetime.timedelta(
+                    hours=index)
+                list_tidedata.append(TideRealMidModel(temp_realdata, temp_datetime))
+
+        return list_tidedata
 
 
 class FilterByMonth(BaseView):
