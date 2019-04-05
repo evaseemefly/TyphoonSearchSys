@@ -13,7 +13,6 @@
         active-text-color="#ffd04b"
       >
         <el-submenu index="1">
-
           <template slot="title">
             <i class="el-icon-location"></i>
             <span>历史台风风暴潮查询</span>
@@ -22,7 +21,7 @@
             <!-- <el-menu-item index="/vue2map" @click="is_show_condition_bar=!is_show_condition_bar">条件搜索</el-menu-item> -->
             <el-menu-item index="/vue2map">
               <!-- 条件搜索 -->
-              <router-link to='/vue2map'>条件搜索</router-link>
+              <router-link to="/vue2map">条件搜索</router-link>
             </el-menu-item>
             <el-menu-item index="/range">
               <router-link to='/range'>范围搜索</router-link>
@@ -32,13 +31,12 @@
         <!-- <el-menu-item index="2">
           <i class="el-icon-menu"></i>
           <span slot="title">导航二</span>
-        </el-menu-item> -->
+        </el-menu-item>-->
       </el-menu>
     </el-col>
     <SecondBar v-show="is_show_condition_bar"></SecondBar>
     <!-- <router-view></router-view> -->
   </div>
-
 </template>
 
 <script lang="ts">
@@ -73,5 +71,6 @@ export default class right_bar extends Vue {
   /* position: relative; */
   order: -1;
   flex: 1;
+  display: none;
 }
 </style>

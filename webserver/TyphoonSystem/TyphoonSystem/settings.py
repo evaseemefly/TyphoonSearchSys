@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     # "django_mongoengine",
     'Typhoon'
 ]
-
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
 MIDDLEWARE = [
 
     'django.middleware.security.SecurityMiddleware',
