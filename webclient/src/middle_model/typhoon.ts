@@ -1,5 +1,6 @@
 // 台风 middel model
 import { TyphoonCircleStatus } from '@/common/Status.ts'
+import fecha from 'fecha'
 
 class TyphoonData_Mid_Model {
   public meteorology_realdata: MeteorologyRealData_Mid_Model //气象数据
@@ -38,26 +39,30 @@ class MeteorologyRealData_Mid_Model {
   }
 
   toHtml(): string {
+    var myself = this
     var htmlStr = `
     <div class="typhoon_data_div card mb-4 col-md-4 box-shadow">
 				<div class="card-header">台风数据</div>
 				<div class="card-body">
 					<div class="row typhoon_data_div">
 						<div class="col-md-4">时间</div>
-						<div class="col-md-8">2019-02-23</div>
+						<div class="col-md-8">${fecha.format(
+              new Date(myself.date),
+              'YYYY-MM-DD HH:mm'
+            )}</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4">中心位置</div>
-						<div class="col-md-8">18.2,112.0</div>
+						<div class="col-md-8">${this.latlon}</div>
 					</div>
 					<div class="row row_footer">
 						<div class="typhoon_footer">
 							<div class="columnar">
-								<div class="subitem_top">5.6</div>
+								<div class="subitem_top">${this.wsm}</div>
 								<div class="subitem_foot">最大风速</div>
 							</div>
 							<div class="columnar">
-								<div class="subitem_top">1006.2</div>
+								<div class="subitem_top">${this.bp}</div>
 								<div class="subitem_foot">气压</div>
 							</div>
 						</div>

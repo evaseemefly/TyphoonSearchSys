@@ -10,7 +10,10 @@
     "allowJs": true,
     "importHelpers": true,
     "moduleResolution": "node",
+    // 启用 vue-class-component 及 vuex-class 需要开启此选项
     "experimentalDecorators": true,
+    // 启用 vuex-class 需要开启此选项
+    "strictFunctionTypes": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,

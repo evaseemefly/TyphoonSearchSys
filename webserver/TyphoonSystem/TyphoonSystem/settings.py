@@ -35,21 +35,29 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 允许跨域
+    'corsheaders',
     # "django_mongoengine",
     'Typhoon'
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True
 MIDDLEWARE = [
+<<<<<<< HEAD
     'corsheaders.middleware.CorsMiddleware',
+=======
+
+>>>>>>> 95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -58,6 +66,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'TyphoonSystem.urls'
+
+# 跨域增加忽略
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {
@@ -136,6 +149,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 default_typhoon_code = "(nameless)"
+# 为查询station而设置的tpyhoon code
+DEFAULT_TYPHOON_CODE_BYSTATION = "default"
+
+DEFAULT_TYPHOON_DATE='1700-1-1'
+
+
+# mongodb中保存stationtidedata的document的名字
+MONGO_STATIONTIDEDATA_DOCUMENT_NAME = 'geostationtidedata'
 
 # 使用mongoengine
 # TODO [*] 此处暂时注释掉，不然会报错，稍后解决
