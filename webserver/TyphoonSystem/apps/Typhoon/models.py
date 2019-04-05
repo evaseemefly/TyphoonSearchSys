@@ -3,7 +3,7 @@ from django.db import models
 # from django_mongodb_engine.contrib import MongoDBManager
 # from mongoengine import Document, EmbeddedDocument, fields
 # 使用djongo
-from djongo import models
+# from djongo import models
 
 # 引入mongoengine
 from mongoengine import *
@@ -27,11 +27,27 @@ class Point(EmbeddedDocument):
     lon = FloatField()
 
 
+# class GeoTyphoonRealData(Document):
+#     '''
+#         支持geojson的存储至mongodb的model
+#     '''
+#     code = StringField(max_length=10)
+#     date = DateTimeField()
+#     bp = FloatField()
+#     wsm = FloatField()
+#     # 注意此处与django中的类型不同，django的类型为IntegerField，mongoengine为IntField！
+#     level = IntField()
+#     # latlon=models.ForeignKey(Point,on_delete=models.CASCADE)
+#     latlon = PointField()
+#     meta = {'collection': 'geotyphoonrealdata'}
+#     # object=MongoDBManager()
+# TODO [-] 19-04-05 加入了num（台风编号——数字）
 class GeoTyphoonRealData(Document):
     '''
         支持geojson的存储至mongodb的model
     '''
     code = StringField(max_length=10)
+    num = StringField()
     date = DateTimeField()
     bp = FloatField()
     wsm = FloatField()
@@ -40,7 +56,9 @@ class GeoTyphoonRealData(Document):
     # latlon=models.ForeignKey(Point,on_delete=models.CASCADE)
     latlon = PointField()
     meta = {'collection': 'geotyphoonrealdata'}
-    # object=MongoDBManager()
+
+    def __str__(self):
+        return f'code:{self.code}|num:{self.num}|date:{self.date}|bp:{self.bp}|wsm:{self.wsm}|level:{self.level}|latlon:{self.latlon}'
 
 
 class Extremum(EmbeddedDocument):
