@@ -71,6 +71,6 @@ export default class right_bar extends Vue {
   /* position: relative; */
   order: -1;
   flex: 1;
-  display: none;
+  /* display: none; */
 }
 </style>
