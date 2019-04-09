@@ -4,3 +4,5 @@ webclient/package-lock.json
 /webserver/venv
 /webserver/typhoon_venv
 /byJupyter/.ipynb_checkpoints
+/byJupyter/myproj/.idea
+/byJupyter/.ipynb_checkpoints

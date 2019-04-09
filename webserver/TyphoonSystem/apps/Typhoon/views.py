@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
 from django.http import HttpRequest,HttpResponse,JsonResponse
-
+from django.utils.decorators import method_decorator
 from mongoengine import *
 
 from TyphoonSystem import settings
@@ -18,10 +18,13 @@ import json
 # 引入mongoengine
 # import mongoengineFilterByMonth
 
+# 引入自己的组件
 from .models import *
 from .serializers import *
 from .middle_models import *
 from common import dateCommon
+from .view_decorator import *
+
 
 
 # Create your views here.
@@ -60,7 +63,7 @@ class StationTideDataListView(APIView):
     '''
         根据code以及date获取测站的数据
     '''
-
+    @method_decorator(convert_num2code)
     def get(self, request):
         '''
 
@@ -210,6 +213,8 @@ class FilterByRange(BaseView):
         latlons = list(map(lambda x: float(x), latlons))
 
         range = int(request.GET.get('range'))
+
+
         # 获取去重后的code list
         codes = self.getTyphoonList(latlon=latlons, range=range)
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
