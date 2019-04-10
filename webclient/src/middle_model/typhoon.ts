@@ -1,3 +1,4 @@
+import { IStation } from '@/interface/map/map.ts';
 // 台风 middel model
 import { TyphoonCircleStatus } from '@/common/Status.ts'
 import fecha from 'fecha'
@@ -141,8 +142,41 @@ class TideRealData_Mid_Model {
   }
 }
 
+class StationData_Mid_Model implements IStation {
+  public code:string
+  public startdate:Date
+  public stationname:string
+  public  jw:number
+  public  lev:number
+  public point:any
+  public tide: number //潮位
+  public get latlon(){
+    return [this.point.coordinates[1],this.point.coordinates[0]]
+  }
+
+  //
+  constructor(
+    code:string,
+    startdate:Date,
+    stationname:string,
+    jw:number,
+    lev:number,
+    point:any,
+    tide: number,
+  ) {
+    this.stationname = stationname
+    this.code = code
+    this.point = point
+    this.startdate = startdate
+    this.jw = jw
+    this.lev = lev
+    this.tide=tide
+  }
+}
+
 export {
   TyphoonData_Mid_Model,
   MeteorologyRealData_Mid_Model,
-  TideRealData_Mid_Model
+  TideRealData_Mid_Model,
+  StationData_Mid_Model
 }

@@ -38,13 +38,17 @@
           <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
             <table class="table table-bordered" border="1">
               <tr>
-                <td class="station_name" rowspan="2">{{station.name}}</td>
-                <td class="surge">{{station.ws}}</td>
-                <td class="surge">{{station.wd}}</td>
+                <td class="station_name" rowspan="3">{{station.stationname}}</td>
+                <td class="surge">平均潮位</td>
+                <td class="surge">{{station.lev}}</td>
               </tr>
               <tr>
-                <td class="tide">{{station.ybg}}</td>
-                <td class="tide">{{station.bx}}</td>
+                <td class="tide">警戒潮位</td>
+                <td class="tide">{{station.jw}}</td>
+              </tr>
+              <tr>
+                <td class="tide">实测潮位</td>
+                <td class="tide">{{station.tide}}</td>
               </tr>
             </table>
           </div>
@@ -53,7 +57,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">时间</div>
-                <div class="col-md-8">{{station.date|formatDate}}</div>
+                <div class="col-md-8">{{station.startdate|formatDate}}</div>
               </div>
               <div class="row">
                 <div class="col-md-4">风向</div>
@@ -116,7 +120,8 @@ import {
 
 import {
   MeteorologyRealData_Mid_Model,
-  TideRealData_Mid_Model
+  TideRealData_Mid_Model,
+  StationData_Mid_Model
 } from "@/middle_model/typhoon.ts";
 // 底部rangeslider
 import RangeSlider from "@/views/member/slider/rangeSlider.vue";
@@ -132,7 +137,7 @@ import {
 } from "@/middle_model/common.ts";
 
 // 引入数据格式规范接口
-import { IStation } from "@/interface/map/map.ts";
+import { IStation, IForecast } from "@/interface/map/map.ts";
 
 // import "leaflet-tilelayer-mbtiles-ts";
 // import "leaflet-tilelayer-mbtiles";
@@ -199,7 +204,8 @@ export default class center_map_range extends Vue {
   typhoon_code_list: Array<DataList_Mid_Model> = [];
   // 是否显示台风列表
   is_show_typhoon_list: boolean = false;
-  station_tide_list: Array<TideRealData_Mid_Model> = []; //测站潮位测值列表
+  // TODO [*] 19-04-10
+  station_tide_list: Array<IStation> = []; //测站潮位测值列表
   select_station_index: number = -1; // 选中的海洋站序号（需要切换对应海洋站的两个div的显示于隐藏）
   station_div_icon_option_hidden: any = {
     zIndexOffset: 10
@@ -649,8 +655,8 @@ export default class center_map_range extends Vue {
         res.data.map(temp => {
           // console.log(temp);
           try {
-            var temp_forecast = temp.forecast;
-            var temp_station:IStation = temp.station;
+            var temp_forecast:IForecast = temp.forecast;
+            var temp_station: IStation = temp.station;
             // "1956-09-02T18:00:00Z"
             // console.log(temp_forecast.occurred)
             // console.log(fecha.parse(temp_forecast.occurred,'YY-MM-DD HH:mm:ss'))
@@ -659,17 +665,26 @@ export default class center_map_range extends Vue {
               temp_station.point.coordinates[0]
             ];
             myself.station_tide_list.push(
-              new TideRealData_Mid_Model(
-                temp_station.stationname,
+              // new (
+              //   temp_station.stationname,
+              //   temp_station.code,
+              //   latlon,
+              //   new Date(temp_forecast.occurred),
+              //   null,
+              //   temp_forecast.val,
+              //   null,
+              //   null,
+              //   null,
+              //   temp_station.code
+              // )
+              new StationData_Mid_Model(
                 temp_station.code,
-                latlon,
                 new Date(temp_forecast.occurred),
-                null,
-                temp_forecast.val,
-                null,
-                null,
-                null,
-                temp_station.code
+                temp_station.stationname,
+                temp_station.jw,
+                temp_station.lev,
+                temp_station.point,
+                temp_forecast.val
               )
             );
           } catch (error) {}
@@ -839,7 +854,7 @@ export default class center_map_range extends Vue {
 
 #station_form {
   /* border: 2px solid white; */
-  width: 180px;
+  width:  290px;
   display: inline-block;
   /* background: rgba(50, 124, 164, 0.829); */
   background: #2c3e50;
@@ -887,7 +902,7 @@ export default class center_map_range extends Vue {
 }
 
 #station_form table tr td {
-  width: 50px;
+  width: 100px;
 }
 
 #station_detail {
