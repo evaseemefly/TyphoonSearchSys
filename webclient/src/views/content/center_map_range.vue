@@ -22,6 +22,7 @@
       <l-circle :lat-lng="targetMarkerLatLon" :weight="4" :radius="range"/>
 
       <!-- 海洋站的div以及table样式 -->
+      <!-- TODO 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
       <l-marker
         v-for="(station,index) in station_tide_list"
         :key="station.id"
@@ -30,8 +31,9 @@
         @mouseout="upZIndex(station)"
         :options="icon_div_station_option"
         :zIndexOffset="getIconStationZIndex(index,station)"
+        :icon="icon_marker"
       >
-        <!-- TODO 准备注释掉，提取出来为一个子组件 -->
+        <!-- TODO 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
         <l-icon :options="icon_div_station_option">
           <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
             <table class="table table-bordered" border="1">
@@ -86,7 +88,7 @@
           :station="station"
           :is_show="index!=select_station_index"
           :is_show_detial="index==select_station_index"
-        ></StationIcon> -->
+        ></StationIcon>-->
       </l-marker>
     </l-map>
     <!-- <div id="basemap">
@@ -129,6 +131,9 @@ import {
   TyphoonRealBase_Mid_Model
 } from "@/middle_model/common.ts";
 
+// 引入数据格式规范接口
+import { IStation } from "@/interface/map/map.ts";
+
 // import "leaflet-tilelayer-mbtiles-ts";
 // import "leaflet-tilelayer-mbtiles";
 
@@ -152,6 +157,7 @@ import {
   LIcon
 } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
+import fechaObj from "fecha";
 
 @Component({
   components: {
@@ -162,7 +168,7 @@ import { DivIcon, DivIconOptions } from "leaflet";
     "l-circle": LCircle,
     "l-icon": LIcon,
     RangeSlider,
-    TyphoonList,
+    TyphoonList
     // StationIcon
   },
   filters: {
@@ -401,12 +407,16 @@ export default class center_map_range extends Vue {
     //4 暂时添加一个divIcon的测试
     // this.addTestDiv2Map();
   }
-  //加载指定台风，指定时刻的所有测站div
+  // TODO [-] 不再使用！加载指定台风，指定时刻的所有测站div
   loadStationDivs(): void {
     var myself = this;
     this.station_tide_list.map(temp => {
       // myself.addStationDiv2Map(temp);
     });
+  }
+  // 清除测站的divIcon
+  clearStationDivs(): void {
+    this.station_tide_list = [];
   }
   addTestDiv2Map(): void {
     [18.3, 119.5];
@@ -592,23 +602,7 @@ export default class center_map_range extends Vue {
         包含code,date
         根据code以及date加载该台风该时刻的台站数据
       */
-
     //以下为模拟的台站数据
-    this.station_tide_list.push(
-      new TideRealData_Mid_Model(
-        "大陈",
-        "code_1",
-        [19.1, 114.2],
-        new Date(),
-        5.3,
-        6.6,
-        20,
-        122,
-        310,
-        "dachen"
-      )
-    );
-    this.loadStationDivs();
   }
 
   // TODO [-] 19-03-23 监听由vuex更新的targetTyphoon（当前选择的台风）
@@ -648,7 +642,40 @@ export default class center_map_range extends Vue {
   onTargetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
     var myself = this;
     loadStationTideDataList(val).then(res => {
-      console.log(res.data);
+      // console.log(res.data);
+      // TODO [*] 19-04-10 当前的试试台风（含date）被修改后获取后台范围的该台风此时的测站数据列表，并psu至this.station_tide_list中
+      if (res.status == 200) {
+        myself.clearStationDivs();
+        res.data.map(temp => {
+          // console.log(temp);
+          try {
+            var temp_forecast = temp.forecast;
+            var temp_station:IStation = temp.station;
+            // "1956-09-02T18:00:00Z"
+            // console.log(temp_forecast.occurred)
+            // console.log(fecha.parse(temp_forecast.occurred,'YY-MM-DD HH:mm:ss'))
+            var latlon: number[] = [
+              temp_station.point.coordinates[1],
+              temp_station.point.coordinates[0]
+            ];
+            myself.station_tide_list.push(
+              new TideRealData_Mid_Model(
+                temp_station.stationname,
+                temp_station.code,
+                latlon,
+                new Date(temp_forecast.occurred),
+                null,
+                temp_forecast.val,
+                null,
+                null,
+                null,
+                temp_station.code
+              )
+            );
+          } catch (error) {}
+        });
+        // myself.loadStationDivs();
+      }
     });
   }
   // @Watch("")

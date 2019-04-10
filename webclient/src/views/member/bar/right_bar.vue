@@ -5,7 +5,7 @@
       <!-- <h5>自定义颜色</h5> -->
       <!-- 注意此处有一个bug，未实现handleopen与handleClose方法，暂时不用两个方法 -->
       <!-- 备份 -->
-      <!-- <el-menu
+      <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
         @open="handleOpen"
@@ -13,14 +13,14 @@
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
-      > -->
-      <el-menu
+      >
+      <!-- <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
-      >
+      > -->
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
@@ -72,6 +72,10 @@ export default class right_bar extends Vue {
   onClick(): void {
     window.alert(this.message);
   }
+  handleOpen():void{
+
+  }
+  handleClose():void{}
 }
 </script>
 
