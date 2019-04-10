@@ -1,4 +1,4 @@
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,date
 import calendar
 import datetime as superdatetime
 import dateutil
@@ -84,18 +84,60 @@ class StationTideDataListView(APIView):
         targetdate = dateutil.parser.parse(date_str)
         # targetdate = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
         print(targetdate)
+        print(code)
         # 2- 获取geostationtidedate-> realtidedata
-        filter_list = StationTideData.objects(code=code, startdate=targetdate)
+        # filter_list = StationTideData.objects(code=code, startdate=targetdate)
+        filter_list=self.getStationTargetRealData(targetdate,code)
 
-        # 2.1找到每一个测站的极值及出现时间
-        list_data = []
-        for temp in filter_list:
-            max_data = self.dataListMax(temp, targetdate)
-            list_data.append(StationTideMaxMidModel(temp, max_data))
-            # list_data.append(StationTideMidModel(temp,self.getTargetDateRealData(temp,targetdate,days=0)))
-            # list_tide.extend()
-        json_data = StationTideMaxMidModelSerializer(list_data, many=True).data
+        # TODO 暂时不再使用（19-04-10） 2.1找到每一个测站的极值及出现时间
+        # list_data = []
+        # for temp in filter_list:
+        #     max_data = self.dataListMax(temp, targetdate)
+        #     list_data.append(StationTideMaxMidModel(temp, max_data))
+        #     # list_data.append(StationTideMidModel(temp,self.getTargetDateRealData(temp,targetdate,days=0)))
+        #     # list_tide.extend()
+        # json_data = StationTideMaxMidModelSerializer(list_data, many=True).data
+        json_data=StationTideIncludeForecastMidModelSerializer(filter_list,many=True).data
         return Response(json_data)
+
+    def getStationTargetRealData(self,targetdatetime:datetime,code:str)->[]:
+        '''
+            根据时间获取该时间该台风的测站数据
+        :param date:
+        :return:
+        '''
+        # 找到当天的数据
+        targetdate=date(targetdatetime.year,targetdatetime.month,targetdatetime.day)
+        list=StationTideData.objects(code=code,startdate=targetdate)
+        # 从返回的测站数据中找到对应的时刻
+        def getTargetMoment(moment:datetime, realdate:StationTideData)->StationTideForecastMidModel:
+            '''
+                根据指定时刻，从当前的测站数据中找到对应时刻的观测值
+            :param moment:
+            :param realdate:
+            :return:
+            '''
+
+            '''
+                思路：
+                    
+            '''
+            date_moment=date(moment.year, moment.month, moment.day)
+            hour_moment=moment.hour
+            datetime_moment=datetime(moment.year,moment.month,moment.day,moment.hour,0)
+            temp_realtidedata=[temp for temp in realdate.realtidedata if temp.targetdate==date_moment]
+            if len(temp_realtidedata)>0:
+                return StationTideForecastMidModel(temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],datetime_moment)
+                # return temp_realtidedata[0].forecastdata.forecast_arr[hour_moment]
+            else:
+                return None
+        list_StationForecast=[]
+        if len(list)>0:
+            for temp in list:
+                list_StationForecast.append(StationTideIncludeForecastMidModel(temp,getTargetMoment(targetdatetime,temp)))
+                # print(getTargetMoment(targetdatetime,temp))
+                # print(temp)
+        return list_StationForecast
 
     #  [-] 获取传入的实时数据的返回极值时刻(暂时不实现)
     def dataListMax(self, data: StationTideData, date: datetime.date) -> TideRealMidModel:
@@ -110,7 +152,7 @@ class StationTideDataListView(APIView):
         max_data = max(list, key=lambda x: x.val)
         return max_data
 
-    #  [-] 19-04-02 未完成
+    #  TODO [-] 19-04-02 未完成
     def getTargetDateRealData(self, data: StationTideData, date: datetime.date, **kwargs) -> []:
         '''
             根据时间获取该时刻的观测值list

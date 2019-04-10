@@ -48,6 +48,7 @@
         :options="icon_div_station_option"
         :zIndexOffset="getIconStationZIndex(index,station)"
       >
+        <!-- TODO 准备注释掉，提取出来为一个子组件 -->
         <l-icon :options="icon_div_station_option">
           <div
             id="station_form"
@@ -147,6 +148,8 @@ import {
 import RangeSlider from "@/views/member/slider/rangeSlider.vue";
 // 台风列表
 import TyphoonList from "@/views/member/secondBar/typhoonListBar.vue";
+// 海洋站icon
+import StationIcon from "@/views/member/map/station_icon.vue";
 // 引入公共的枚举
 import { TyphoonCircleStatus } from "@/common/Status.ts";
 import {
@@ -188,6 +191,7 @@ import { DivIcon, DivIconOptions } from "leaflet";
     "l-icon": LIcon,
     RangeSlider,
     TyphoonList
+    // StationIcon
   },
   filters: {
     // TODO 时间格式化
@@ -201,7 +205,8 @@ import { DivIcon, DivIconOptions } from "leaflet";
 })
 export default class center_map_range extends Vue {
   zoom: number = 5;
-  center: any = [30.09, 127.75];
+  // center: any = [30.09, 127.75];
+  center: any = [17.6,131.6];
   url: string = "/mapfiles/{z}/{x}/{y}.jpg";
   typhoon_data: MeteorologyRealData_Mid_Model[] = null;
   // mymap: any = null; // 地图
@@ -697,7 +702,7 @@ export default class center_map_range extends Vue {
     var myself = this;
     var opt = this.station_div_icon_option_show;
 
-    console.log(val);
+    // console.log(val);
     var zIndex = opt.zIndexOffset;
     // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
     if (myself.select_station_index === index) {

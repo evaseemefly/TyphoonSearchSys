@@ -34,3 +34,22 @@ class StationTideMaxMidModel:
     def __init__(self,station:StationTideData,tide:TideRealMidModel):
         self.station=station
         self.tide=tide
+
+class StationTideForecastMidModel:
+    '''
+        StationTideData->realtidedata->forecastdata->forecast_arr中的一个值
+    '''
+    __slots__ = ['occurred','val']
+    def __init__(self,val:str,moment:datetime.datetime):
+        self.val=val
+        self.occurred=moment
+
+class StationTideIncludeForecastMidModel:
+    '''
+        TODO 补充备注
+    '''
+    __slots__ = ['station', 'forecast']
+    def __init__(self,station:StationTideData,forecast:StationTideForecastMidModel):
+        self.station=station
+        self.forecast=forecast
+

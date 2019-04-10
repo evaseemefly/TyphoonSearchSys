@@ -44,6 +44,10 @@ class TideRealMidModelSerializer(serializers.Serializer):
     val = serializers.IntegerField()
     occurred = serializers.DateTimeField()
 
+# class TideRealMidModelSerializer(serializers.Serializer):
+#     val = serializers.IntegerField()
+#     occurred = serializers.DateTimeField()
+
 class StationTideMidModelSerializer(serializers.Serializer):
 
         station=StationTideDataModelSerializer()
@@ -53,3 +57,11 @@ class StationTideMidModelSerializer(serializers.Serializer):
 class StationTideMaxMidModelSerializer(serializers.Serializer):
     station = StationTideDataModelSerializer()
     tide = TideRealMidModelSerializer()
+
+class StationTideIncludeForecastMidModelSerializer(serializers.Serializer):
+    '''
+        StationTideIncludeForecastMidModel
+    '''
+    station=StationTideDataModelSerializer()
+    forecast=TideRealMidModelSerializer()
+

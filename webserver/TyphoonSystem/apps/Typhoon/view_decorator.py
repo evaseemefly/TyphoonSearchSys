@@ -22,6 +22,10 @@ def convert_num2code(func):
         try:
             code = request.GET.get('code', None)
             num=GeoTyphoonRealData.objects(code=code).first()
+            if num is not None:
+                num=num.num
+            request.GET=request.GET.copy()
+            request.GET['code']=num
             return func(request, *args, **kwargs)
         except ObjectDoesNotExist:
             raise Http404()
