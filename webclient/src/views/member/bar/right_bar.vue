@@ -3,11 +3,20 @@
     <!-- 此处使用bt的手风琴效果实现 -->
     <el-col :span="4">
       <!-- <h5>自定义颜色</h5> -->
-      <el-menu
+      <!-- 注意此处有一个bug，未实现handleopen与handleClose方法，暂时不用两个方法 -->
+      <!-- 备份 -->
+      <!-- <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
+        background-color="#545c64"
+        text-color="#fff"
+        active-text-color="#ffd04b"
+      > -->
+      <el-menu
+        default-active="2"
+        class="el-menu-vertical-demo"
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
