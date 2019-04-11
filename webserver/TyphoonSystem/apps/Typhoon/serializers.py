@@ -41,7 +41,15 @@ class StationTideDataModelSerializer(serializers.Serializer):
     harmonicconstant = serializers.CharField()
 
 class TideRealMidModelSerializer(serializers.Serializer):
+    '''
+        暂时不再使用，由 TideAllMidModelSerializer 替代
+    '''
     val = serializers.IntegerField()
+    occurred = serializers.DateTimeField()
+
+class TideAllMidModelSerializer(serializers.Serializer):
+    val_forecast = serializers.IntegerField()
+    val_real = serializers.IntegerField()
     occurred = serializers.DateTimeField()
 
 # class TideRealMidModelSerializer(serializers.Serializer):
@@ -61,7 +69,15 @@ class StationTideMaxMidModelSerializer(serializers.Serializer):
 class StationTideIncludeForecastMidModelSerializer(serializers.Serializer):
     '''
         StationTideIncludeForecastMidModel
+        暂时不使用，由 StationTideIncludeAllMidModelSerializer 替代
     '''
     station=StationTideDataModelSerializer()
     forecast=TideRealMidModelSerializer()
+
+class StationTideIncludeAllMidModelSerializer(serializers.Serializer):
+    '''
+        StationTideIncludeForecastMidModel
+    '''
+    station=StationTideDataModelSerializer()
+    forecast=TideAllMidModelSerializer()
 

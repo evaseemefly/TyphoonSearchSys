@@ -44,12 +44,31 @@ class StationTideForecastMidModel:
         self.val=val
         self.occurred=moment
 
+class StationTideRealMidModel:
+    '''
+        StationTideData->realtidedata->forecastdata->forecast_arr中的一个值
+    '''
+    __slots__ = ['occurred','val']
+    def __init__(self,val:str,moment:datetime.datetime):
+        self.val=val
+        self.occurred=moment
+
+class StationTideAllDataMidModel:
+    '''
+        StationTideData->realtidedata->forecastdata->forecast_arr中的一个值
+    '''
+    __slots__ = ['occurred','val_forecast','val_real']
+    def __init__(self,val_forecast:str,val_real:str,moment:datetime.datetime):
+        self.val_forecast=val_forecast
+        self.val_real=val_real
+        self.occurred=moment
+
 class StationTideIncludeForecastMidModel:
     '''
         TODO 补充备注
     '''
     __slots__ = ['station', 'forecast']
-    def __init__(self,station:StationTideData,forecast:StationTideForecastMidModel):
+    def __init__(self,station:StationTideData,forecast:StationTideAllDataMidModel):
         self.station=station
         self.forecast=forecast
 

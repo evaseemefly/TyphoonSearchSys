@@ -38,18 +38,18 @@
           <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
             <table class="table table-bordered" border="1">
               <tr>
-                <td class="station_name" rowspan="3">{{station.stationname}}</td>
-                <td class="surge">平均潮位</td>
-                <td class="surge">{{station.lev}}</td>
+                <td class="station_name" rowspan="2">{{station.stationname}}</td>
+                <td class="surge title">实测</td>
+                <td class="surge">{{station.tide}}</td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td class="tide">警戒潮位</td>
                 <td class="tide">{{station.jw}}</td>
-              </tr>
+              </tr>-->
               <tr>
-                <td class="tide">实测潮位</td>
-                <td class="tide">{{station.tide}}</td>
-              </tr>
+                <td class="tide">预报</td>
+                <td class="tide">{{station.tide_forecast}}</td>
+              </tr> 
             </table>
           </div>
           <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
@@ -304,22 +304,12 @@ export default class center_map_range extends Vue {
 
   // TODO [*] 最终要去掉
   loadTyphoonData(): void {
-    // 此处只做模拟
+    // 此处只做模拟    
     this.typhoon_realdata_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
         new Date(),
-        // [30.09, 127.75],
-        [12.5, 115.4],
-        1001.2,
-        1
-      )
-    );
-    this.typhoon_realdata_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [13.5, 116.0],
+        [17.6, 131.6],
         1001.2,
         1.5
       )
@@ -649,7 +639,7 @@ export default class center_map_range extends Vue {
     var myself = this;
     loadStationTideDataList(val).then(res => {
       // console.log(res.data);
-      // TODO [*] 19-04-10 当前的试试台风（含date）被修改后获取后台范围的该台风此时的测站数据列表，并psu至this.station_tide_list中
+      // TODO [*] 19-04-10 当前的实时台风（含date）被修改后获取后台范围的该台风此时的测站数据列表，并psu至this.station_tide_list中
       if (res.status == 200) {
         myself.clearStationDivs();
         res.data.map(temp => {
@@ -684,7 +674,8 @@ export default class center_map_range extends Vue {
                 temp_station.jw,
                 temp_station.lev,
                 temp_station.point,
-                temp_forecast.val
+                temp_forecast.val_real,
+                temp_forecast.val_forecast
               )
             );
           } catch (error) {}
@@ -854,7 +845,7 @@ export default class center_map_range extends Vue {
 
 #station_form {
   /* border: 2px solid white; */
-  width:  290px;
+  width:  220px;
   display: inline-block;
   /* background: rgba(50, 124, 164, 0.829); */
   background: #2c3e50;
@@ -886,11 +877,13 @@ export default class center_map_range extends Vue {
 #station_form .station_name {
   padding-top: 2px;
   padding-bottom: 2px;
+  width: 150px!important;
+  word-break: break-all;
 }
 
 #station_form .surge {
   background: rgba(5, 213, 140, 0.646);
-  color: rgba(43, 33, 108, 0.872);
+  color: rgba(227, 238, 70, 0.872);
   padding-top: 2px !important;
   padding-bottom: 2px !important;
 }
@@ -901,8 +894,12 @@ export default class center_map_range extends Vue {
   padding-bottom: 2px !important;
 }
 
+#station_form .title{
+  width: 100px !important;
+}
+
 #station_form table tr td {
-  width: 100px;
+  width: 80px;
 }
 
 #station_detail {

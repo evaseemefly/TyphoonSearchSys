@@ -149,7 +149,8 @@ class StationData_Mid_Model implements IStation {
   public  jw:number
   public  lev:number
   public point:any
-  public tide: number //潮位
+  public tide: number         // 实测潮位
+  public tide_forecast:number // 预报潮位
   public get latlon(){
     return [this.point.coordinates[1],this.point.coordinates[0]]
   }
@@ -163,6 +164,7 @@ class StationData_Mid_Model implements IStation {
     lev:number,
     point:any,
     tide: number,
+    tide_forecast:number
   ) {
     this.stationname = stationname
     this.code = code
@@ -171,6 +173,7 @@ class StationData_Mid_Model implements IStation {
     this.jw = jw
     this.lev = lev
     this.tide=tide
+    this.tide_forecast=tide_forecast
   }
 }
 

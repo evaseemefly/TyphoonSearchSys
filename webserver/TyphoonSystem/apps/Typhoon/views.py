@@ -97,7 +97,10 @@ class StationTideDataListView(APIView):
         #     # list_data.append(StationTideMidModel(temp,self.getTargetDateRealData(temp,targetdate,days=0)))
         #     # list_tide.extend()
         # json_data = StationTideMaxMidModelSerializer(list_data, many=True).data
-        json_data=StationTideIncludeForecastMidModelSerializer(filter_list,many=True).data
+
+
+        # json_data=StationTideIncludeForecastMidModelSerializer(filter_list,many=True).data
+        json_data = StationTideIncludeAllMidModelSerializer(filter_list, many=True).data
         return Response(json_data)
 
     def getStationTargetRealData(self,targetdatetime:datetime,code:str)->[]:
@@ -110,7 +113,7 @@ class StationTideDataListView(APIView):
         targetdate=date(targetdatetime.year,targetdatetime.month,targetdatetime.day)
         list=StationTideData.objects(code=code,startdate=targetdate)
         # 从返回的测站数据中找到对应的时刻
-        def getTargetMoment(moment:datetime, realdate:StationTideData)->StationTideForecastMidModel:
+        def getTargetMoment(moment:datetime, realdate:StationTideData)->StationTideAllDataMidModel:
             '''
                 根据指定时刻，从当前的测站数据中找到对应时刻的观测值
             :param moment:
@@ -126,8 +129,15 @@ class StationTideDataListView(APIView):
             hour_moment=moment.hour
             datetime_moment=datetime(moment.year,moment.month,moment.day,moment.hour,0)
             temp_realtidedata=[temp for temp in realdate.realtidedata if temp.targetdate==date_moment]
+            # temp_forecasttidedata=[temp for temp in realdate.forecastdata if temp.targetdate==date_moment]
             if len(temp_realtidedata)>0:
-                return StationTideForecastMidModel(temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],datetime_moment)
+                # TODO 19-04-11 此处修改
+                return StationTideAllDataMidModel(
+                    temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],
+                    temp_realtidedata[0].realdata.realdata_arr[hour_moment],
+                    datetime_moment
+                )
+                # return StationTideForecastMidModel(temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],datetime_moment)
                 # return temp_realtidedata[0].forecastdata.forecast_arr[hour_moment]
             else:
                 return None
