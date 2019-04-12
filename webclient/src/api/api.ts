@@ -30,7 +30,13 @@ export interface ITyphoonRealBaseParams {
   date: Date
 }
 
-export const loadTyphoonList = (par: ITyphoonParams) => {
+export /**
+ *
+ *
+ * @param {ITyphoonParams} par
+ * @returns
+ */
+const loadTyphoonList = (par: ITyphoonParams) => {
   let typhoonlistUrl = `${host}/gis/filter/range/`
   return axios.get(typhoonlistUrl, {
     params: par
