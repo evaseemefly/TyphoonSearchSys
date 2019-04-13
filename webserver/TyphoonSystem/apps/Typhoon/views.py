@@ -83,8 +83,8 @@ class StationTideDataListView(APIView):
         date_str = request.GET.get("date", settings.DEFAULT_TYPHOON_DATE)
         targetdate = dateutil.parser.parse(date_str)
         # targetdate = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
-        print(targetdate)
-        print(code)
+        # print(targetdate)
+        # print(code)
         # 2- 获取geostationtidedate-> realtidedata
         # filter_list = StationTideData.objects(code=code, startdate=targetdate)
         filter_list=self.getStationTargetRealData(targetdate,code)

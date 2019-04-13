@@ -43,7 +43,7 @@
       <l-marker
         v-for="(station,index) in station_tide_list"
         :key="station.id"
-        :lat-lng="station.latlon"
+        :lat-lng="station.point|formatPoint"
         @click="changeStationIndex(index)"
         @mouseover="upZIndex(index,station)"
         @mouseout="downZindex(index,station)"
@@ -51,7 +51,6 @@
         :zIndexOffset="getIconStationZIndex(index,station)"
         :icon="icon_marker"
       >
-        <!-- TODO: 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
         <l-icon :options="icon_div_station_option">
           <div
             id="station_form"
@@ -64,19 +63,18 @@
             >
               <tr>
                 <td
-                  class="station_name"
+                  :class="[getStationAlarmClass(station),'station_name']"
                   rowspan="2"
                 >{{station.stationname}}</td>
-                <td class="surge title">实测</td>
-                <td class="surge">{{station.tide}}</td>
+                <td class="surge title">警戒</td>
+                <td class="surge">{{station.jw}}</td>
               </tr>
-              <!-- <tr>
-                <td class="tide">警戒潮位</td>
-                <td class="tide">{{station.jw}}</td>
-              </tr>-->
               <tr>
-                <td class="tide">预报</td>
-                <td class="tide">{{station.tide_forecast}}</td>
+                <td class="tide">潮位</td>
+                <td
+                  
+                  :class="getStationAlarmClass(station)"
+                >{{station.tide}}</td>
               </tr>
             </table>
           </div>
@@ -118,13 +116,21 @@
             </div>
           </div>
         </l-icon>
-
+        <!-- TODO: 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
         <!-- <StationIcon
           :icon_div_station_option="icon_div_station_option"
           :station="station"
           :is_show="index!=select_station_index"
           :is_show_detial="index==select_station_index"
         ></StationIcon>-->
+      </l-marker>
+      <!-- TODO: [-] 19-04-13 在station icon旁边加入marker -->
+      <l-marker
+        v-for="(station) in station_tide_list"
+        :key="station.id"
+        :lat-lng="station.point|formatPoint"
+        :icon="icon_marker"
+      >
       </l-marker>
     </l-map>
     <!-- <div id="basemap">
@@ -170,6 +176,8 @@ import {
   DataList_Mid_Model,
   TyphoonRealBase_Mid_Model
 } from "@/middle_model/common.ts";
+// 引入枚举
+import { AlarmLevel } from "@/common/enum/map.ts";
 
 // 引入数据格式规范接口
 import { IStation, IForecast } from "@/interface/map/map.ts";
@@ -211,11 +219,18 @@ import fechaObj from "fecha";
     TyphoonList
     // StationIcon
   },
+  // 自定义过滤器
   filters: {
     // TODO: 时间格式化
     formatDate(date: Date): String {
       var str_format = fecha.format(date, "YY-MM-DD HH:mm:ss");
       return str_format;
+    },
+    // TODO: [*] 19-04-13 对于type 为point的过滤器，还需要加入一个对于类型的判断
+    formatPoint(point: any): Array<number> {
+      var temp = point.coordinates;
+      var latlon = [temp[1].toString(), temp[0].toString()];
+      return latlon;
     }
   }
 
@@ -235,11 +250,11 @@ export default class center_map_range extends Vue {
   latlons: Array<LatLng> = []; // 经纬度的数组(数组嵌套数组)
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = []; //台风列表
   typhoon_realdata_list: Array<MeteorologyRealData_Mid_Model> = []; // 台风气象实时数据列表
-  // TODO: [*] 19-03-21 台风 code集合
+  // TODO: [-] 19-03-21 台风 code集合
   typhoon_code_list: Array<DataList_Mid_Model> = [];
   // 是否显示台风列表
   is_show_typhoon_list: boolean = false;
-  // TODO: [*] 19-04-10
+  // TODO: [-] 19-04-10
   station_tide_list: Array<IStation> = []; //测站潮位测值列表
   select_station_index: number = -1; // 选中的海洋站序号（需要切换对应海洋站的两个div的显示于隐藏）
   // TODO: [-] 19-04-12 鼠标移入时的station 序号（将该divicon zindex设置为最高）
@@ -258,25 +273,25 @@ export default class center_map_range extends Vue {
     return this.$store.state.map.typhoon;
   }
 
-  // TODO: [*] 当前选择的 台风实时model(由vuex获取)
+  // TODO: [-] 当前选择的 台风实时model(由vuex获取)
   get targetTyphoonRealBase(): TyphoonRealBase_Mid_Model {
     return this.$store.state.map.typhoonRealBase;
   }
 
-  // TODO: [*] 更改当前的 台风实时model(存在vuex中)
+  // TODO: [-] 更改当前的 台风实时model(存在vuex中)
   set targetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
     this.$store.commit("typhoonRealBase", val);
   }
 
   // markerLatLng: [47.31322, -1.319482];
-  // TODO: [*] 19-03-21 点击的marker
+  // TODO: [-] 19-03-21 点击的marker
   targetMarkerLatLon: number[] = [47.31322, -1.319482];
   station_div_icon_option_show: any = {
     zIndexOffset: 199,
     iconAnchor: [-20, 30] //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
   };
 
-  // TODO: [*] 19-03-21 由子组件触发的根据lat,lon,range从后台获取typhoonlist的方法
+  // TODO: [-] 19-03-21 由子组件触发的根据lat,lon,range从后台获取typhoonlist的方法
   loadTyphoonListByRange(): void {
     var myself = this;
     var range: number = this.range;
@@ -329,7 +344,7 @@ export default class center_map_range extends Vue {
 
   // color: Color = Color.red;
 
-  // TODO:: [*] 19-03-21 鼠标在地图上点击后，加载marker
+  // TODO: [-] 19-03-21 鼠标在地图上点击后，加载marker
   createMarker(event: any): void {
     // 鼠标点击地图上后，向该位置加入一个marker
     this.targetMarkerLatLon = [
@@ -337,6 +352,38 @@ export default class center_map_range extends Vue {
       event.latlng.lng.toFixed(4)
     ];
     this.is_show_typhoon_list = false;
+  }
+
+  // TODO:[*] 19-04-12 获取警报级别对应的颜色
+  getStationAlarmClass(station: StationData_Mid_Model): string {
+    let alarm_class = "";
+    // 实测潮位 - 警戒潮位
+    var abs: number = station.tide - station.jw;
+    var alarm: AlarmLevel = AlarmLevel.Green;
+    switch (true) {
+      case abs <= -300:
+        alarm = AlarmLevel.Green;
+        break;
+      // -30-0：蓝色
+      case abs < 0 && abs >= -300:
+        alarm = AlarmLevel.Blue;
+        break;
+      // 0-30：黄色
+      case abs < 300 && abs >= 0:
+        alarm = AlarmLevel.Yellow;
+        break;
+      // 30-80 橙色
+      case abs < 800 && abs >= 300:
+        alarm = AlarmLevel.Orange;
+        break;
+      // 80-无穷 红色
+      case abs > 800:
+        alarm = AlarmLevel.Red;
+        break;
+    }
+    var class_str = AlarmLevel[alarm];
+    return class_str;
+    // console.log(class_str);
   }
 
   // TODO: [*] 最终要去掉
@@ -454,7 +501,7 @@ export default class center_map_range extends Vue {
   addTestDiv2Map(): void {
     [18.3, 119.5];
   }
-  // TODO: [*] 19-04-12 改变当前选中的海洋站的编号
+  // TODO: [-] 19-04-12 改变当前选中的海洋站的编号
   changeStationIndex(index: number): void {
     // console.log(val);
     var myself = this;
@@ -754,8 +801,11 @@ export default class center_map_range extends Vue {
     // console.log(val);
     var zIndex = opt.zIndexOffset;
     // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
-    //  TODO:: Toggle Done  19-04-12 此处判断加入当前hover的index的判断（or）
-    if (myself.select_station_index === index || myself.hover_station_index===index) {
+    //  TODO: Toggle Done  19-04-12 此处判断加入当前hover的index的判断（or）
+    if (
+      myself.select_station_index === index ||
+      myself.hover_station_index === index
+    ) {
       // 点击了当前海洋站，则将该海洋站的zindex设置为最高
       // opt["zIndexOffset"] = 19999;
       zIndex = 19999;
@@ -767,7 +817,7 @@ export default class center_map_range extends Vue {
     return zIndex;
   }
 
-  // TODO:: 相当于computed 
+  // TODO: 相当于computed
   get icon_div_station_option_ext() {
     var opt = this.icon_div_station_option;
     opt["zIndexOffset"] = "19999";
@@ -886,7 +936,9 @@ export default class center_map_range extends Vue {
   font-size: 0.625rem;
 }
 
-/* station div icon的样式 */
+
+/* --------------------------------- */
+/* 缩略的station div icon的样式 */
 
 #station_form {
   /* border: 2px solid white; */
@@ -939,6 +991,7 @@ export default class center_map_range extends Vue {
   padding-bottom: 2px !important;
 }
 
+
 #station_form .title {
   width: 100px !important;
 }
@@ -946,6 +999,35 @@ export default class center_map_range extends Vue {
 #station_form table tr td {
   width: 80px;
 }
+
+#station_form .Green{
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(45, 244, 174, 0.557);
+}
+#station_form .Blue{
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(41, 103, 173, 0.557);
+}
+#station_form .Yellow{
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(248, 244, 6, 0.557);
+}
+#station_form .Orange{
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(255, 158, 3, 0.557);
+}
+#station_form .Red{
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(255, 1, 1, 0.877);
+}
+
+/* ---------------------------- */
+/* 展开后的divIcon */
 
 #station_detail {
   display: inline-block;
