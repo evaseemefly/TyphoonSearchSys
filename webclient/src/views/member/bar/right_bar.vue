@@ -23,13 +23,9 @@
               <!-- 条件搜索 -->
               <router-link to="/vue2map">条件搜索</router-link>
             </el-menu-item>
-<<<<<<< HEAD
-            <el-menu-item index="/vue2map">
-              <router-link to="/vue2map">条件搜索</router-link>
-=======
+
             <el-menu-item index="/range">
-              <router-link to='/range'>范围搜索</router-link>
->>>>>>> 95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e
+              <router-link to="/range">范围搜索</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

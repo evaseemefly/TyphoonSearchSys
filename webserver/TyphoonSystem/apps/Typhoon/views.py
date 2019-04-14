@@ -1,11 +1,10 @@
-<<<<<<< HEAD
+
 from datetime import datetime,timedelta
 import calendar
 import datetime as superdatetime
-=======
-from datetime import datetime
+
 import dateutil
->>>>>>> 95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e
+
 
 from django.shortcuts import render
 from rest_framework import status
@@ -242,7 +241,6 @@ class FilterByRange(BaseView):
         latlon = kwargs.get('latlon')
         range = kwargs.get('range')
 
-<<<<<<< HEAD
         return GeoTyphoonRealData.objects(latlon__near=latlon[::-1],latlon__max_distance=range).distinct('code')
 
 
@@ -312,6 +310,4 @@ def add_months(sourcedate, months):
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year,month)[1])
     return superdatetime.date(year, month, day)
-=======
-        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('code')
->>>>>>> 95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e
+

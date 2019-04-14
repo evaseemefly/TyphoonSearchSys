@@ -3,11 +3,9 @@ from django.db import models
 # from django_mongodb_engine.contrib import MongoDBManager
 # from mongoengine import Document, EmbeddedDocument, fields
 # 使用djongo
-<<<<<<< HEAD
+
 #from djongo import models
-=======
-# from djongo import models
->>>>>>> 95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e
+
 
 # 引入mongoengine
 from mongoengine import *

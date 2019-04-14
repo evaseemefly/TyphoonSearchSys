@@ -1,45 +1,47 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Home from './views/Home.vue'
-import ConditionSearch from './views/member/secondBar/second_bar_condition_search.vue'
-import ConditionSearchByStation from './views/member/searchByStationMenu/searchByStationMenu_main.vue'
+import Vue from "vue";
+import Router from "vue-router";
+import Home from "./views/Home.vue";
+import ConditionSearch from "./views/member/secondBar/second_bar_condition_search.vue";
+import ConditionSearchByStation from "./views/member/searchByStationMenu/searchByStationMenu_main.vue";
+import IndexMap from "./views/index/index_map.vue";
+import IndexMapRange from "./views/index/index_map_range.vue";
+import About from "./views/About.vue";
+import CenterMap from "./views/content/center_map.vue";
+import Vue2MapClear from "./views/content/center_vue2map_clear.vue";
+import IndexBar from "./views/index/index_bar.vue";
+import SearchTest from "./views/Test/Search.vue";
 
-import IndexMap from './views/index/index_map.vue'
-import IndexMapRange from './views/index/index_map_range.vue'
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
-      name: 'home',
+      path: "/",
+      name: "home",
       // component: Home
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/index/index_map.vue')
+      component: IndexMap
     },
     {
-      path: '/about',
-      name: 'about',
+      path: "/about",
+      name: "about",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/About.vue')
+      component: About
     },
     {
-      path: '/map',
-      name: 'map',
+      path: "/map",
+      name: "map",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/content/center_map.vue')
+      component: CenterMap
     },
     {
-      path: '/range',
-      name: 'range',
+      path: "/range",
+      name: "range",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
@@ -49,80 +51,54 @@ export default new Router({
     },
 
     {
-      path: '/vue2map',
-      name: 'vue2map',
+      path: "/vue2map",
+      name: "vue2map",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/index/index_map.vue')
+      component: IndexMap
     },
     {
-      path: '/vue2mapclear',
-      name: 'vue2mapclear',
+      path: "/vue2mapclear",
+      name: "vue2mapclear",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/content/center_vue2map_clear.vue')
+      component: Vue2MapClear
     },
     {
-      path: '/index',
-      name: 'index',
+      path: "/index",
+      name: "index",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       children: [
         {
-          path: '/search/condition',
-          name: 'condition',
+          path: "/search/condition",
+          name: "condition",
           component: ConditionSearch
         },
         {
-          path: '/search/conditionByStation',
-          name: 'conditionByStation',
+          path: "/search/conditionByStation",
+          name: "conditionByStation",
           component: ConditionSearchByStation
         }
       ],
 
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/index/index_bar.vue')
+      component: IndexBar
     },
     {
-      path: '/main',
-      name: 'main_index',
+      path: "/main",
+      name: "main_index",
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-<<<<<<< HEAD
-        import(/* webpackChunkName: "about" */ "./views/index/index_map.vue")
+      component: IndexMap
     },
-=======
-        import(/* webpackChunkName: "about" */ './views/index/index_map.vue')
-    }
->>>>>>> 95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e
-    // {
-    //   path: '/search',
-    //   name: 'search',
-    //   children: [
-    //     {
-    //       path: 'condition',
-    //       name: 'condition',
-    //       component: ConditionSearch
-    //     }
-    //   ]
-    // }
-    // {
-    //   path: '/search/condition',
-    //   name: 'condition',
-    //   component: ConditionSearch
-    // },
     {
       path: "/search",
       name: "search",
-      component: () =>
-        import("./views/Test/Search.vue")
+      component: SearchTest
     }
   ]
-})
+});

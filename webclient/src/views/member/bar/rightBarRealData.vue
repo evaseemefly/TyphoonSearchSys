@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="realtime-base"
-    class="col-md-3"
-  >
+  <div id="realtime-base" class="col-md-3">
     <div class="total-header">
       <div class="sort col-md-2">03</div>
       <div class="title col-md-10">实测数据</div>
@@ -11,7 +8,7 @@
       <div class="detail">
         <div class="title">极值详情</div>
         <div class="list">
-          <table rules=rows>
+          <table rules="rows">
             <tr>
               <th>名称</th>
               <th>最大增水</th>
@@ -42,7 +39,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script lang="ts">
@@ -136,9 +132,6 @@ export default class rightBarRealData extends Vue {}
   padding-bottom: 8px;
   font-weight: 600;
   text-shadow: 2px 2px 8px rgb(33, 32, 32);
-}
-
-#realtime-base .realtime-body .list tr {
 }
 
 #realtime-base .realtime-body .list td {

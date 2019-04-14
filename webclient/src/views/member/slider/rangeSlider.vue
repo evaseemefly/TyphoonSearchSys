@@ -1,31 +1,13 @@
 <template>
   <div id="map_range_slider">
-    <el-slider
-      v-model="range"
-      :min=min
-      :max=max
-      :step=step
-      show-stops
-    ></el-slider>
-    <div
-      class="btn-group"
-      role="group"
-    >
-      <button
-        type="button"
-        class="btn btn-success"
-        @click="getRangeTyphoonList"
-      ><span
-          class="glyphicon glyphicon-play"
-          aria-hidden="true"
-        >搜索</span> </button>
-      <button
-        type="button"
-        class="btn btn-danger"
-      ><span
-          class="glyphicon glyphicon glyphicon-stop"
-          aria-hidden="true"
-        >清除</span></button>
+    <el-slider v-model="range" :min="min" :max="max" :step="step" show-stops></el-slider>
+    <div class="btn-group" role="group">
+      <button type="button" class="btn btn-success" @click="getRangeTyphoonList">
+        <span class="glyphicon glyphicon-play" aria-hidden="true">搜索</span>
+      </button>
+      <button type="button" class="btn btn-danger">
+        <span class="glyphicon glyphicon glyphicon-stop" aria-hidden="true">清除</span>
+      </button>
     </div>
   </div>
 </template>
@@ -33,7 +15,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 // TODO [*] 19-03-21 通过vuex-class的写法，引入vuex
-import { Getter, Mutation, State } from "vuex-class";
+//import { Getter, Mutation, State } from "vuex-class";
 @Component({
   components: {}
 })
