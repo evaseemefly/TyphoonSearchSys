@@ -1004,26 +1004,31 @@ export default class center_map_range extends Vue {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(45, 244, 174, 0.557);
+  /* border-radius: 10px; */
 }
 #station_form .Blue{
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(41, 103, 173, 0.557);
+  /* border-radius: 10px; */
 }
 #station_form .Yellow{
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(248, 244, 6, 0.557);
+  /* border-radius: 10px; */
 }
 #station_form .Orange{
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(255, 158, 3, 0.557);
+  /* border-radius: 10px; */
 }
 #station_form .Red{
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(255, 1, 1, 0.877);
+  /* border-radius: 10px; */
 }
 
 /* ---------------------------- */
