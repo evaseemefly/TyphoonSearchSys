@@ -6,7 +6,9 @@ import datetime
 # DIR_PATH=r"/Users/casablanca/03project/typhoonSearchSys/demo_data"
 
 # aw
-DIR_PATH=r"D:\01proj\typhoon\TyphoonSearchSys\demo_data"
+# DIR_PATH=r"D:\01proj\typhoon\TyphoonSearchSys\demo_data"
+# p52s
+DIR_PATH=r"D:\04git仓库\TyphoonSearchSys\demo_data"
 
 FILE_TARGET=r'5622.txt'
 
