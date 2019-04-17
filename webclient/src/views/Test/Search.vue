@@ -3,6 +3,7 @@
     <div class="container-fluid" style="background:rgba(255,255,255,0) ;color:black;width:80%;">
       <div class="row">
         <div class="col-md-4">
+          <!-- 多条件搜索 -->
           <div class="card mt10" style="margin-top:10px;">
             <!-- <div class="card-body">
               
@@ -62,11 +63,14 @@
               <el-button type="primary" icon="el-icon-search" @click="loadSearchResult">搜索</el-button>
             </form>
           </div>
+          <!-- 右侧下侧台风列表 -->
           <div class="card mt10">
             <div class="card-header card-my-header">台风列表</div>
             <div class="card-body card-my-body">
               <!-- <h5 class="card-title">台风列表</h5> -->
-              <el-table
+
+              <!-- 使用element table组件——暂时不使用此种方式 -->
+              <!-- <el-table
                 :data="typhoonCodeData"
                 stripe
                 @row-click="clickCodeForTime"
@@ -74,7 +78,15 @@
               >
                 <el-table-column type="index"></el-table-column>
                 <el-table-column prop="code" label="台风编号"></el-table-column>
-              </el-table>
+              </el-table>-->
+              <ul class="list-group">
+                <li
+                  class="list-group-item list-my-group-item"
+                  v-for="(item,index) in typhoonCodeData"
+                  :key="index"
+                  @click="clickCodeForTime(item)"
+                >{{item.code}}</li>
+              </ul>
               <el-pagination
                 background
                 layout="prev, pager, next"
@@ -93,8 +105,9 @@
             <div class="card-header card-my-header">台风编号</div>
             <!-- <h5 class="card-title">台风编号</h5> -->
             <!-- 此处不再套在card-body中，样式更好看一些，去掉了padding -->
-            <div class="card-body card-my-body"></div>
-            <el-table
+            <div class="card-body card-my-body">
+              <!-- 此处不再使用elemetn ui -->
+              <!-- <el-table
               :data="typhoonTimeData"
               stripe
               @row-click="clickDateForDetail"
@@ -102,14 +115,23 @@
             >
               <el-table-column type="index"></el-table-column>
               <el-table-column prop="date" label="发生时间"></el-table-column>
-            </el-table>
-            <el-pagination
-              background
-              layout="prev, pager, next"
-              :total="typhoonTimeDataTotalCount()"
-              :page-size="typhoonTimeDataPageSize"
-              @current-change="typhoonTimeDataPageChange"
-            ></el-pagination>
+              </el-table>-->
+              <ul class="list-group">
+                <li
+                  class="list-group-item list-my-group-item"
+                  v-for="(item,index) in typhoonTimeData"
+                  :key="index"
+                  @click="clickDateForDetail(item)"
+                >{{item}}</li>
+              </ul>
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="typhoonTimeDataTotalCount()"
+                :page-size="typhoonTimeDataPageSize"
+                @current-change="typhoonTimeDataPageChange"
+              ></el-pagination>
+            </div>
           </div>
           <div class="card mt10" v-show="isDetailShow">
             <!-- <div class="card-body card-my-body"></div> -->
@@ -322,6 +344,8 @@ export default {
   padding-left: 5px;
   padding-right: 5px;
 }
+
+/* 与之前写的左侧导航栏相同的css样式 */
 .card-my-header {
   background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639));
   font-size: 90%;
@@ -334,6 +358,25 @@ export default {
   padding: 8px 8px 8px 8px;
   color: #ffffff;
   font-family: "Lato", Helvetica, Arial, sans-serif;
+}
+
+.list-my-group-item {
+  color: rgb(4, 4, 4);
+  font-size: 85%;
+  background: rgba(184, 206, 200, 0.557);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 400;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
+
+.list-my-group-item:hover {
+  color: rgb(255, 255, 255);
+  font-size: 85%;
+  background: rgba(111, 238, 204, 0.557);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 600;
 }
 .testColor {
   background: lightpink;
