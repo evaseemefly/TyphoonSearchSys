@@ -122,7 +122,8 @@ import {
 import {
   MeteorologyRealData_Mid_Model,
   TideRealData_Mid_Model,
-  StationData_Mid_Model
+  StationData_Mid_Model,
+  EchartsScatterStationData_Mid_Model
 } from "@/middle_model/typhoon.ts";
 // 底部rangeslider
 import RangeSlider from "@/views/member/slider/rangeSlider.vue";
@@ -140,7 +141,11 @@ import {
 import { AlarmLevel } from "@/common/enum/map.ts";
 
 // 引入数据格式规范接口
-import { IStation, IForecast } from "@/interface/map/map.ts";
+import {
+  IStation,
+  IForecast,
+  IEchartsScatterData
+} from "@/interface/map/map.ts";
 
 // import "leaflet-tilelayer-mbtiles-ts";
 // import "leaflet-tilelayer-mbtiles";
@@ -241,6 +246,7 @@ export default class center_map_range extends Vue {
   // TODO:[*] 19-04-18 尝试实现散点图
   // myChart = echarts.init(document.getElementById("mycontent"));
   // echarts 的测试数据
+  // data_echarts中保存的是测站及对应的潮位
   data_echarts = [
     {
       name: "LIUMI",
@@ -276,7 +282,14 @@ export default class center_map_range extends Vue {
     }
   ];
 
+  // echart的散点图图层
+  layer_scatter: any = null;
+
+  // TODO:[-] 19-04-18 测站散点图数组
+  data_scatter_station: Array<IEchartsScatterData> = [];
+
   // 地理数据
+  // 保存的是测站及对应的经纬度
   geoCoordMap = {
     LIUMI: [117.44, 38.59],
     ZHENHAIS: [121.43, 29.57],
@@ -306,7 +319,9 @@ export default class center_map_range extends Vue {
   //初始化echarts
   initCharts(): void {
     var myself = this;
-
+    if (myself.layer_scatter != null) {
+      myself.layer_scatter.remove();
+    }
     // 使用leaflet-echarts的步骤：不需要修改leaflet代码的部分，只需要将leaflet创建好的map作为参数传入
     var mymap: any = this.$refs.basemap["mapObject"];
     var option: any = {
@@ -333,9 +348,11 @@ export default class center_map_range extends Vue {
           name: "pm2.5",
           type: "scatter",
           coordinateSystem: "leaflet",
-          data: myself.convertData(myself.data_echarts),
+          // data: myself.convertData(myself.data_echarts),
+          // TODO:[*] 19-04-18 散点图中的data绑定为model
+          data: myself.data_scatter_station,
           symbolSize: function(val) {
-            return val[2] / 10;
+            return val[2] / 30;
           },
           label: {
             normal: {
@@ -357,15 +374,17 @@ export default class center_map_range extends Vue {
           name: "Top 5",
           type: "effectScatter",
           coordinateSystem: "leaflet",
-          data: myself.convertData(
-            myself.data_echarts
-              .sort(function(a, b) {
-                return b.value - a.value;
-              })
-              .slice(0, 6)
-          ),
+          // data: myself.convertData(
+          //   myself.data_echarts
+          //     .sort(function(a, b) {
+          //       return b.value - a.value;
+          //     })
+          //     .slice(0, 6)
+          // ),
+          // TODO:[*] 19-04-18 散点图中的data绑定为model
+          data: myself.data_scatter_station,
           symbolSize: function(val) {
-            return val[2] / 10;
+            return val[2] / 30;
           },
           showEffectOn: "render",
           rippleEffect: {
@@ -381,7 +400,8 @@ export default class center_map_range extends Vue {
           },
           itemStyle: {
             normal: {
-              color: "#f4e925",
+              // color: "#f4e925",
+              color: "rgb(51, 152, 125)",
               shadowBlur: 10,
               shadowColor: "#333"
             }
@@ -390,7 +410,18 @@ export default class center_map_range extends Vue {
         }
       ]
     };
-    echartsLayer(option).addTo(mymap);
+    var echarts_scatter = echartsLayer(option);
+    // echarts_scatter.on("click", function(params) {
+    //   console.log(params);
+    // });
+    myself.layer_scatter = echarts_scatter;
+
+    //
+    // mymap.on("click", function(e, i) {
+    //   console.log(e);
+    //   console.log(i);
+    // });
+    myself.layer_scatter.addTo(mymap);
   }
 
   station_div_icon_option_hidden: any = {
@@ -815,7 +846,7 @@ export default class center_map_range extends Vue {
   mounted() {
     this.initMap();
     // 尝试加载echarts的散点图
-    this.initCharts();
+    // this.initCharts();
   }
   // 监听点击某一个台风div后变更的台风对象
   @Watch("typhoon_temp")
@@ -835,7 +866,7 @@ export default class center_map_range extends Vue {
     var myself = this;
     // 更新后
     loadTyphoonRealData(val).then(res => {
-      console.log(res.data);
+      // console.log(res.data);
       if (res.status === 200) {
         //记得每次需要清空
         myself.typhoon_realdata_list = [];
@@ -864,6 +895,7 @@ export default class center_map_range extends Vue {
   @Watch("targetTyphoonRealBase")
   onTargetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
     var myself = this;
+    myself.data_scatter_station = [];
     loadStationTideDataList(val).then(res => {
       // console.log(res.data);
       // TODO: [*] 19-04-10 当前的实时台风（含date）被修改后获取后台范围的该台风此时的测站数据列表，并psu至this.station_tide_list中
@@ -893,9 +925,25 @@ export default class center_map_range extends Vue {
                 temp_forecast.val_forecast
               )
             );
+            //TODO: [*] 19-04-18 写入测站散点图model
+            myself.data_scatter_station.push(
+              new EchartsScatterStationData_Mid_Model(
+                temp_station.stationname,
+                [
+                  temp_station.point.coordinates[0],
+                  temp_station.point.coordinates[1],
+
+                  temp_station.jw
+                ]
+              )
+            );
           } catch (error) {}
         });
         // myself.loadStationDivs();
+        // 需要调用初始化echarts的方法
+        if (myself.data_scatter_station.length > 0) {
+          myself.initCharts();
+        }
       }
     });
   }
@@ -1068,7 +1116,7 @@ export default class center_map_range extends Vue {
   width: 220px;
   display: inline-block;
   /* background: rgba(50, 124, 164, 0.829); */
-  background: #2c3e50;
+  background: #2c3e5034;
   text-align: center;
   color: aliceblue;
   box-shadow: 10px 10px 5px #888888;

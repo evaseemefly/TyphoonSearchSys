@@ -37,9 +37,25 @@ interface IForecast {
 interface IStationForecast extends IStation, IForecast {
 
 }
+/**
+ * 为echarts散点图提供的数据接口
+ *
+ * @interface IEchartsScatterData
+ */
+interface IEchartsScatterData {
+    // 测站名称
+    name: String,
+    /*
+    0-精度
+    1-纬度
+    2-潮位值
+    */
+    value: Array<number>
+}
 
 export {
     IStation,
     IForecast,
-    IStationForecast
+    IStationForecast,
+    IEchartsScatterData
 }

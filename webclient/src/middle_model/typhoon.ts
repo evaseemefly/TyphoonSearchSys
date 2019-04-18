@@ -1,4 +1,4 @@
-import { IStation } from '@/interface/map/map.ts';
+import { IStation, IEchartsScatterData } from '@/interface/map/map.ts';
 // 台风 middel model
 import { TyphoonCircleStatus } from '@/common/Status.ts'
 import fecha from 'fecha'
@@ -48,9 +48,9 @@ class MeteorologyRealData_Mid_Model {
 					<div class="row typhoon_data_div">
 						<div class="col-md-4">时间</div>
 						<div class="col-md-8">${fecha.format(
-              new Date(myself.date),
-              'YYYY-MM-DD HH:mm'
-            )}</div>
+      new Date(myself.date),
+      'YYYY-MM-DD HH:mm'
+    )}</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4">中心位置</div>
@@ -143,28 +143,28 @@ class TideRealData_Mid_Model {
 }
 
 class StationData_Mid_Model implements IStation {
-  public code:string
-  public startdate:Date
-  public stationname:string
-  public  jw:number
-  public  lev:number
-  public point:any
+  public code: string
+  public startdate: Date
+  public stationname: string
+  public jw: number
+  public lev: number
+  public point: any
   public tide: number         // 实测潮位
-  public tide_forecast:number // 预报潮位
-  public get latlon(){
-    return [this.point.coordinates[1],this.point.coordinates[0]]
+  public tide_forecast: number // 预报潮位
+  public get latlon() {
+    return [this.point.coordinates[1], this.point.coordinates[0]]
   }
 
   //
   constructor(
-    code:string,
-    startdate:Date,
-    stationname:string,
-    jw:number,
-    lev:number,
-    point:any,
+    code: string,
+    startdate: Date,
+    stationname: string,
+    jw: number,
+    lev: number,
+    point: any,
     tide: number,
-    tide_forecast:number
+    tide_forecast: number
   ) {
     this.stationname = stationname
     this.code = code
@@ -172,8 +172,26 @@ class StationData_Mid_Model implements IStation {
     this.startdate = startdate
     this.jw = jw
     this.lev = lev
-    this.tide=tide
-    this.tide_forecast=tide_forecast
+    this.tide = tide
+    this.tide_forecast = tide_forecast
+  }
+}
+/**
+ * echarts 散点图测站model
+ *  0-精度
+    1-纬度
+    2-潮位值
+ * @class EchartsScatterStationData_Mid_Model
+ * @implements {IEchartsScatterData}
+ */
+class EchartsScatterStationData_Mid_Model implements IEchartsScatterData {
+  public name: String
+  public value: Array<number>
+  constructor(
+    name: string,
+    value: Array<number>) {
+    this.name = name
+    this.value = value
   }
 }
 
@@ -181,5 +199,6 @@ export {
   TyphoonData_Mid_Model,
   MeteorologyRealData_Mid_Model,
   TideRealData_Mid_Model,
-  StationData_Mid_Model
+  StationData_Mid_Model,
+  EchartsScatterStationData_Mid_Model
 }
