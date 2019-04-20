@@ -1,4 +1,4 @@
-from datetime import datetime,timedelta,date
+from datetime import datetime, timedelta, date
 import calendar
 import datetime as superdatetime
 import dateutil
@@ -7,12 +7,12 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
-from django.http import HttpRequest,HttpResponse,JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from mongoengine import *
 
 from TyphoonSystem import settings
-from .views_base import BaseView
+from .views_base import BaseView, BaseDetailListView
 import json
 
 # 引入mongoengine
@@ -24,7 +24,6 @@ from .serializers import *
 from .middle_models import *
 from common import dateCommon
 from .view_decorator import *
-
 
 
 # Create your views here.
@@ -63,6 +62,7 @@ class StationTideDataListView(APIView):
     '''
         根据code以及date获取测站的数据
     '''
+
     @method_decorator(convert_num2code)
     def get(self, request):
         '''
@@ -87,7 +87,7 @@ class StationTideDataListView(APIView):
         # print(code)
         # 2- 获取geostationtidedate-> realtidedata
         # filter_list = StationTideData.objects(code=code, startdate=targetdate)
-        filter_list=self.getStationTargetRealData(targetdate,code)
+        filter_list = self.getStationTargetRealData(targetdate, code)
 
         # TODO 暂时不再使用（19-04-10） 2.1找到每一个测站的极值及出现时间
         # list_data = []
@@ -98,22 +98,22 @@ class StationTideDataListView(APIView):
         #     # list_tide.extend()
         # json_data = StationTideMaxMidModelSerializer(list_data, many=True).data
 
-
         # json_data=StationTideIncludeForecastMidModelSerializer(filter_list,many=True).data
         json_data = StationTideIncludeAllMidModelSerializer(filter_list, many=True).data
         return Response(json_data)
 
-    def getStationTargetRealData(self,targetdatetime:datetime,code:str)->[]:
+    def getStationTargetRealData(self, targetdatetime: datetime, code: str) -> []:
         '''
             根据时间获取该时间该台风的测站数据
         :param date:
         :return:
         '''
         # 找到当天的数据
-        targetdate=date(targetdatetime.year,targetdatetime.month,targetdatetime.day)
-        list=StationTideData.objects(code=code,startdate=targetdate)
+        targetdate = date(targetdatetime.year, targetdatetime.month, targetdatetime.day)
+        list = StationTideData.objects(code=code, startdate=targetdate)
+
         # 从返回的测站数据中找到对应的时刻
-        def getTargetMoment(moment:datetime, realdate:StationTideData)->StationTideAllDataMidModel:
+        def getTargetMoment(moment: datetime, realdate: StationTideData) -> StationTideAllDataMidModel:
             '''
                 根据指定时刻，从当前的测站数据中找到对应时刻的观测值
             :param moment:
@@ -125,12 +125,12 @@ class StationTideDataListView(APIView):
                 思路：
                     
             '''
-            date_moment=date(moment.year, moment.month, moment.day)
-            hour_moment=moment.hour
-            datetime_moment=datetime(moment.year,moment.month,moment.day,moment.hour,0)
-            temp_realtidedata=[temp for temp in realdate.realtidedata if temp.targetdate==date_moment]
+            date_moment = date(moment.year, moment.month, moment.day)
+            hour_moment = moment.hour
+            datetime_moment = datetime(moment.year, moment.month, moment.day, moment.hour, 0)
+            temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == date_moment]
             # temp_forecasttidedata=[temp for temp in realdate.forecastdata if temp.targetdate==date_moment]
-            if len(temp_realtidedata)>0:
+            if len(temp_realtidedata) > 0:
                 # TODO 19-04-11 此处修改
                 return StationTideAllDataMidModel(
                     temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],
@@ -141,10 +141,12 @@ class StationTideDataListView(APIView):
                 # return temp_realtidedata[0].forecastdata.forecast_arr[hour_moment]
             else:
                 return None
-        list_StationForecast=[]
-        if len(list)>0:
+
+        list_StationForecast = []
+        if len(list) > 0:
             for temp in list:
-                list_StationForecast.append(StationTideIncludeForecastMidModel(temp,getTargetMoment(targetdatetime,temp)))
+                list_StationForecast.append(
+                    StationTideIncludeForecastMidModel(temp, getTargetMoment(targetdatetime, temp)))
                 # print(getTargetMoment(targetdatetime,temp))
                 # print(temp)
         return list_StationForecast
@@ -188,6 +190,54 @@ class StationTideDataListView(APIView):
 
         return list_tidedata
 
+
+class StationDetailListView(APIView, BaseDetailListView):
+    '''
+        根据传入的 台风 code 以及 海洋站 name
+        返回该过程中的该测站的连续观测值
+    '''
+    def get(self, request):
+        code = request.GET.get('code')
+        name = request.GET.get('name')
+        data_list=self.load(code, name)
+        data_json=TideRealMidModelSerializer(data_list,many=True)
+        return Response(data_json.data)
+        pass
+
+    def load(self, code: str, stationname: str):
+        '''
+            根据台风code以及海洋站station name加载连续的测值
+        :param code:
+        :param stationname:
+        :return:
+        '''
+
+        '''
+            根据code以及station 从 geostationtidedata中取出对应的全部数据
+        '''
+        data_list = []
+        # [realtide_temp
+        #  for realtide_temp in
+        #  StationTideData.objects(code=code,stationname=stationname)[0].realtidedata]
+        # import datetime
+        for realtide_temp in StationTideData.objects(code=code, stationname=stationname)[0].realtidedata:
+            if hasattr(realtide_temp, 'realdata') and hasattr(realtide_temp, 'targetdate'):
+                # 提取每一日的realdata
+                # for realdata_temp in realtide_temp.realdata:
+                if hasattr(realtide_temp.realdata, 'realdata_arr'):
+                    for index, temp in enumerate(realtide_temp.realdata.realdata_arr) :
+                        # temp_datetime = realtide_temp.targetdate + datetime.timedelta(hours=index)
+                        # TODO date-> datetime 方式1：
+                        # temp_datetime=datetime(temp.targetdate.year,temp.targetdate.month,temp.targetdate.day,index,0)
+                        # TODO date-> datetime 方式2：
+                        import datetime
+                        temp_datetime=datetime.datetime.combine(realtide_temp.targetdate,datetime.time(index,0))
+                        temp_tide = StationTideRealMidModel(temp, temp_datetime)
+                        data_list.append(temp_tide)
+                        # print(str(temp_tide))
+            # print(realtide_temp)
+        return data_list
+        pass
 
 class FilterByMonth(BaseView):
     '''
@@ -266,7 +316,6 @@ class FilterByRange(BaseView):
 
         range = int(request.GET.get('range'))
 
-
         # 获取去重后的code list
         codes = self.getTyphoonList(latlon=latlons, range=range)
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
@@ -295,7 +344,7 @@ class FilterByRange(BaseView):
         latlon = kwargs.get('latlon')
         range = kwargs.get('range')
 
-        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1],latlon__max_distance=range).distinct('code')
+        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('code')
 
 
 class FilterByComplexCondition(BaseView):
@@ -305,7 +354,8 @@ class FilterByComplexCondition(BaseView):
     http://127.0.0.1:8000/gis/filter/complex/?bp=1006
     http://127.0.0.1:8000/gis/filter/complex/?bp=1006&wsm=13&level=1
     '''
-    def get(self,request):
+
+    def get(self, request):
         level = request.GET.get('level')
         wsm = request.GET.get('wsm')
         bp = request.GET.get('bp')
@@ -329,10 +379,8 @@ class FilterByComplexCondition(BaseView):
             etime = end_date + timedelta(seconds=-1)
             query = query.filter(date__lte=etime)
 
-
         json_data = GeoTyphoonRealDataSerializer(query, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
-
 
 
 class FilterByDateRange(BaseView):
@@ -341,18 +389,19 @@ class FilterByDateRange(BaseView):
     测试url:
     http://127.0.0.1:8000/gis/filter/daterange/?startdate=2017-11&enddate=2017-12
     '''
+
     def get(self, request):
         start_date = request.GET.get("startdate")
         end_date = request.GET.get("enddate")
         query = GeoTyphoonRealData.objects()
         if start_date is not None:
-            start_date=start_date+'-01 00:00:00'
-            stime = datetime.strptime(start_date,"%Y-%m-%d %H:%M:%S")
+            start_date = start_date + '-01 00:00:00'
+            stime = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
             query = query.filter(date__gte=stime)
         if end_date is not None:
-            end_date = datetime.strptime(end_date,'%Y-%m')
-            end_date=add_months(end_date,1)
-            etime=end_date+timedelta(seconds=-1)
+            end_date = datetime.strptime(end_date, '%Y-%m')
+            end_date = add_months(end_date, 1)
+            etime = end_date + timedelta(seconds=-1)
             query = query.filter(date__lte=etime)
         json_data = GeoTyphoonRealDataSerializer(query, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
@@ -362,5 +411,5 @@ def add_months(sourcedate, months):
     month = sourcedate.month - 1 + months
     year = sourcedate.year + month // 12
     month = month % 12 + 1
-    day = min(sourcedate.day, calendar.monthrange(year,month)[1])
+    day = min(sourcedate.day, calendar.monthrange(year, month)[1])
     return superdatetime.date(year, month, day)

@@ -14,7 +14,8 @@ urlpatterns = [
     url(r'^filter/range/$', FilterByRange.as_view()),
     url(r'^filter/complex/$', FilterByComplexCondition.as_view()),
     url(r'^filter/daterange/$', FilterByDateRange.as_view()),
-    url(r'^data/stationtide/$', StationTideDataListView.as_view())
+    url(r'^data/stationtide/$', StationTideDataListView.as_view()),
+    url(r'^data/detaillist/$',StationDetailListView.as_view())
     # path("getAllData",views.getAllData),
     # path("getAreaTyphoonList", views.getAreaTyphoonList),
 ]
