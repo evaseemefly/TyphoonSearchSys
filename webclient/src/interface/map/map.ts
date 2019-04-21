@@ -27,6 +27,17 @@ interface IForecast {
     val_real: number,
     occurred: Date
 }
+
+/**
+ * 测站的观测值接口
+ *
+ * @interface IStationTide
+ */
+interface IStationObservationTide{
+    val:number,
+    occurred: Date
+}
+
 /**
  * 组合了forecast Data + stationtide Data的接口
  *
@@ -57,5 +68,6 @@ export {
     IStation,
     IForecast,
     IStationForecast,
-    IEchartsScatterData
+    IEchartsScatterData,
+    IStationObservationTide
 }

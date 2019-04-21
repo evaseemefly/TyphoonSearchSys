@@ -202,7 +202,7 @@ class StationDetailListView(APIView, BaseDetailListView):
         data_list=self.load(code, name)
         data_json=TideRealMidModelSerializer(data_list,many=True)
         return Response(data_json.data)
-        pass
+        # pass
 
     def load(self, code: str, stationname: str):
         '''

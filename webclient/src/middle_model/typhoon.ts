@@ -1,4 +1,4 @@
-import { IStation, IEchartsScatterData } from '@/interface/map/map.ts';
+import { IStation, IEchartsScatterData, IStationObservationTide } from '@/interface/map/map.ts';
 // 台风 middel model
 import { TyphoonCircleStatus } from '@/common/Status.ts'
 import fecha from 'fecha'
@@ -195,10 +195,30 @@ class EchartsScatterStationData_Mid_Model implements IEchartsScatterData {
   }
 }
 
+/**
+ * 测站的潮位观测值
+ *
+ * @class StationObservationTide
+ * @implements {IStationObservationTide}
+ */
+class StationObservationTide_Mid_Model implements IStationObservationTide {
+  public val: number
+  public occurred: Date
+  constructor(
+    val: number,
+    occurred: Date
+  ) {
+    this.val = val
+    this.occurred = occurred
+  }
+}
+
+
 export {
   TyphoonData_Mid_Model,
   MeteorologyRealData_Mid_Model,
   TideRealData_Mid_Model,
   StationData_Mid_Model,
-  EchartsScatterStationData_Mid_Model
+  EchartsScatterStationData_Mid_Model,
+  StationObservationTide_Mid_Model
 }

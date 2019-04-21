@@ -10,6 +10,8 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import $ from "jquery";
 import echarts from "echarts";
+//引入fecha格式化时间
+import fecha from "fecha";
 // const $ = require('jquery')
 // window.$ = $
 // require('jquery-confirm')
@@ -43,7 +45,7 @@ export default class station_detail_charts extends Vue {
     }
   }
   // 初始化echarts表格
-  initCharts(params) {
+  initCharts() {
     // 基于准备好的dom，初始化echarts图表
     var myself = this;
     myself.mychart = null;
@@ -68,7 +70,7 @@ export default class station_detail_charts extends Vue {
         {
           type: "category",
 
-          data: myself.columns,
+          data: myself.columns2format,
           //使用以下方式实现显示全部x坐标上的点
           axisLabel: {
             //interval: 0,
@@ -164,8 +166,31 @@ export default class station_detail_charts extends Vue {
   }
 
   mounted() {
-    this.slideUp();
+    // this.slideUp();
+    this.initCharts();
   }
+
+  @Watch("values")
+  onValues(val) {
+    // 每次当values发生变化时，判断当前的values长度是否大于0，大于零则加载echarts
+    var myself = this;
+    if (myself.values.length > 0) {
+      this.initCharts();
+    }
+    // console.log("发生变化");
+  }
+
+  // computed
+  get columns2format() {
+    var myself = this;
+    var columns_format = [];
+    myself.columns.forEach(obj => {
+      columns_format.push(fecha.format(obj, "MM-DD HH:mm"));
+    });
+    return columns_format;
+  }
+
+  // 对于每一个columns由于是date类型，所以只保留 mm-dd HH-mm即可
 }
 // watch: {
 //   values: function (newVal) {
@@ -182,6 +207,6 @@ export default class station_detail_charts extends Vue {
 <style scoped>
 #main {
   height: 500px;
-  width: 900px;
+  width: 800px;
 }
 </style>
