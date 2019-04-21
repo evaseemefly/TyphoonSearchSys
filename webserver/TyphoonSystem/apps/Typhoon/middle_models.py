@@ -44,6 +44,9 @@ class StationTideForecastMidModel:
         self.val=val
         self.occurred=moment
 
+    def __str__(self):
+        return (f'val:{self.val}|occurred:{self.occurred}')
+
 class StationTideRealMidModel:
     '''
         StationTideData->realtidedata->forecastdata->forecast_arr中的一个值

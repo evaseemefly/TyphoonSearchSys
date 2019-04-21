@@ -13,13 +13,7 @@ class BaseView(APIView):
         pass
 
 class BaseDetailListView(abc.ABC):
-    '''
-        抽象子类，部分方法由父类实现
-    '''
 
     @abc.abstractmethod
-    def getlist(self,startdate:datetime,*args,**kwargs):
-        '''
-            根据传入的startdate获取符合条件的观测数据
-        :return:
-        '''
+    def load(self,code:str,stationname:str):
+        ''' 根据台风code以及海洋站name加载的连续测值'''
