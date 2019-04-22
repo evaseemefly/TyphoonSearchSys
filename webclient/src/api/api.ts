@@ -1,7 +1,9 @@
 import axios from 'axios'
+import { MenuType } from "@/common/enum/menu.ts"
 
 // 后端的请求地址及端口
 export const host = 'http://127.0.0.1:8000'
+// export const host ="http://127.0.0.1:64807";
 // export const host = 'http://128.5.6.112:8015'
 axios.defaults.withCredentials = true
 axios.defaults.headers = {
@@ -29,12 +31,49 @@ export interface ITyphoonRealBaseParams {
   date: Date
 }
 
-export const loadTyphoonList = (par: ITyphoonParams) => {
-  let typhoonlistUrl = `${host}/gis/filter/range/`
-  return axios.get(typhoonlistUrl, {
-    params: par
-  })
+/**
+ * 获取指定指定台风过程指定测站的数据的查询条件
+ *
+ * @export
+ * @interface ITyphoonParams4Station
+ */
+export interface ITyphoonParams4Station {
+
+  /**
+   *台风code
+   *
+   * @type {string}
+   * @memberof ITyphoonParams4Station
+   */
+  code: string
+  /**
+   *海洋站名字
+   *
+   * @type {string}
+   * @memberof ITyphoonParams4Station
+   */
+  name: string
+  /**
+   * 是预报还是实测
+   *
+   * @type {MenuType}
+   * @memberof ITyphoonParams4Station
+   */
+  type: MenuType
 }
+
+export /**
+ *
+ *
+ * @param {ITyphoonParams} par
+ * @returns
+ */
+  const loadTyphoonList = (par: ITyphoonParams) => {
+    let typhoonlistUrl = `${host}/gis/filter/range/`
+    return axios.get(typhoonlistUrl, {
+      params: par
+    })
+  }
 
 export const loadTyphoonRealData = (par: ITyphoonRealDataParamas) => {
   let typhoonrealdataUrl = `${host}/gis/data/typhoonrealdata/`
@@ -50,3 +89,17 @@ export const loadStationTideDataList = (par: ITyphoonRealBaseParams) => {
     params: par
   })
 }
+
+
+export /**
+ * 根据 台风(code) 加载指定测站(station name)的过程潮位数据
+ *
+ * @param {ITyphoonParams4Station} par
+ * @returns
+ */
+  const loadStationDetailDataList = (par: ITyphoonParams4Station) => {
+    let stationDataUrl = `${host}/gis/data/detaillist/`
+    return axios.get(stationDataUrl, {
+      params: par
+    })
+  }

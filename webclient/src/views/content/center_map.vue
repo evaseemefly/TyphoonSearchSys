@@ -24,7 +24,14 @@ import { LMap, LTileLayer, LMarker, LPopup } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
 // 需要引入leaflet的样式
 import "leaflet/dist/leaflet.css";
-
+// TODO:[*] 19-04-18 引入ehcarts以及leaflet-echarts
+// 此处不再使用
+// import "echarts-leaflet/dist/echarts-leaflet";
+// 使用 https://github.com/wandergis/leaflet-echarts
+// import "leaflet-echarts";
+import echarts from "echarts/lib/echarts";
+// import "echarts/lib/chart/scatter";
+// import "echarts/lib/chart/effectScatter";
 @Component({})
 export default class center_map extends Vue {
   typhoon_data: MeteorologyRealData_Mid_Model[] = null;
@@ -326,6 +333,8 @@ export default class center_map extends Vue {
   }
   mounted() {
     this.initMap();
+    // var mymap: any = this.$refs.basemap["mapObject"];
+    // var overlay = new L.echartsLayer(mymap,  );
   }
 
   // 监听点击某一个台风div后变更的台风对象
