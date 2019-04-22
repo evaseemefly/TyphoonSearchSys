@@ -217,10 +217,20 @@ export default {
         if (res.status === 200) {
           if (res.data instanceof Array) {
             let arr = [];
+            // for (let x of res.data) {
+            //   if (x && x.date) {
+            //     let tmp = x;
+            //     tmp.date = x.date.split("T")[0];
+            //     arr.push(tmp);
+            //   }
+            // }
+
+            // TODO:[*] 19-04-22 此处已做修改 -by zw
             for (let x of res.data) {
               if (x && x.date) {
                 let tmp = x;
-                tmp.date = x.date.split("T")[0];
+                tmp.fullDate = x.date;
+                tmp.date = app.getFormatDate(x.date);
                 arr.push(tmp);
               }
             }
@@ -254,6 +264,25 @@ export default {
       this.setTimeData(row.code);
       this.isDateShow = true;
       this.isDetailShow = false;
+    },
+    // TODO:[*] 19-04-22 加入了日期的修改 -by zw
+    getFormatDate(dateStr) {
+      if (!dateStr) return "";
+      try {
+        let d = new Date(dateStr);
+        return (
+          d.getFullYear() +
+          "-" +
+          (d.getMonth() + 1) +
+          "-" +
+          d.getDate() +
+          " " +
+          d.getHours() +
+          ":00:00"
+        );
+      } catch (e) {
+        return dateStr.split("T")[0];
+      }
     },
     setTimeData(code) {
       let arr = [],

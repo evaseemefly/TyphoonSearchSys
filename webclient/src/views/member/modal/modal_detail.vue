@@ -1,48 +1,30 @@
 <template>
-  <div
-    id="mymodal"
-    class="modal fade"
-    tabindex="-1"
-    role="dialog"
-  >
-    <div
-      id="modal_content"
-      class="modal-dialog"
-      role="document"
-    >
+  <div id="mymodal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="modal_content" class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          ><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
           <!-- <h4 class="modal-title">船舶编号{{}}</h4> -->
         </div>
         <div class="modal-body my-content-primary">
           <div>
             <!-- <bbxDetailTable :bid="bid"></bbxDetailTable> -->
-            <ul
-              id="mytabs"
-              class="nav nav-tabs"
-            >
+            <ul id="mytabs" class="nav nav-tabs">
               <li
                 v-for="(item,index) in menulist"
-                :key=index
+                :key="index"
                 role="presentation"
                 :class="{active:index===indexMenu}"
               >
-                <a
-                  href="#"
-                  @click="active(index)"
-                >{{item.name}}</a>
+                <a href="#" @click="active(index)">{{item.name}}</a>
               </li>
             </ul>
             <!-- <div
               id="main"
               style=""
-            ></div> -->
+            ></div>-->
             <stationChart
               :columns="childColumns"
               :values="childVals"
@@ -53,15 +35,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-default"
-            data-dismiss="modal"
-          >关闭</button>
-          <button
-            type="button"
-            class="btn btn-primary"
-          >确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary">确定</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -92,6 +67,12 @@ import {
 @Component({
   components: {
     stationChart
+  },
+  props: {
+    // 台风code
+    code: String,
+    // 海洋站名称
+    name: String
   }
 })
 export default class modal_detail extends Vue {
@@ -104,6 +85,9 @@ export default class modal_detail extends Vue {
   childColumns: Array<any> = [];
   childFactor: any = null;
   childTitle: string = "测试测试";
+
+  code: string;
+  stationName: string;
 
   showModal(): void {
     $("#mymodal").modal({
