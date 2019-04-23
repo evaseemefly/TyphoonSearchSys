@@ -53,33 +53,33 @@
             </table>
           </div>
           <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
-            <div class="card-header">{{station.name+index}}</div>
+            <div class="card-header">{{station.stationname}}</div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">时间</div>
                 <div class="col-md-8">{{station.startdate|formatDate}}</div>
               </div>
               <div class="row">
-                <div class="col-md-4">风向</div>
-                <div class="col-md-8">{{station.wd}}</div>
+                <div class="col-md-4">警戒潮位</div>
+                <div class="col-md-8">{{station.jw}}</div>
               </div>
               <div class="row">
-                <div class="col-md-4">波向</div>
-                <div class="col-md-8">{{station.bx}}</div>
+                <div class="col-md-4">平均潮位</div>
+                <div class="col-md-8">{{station.lev}}</div>
               </div>
               <div class="row row_footer">
                 <div class="typhoon_footer">
                   <div class="columnar">
-                    <div class="subitem_top">{{station.ws}}</div>
-                    <div class="subitem_foot">风向</div>
-                  </div>
-                  <div class="columnar">
-                    <div class="subitem_top">{{station.ybg}}</div>
-                    <div class="subitem_foot">有效波高</div>
-                  </div>
-                  <div class="columnar">
                     <div class="subitem_top">{{station.tide}}</div>
-                    <div class="subitem_foot">潮位</div>
+                    <div class="subitem_foot">实测潮位</div>
+                  </div>
+                  <div class="columnar">
+                    <div class="subitem_top">{{station.tide_forecast}}</div>
+                    <div class="subitem_foot">预报潮位</div>
+                  </div>
+                  <div class="columnar">
+                    <div class="subitem_top">{{station.tide-station.tide_forecast}}</div>
+                    <div class="subitem_foot">潮差</div>
                   </div>
                 </div>
               </div>
@@ -186,7 +186,7 @@ import { DivIcon, DivIconOptions } from "leaflet";
 // import "echarts/lib/chart/scatter";
 // import "echarts/lib/chart/effectScatter";
 
-// TODO:[*] 19-04-18尝试使用超图的开源iclent插件
+// 19-04-18尝试使用超图的开源iclent插件
 import { tiledMapLayer, echartsLayer } from "@supermap/iclient-leaflet";
 
 import fechaObj from "fecha";
@@ -245,7 +245,7 @@ export default class center_map_range extends Vue {
   is_show_typhoon_list: boolean = false;
 
   is_show_modal: boolean = true;
-  // TODO: [-] 19-04-10
+  // TODO: [-] 19-04-10 测站潮位测值列表
   station_tide_list: Array<IStation> = []; //测站潮位测值列表
   select_station_index: number = -1; // 选中的海洋站序号（需要切换对应海洋站的两个div的显示于隐藏）
   // TODO: [-] 19-04-12 鼠标移入时的station 序号（将该divicon zindex设置为最高）
@@ -334,9 +334,9 @@ export default class center_map_range extends Vue {
     var mymap: any = this.$refs.basemap["mapObject"];
     var option: any = {
       title: {
-        text: "测试测试",
-        subtext: "data from PM25.in",
-        sublink: "http://www.pm25.in",
+        text: "潮位",
+        subtext: "潮位",
+        // sublink: "http://www.pm25.in",
         left: "center"
       },
       tooltip: {
@@ -353,14 +353,22 @@ export default class center_map_range extends Vue {
       // },
       series: [
         {
-          name: "pm2.5",
+          name: "潮位",
           type: "scatter",
           coordinateSystem: "leaflet",
           // data: myself.convertData(myself.data_echarts),
-          // TODO:[*] 19-04-18 散点图中的data绑定为model
+          // TODO:[-] 19-04-18 散点图中的data绑定为model
           data: myself.data_scatter_station,
+          // TODO:[*] 19-04-23 散点图的大小
           symbolSize: function(val) {
-            return val[2] / 30;
+            var arr_maxmin = myself.transformScatterSize();
+            if (val !== -9999) {
+              var count = arr_maxmin[0] - arr_maxmin[1];
+
+              return val[2] - arr_maxmin[1] / count;
+            } else {
+              return 0;
+            }
           },
           label: {
             normal: {
@@ -900,6 +908,22 @@ export default class center_map_range extends Vue {
     });
   }
 
+  //TODO:[*] 19-04-23 对于散点图的大小的转换
+  transformScatterSize(): number[] {
+    /*
+      
+     */
+    var arr_val = [];
+    this.data_scatter_station.forEach(obj => {
+      if (obj.value[2] !== -9999) {
+        arr_val.push(obj.value[2]);
+      }
+    });
+    var max = Math.max(...arr_val);
+    var min = Math.min(...arr_val);
+    return [max, min];
+  }
+
   // TODO: [*] 19-04-01 监听当前选择的实时台风（含date）
   @Watch("targetTyphoonRealBase")
   onTargetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
@@ -915,6 +939,11 @@ export default class center_map_range extends Vue {
           try {
             var temp_forecast: IForecast = temp.forecast;
             var temp_station: IStation = temp.station;
+            // TODO:[*] 19-04-23 需要加入对实测值及预报值是否存在的判断
+            /*
+              此处可能出现的状况是：
+                在temp_forecast.val_forecast与.val_real有可能存在缺省值（-9999）即不存在需要剔除，
+            */
             // "1956-09-02T18:00:00Z"
             // console.log(temp_forecast.occurred)
             // console.log(fecha.parse(temp_forecast.occurred,'YY-MM-DD HH:mm:ss'))
@@ -941,8 +970,18 @@ export default class center_map_range extends Vue {
                 [
                   temp_station.point.coordinates[0],
                   temp_station.point.coordinates[1],
-
-                  temp_station.jw
+                  // TODO:[*] 19-04-23 散点图中的val为实测-预报值
+                  // temp_station.jw
+                  temp_forecast.val_real === -9999 ||
+                  temp_forecast.val_forecast === -9999
+                    ? 0
+                    : temp_forecast.val_real - temp_forecast.val_forecast
+                  //                   if(temp_forecast.val_real===-9999||temp_forecast.val_forecast===-9999){
+                  //                     0
+                  //                   }
+                  //                   else{
+                  // temp_forecast.val_real - temp_forecast.val_forecast
+                  //                   }
                 ]
               )
             );
