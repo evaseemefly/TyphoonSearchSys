@@ -41,15 +41,17 @@
               <tr>
                 <td
                   :class="[getStationAlarmClass(station),'station_name']"
-                  rowspan="2"
+                  rowspan="1"
                 >{{station.stationname}}</td>
-                <td class="surge title">警戒</td>
-                <td class="surge">{{station.jw}}</td>
+                <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
+                <!-- <td class="surge title">警戒</td>
+                <td class="surge">{{station.jw}}</td>-->
               </tr>
-              <tr>
+              <!-- 改为只保留一行，以前第一行是警戒潮位，第二行是实测潮位，现在讲实测潮位移至第一行 -->
+              <!-- <tr>
                 <td class="tide">潮位</td>
                 <td :class="getStationAlarmClass(station)">{{station.tide}}</td>
-              </tr>
+              </tr>-->
             </table>
           </div>
           <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
@@ -361,15 +363,9 @@ export default class center_map_range extends Vue {
           data: myself.data_scatter_station,
           // TODO:[*] 19-04-23 散点图的大小
           symbolSize: function(val) {
-            var arr_maxmin = myself.transformScatterSize();
-            if (val !== -9999) {
-              var count = arr_maxmin[0] - arr_maxmin[1];
-
-              return val[2] - arr_maxmin[1] / count;
-            } else {
-              return 0;
-            }
+            return myself.getSymbolSize(val);
           },
+          hoverAnimation: true,
           label: {
             normal: {
               formatter: "{b}",
@@ -400,7 +396,7 @@ export default class center_map_range extends Vue {
           // TODO:[*] 19-04-18 散点图中的data绑定为model
           data: myself.data_scatter_station,
           symbolSize: function(val) {
-            return val[2] / 30;
+            return myself.getSymbolSize(val);
           },
           showEffectOn: "render",
           rippleEffect: {
@@ -924,6 +920,18 @@ export default class center_map_range extends Vue {
     return [max, min];
   }
 
+  getSymbolSize(val: any): number {
+    var myself = this;
+    var arr_maxmin = myself.transformScatterSize();
+    if (val !== -9999) {
+      var count = arr_maxmin[0] - arr_maxmin[1];
+
+      return val[2] - arr_maxmin[1] / count;
+    } else {
+      return 0;
+    }
+  }
+
   // TODO: [*] 19-04-01 监听当前选择的实时台风（含date）
   @Watch("targetTyphoonRealBase")
   onTargetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
@@ -1161,7 +1169,7 @@ export default class center_map_range extends Vue {
 
 #station_form {
   /* border: 2px solid white; */
-  width: 220px;
+  width: 180px;
   display: inline-block;
   /* background: rgba(50, 124, 164, 0.829); */
   background: #2c3e5034;
