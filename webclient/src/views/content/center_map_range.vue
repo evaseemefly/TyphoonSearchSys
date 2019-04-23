@@ -55,7 +55,10 @@
             </table>
           </div>
           <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
-            <div class="card-header">{{station.stationname}}</div>
+            <div class="card-header">
+              {{station.stationname}}
+              <a @click="showModal(station)">查看过程</a>
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">时间</div>
@@ -783,6 +786,10 @@ export default class center_map_range extends Vue {
     // console.log(val);
   }
 
+  // TODO:[*] 19-04-23 显示过程曲线的mdoal框
+  showModal(val): void {
+    console.log(val);
+  }
   // TODO: 19-04-12 鼠标移出 station Div时，将其index降低
   downZindex(index: number, val: any): void {
     // var myself = this;
@@ -920,13 +927,50 @@ export default class center_map_range extends Vue {
     return [max, min];
   }
 
+  // getSymbolSize(val: any): number {
+  //   var myself = this;
+  //   var arr_maxmin = myself.transformScatterSize();
+  //   if (val !== -9999) {
+  //     var count = arr_maxmin[0] - arr_maxmin[1];
+
+  //     return val[2] - arr_maxmin[1] / count;
+  //   } else {
+  //     return 0;
+  //   }
+  // }
+  // TODO:[*] 19-04-23 替换了部分内容
+  // getSymbolSize(val: any): number {
+  //   var myself = this;
+  //   var arr_maxmin = myself.transformScatterSize();
+  //   if (val !== -9999) {
+  //     var count = arr_maxmin[0] - arr_maxmin[1];
+  //     var maxValue = arr_maxmin[0] - arr_maxmin[1] / count;
+  //     var maxSize = 40;
+  //     var scale = 1;
+  //     if (maxSize) {
+  //       scale = maxValue / maxSize;
+  //     }
+
+  //     return (val[2] - arr_maxmin[1] / count) / scale;
+  //   } else {
+  //     return 0;
+  //   }
+  // }
+
   getSymbolSize(val: any): number {
     var myself = this;
     var arr_maxmin = myself.transformScatterSize();
     if (val !== -9999) {
       var count = arr_maxmin[0] - arr_maxmin[1];
 
-      return val[2] - arr_maxmin[1] / count;
+      var maxValue = arr_maxmin[0] - arr_maxmin[1] - arr_maxmin[1] / count;
+      var maxSize = 100;
+      var scale = 1;
+      if (maxSize) {
+        scale = maxValue / maxSize;
+      }
+
+      return (val[2] - arr_maxmin[1] - arr_maxmin[1] / count) / scale;
     } else {
       return 0;
     }
