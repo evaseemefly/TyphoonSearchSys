@@ -221,18 +221,25 @@ class StationDetailListView(APIView, BaseDetailListView):
         #  StationTideData.objects(code=code,stationname=stationname)[0].realtidedata]
         # import datetime
         for realtide_temp in StationTideData.objects(code=code, stationname=stationname)[0].realtidedata:
-            if hasattr(realtide_temp, 'realdata') and hasattr(realtide_temp, 'targetdate'):
+            if hasattr(realtide_temp, 'realdata') and hasattr(realtide_temp, 'targetdate') and hasattr(realtide_temp, 'forecastdata'):
                 # 提取每一日的realdata
                 # for realdata_temp in realtide_temp.realdata:
-                if hasattr(realtide_temp.realdata, 'realdata_arr'):
-                    for index, temp in enumerate(realtide_temp.realdata.realdata_arr) :
+                if hasattr(realtide_temp.realdata, 'realdata_arr') and hasattr(realtide_temp.forecastdata, 'forecast_arr'):
+                    for index,temp in enumerate(zip(realtide_temp.realdata.realdata_arr,realtide_temp.forecastdata.forecast_arr)):
+                    # for index, temp in enumerate(realtide_temp.realdata.realdata_arr) :
                         # temp_datetime = realtide_temp.targetdate + datetime.timedelta(hours=index)
                         # TODO date-> datetime 方式1：
                         # temp_datetime=datetime(temp.targetdate.year,temp.targetdate.month,temp.targetdate.day,index,0)
                         # TODO date-> datetime 方式2：
                         import datetime
-                        temp_datetime=datetime.datetime.combine(realtide_temp.targetdate,datetime.time(index,0))
-                        temp_tide = StationTideRealMidModel(temp, temp_datetime)
+                        # TODO [-] 19-04-25 temp[0] 为real temp[1] 为forecast
+                        # 需要判断是否没有-9999若存在-9999，则直接返回-9999
+                        if temp[0]==-9999 or temp[1]==-9999:
+                            temp_tide = StationTideRealMidModel(-9999, temp_datetime)
+                        else:
+                            temp_datetime=datetime.datetime.combine(realtide_temp.targetdate,datetime.time(index,0))
+                            # real-forecast 为实际的潮差
+                            temp_tide = StationTideRealMidModel(temp[0]-temp[1], temp_datetime)
                         data_list.append(temp_tide)
                         # print(str(temp_tide))
             # print(realtide_temp)

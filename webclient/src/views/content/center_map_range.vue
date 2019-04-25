@@ -72,8 +72,8 @@
           >
             <div class="card-header">
               {{station.stationname}}
-              <button id="testclick" @click.stop="showModal">|查看</button>
               <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
+              <button id="testclick" @click.stop="showModal">|查看</button>
               <!-- <a @click.stop="showModal">|查看过程</a> -->
             </div>
             <div class="card-body">
@@ -124,7 +124,7 @@
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
     <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
-    <ModalDetail></ModalDetail>
+    <ModalDetail :station="station_temp"></ModalDetail>
   </div>
 </template>
 
@@ -267,13 +267,15 @@ export default class center_map_range extends Vue {
   is_show_typhoon_list: boolean = false;
 
   is_show_modal: boolean = true;
-  // TODO: [-] 19-04-10 测站潮位测值列表
+  // [-] 19-04-10 测站潮位测值列表
   station_tide_list: Array<IStation> = []; //测站潮位测值列表
   select_station_index: number = -1; // 选中的海洋站序号（需要切换对应海洋站的两个div的显示于隐藏）
   //  19-04-12 鼠标移入时的station 序号（将该divicon zindex设置为最高）
   hover_station_index: number = -1;
-
-  // TODO:[*] 19-04-18 尝试实现散点图
+  index_stationdiv_click: number = 0;
+  // TODO:[*] 19-04-25 选中的测站对象（作为参数传递给子组件——modal）
+  station_temp: IStation = null;
+  // [-] 19-04-18 尝试实现散点图
   // myChart = echarts.init(document.getElementById("mycontent"));
   // echarts 的测试数据
   // data_echarts中保存的是测站及对应的潮位
@@ -315,7 +317,7 @@ export default class center_map_range extends Vue {
   // echart的散点图图层
   layer_scatter: any = null;
 
-  // TODO:[-] 19-04-18 测站散点图数组
+  // [-] 19-04-18 测站散点图数组
   data_scatter_station: Array<IEchartsScatterData> = [];
 
   // 地理数据
@@ -370,9 +372,9 @@ export default class center_map_range extends Vue {
           type: "scatter",
           coordinateSystem: "leaflet",
           // data: myself.convertData(myself.data_echarts),
-          // TODO:[-] 19-04-18 散点图中的data绑定为model
+          // [-] 19-04-18 散点图中的data绑定为model
           data: myself.data_scatter_station,
-          // TODO:[*] 19-04-23 散点图的大小
+          // [-] 19-04-23 散点图的大小
           symbolSize: function(val) {
             return myself.getSymbolSize(val);
           },
@@ -397,7 +399,7 @@ export default class center_map_range extends Vue {
           name: "Top 5",
           type: "effectScatter",
           coordinateSystem: "leaflet",
-          // TODO:[*] 19-04-18 散点图中的data绑定为model
+          // [-] 19-04-18 散点图中的data绑定为model
           data: myself.data_scatter_station,
           symbolSize: function(val) {
             return myself.getSymbolSize(val);
@@ -523,7 +525,7 @@ export default class center_map_range extends Vue {
     this.is_show_typhoon_list = false;
   }
 
-  // TODO:[-] 19-04-12 获取警报级别对应的颜色
+  // [-] 19-04-12 获取警报级别对应的颜色
   getStationAlarmClass(station: StationData_Mid_Model): string {
     let alarm_class = "";
     // 实测潮位 - 警戒潮位
@@ -648,14 +650,23 @@ export default class center_map_range extends Vue {
   addTestDiv2Map(): void {
     [18.3, 119.5];
   }
-  // TODO: [*] 19-04-22 改变当前选中的海洋站的编号
+  // TODO: [-] 19-04-25 改变当前选中的海洋站的编号
+  /* 
+    19-04-25 新加入了功能，是判断当前的点击次数，
+    若大于1次，说明在同一个station div中点击了两次，则打开modal框加载后台的该station 的过程数据
+  */
   changeStationIndex(index: number, station: IStation): void {
     var myself = this;
-    console.log(station);
+    this.index_stationdiv_click += 1;
+    // console.log(station);
     if (index === myself.select_station_index) {
       myself.select_station_index = -1;
     } else {
       myself.select_station_index = index;
+    }
+    // 判断是否符合条件需要触发展开modal的操作
+    if (myself.index_stationdiv_click > 1) {
+      myself.showModal(station);
     }
   }
 
@@ -741,15 +752,19 @@ export default class center_map_range extends Vue {
 
   openStationDivIcon(val): void {}
 
-  // TODO:[*] 19-04-23 显示过程曲线的mdoal框
-  showModal(): void {
-    console.log("点击触发");
-    alert("被处罚");
+  // TODO:[*] 19-04-25 显示过程曲线的mdoal框
+  showModal(station: IStation): void {
+    console.log(station);
+    this.station_temp = station;
+
+    // alert("被处罚");
   }
   // TODO: 19-04-12 鼠标移出 station Div时，将其index降低
   downZindex(index: number, val: any): void {
     this.select_station_index = -1;
     this.hover_station_index = -1;
+    // 鼠标移出某个div时，将该div的index计数器清0
+    this.index_stationdiv_click = 0;
   }
 
   // TODO:  鼠标移入station Div时，将其置顶
