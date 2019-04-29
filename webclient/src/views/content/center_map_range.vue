@@ -1,18 +1,9 @@
 <template>
   <div id="mycontent">
-    <l-map
-      ref="basemap"
-      :zoom="zoom"
-      :center="center"
-      @click="createMarker"
-    >
+    <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline
-        :lat-lngs="polyline.latlngs"
-        :color="polyline.color"
-        :fill="false"
-      ></l-polyline>
+      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
       <!-- 台风中心的圆点 -->
       <l-circle
         v-for="typhoon in typhoon_realdata_list"
@@ -26,96 +17,100 @@
       />
 
       <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
-      <l-marker
-        :lat-lng="targetMarkerLatlon"
-        :icon="icon_marker"
-      ></l-marker>
+      <l-marker :lat-lng="targetMarkerLatlon" :icon="icon_marker"></l-marker>
       <!-- 鼠标点击某个位置之后根据slider获取的半径 -->
-      <l-circle
-        :lat-lng="targetMarkerLatlon"
-        :weight="4"
-        :radius="range"
-      />
+      <l-circle :lat-lng="targetMarkerLatlon" :weight="4" :radius="range"/>
 
       <!-- 海洋站的div以及table样式 -->
       <!-- TODO: 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
       <!-- TODO: 19-04-12 修改此处，移入zindex权重增加，移出减小 -->
+      <!-- <l-marker
+        v-for="(station,index) in station_tide_list"
+        :key="station.id"
+        :lat-lng="station.point|formatPoint"
+        @mouseover="upZIndex(index,station)"
+        @mouseout="downZindex(index,station)"
+        @click="changeStationIndex(index,station)"
+        :options="icon_div_station_option"
+        :icon="icon_marker"
+        :zIndexOffset="getIconStationZIndex(index,station)"
+      >-->
       <l-marker
         v-for="(station,index) in station_tide_list"
         :key="station.id"
         :lat-lng="station.point|formatPoint"
-        @click="changeStationIndex(index)"
         @mouseover="upZIndex(index,station)"
         @mouseout="downZindex(index,station)"
+        @click="changeStationIndex(index,station)"
         :options="icon_div_station_option"
-        :zIndexOffset="getIconStationZIndex(index,station)"
-        :icon="icon_marker"
       >
+        <!-- TODO:[*] 19-04-23 注意此处将click从父级的l-marker中放在了子级中的l-icon中了——扔不行 -->
         <l-icon :options="icon_div_station_option">
-          <div
-            id="station_form"
-            v-show="index!=select_station_index"
-            class="fade_enter"
-          >
-            <table
-              class="table table-bordered"
-              border="1"
-            >
+          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
+            <table class="table table-bordered" border="1">
               <tr>
                 <td
                   :class="[getStationAlarmClass(station),'station_name']"
-                  rowspan="2"
+                  rowspan="1"
                 >{{station.stationname}}</td>
-                <td class="surge title">警戒</td>
-                <td class="surge">{{station.jw}}</td>
+                <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
+                <!-- <td class="surge title">警戒</td>
+                <td class="surge">{{station.jw}}</td>-->
               </tr>
-              <tr>
+              <!-- 改为只保留一行，以前第一行是警戒潮位，第二行是实测潮位，现在讲实测潮位移至第一行 -->
+              <!-- <tr>
                 <td class="tide">潮位</td>
                 <td :class="getStationAlarmClass(station)">{{station.tide}}</td>
-              </tr>
+              </tr>-->
             </table>
           </div>
+          <!-- <div id="station_detail" v-show="index==select_station_index" class="card box-shadow"> -->
           <div
             id="station_detail"
             v-show="index==select_station_index"
-            class="card box-shadow"
+            :class="{card:true, 'box-shadow':true,'upzindex':index==select_station_index}"
           >
-            <div class="card-header">{{station.name+index}}</div>
+            <div class="card-header">
+              {{station.stationname}}
+              <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
+              <button id="testclick" @click.stop="showModal">|查看</button>
+              <!-- <a @click.stop="showModal">|查看过程</a> -->
+            </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">时间</div>
                 <div class="col-md-8">{{station.startdate|formatDate}}</div>
               </div>
               <div class="row">
-                <div class="col-md-4">风向</div>
-                <div class="col-md-8">{{station.wd}}</div>
+                <div class="col-md-4">警戒潮位</div>
+                <div class="col-md-8">{{station.jw}}</div>
               </div>
               <div class="row">
-                <div class="col-md-4">波向</div>
-                <div class="col-md-8">{{station.bx}}</div>
+                <div class="col-md-4">平均潮位</div>
+                <div class="col-md-8">{{station.lev}}</div>
               </div>
               <div class="row row_footer">
                 <div class="typhoon_footer">
                   <div class="columnar">
-                    <div class="subitem_top">{{station.ws}}</div>
-                    <div class="subitem_foot">风向</div>
-                  </div>
-                  <div class="columnar">
-                    <div class="subitem_top">{{station.ybg}}</div>
-                    <div class="subitem_foot">有效波高</div>
-                  </div>
-                  <div class="columnar">
                     <div class="subitem_top">{{station.tide}}</div>
-                    <div class="subitem_foot">潮位</div>
+                    <div class="subitem_foot">实测潮位</div>
+                  </div>
+                  <div class="columnar">
+                    <div class="subitem_top">{{station.tide_forecast}}</div>
+                    <div class="subitem_foot">预报潮位</div>
+                  </div>
+                  <div class="columnar">
+                    <div class="subitem_top">{{station.tide-station.tide_forecast}}</div>
+                    <div class="subitem_foot">潮差</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </l-icon>
-        <!-- TODO: 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
+        <!-- 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
       </l-marker>
-      <!-- TODO: [-] 19-04-18 在station icon旁边加入marker——暂时注释掉-->
+      <!--  19-04-18 在station icon旁边加入marker——暂时注释掉-->
       <!-- <l-marker
         v-for="(station) in station_tide_list"
         :key="station.id"
@@ -128,11 +123,8 @@
     </div>-->
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
-    <TyphoonList
-      :typhoon_list="typhoon_code_list"
-      :is_show="is_show_typhoon_list"
-    ></TyphoonList>
-    <ModalDetail></ModalDetail>
+    <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
+    <ModalDetail :station="station_temp"></ModalDetail>
   </div>
 </template>
 
@@ -206,7 +198,7 @@ import {
 } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
 
-// TODO:[!] 19-04-18 引入ehcarts以及leaflet-echarts——此插件无法加载，暂时放弃
+//  19-04-18 引入ehcarts以及leaflet-echarts——此插件无法加载，暂时放弃
 // 此处不再使用
 // import "echarts-leaflet/dist/echarts-leaflet";
 // 使用 https://github.com/wandergis/leaflet-echarts
@@ -216,7 +208,7 @@ import { DivIcon, DivIconOptions } from "leaflet";
 // import "echarts/lib/chart/scatter";
 // import "echarts/lib/chart/effectScatter";
 
-// TODO:[*] 19-04-18尝试使用超图的开源iclent插件
+// 19-04-18尝试使用超图的开源iclent插件
 import { tiledMapLayer, echartsLayer } from "@supermap/iclient-leaflet";
 
 import fechaObj from "fecha";
@@ -236,7 +228,7 @@ import fechaObj from "fecha";
   },
   // 自定义过滤器
   filters: {
-    // TODO: 时间格式化
+    //  时间格式化
     formatDate(date: Date): String {
       var str_format = fecha.format(date, "YY-MM-DD HH:mm:ss");
       return str_format;
@@ -264,24 +256,26 @@ export default class center_map_range extends Vue {
   // mymap: any = null; // 地图
   typhoon_div_icon_temp: any = null; // 当前的divICon对象
 
-  // TODO: [-] 19-03-22 选中的当前台风对象
+  //  19-03-22 选中的当前台风对象
   typhoon_temp: MeteorologyRealData_Mid_Model = null; // 点击某个台风div后记录的该台风对象
   latlons: Array<LatLng> = []; // 经纬度的数组(数组嵌套数组)
   typhoon_list: Array<MeteorologyRealData_Mid_Model> = []; //台风列表
   typhoon_realdata_list: Array<MeteorologyRealData_Mid_Model> = []; // 台风气象实时数据列表
-  // TODO: [-] 19-03-21 台风 code集合
+  //  19-03-21 台风 code集合
   typhoon_code_list: Array<DataList_Mid_Model> = [];
   // 是否显示台风列表
   is_show_typhoon_list: boolean = false;
 
   is_show_modal: boolean = true;
-  // TODO: [-] 19-04-10
+  // [-] 19-04-10 测站潮位测值列表
   station_tide_list: Array<IStation> = []; //测站潮位测值列表
   select_station_index: number = -1; // 选中的海洋站序号（需要切换对应海洋站的两个div的显示于隐藏）
-  // TODO: [-] 19-04-12 鼠标移入时的station 序号（将该divicon zindex设置为最高）
+  //  19-04-12 鼠标移入时的station 序号（将该divicon zindex设置为最高）
   hover_station_index: number = -1;
-
-  // TODO:[*] 19-04-18 尝试实现散点图
+  index_stationdiv_click: number = 0;
+  // TODO:[*] 19-04-25 选中的测站对象（作为参数传递给子组件——modal）
+  station_temp: IStation = null;
+  // [-] 19-04-18 尝试实现散点图
   // myChart = echarts.init(document.getElementById("mycontent"));
   // echarts 的测试数据
   // data_echarts中保存的是测站及对应的潮位
@@ -323,7 +317,7 @@ export default class center_map_range extends Vue {
   // echart的散点图图层
   layer_scatter: any = null;
 
-  // TODO:[-] 19-04-18 测站散点图数组
+  // [-] 19-04-18 测站散点图数组
   data_scatter_station: Array<IEchartsScatterData> = [];
 
   // 地理数据
@@ -364,34 +358,27 @@ export default class center_map_range extends Vue {
     var mymap: any = this.$refs.basemap["mapObject"];
     var option: any = {
       title: {
-        text: "测试测试",
-        subtext: "data from PM25.in",
-        sublink: "http://www.pm25.in",
+        text: "潮位",
+        subtext: "潮位",
+        // sublink: "http://www.pm25.in",
         left: "center"
       },
       tooltip: {
         trigger: "item"
       },
-      // legend: {
-      //   orient: "vertical",
-      //   y: "bottom",
-      //   x: "right",
-      //   data: ["pm2.5"],
-      //   textStyle: {
-      //     color: "#fff"
-      //   }
-      // },
       series: [
         {
-          name: "pm2.5",
+          name: "潮位",
           type: "scatter",
           coordinateSystem: "leaflet",
           // data: myself.convertData(myself.data_echarts),
-          // TODO:[*] 19-04-18 散点图中的data绑定为model
+          // [-] 19-04-18 散点图中的data绑定为model
           data: myself.data_scatter_station,
+          // [-] 19-04-23 散点图的大小
           symbolSize: function(val) {
-            return val[2] / 30;
+            return myself.getSymbolSize(val);
           },
+          hoverAnimation: true,
           label: {
             normal: {
               formatter: "{b}",
@@ -412,17 +399,10 @@ export default class center_map_range extends Vue {
           name: "Top 5",
           type: "effectScatter",
           coordinateSystem: "leaflet",
-          // data: myself.convertData(
-          //   myself.data_echarts
-          //     .sort(function(a, b) {
-          //       return b.value - a.value;
-          //     })
-          //     .slice(0, 6)
-          // ),
-          // TODO:[*] 19-04-18 散点图中的data绑定为model
+          // [-] 19-04-18 散点图中的data绑定为model
           data: myself.data_scatter_station,
           symbolSize: function(val) {
-            return val[2] / 30;
+            return myself.getSymbolSize(val);
           },
           showEffectOn: "render",
           rippleEffect: {
@@ -449,16 +429,9 @@ export default class center_map_range extends Vue {
       ]
     };
     var echarts_scatter = echartsLayer(option);
-    // echarts_scatter.on("click", function(params) {
-    //   console.log(params);
-    // });
+
     myself.layer_scatter = echarts_scatter;
 
-    //
-    // mymap.on("click", function(e, i) {
-    //   console.log(e);
-    //   console.log(i);
-    // });
     myself.layer_scatter.addTo(mymap);
   }
 
@@ -466,35 +439,34 @@ export default class center_map_range extends Vue {
     zIndexOffset: 10
   };
 
-  // TODO: [-] 由rangeSlider通过vuex传过来的range
+  //  由rangeSlider通过vuex传过来的range
   get range(): number {
     return this.$store.state.map.range;
   }
 
-  // TODO: [x] 当前选择的台风（由vuex获取）
+  //  当前选择的台风（由vuex获取）
   get targetTyphoon(): MeteorologyRealData_Mid_Model {
     return this.$store.state.map.typhoon;
   }
 
-  // TODO: [-] 当前选择的 台风实时model(由vuex获取)
+  //  当前选择的 台风实时model(由vuex获取)
   get targetTyphoonRealBase(): TyphoonRealBase_Mid_Model {
     return this.$store.state.map.typhoonRealBase;
   }
 
-  // TODO: [-] 更改当前的 台风实时model(存在vuex中)
+  //  更改当前的 台风实时model(存在vuex中)
   set targetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
     this.$store.commit("typhoonRealBase", val);
   }
 
-  // markerLatLng: [47.31322, -1.319482];
-  // TODO: [-] 19-03-21 点击的marker
+  // 19-03-21 点击的marker
   targetMarkerLatlon: number[] = [47.31322, -1.319482];
   station_div_icon_option_show: any = {
     zIndexOffset: 199,
     iconAnchor: [-20, 30] //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
   };
 
-  // TODO: [-] 19-03-21 由子组件触发的根据lat,lon,range从后台获取typhoonlist的方法
+  // [-] 19-03-21 由子组件触发的根据lat,lon,range从后台获取typhoonlist的方法
   loadTyphoonListByRange(): void {
     var myself = this;
     var range: number = this.range;
@@ -519,24 +491,23 @@ export default class center_map_range extends Vue {
     });
   }
 
-  //TODO: 海洋站icon（防止偏移）
+  // 海洋站icon（防止偏移）
   icon_marker = L.icon({
     iconUrl: "/leaflet/images/marker-icon.png",
-    // iconSize: [32, 37],
     iconAnchor: [16, 37] // 防止地图缩放时产品偏移，需固定绝对位置
   });
-  // TODO: 海洋站圆柱体
+  //  海洋站圆柱体
   icon_div_station_cylinder_anchor: Array<number> = [-10, 10]; //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
 
-  // TODO: 计算圆柱体的偏移量
+  // 计算圆柱体的偏移量
   iconStationCylinderAnchor(val): Array<number> {
-    // return [120, 10];
     return [40, 10 + val * 5];
   }
 
-  //TODO: 海洋站divicon（防止偏移）
+  // 海洋站divicon（防止偏移）
   icon_div_station_option: any = {
-    iconAnchor: [-30, 30] //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
+    iconAnchor: [-30, 30], //[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]（可以防止偏移）
+    pane: "markerPane"
   };
 
   polyline: any = {
@@ -544,10 +515,7 @@ export default class center_map_range extends Vue {
     color: "yellow"
   };
   markers: any = [];
-
-  // color: Color = Color.red;
-
-  // TODO: [-] 19-03-21 鼠标在地图上点击后，加载marker
+  //  19-03-21 鼠标在地图上点击后，加载marker
   createMarker(event: any): void {
     // 鼠标点击地图上后，向该位置加入一个marker
     this.targetMarkerLatlon = [
@@ -557,7 +525,7 @@ export default class center_map_range extends Vue {
     this.is_show_typhoon_list = false;
   }
 
-  // TODO:[*] 19-04-12 获取警报级别对应的颜色
+  // [-] 19-04-12 获取警报级别对应的颜色
   getStationAlarmClass(station: StationData_Mid_Model): string {
     let alarm_class = "";
     // 实测潮位 - 警戒潮位
@@ -615,25 +583,19 @@ export default class center_map_range extends Vue {
   }
 
   showTyphoonDiv(val): void {
-    // console.log(val);
     this.addTyphoonDiv2Map(val);
   }
-  // latlons: Array<number[]> = []; // 经纬度的数组(数组嵌套数组)
   // 初始化map
   initMap(): void {
     var myself = this;
     // 暂时将读取台风路径写在此处
     this.loadTyphoonLine();
-    // this.loadTyphoonPoint();
   }
 
   // 每次初始化地图时，清除一些数据
   initData(): void {
     this.typhoon_temp = null;
   }
-  // loadTyphoonData():void{
-
-  // }
 
   // TODO: [*] 准备去掉！将typhoon_list 加载值地图中
   loadTyphoonLine(): void {
@@ -662,9 +624,6 @@ export default class center_map_range extends Vue {
       });
       //加入鼠标移入时的操作
       circle_temp.on("mouseover", function(e) {
-        // console.log(e);
-        // console.log(temp);
-        // console.log(circle_temp);
         myself.addTyphoonDiv2Map(temp);
       });
 
@@ -675,27 +634,14 @@ export default class center_map_range extends Vue {
 
       //加入点击鼠标时的操作
       circle_temp.on("click", function(e) {
-        // console.log(e);
         myself.typhoon_temp = temp;
-        // console.log(myself.typhoon_temp);
       });
-      // circle_temp.addTo(mymap);
     });
-
-    //3 获取了经纬度数组之后，需要在地图上画线
-    // var temp = new LatLng();
-
-    // var polyline = L.polyline(myself.latlons, { color: "red" }).addTo(mymap);
-
-    //4 暂时添加一个divIcon的测试
-    // this.addTestDiv2Map();
   }
   // TODO: [-] 不再使用！加载指定台风，指定时刻的所有测站div
   loadStationDivs(): void {
     var myself = this;
-    this.station_tide_list.map(temp => {
-      // myself.addStationDiv2Map(temp);
-    });
+    this.station_tide_list.map(temp => {});
   }
   // 清除测站的divIcon
   clearStationDivs(): void {
@@ -704,14 +650,23 @@ export default class center_map_range extends Vue {
   addTestDiv2Map(): void {
     [18.3, 119.5];
   }
-  // TODO: [-] 19-04-12 改变当前选中的海洋站的编号
-  changeStationIndex(index: number): void {
-    // console.log(val);
+  // TODO: [-] 19-04-25 改变当前选中的海洋站的编号
+  /* 
+    19-04-25 新加入了功能，是判断当前的点击次数，
+    若大于1次，说明在同一个station div中点击了两次，则打开modal框加载后台的该station 的过程数据
+  */
+  changeStationIndex(index: number, station: IStation): void {
     var myself = this;
+    this.index_stationdiv_click += 1;
+    // console.log(station);
     if (index === myself.select_station_index) {
       myself.select_station_index = -1;
     } else {
       myself.select_station_index = index;
+    }
+    // 判断是否符合条件需要触发展开modal的操作
+    if (myself.index_stationdiv_click > 1) {
+      myself.showModal(station);
     }
   }
 
@@ -754,20 +709,11 @@ export default class center_map_range extends Vue {
     myself.typhoon_div_icon_temp = typhoon_div_icon_target;
   }
 
+  // 暂时无人调用
   addStationDiv2Map(station_temp: TideRealData_Mid_Model): void {
     var myself = this;
     var mymap: any = this.$refs.basemap["mapObject"];
     let station_div_html = station_temp.toHtml();
-    // this.markers.push({
-    //   // id: "m1",
-    //   position: { lat: station_temp.latlon[0], lng: station_temp.latlon[1] },
-    //   tooltip: "tooltip for marker1",
-    //   draggable: true,
-    //   visible: true,
-    //   options: {
-    //     html: station_div_html
-    //   }
-    // });
     let station_div_icon = L.divIcon({
       className: "station_icon",
       html: station_div_html,
@@ -804,25 +750,21 @@ export default class center_map_range extends Vue {
     });
   }
 
-  openStationDivIcon(val): void {
-    // console.log(val);
-  }
+  openStationDivIcon(val): void {}
 
+  // TODO:[*] 19-04-25 显示过程曲线的mdoal框
+  showModal(station: IStation): void {
+    console.log(station);
+    this.station_temp = station;
+
+    // alert("被处罚");
+  }
   // TODO: 19-04-12 鼠标移出 station Div时，将其index降低
   downZindex(index: number, val: any): void {
-    // var myself = this;
-    // var opt = this.icon_div_station_option;
     this.select_station_index = -1;
     this.hover_station_index = -1;
-
-    // // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
-    // if (myself.select_station_index === index) {
-    //   // 点击了当前海洋站，则将该海洋站的zindex设置为最高
-    //   opt["zIndexOffset"] = "19999";
-    // } else {
-    //   opt["zIndexOffset"] = "99";
-    // }
-    // return opt;
+    // 鼠标移出某个div时，将该div的index计数器清0
+    this.index_stationdiv_click = 0;
   }
 
   // TODO:  鼠标移入station Div时，将其置顶
@@ -836,16 +778,6 @@ export default class center_map_range extends Vue {
     var myself = this;
     var mymap: any = this.$refs.basemap["mapObject"];
     let station_div_html = station_temp.toHtml();
-    // this.markers.push({
-    //   // id: "m1",
-    //   position: { lat: station_temp.latlon[0], lng: station_temp.latlon[1] },
-    //   tooltip: "tooltip for marker1",
-    //   draggable: true,
-    //   visible: true,
-    //   options: {
-    //     html: station_div_html
-    //   }
-    // });
     let station_div_icon = L.divIcon({
       className: "station_icon",
       html: station_div_html,
@@ -862,13 +794,9 @@ export default class center_map_range extends Vue {
     ).addTo(mymap);
     //当移入时，需要修改该div的index
     station_div_icon_temp.on("mouseover", function(e) {
-      // console.log(e);
-      // console.log(station_div_icon_temp._zIndex);
       station_div_icon_temp.setZIndexOffset(19999);
     });
     station_div_icon_temp.on("mouseout", function(e) {
-      // console.log(e);
-      // console.log(station_div_icon_temp._zIndex);
       station_div_icon_temp.setZIndexOffset(99);
     });
     // 鼠标点击时展开div
@@ -897,7 +825,7 @@ export default class center_map_range extends Vue {
     //以下为模拟的台站数据
   }
 
-  // TODO: [-] 19-03-23 监听由vuex更新的targetTyphoon（当前选择的台风）
+  // 监听由vuex更新的targetTyphoon（当前选择的台风）
   //更新typhoon_realdata_list以及polyline
   @Watch("targetTyphoon")
   onTargetTyphoon(val: DataList_Mid_Model) {
@@ -929,6 +857,54 @@ export default class center_map_range extends Vue {
     });
   }
 
+  // 19-04-23 对于散点图的大小的转换
+  // index=0:max;inde=1:min
+  transformScatterSize(): number[] {
+    /*
+      
+     */
+    var arr_val = [];
+    this.data_scatter_station.forEach(obj => {
+      if (obj.value[2] !== -9999) {
+        arr_val.push(obj.value[2]);
+      }
+    });
+    var max = Math.max(...arr_val);
+    var min = Math.min(...arr_val);
+    return [max, min];
+  }
+
+  // 19-04-23 对于散点图的大小的转换
+  getSymbolSize(val: any): number {
+    var myself = this;
+    //index=0:max;inde=1:min
+    var arr_maxmin = myself.transformScatterSize();
+    var max = arr_maxmin[0];
+    var min = arr_maxmin[1];
+    var val_temp = val[2];
+    // 系数
+    var factor_percent = 200;
+    var factor_magnify = 3;
+    if (val !== -9999) {
+      var count = max - min;
+
+      var maxValue = max - min - min / count;
+      var percent = Math.floor(((val_temp - min) / count) * factor_percent);
+      percent = Math.sqrt(percent);
+      return percent * factor_magnify;
+      // return percent * factor;
+      // var maxSize = 100;
+      // var scale = 1;
+      // if (maxSize) {
+      //   scale = maxValue / maxSize;
+      // }
+
+      // return (val[2] - min - min / count) / scale;
+    } else {
+      return 0;
+    }
+  }
+
   // TODO: [*] 19-04-01 监听当前选择的实时台风（含date）
   @Watch("targetTyphoonRealBase")
   onTargetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
@@ -944,6 +920,11 @@ export default class center_map_range extends Vue {
           try {
             var temp_forecast: IForecast = temp.forecast;
             var temp_station: IStation = temp.station;
+            // TODO:[*] 19-04-23 需要加入对实测值及预报值是否存在的判断
+            /*
+              此处可能出现的状况是：
+                在temp_forecast.val_forecast与.val_real有可能存在缺省值（-9999）即不存在需要剔除，
+            */
             // "1956-09-02T18:00:00Z"
             // console.log(temp_forecast.occurred)
             // console.log(fecha.parse(temp_forecast.occurred,'YY-MM-DD HH:mm:ss'))
@@ -970,8 +951,12 @@ export default class center_map_range extends Vue {
                 [
                   temp_station.point.coordinates[0],
                   temp_station.point.coordinates[1],
-
-                  temp_station.jw
+                  // TODO:[*] 19-04-23 散点图中的val为实测-预报值
+                  // temp_station.jw
+                  temp_forecast.val_real === -9999 ||
+                  temp_forecast.val_forecast === -9999
+                    ? 0
+                    : temp_forecast.val_real - temp_forecast.val_forecast
                 ]
               )
             );
@@ -991,7 +976,7 @@ export default class center_map_range extends Vue {
   getIconStationOption(index: number, val): any {
     var myself = this;
     var opt = this.station_div_icon_option_show;
-    console.log(val);
+    // console.log(val);
     // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
     if (myself.select_station_index === index) {
       // 点击了当前海洋站，则将该海洋站的zindex设置为最高
@@ -1011,7 +996,7 @@ export default class center_map_range extends Vue {
     // console.log(val);
     var zIndex = opt.zIndexOffset;
     // 若传入的index与当前选中的index相同（说明点击了该海洋站div）
-    //  TODO: Toggle Done  19-04-12 此处判断加入当前hover的index的判断（or）
+    //   19-04-12 此处判断加入当前hover的index的判断（or）
     if (
       myself.select_station_index === index ||
       myself.hover_station_index === index
@@ -1027,23 +1012,17 @@ export default class center_map_range extends Vue {
     return zIndex;
   }
 
-  // TODO: 相当于computed
+  //  相当于computed
   get icon_div_station_option_ext() {
     var opt = this.icon_div_station_option;
     opt["zIndexOffset"] = "19999";
     return opt;
   }
 
-  // TODO: 计算海洋站圆柱体的高度
+  //  计算海洋站圆柱体的高度
   iconDivWeight(val) {
     return val.tide * 5;
   }
-  // watch: {
-
-  //   pythoon_temp(newVal){
-
-  //   }
-  // }
 }
 </script>
 
@@ -1151,7 +1130,7 @@ export default class center_map_range extends Vue {
 
 #station_form {
   /* border: 2px solid white; */
-  width: 220px;
+  width: 180px;
   display: inline-block;
   /* background: rgba(50, 124, 164, 0.829); */
   background: #2c3e5034;
@@ -1266,6 +1245,11 @@ export default class center_map_range extends Vue {
 #station_detail .card-body {
   background: rgb(47, 68, 84);
   color: white;
+}
+
+/* TODO:[*] 19-04-24 在station展开后的div中尝试加入一个修改zindex的样式 */
+.upzindex {
+  z-index: 999;
 }
 
 /* 海洋站的柱体样式 */

@@ -1,48 +1,30 @@
 <template>
-  <div
-    id="mymodal"
-    class="modal fade"
-    tabindex="-1"
-    role="dialog"
-  >
-    <div
-      id="modal_content"
-      class="modal-dialog"
-      role="document"
-    >
+  <div id="mymodal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="modal_content" class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          ><span aria-hidden="true">&times;</span></button>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
           <!-- <h4 class="modal-title">船舶编号{{}}</h4> -->
         </div>
         <div class="modal-body my-content-primary">
           <div>
             <!-- <bbxDetailTable :bid="bid"></bbxDetailTable> -->
-            <ul
-              id="mytabs"
-              class="nav nav-tabs"
-            >
+            <ul id="mytabs" class="nav nav-tabs">
               <li
                 v-for="(item,index) in menulist"
-                :key=index
+                :key="index"
                 role="presentation"
                 :class="{active:index===indexMenu}"
               >
-                <a
-                  href="#"
-                  @click="active(index)"
-                >{{item.name}}</a>
+                <a href="#" @click="active(index)">{{item.name}}</a>
               </li>
             </ul>
             <!-- <div
               id="main"
               style=""
-            ></div> -->
+            ></div>-->
             <stationChart
               :columns="childColumns"
               :values="childVals"
@@ -53,15 +35,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-default"
-            data-dismiss="modal"
-          >关闭</button>
-          <button
-            type="button"
-            class="btn btn-primary"
-          >确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary">确定</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -74,7 +49,9 @@
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { ArrayPropsDefinition } from "vue/types/options";
 import { menulist } from "@/common/menu/station_detail_tab_list.ts";
+// 引入数据格式规范接口
 import { IMenu } from "@/interface/menu/menu.ts";
+import { IStation } from "@/interface/map/map.ts";
 //引入枚举
 import { MenuType } from "@/common/enum/menu.ts";
 // 引入子组件
@@ -88,10 +65,19 @@ import {
   loadStationDetailDataList,
   ITyphoonParams4Station
 } from "@/api/api.ts";
+import { IStats } from "mocha";
 
 @Component({
   components: {
     stationChart
+  },
+  props: {
+    // 台风code
+    // code: String,
+    // 海洋站名称
+    // name: String,
+    // 选中的测站（含 name——测站名称 与code——台风编号）
+    station: Object
   }
 })
 export default class modal_detail extends Vue {
@@ -104,6 +90,10 @@ export default class modal_detail extends Vue {
   childColumns: Array<any> = [];
   childFactor: any = null;
   childTitle: string = "测试测试";
+
+  // code: string;
+  // name: string;
+  station: IStation;
 
   showModal(): void {
     $("#mymodal").modal({
@@ -144,14 +134,36 @@ export default class modal_detail extends Vue {
   created() {
     // console.log("created");
   }
+  // 19-04-25 清空charts的数据
+  clearData() {
+    this.childVals = [];
+    this.childColumns = [];
+  }
   mounted() {
+    // 由父组件传入的station来控制是否显示modal
     // console.log("mounted");
-    this.loadStationData("5622", "LIUMI", MenuType.real);
-    this.showModal();
+    // this.loadStationData("5622", "LIUMI", MenuType.real);
+    // this.showModal();
   }
   @Watch("dataObservation")
   ondataObservation(val: StationObservationTide_Mid_Model) {
     // this.
+  }
+
+  // watch code
+  @Watch("station")
+  onStation(val: IStation) {
+    // 判断code与name是否均被赋值
+    var myself = this;
+    // console.log("监听到station发生变化");
+    // console.log(val);
+    //清空charts的数据
+    this.clearData();
+    this.loadStationData(val.code, val.stationname, MenuType.real);
+    this.showModal();
+    // if (myself.name != null) {
+    //   console.log("坚挺到code与name均发生变化");
+    // }
   }
 }
 </script>

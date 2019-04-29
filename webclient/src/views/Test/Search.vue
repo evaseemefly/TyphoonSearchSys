@@ -67,30 +67,18 @@
           <div class="card mt10">
             <div class="card-header card-my-header">台风列表</div>
             <div class="card-body card-my-body">
-              <!-- <h5 class="card-title">台风列表</h5> -->
-
-              <!-- 使用element table组件——暂时不使用此种方式 -->
-              <!-- <el-table
-                :data="typhoonCodeData"
-                stripe
-                @row-click="clickCodeForTime"
-                style="width:100%;"
-              >
-                <el-table-column type="index"></el-table-column>
-                <el-table-column prop="code" label="台风编号"></el-table-column>
-              </el-table>-->
               <ul class="list-group">
                 <li
                   class="list-group-item list-my-group-item"
                   v-for="(item,index) in typhoonCodeData"
                   :key="index"
                   @click="clickCodeForTime(item)"
-                >{{item.code}}</li>
+                >{{item}}</li>
               </ul>
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="typhoonCodeDataTotalCount()"
+                :total="typhoonCodeDataTotal"
                 :page-size="typhoonCodePageSize"
                 @current-change="typhoonCodePageChange"
               ></el-pagination>
@@ -106,23 +94,13 @@
             <!-- <h5 class="card-title">台风编号</h5> -->
             <!-- 此处不再套在card-body中，样式更好看一些，去掉了padding -->
             <div class="card-body card-my-body">
-              <!-- 此处不再使用elemetn ui -->
-              <!-- <el-table
-              :data="typhoonTimeData"
-              stripe
-              @row-click="clickDateForDetail"
-              style="width:100%"
-            >
-              <el-table-column type="index"></el-table-column>
-              <el-table-column prop="date" label="发生时间"></el-table-column>
-              </el-table>-->
               <ul class="list-group">
                 <li
                   class="list-group-item list-my-group-item"
                   v-for="(item,index) in typhoonTimeData"
                   :key="index"
                   @click="clickDateForDetail(item)"
-                >{{item}}</li>
+                >{{item.date}}</li>
               </ul>
               <el-pagination
                 background
@@ -166,7 +144,7 @@
 import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import { filterByComplexCondition } from "@/api/api.js";
+import { getTyphoonCodeByComplexCondition } from "@/api/api.js";
 
 Vue.use(ElementUI);
 export default {
@@ -184,7 +162,7 @@ export default {
       typhoonTimeData: [],
       typhoonDetailData: [],
 
-      typhoonCodeDataTotal: [],
+      typhoonCodeDataTotal: 0,
       typhoonTimeDataTotal: [],
       typhoonDetailDataTotal: [],
 
@@ -194,11 +172,13 @@ export default {
     };
   },
   methods: {
-    loadSearchResult() {
+    loadSearchResult(pageInfo) {
       //先关上其他表格
       this.isDateShow = false;
       this.isDetailShow = false;
       let app = this;
+      let from =0;
+      let to = this.typhoonCodePageSize;
       var startDate = this.startMonth,
         endDate = this.endMonth;
       if (startDate) {
@@ -207,33 +187,25 @@ export default {
       if (endDate) {
         endDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1);
       }
-      filterByComplexCondition(
+      
+      if(pageInfo.from!==undefined)
+        from = pageInfo.from
+      if(pageInfo.to!==undefined)
+        to = pageInfo.to
+
+      getTyphoonCodeByComplexCondition(
         this.level,
         this.wsm,
         this.bp,
         startDate,
-        endDate
+        endDate,
+        from,
+        to
       ).then(res => {
         if (res.status === 200) {
-          if (res.data instanceof Array) {
-            let arr = [];
-            for (let x of res.data) {
-              if (x && x.date) {
-                let tmp = x;
-                tmp.date = x.date.split("T")[0];
-                arr.push(tmp);
-              }
-            }
-
-            app.tableData = arr;
-            app.typhoonCodeDataTotal = app.getTypoonCodesArr(app.tableData);
-            app.typhoonCodeData = app.typhoonCodeDataTotal.slice(
-              0,
-              app.typhoonCodePageSize
-            );
-          } else {
-            app.tableData = [];
-          }
+          //todo
+          app.typhoonCodeData = res.data.data;
+          app.typhoonCodeDataTotal = res.data.total;
         }
       });
     },
@@ -254,6 +226,24 @@ export default {
       this.setTimeData(row.code);
       this.isDateShow = true;
       this.isDetailShow = false;
+    },
+    // TODO:[*] 19-04-22 加入了日期的修改 -by zw
+    getFormatDate(dateStr) {
+      if (!dateStr) return "";
+      try {
+        let d = new Date(dateStr);
+        return (
+          d.getFullYear() +
+          "-" +
+          (d.getMonth() + 1) +
+          "-" +
+          d.getDate() +
+          " " +
+          d.getHours()
+        );
+      } catch (e) {
+        return dateStr.split("T")[0];
+      }
     },
     setTimeData(code) {
       let arr = [],
@@ -282,11 +272,8 @@ export default {
       alert("something todo");
     },
     typhoonCodePageChange(pageNum) {
-      this.typhoonCodeData = this.sliceData(
-        pageNum,
-        this.typhoonCodePageSize,
-        this.typhoonCodeDataTotal
-      );
+      let result = this.countPageNum(pageNum,this.typhoonCodePageSize);
+      this.loadSearchResult(result)
     },
     typhoonTimeDataPageChange(pageNum) {
       this.typhoonTimeData = this.sliceData(
@@ -302,15 +289,16 @@ export default {
         this.typhoonDetailDataTotal
       );
     },
-    sliceData: function(pageNum, pageSize, totalData) {
+    countPageNum:function(pageNum, pageSize){
       let startNum = 0,
         endNum = 0;
       startNum = pageSize * (pageNum - 1);
       endNum = startNum + pageSize;
-      return totalData.slice(startNum, endNum);
+      return {from:startNum,to:endNum}
     },
-    typhoonCodeDataTotalCount() {
-      return this.typhoonCodeDataTotal.length;
+    sliceData: function(pageNum, pageSize, totalData) {
+      let result = this.countPageNum(pageNum,pageSize)
+      return totalData.slice(result.from, result.to);
     },
     typhoonTimeDataTotalCount() {
       return this.typhoonTimeDataTotal.length;

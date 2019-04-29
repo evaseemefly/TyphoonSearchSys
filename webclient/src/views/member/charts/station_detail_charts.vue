@@ -125,7 +125,7 @@ export default class station_detail_charts extends Vue {
               }
             }
           }, //向下填充区域
-          data: myself.values,
+          data: myself.value2format,
           label: {
             normal: {
               show: true
@@ -188,6 +188,20 @@ export default class station_detail_charts extends Vue {
       columns_format.push(fecha.format(obj, "MM-DD HH:mm"));
     });
     return columns_format;
+  }
+
+  // 对于values进行一个过滤剔除掉缺省值
+  get value2format() {
+    var myself = this;
+    var vals_format = [];
+    myself.values.forEach(obj => {
+      if (obj === -9999) {
+        vals_format.push(null);
+      } else {
+        vals_format.push(obj);
+      }
+    });
+    return vals_format;
   }
 
   // 对于每一个columns由于是date类型，所以只保留 mm-dd HH-mm即可

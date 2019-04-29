@@ -16,3 +16,8 @@ export const filterByComplexCondition = (
   let url = `${host}/gis/filter/complex/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}`;
   return axios.get(url);
 };
+
+export const getTyphoonCodeByComplexCondition = (level, wsm, bp, startMonth, endMonth, from, to) => {
+  let url = `${host}/gis/filter/GetTyphoonCodeByComplexCondition/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`
+  return axios.get(url);
+}
