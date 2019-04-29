@@ -20,4 +20,5 @@ def readtxt(filename):
             fullText.append(para.text)
     return '\n'.join(fullText)
 
+
 print (readtxt(fullname))
