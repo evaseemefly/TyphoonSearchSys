@@ -2,77 +2,83 @@
   <div style="text-align:left;width:100%;">
     <div class="container-fluid" style="background:rgba(255,255,255,0) ;color:black;width:80%;">
       <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
+          <!-- 多条件搜索 -->
           <div class="card mt10" style="margin-top:10px;">
-            <div class="card-body">
-              <h5 class="card-title">搜索条件</h5>
-              <form class="card-body">
-                <div class="form-row">
-                  <div class="form-group col-md-6 form-inline">
-                    <div class="col-sm-3">
-                      <label for="inputEmail4">级别</label>
-                    </div>
-                    <input v-model="level" class="form-control ml-10">
+            <!-- <div class="card-body">
+              
+            </div>-->
+            <!-- <h5 class="card-title card-my-header">搜索条件</h5> -->
+            <!-- TODO [-] 此处修改 -->
+            <div class="card-header card-my-header">多条件搜索</div>
+            <form class="card-body card-my-body">
+              <div class="form-row">
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label for="inputEmail4">级别</label>
                   </div>
-                  <div class="form-group col-md-6 form-inline">
-                    <div class="col-sm-3">
-                      <label for="inputPassword4">最大风速</label>
-                    </div>
-                    <input class="form-control" v-model="wsm">
-                  </div>
+                  <input v-model="level" class="form-control col-md-7">
                 </div>
-                <div class="form-row">
-                  <div class="form-group col-md-6 form-inline">
-                    <div class="col-sm-3">
-                      <label for="inputAddress">气压</label>
-                    </div>
-                    <input class="form-control" v-model="bp">
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label for="inputPassword4">最大风速</label>
                   </div>
+                  <input class="form-control col-md-7" v-model="wsm">
                 </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label for="inputAddress">气压</label>
+                  </div>
+                  <input class="form-control col-md-7" v-model="bp">
+                </div>
+              </div>
 
-                <div class="form-row">
-                  <div class="form-group col-md-6 form-inline" style="text-align:left;">
-                    <div class="col-sm-3">
-                      <label>起始月</label>
-                    </div>
+              <div class="form-row">
+                <div class="form-group col-md-6 form-inline" style="text-align:left;">
+                  <div class="col-sm-3 smdiv">
+                    <label>起始月</label>
+                  </div>
 
-                    <el-date-picker
-                      v-model="startMonth"
-                      type="month"
-                      placeholder="起始月"
-                      style="width:210px;"
-                    ></el-date-picker>
-                  </div>
-                  <div class="form-group col-md-6 form-inline">
-                    <div class="col-sm-3">截至月</div>
-                    <el-date-picker
-                      v-model="endMonth"
-                      type="month"
-                      placeholder="截至月"
-                      style="width:210px;"
-                    ></el-date-picker>
-                  </div>
+                  <el-date-picker
+                    v-model="startMonth"
+                    type="month"
+                    placeholder="起始月"
+                    style="width:60%;"
+                  ></el-date-picker>
                 </div>
-                <el-button type="primary" icon="el-icon-search" @click="loadSearchResult">搜索</el-button>
-              </form>
-            </div>
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label>截至月</label>
+                  </div>
+                  <el-date-picker
+                    v-model="endMonth"
+                    type="month"
+                    placeholder="截至月"
+                    style="width:60%;"
+                  ></el-date-picker>
+                </div>
+              </div>
+              <el-button type="primary" icon="el-icon-search" @click="loadSearchResult">搜索</el-button>
+            </form>
           </div>
+          <!-- 右侧下侧台风列表 -->
           <div class="card mt10">
-            <div class="card-body">
-              <h5 class="card-title">台风列表</h5>
-              <el-table
-                :data="typhoonCodeData"
-                stripe
-                @row-click="clickCodeForTime"
-                style="width:100%;"
-              >
-                <el-table-column type="index"></el-table-column>
-                <el-table-column prop="code" label="台风编号"></el-table-column>
-              </el-table>
+            <div class="card-header card-my-header">台风列表</div>
+            <div class="card-body card-my-body">
+              <ul class="list-group">
+                <li
+                  class="list-group-item list-my-group-item"
+                  v-for="(item,index) in typhoonCodeData"
+                  :key="index"
+                  @click="clickCodeForTime(item)"
+                >{{item}}</li>
+              </ul>
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="typhoonCodeDataTotalCount()"
+                :total="typhoonCodeDataTotal"
                 :page-size="typhoonCodePageSize"
                 @current-change="typhoonCodePageChange"
               ></el-pagination>
@@ -81,49 +87,52 @@
         </div>
         <div class="col-md-6">
           <div class="card mt10" v-show="isDateShow">
-            <div class="card-body">
-              <h5 class="card-title">发生日期</h5>
-
-              <el-table
-                :data="typhoonTimeData"
-                stripe
-                @row-click="clickDateForDetail"
-                style="width:100%"
-              >
-                <el-table-column type="index"></el-table-column>
-                <el-table-column prop="date" label="发生时间"></el-table-column>
-              </el-table>
+            <!-- <div class="card-body card-my-body">
+              
+            </div>-->
+            <div class="card-header card-my-header">台风编号</div>
+            <!-- <h5 class="card-title">台风编号</h5> -->
+            <!-- 此处不再套在card-body中，样式更好看一些，去掉了padding -->
+            <div class="card-body card-my-body">
+              <ul class="list-group">
+                <li
+                  class="list-group-item list-my-group-item"
+                  v-for="(item,index) in typhoonTimeData"
+                  :key="index"
+                  @click="clickDateForDetail(item)"
+                >{{item._id}}</li>
+              </ul>
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="typhoonTimeDataTotalCount()"
+                :total="typhoonTimeDataTotal"
                 :page-size="typhoonTimeDataPageSize"
                 @current-change="typhoonTimeDataPageChange"
               ></el-pagination>
             </div>
           </div>
           <div class="card mt10" v-show="isDetailShow">
-            <div class="card-body">
-              <h5 class="card-title">发生细节</h5>
-              <el-table
-                :data="typhoonDetailData"
-                stripe
-                style="width:100%"
-                @row-click="clickDetailData"
-              >
-                <el-table-column type="index"></el-table-column>
-                <el-table-column prop="wsm" label="风速"></el-table-column>
-                <el-table-column prop="level" label="级别"></el-table-column>
-                <el-table-column prop="bp" label="气压"></el-table-column>
-              </el-table>
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                :total="typhoonDetailDataTotalCount()"
-                :page-size="typhoonDetailPageSize"
-                @current-change="typhoonDetailPageChange"
-              ></el-pagination>
-            </div>
+            <!-- <div class="card-body card-my-body"></div> -->
+            <div class="card-header card-my-header">观测数据</div>
+            <!-- <h5 class="card-title">观测数据</h5> -->
+            <el-table
+              :data="typhoonDetailData"
+              stripe
+              style="width:100%"
+              @row-click="clickDetailData"
+            >
+              <el-table-column type="index"></el-table-column>
+              <el-table-column prop="wsm" label="风速"></el-table-column>
+              <el-table-column prop="level" label="级别"></el-table-column>
+              <el-table-column prop="bp" label="气压"></el-table-column>
+            </el-table>
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="typhoonDetailDataTotal"
+              :page-size="typhoonDetailPageSize"
+              @current-change="typhoonDetailPageChange"
+            ></el-pagination>
           </div>
         </div>
       </div>
@@ -135,7 +144,11 @@
 import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import { filterByComplexCondition } from "@/api/api.js";
+import {
+  getTyphoonCodeByComplexCondition,
+  getTimeByCode,
+  getDetail
+} from "@/api/api.js";
 
 Vue.use(ElementUI);
 export default {
@@ -146,6 +159,8 @@ export default {
       bp: "",
       startMonth: "",
       endMonth: "",
+      code: "",
+      date: "",
       isDateShow: false,
       isDetailShow: false,
       tableData: [],
@@ -153,9 +168,9 @@ export default {
       typhoonTimeData: [],
       typhoonDetailData: [],
 
-      typhoonCodeDataTotal: [],
-      typhoonTimeDataTotal: [],
-      typhoonDetailDataTotal: [],
+      typhoonCodeDataTotal: 0,
+      typhoonTimeDataTotal: 0,
+      typhoonDetailDataTotal: 0,
 
       typhoonCodePageSize: 6,
       typhoonTimeDataPageSize: 6,
@@ -163,11 +178,13 @@ export default {
     };
   },
   methods: {
-    loadSearchResult() {
+    loadSearchResult(pageInfo) {
       //先关上其他表格
       this.isDateShow = false;
       this.isDetailShow = false;
       let app = this;
+      let from = 0;
+      let to = this.typhoonCodePageSize;
       var startDate = this.startMonth,
         endDate = this.endMonth;
       if (startDate) {
@@ -176,37 +193,63 @@ export default {
       if (endDate) {
         endDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1);
       }
-      filterByComplexCondition(
+
+      if (pageInfo.from !== undefined) from = pageInfo.from;
+      if (pageInfo.to !== undefined) to = pageInfo.to;
+
+      getTyphoonCodeByComplexCondition(
         this.level,
         this.wsm,
         this.bp,
         startDate,
-        endDate
+        endDate,
+        from,
+        to
       ).then(res => {
         if (res.status === 200) {
-          if (res.data instanceof Array) {
-            let arr = [];
-            for (let x of res.data) {
-              if (x && x.date) {
-                let tmp = x;
-                tmp.fullDate = x.date;
-                tmp.date = app.getFormatDate(x.date);
-                arr.push(tmp);
-              }
-            }
-
-            app.tableData = arr;
-            app.typhoonCodeDataTotal = app.getTypoonCodesArr(app.tableData);
-            app.typhoonCodeData = app.typhoonCodeDataTotal.slice(
-              0,
-              app.typhoonCodePageSize
-            );
-          } else {
-            app.tableData = [];
-          }
+          app.typhoonCodeData = res.data.data;
+          app.typhoonCodeDataTotal = res.data.total;
         }
       });
     },
+    loadSearchDateByCode(pageInfo) {
+      let app = this;
+      getTimeByCode(pageInfo.code, pageInfo.from, pageInfo.to).then(res => {
+        if (res.status == 200) {
+          app.typhoonTimeData = res.data.data;
+          app.typhoonTimeDataTotal = res.data.total;
+        }
+      });
+    },
+    loadSearchDetail(pageInfo) {
+      let app = this;
+      getDetail(pageInfo.code, pageInfo.date).then(res => {
+        if (res.status == 200) {
+          app.typhoonDetailData = res.data;
+          app.typhoonDetailDataTotal = res.data.length;
+        }
+      });
+    },
+    getTypoonCodesArr(data) {
+      let dic = {},
+        codes = [];
+      for (let i = 0; i < data.length; i++) {
+        if (dic[data[i].code]) {
+          continue;
+        }
+        codes.push({ code: data[i].code });
+        dic[data[i].code] = 1;
+      }
+      return codes;
+    },
+    clickCodeForTime(row, event, column) {
+      //deal other table
+      this.code = row;
+      this.setTimeData(row);
+      this.isDateShow = true;
+      this.isDetailShow = false;
+    },
+    // TODO:[*] 19-04-22 加入了日期的修改 -by zw
     getFormatDate(dateStr) {
       if (!dateStr) return "";
       try {
@@ -219,98 +262,65 @@ export default {
           d.getDate() +
           " " +
           d.getHours()
-          +":00:00"
         );
       } catch (e) {
         return dateStr.split("T")[0];
       }
     },
-    getTypoonCodesArr(data) {
-      let dic = {},
-        codes = [];
-      for (let i = 0; i < data.length; i++) {
-        if (dic[data[i].code]) {
-          continue;
-        }
-        if (data[i].code != "(nameless)") {
-          codes.push({ code: data[i].code });
-          dic[data[i].code] = 1;
-        }
-      }
-      return codes;
-    },
-    clickCodeForTime(row, event, column) {
-      //deal other table
-      this.setTimeData(row.code);
-      this.isDateShow = true;
-      this.isDetailShow = false;
-    },
     setTimeData(code) {
-      let arr = [],
-        dict = {};
-      let tmp = this.tableData.filter(x => x.code == code);
-      for (let i = 0; i < tmp.length; i++) {
-        if (dict[tmp[i].date] > 0) continue;
-        dict[tmp[i].date] = 1;
-        arr.push({ date: tmp[i].date, code: code });
-      }
-      this.typhoonTimeDataTotal = arr;
       this.typhoonTimeDataPageChange(1);
     },
     clickDateForDetail(row, event, column) {
-      this.setDetailData(row);
+      this.date = row._id;
+      this.setDetailData(row._id);
       this.isDetailShow = true;
     },
     setDetailData(row) {
-      let data = this.tableData.filter(x => {
-        return x.code == row.code && x.date == row.date;
-      });
-      data = data.sort(x => x.fullDate);
-      this.typhoonDetailDataTotal = data;
-      this.typhoonDetailPageChange(1);
+      this.loadSearchDetail({ code: this.code, date: this.date });
     },
-    clickDetailData(row) {
-      alert(JSON.stringify(row));
+    clickDetailData() {
+      alert("something todo");
     },
     typhoonCodePageChange(pageNum) {
-      this.typhoonCodeData = this.sliceData(
-        pageNum,
-        this.typhoonCodePageSize,
-        this.typhoonCodeDataTotal
-      );
+      let result = this.countPageNum(pageNum, this.typhoonCodePageSize);
+      this.loadSearchResult(result);
     },
     typhoonTimeDataPageChange(pageNum) {
-      this.typhoonTimeData = this.sliceData(
+      let pageNumInfo = this.countPageNum(
         pageNum,
-        this.typhoonTimeDataPageSize,
-        this.typhoonTimeDataTotal
+        this.typhoonTimeDataPageSize
       );
+      let pageInfo = {
+        code: this.code,
+        from: pageNumInfo.from,
+        to: pageNumInfo.to
+      };
+      this.loadSearchDateByCode(pageInfo);
     },
     typhoonDetailPageChange(pageNum) {
+      let tempData = this.typhoonDetailData;
       this.typhoonDetailData = this.sliceData(
         pageNum,
         this.typhoonDetailPageSize,
-        this.typhoonDetailDataTotal
+        tempData
       );
     },
-    sliceData: function(pageNum, pageSize, totalData) {
+    countPageNum: function(pageNum, pageSize) {
       let startNum = 0,
         endNum = 0;
       startNum = pageSize * (pageNum - 1);
       endNum = startNum + pageSize;
-      return totalData.slice(startNum, endNum);
+      return { from: startNum, to: endNum };
     },
-    typhoonCodeDataTotalCount() {
-      return this.typhoonCodeDataTotal.length;
-    },
-    typhoonTimeDataTotalCount() {
-      return this.typhoonTimeDataTotal.length;
+    sliceData: function(pageNum, pageSize, totalData) {
+      let result = this.countPageNum(pageNum, pageSize);
+      return totalData.slice(result.from, result.to);
     },
     typhoonDetailDataTotalCount() {
       return this.typhoonDetailDataTotal.length;
     },
-    showParam(row) {
-      alert(JSON.stringify(row));
+    showParam() {
+      alert(arguments);
     }
   },
   watch: {},
@@ -326,6 +336,49 @@ export default {
   margin-top: 10px;
 }
 
+.mt10 label {
+  font-size: 85%;
+}
+
+/* 缩小label的左右内间距 */
+.mt10 .smdiv {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* 与之前写的左侧导航栏相同的css样式 */
+.card-my-header {
+  background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639));
+  font-size: 90%;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+  color: #ffffff;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+}
+.card-my-body {
+  background: linear-gradient(to right, #248e8a 30%, rgba(4, 107, 114, 0.639));
+  padding: 8px 8px 8px 8px;
+  color: #ffffff;
+  font-family: "Lato", Helvetica, Arial, sans-serif;
+}
+
+.list-my-group-item {
+  color: rgb(4, 4, 4);
+  font-size: 85%;
+  background: rgba(184, 206, 200, 0.557);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 400;
+  text-shadow: 2px 2px 8px rgb(33, 32, 32);
+}
+
+.list-my-group-item:hover {
+  color: rgb(255, 255, 255);
+  font-size: 85%;
+  background: rgba(111, 238, 204, 0.557);
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-weight: 600;
+}
 .testColor {
   background: lightpink;
 }

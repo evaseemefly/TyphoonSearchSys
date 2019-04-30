@@ -3,9 +3,7 @@ from django.db import models
 # from django_mongodb_engine.contrib import MongoDBManager
 # from mongoengine import Document, EmbeddedDocument, fields
 # 使用djongo
-
-#from djongo import models
-
+# from djongo import models
 
 # 引入mongoengine
 from mongoengine import *
@@ -146,6 +144,8 @@ class StationTideData(Document):
     # tideDataMin = EmbeddedDocumentField(TideData)
     meta = {'collection': settings.MONGO_STATIONTIDEDATA_DOCUMENT_NAME}
 
+    def __str__(self):
+        return f'code:{self.code}|startdate:{self.startdate}|stationname:{self.stationname}|point:{self.point}|lev:{self.lev}|jw:{self.jw}|harmonicconstant:{self.harmonicconstant}'
 # 实现方式2：使用djongo
 # class Point(models.Model):
 #     '''
