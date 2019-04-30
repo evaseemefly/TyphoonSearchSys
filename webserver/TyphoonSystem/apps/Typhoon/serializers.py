@@ -21,6 +21,14 @@ class TyphoonModelSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     year = serializers.IntegerField()
 
+class DisasterWordModelSerializer(serializers.Serializer):
+    '''
+        灾情word的序列化对象
+    '''
+    code=serializers.CharField()
+    wordDocument=serializers.CharField()
+
+
 class StationTideDataModelSerializer(serializers.Serializer):
     '''
         测站潮位数据

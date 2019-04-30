@@ -10,6 +10,7 @@ class IDocument(abc.ABC):
         self.dir=dir
         self.filename=filename
         self._document=None
+        self._wordText=None
         fullpath=os.path.join(dir,filename)
         self.read(fullpath)
 
@@ -35,15 +36,31 @@ class Paragraph(IDocument):
         段落
     '''
 
-    def __init__(self,dir,filename):
-        super(Paragraph, self).__init__(dir,filename)
+    def __init__(self,dir:str,filename:str):
+        # super(Paragraph, self).__init__(dir,filename)
+        super().__init__(dir, filename)
 
+    def load(self,iterable):
+        pass
 
-
-    def read(self,fullpath):
+    def read(self,fullpath:str):
         '''
-
+             根据全路径读取word文件并写入_wordText
         :return:
         '''
-        if self._document is not None:
-            self._document=
+        fullWordText=[]
+        if self._document is None:
+            self._document=Document(fullpath)
+            for para in self._document.paragraphs:
+                if len(para.text) > 0:
+                    fullWordText.append(para.text)
+            self._wordText='\n'.join(fullWordText)
+
+    @property
+    def wordText(self):
+        '''
+            读取的word的text内容
+        :return:
+        '''
+        return self._wordText
+

@@ -420,3 +420,11 @@ def add_months(sourcedate, months):
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year, month)[1])
     return superdatetime.date(year, month, day)
+
+class DisasterWordView(APIView):
+    def get(self,request):
+        code='5622'
+        query=DisasterWordInfo.objects(code=code)
+        json_data=DisasterWordModelSerializer(query,many=True).data
+        return Response(json_data)
+        # pass
