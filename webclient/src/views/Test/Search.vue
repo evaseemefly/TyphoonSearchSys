@@ -100,12 +100,12 @@
                   v-for="(item,index) in typhoonTimeData"
                   :key="index"
                   @click="clickDateForDetail(item)"
-                >{{item.date}}</li>
+                >{{item._id}}</li>
               </ul>
               <el-pagination
                 background
                 layout="prev, pager, next"
-                :total="typhoonTimeDataTotalCount()"
+                :total="typhoonTimeDataTotal"
                 :page-size="typhoonTimeDataPageSize"
                 @current-change="typhoonTimeDataPageChange"
               ></el-pagination>
@@ -129,7 +129,7 @@
             <el-pagination
               background
               layout="prev, pager, next"
-              :total="typhoonDetailDataTotalCount()"
+              :total="typhoonDetailDataTotal"
               :page-size="typhoonDetailPageSize"
               @current-change="typhoonDetailPageChange"
             ></el-pagination>
@@ -144,7 +144,11 @@
 import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
-import { getTyphoonCodeByComplexCondition } from "@/api/api.js";
+import {
+  getTyphoonCodeByComplexCondition,
+  getTimeByCode,
+  getDetail
+} from "@/api/api.js";
 
 Vue.use(ElementUI);
 export default {
@@ -155,6 +159,8 @@ export default {
       bp: "",
       startMonth: "",
       endMonth: "",
+      code: "",
+      date: "",
       isDateShow: false,
       isDetailShow: false,
       tableData: [],
@@ -163,8 +169,8 @@ export default {
       typhoonDetailData: [],
 
       typhoonCodeDataTotal: 0,
-      typhoonTimeDataTotal: [],
-      typhoonDetailDataTotal: [],
+      typhoonTimeDataTotal: 0,
+      typhoonDetailDataTotal: 0,
 
       typhoonCodePageSize: 6,
       typhoonTimeDataPageSize: 6,
@@ -177,7 +183,7 @@ export default {
       this.isDateShow = false;
       this.isDetailShow = false;
       let app = this;
-      let from =0;
+      let from = 0;
       let to = this.typhoonCodePageSize;
       var startDate = this.startMonth,
         endDate = this.endMonth;
@@ -187,11 +193,9 @@ export default {
       if (endDate) {
         endDate = endDate.getFullYear() + "-" + (endDate.getMonth() + 1);
       }
-      
-      if(pageInfo.from!==undefined)
-        from = pageInfo.from
-      if(pageInfo.to!==undefined)
-        to = pageInfo.to
+
+      if (pageInfo.from !== undefined) from = pageInfo.from;
+      if (pageInfo.to !== undefined) to = pageInfo.to;
 
       getTyphoonCodeByComplexCondition(
         this.level,
@@ -203,9 +207,26 @@ export default {
         to
       ).then(res => {
         if (res.status === 200) {
-          //todo
           app.typhoonCodeData = res.data.data;
           app.typhoonCodeDataTotal = res.data.total;
+        }
+      });
+    },
+    loadSearchDateByCode(pageInfo) {
+      let app = this;
+      getTimeByCode(pageInfo.code, pageInfo.from, pageInfo.to).then(res => {
+        if (res.status == 200) {
+          app.typhoonTimeData = res.data.data;
+          app.typhoonTimeDataTotal = res.data.total;
+        }
+      });
+    },
+    loadSearchDetail(pageInfo) {
+      let app = this;
+      getDetail(pageInfo.code, pageInfo.date).then(res => {
+        if (res.status == 200) {
+          app.typhoonDetailData = res.data;
+          app.typhoonDetailDataTotal = res.data.length;
         }
       });
     },
@@ -223,7 +244,8 @@ export default {
     },
     clickCodeForTime(row, event, column) {
       //deal other table
-      this.setTimeData(row.code);
+      this.code = row;
+      this.setTimeData(row);
       this.isDateShow = true;
       this.isDetailShow = false;
     },
@@ -246,62 +268,53 @@ export default {
       }
     },
     setTimeData(code) {
-      let arr = [],
-        dict = {};
-      let tmp = this.tableData.filter(x => x.code == code);
-      for (let i = 0; i < tmp.length; i++) {
-        if (dict[tmp[i].date] > 0) continue;
-        dict[tmp[i].date] = 1;
-        arr.push({ date: tmp[i].date, code: code });
-      }
-      this.typhoonTimeDataTotal = arr;
       this.typhoonTimeDataPageChange(1);
     },
     clickDateForDetail(row, event, column) {
-      this.setDetailData(row);
+      this.date = row._id;
+      this.setDetailData(row._id);
       this.isDetailShow = true;
     },
     setDetailData(row) {
-      let data = this.tableData.filter(x => {
-        return x.code == row.code && x.date == row.date;
-      });
-      this.typhoonDetailDataTotal = data;
-      this.typhoonDetailPageChange(1);
+      this.loadSearchDetail({ code: this.code, date: this.date });
     },
     clickDetailData() {
       alert("something todo");
     },
     typhoonCodePageChange(pageNum) {
-      let result = this.countPageNum(pageNum,this.typhoonCodePageSize);
-      this.loadSearchResult(result)
+      let result = this.countPageNum(pageNum, this.typhoonCodePageSize);
+      this.loadSearchResult(result);
     },
     typhoonTimeDataPageChange(pageNum) {
-      this.typhoonTimeData = this.sliceData(
+      let pageNumInfo = this.countPageNum(
         pageNum,
-        this.typhoonTimeDataPageSize,
-        this.typhoonTimeDataTotal
+        this.typhoonTimeDataPageSize
       );
+      let pageInfo = {
+        code: this.code,
+        from: pageNumInfo.from,
+        to: pageNumInfo.to
+      };
+      this.loadSearchDateByCode(pageInfo);
     },
     typhoonDetailPageChange(pageNum) {
+      let tempData = this.typhoonDetailData;
       this.typhoonDetailData = this.sliceData(
         pageNum,
         this.typhoonDetailPageSize,
-        this.typhoonDetailDataTotal
+        tempData
       );
     },
-    countPageNum:function(pageNum, pageSize){
+    countPageNum: function(pageNum, pageSize) {
       let startNum = 0,
         endNum = 0;
       startNum = pageSize * (pageNum - 1);
       endNum = startNum + pageSize;
-      return {from:startNum,to:endNum}
+      return { from: startNum, to: endNum };
     },
     sliceData: function(pageNum, pageSize, totalData) {
-      let result = this.countPageNum(pageNum,pageSize)
+      let result = this.countPageNum(pageNum, pageSize);
       return totalData.slice(result.from, result.to);
-    },
-    typhoonTimeDataTotalCount() {
-      return this.typhoonTimeDataTotal.length;
     },
     typhoonDetailDataTotalCount() {
       return this.typhoonDetailDataTotal.length;

@@ -21,3 +21,13 @@ export const getTyphoonCodeByComplexCondition = (level, wsm, bp, startMonth, end
   let url = `${host}/gis/filter/GetTyphoonCodeByComplexCondition/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`
   return axios.get(url);
 }
+
+export const getTimeByCode = (code, from, to) => {
+  let url = `${host}/gis/filter/GetTimeByCode/?code=${code}&from=${from}&to=${to}`
+  return axios.get(url)
+}
+
+export const getDetail = (code, date) => {
+  let url = `${host}/gis/filter/GetDetail/?code=${code}&date=${date}`
+  return axios.get(url)
+}

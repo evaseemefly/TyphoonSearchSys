@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta, date,timezone
 import calendar
 import datetime as superdatetime
 import dateutil
@@ -10,6 +10,7 @@ from rest_framework.decorators import APIView
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from mongoengine import *
+from mongoengine.queryset.visitor import Q
 
 from TyphoonSystem import settings
 from .views_base import BaseView, BaseDetailListView
@@ -457,14 +458,29 @@ class GetTimeByCode(BaseView):
         except:
             toP=0
 
-        query = query.filter(code__ne='(nameless)')
-        query = query[fromP:toP]
+        query = query.aggregate({"$project":{"dt":{"$dateToString":{"format":"%Y-%m-%d %H","date":"$date"}}}},{"$group":{"_id":"$dt"}},{"$sort":{"_id":1}})
         lst = list(query)
-        result = []
-
-        #json_data = GeoTyphoonRealDataSerializer(query, many=True).data
-        result = {'total':total,'data':query}
+        total = len(lst)
+        lst = lst[fromP:toP]
+        print(code)
+        result = {'total':total,'data':lst}
         return Response(result)
+
+class GetDetail(BaseView):
+    '''
+    '''
+    def get(self,request):
+        code = request.GET.get('code')
+        dateH = request.GET.get('date')
+        dts = datetime.strptime(dateH,'%Y-%m-%d %H')
+        dte = dts+timedelta(hours=1,seconds=-1)
+        dte = dte.isoformat()+".000+00:00"
+        dts = dts.isoformat()+".000+00:00"
+        query = GeoTyphoonRealData.objects()
+        query = query.all().filter(Q(code=code)&Q(date__gte=dts)&Q(date__lte=dte))
+        print(dts,dte)
+        json_data = GeoTyphoonRealDataSerializer(query,many=True).data
+        return Response(json_data)
 
 
 class FilterByDateRange(BaseView):
