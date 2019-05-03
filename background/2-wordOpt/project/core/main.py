@@ -5,7 +5,11 @@ from data.model import *
 from mongoengine import *
 
 targetfilename=r"5622.docx"
-targetpath=r"D:\01proj\typhoon\TyphoonSearchSys\demo_data"
+# aw
+# targetpath=r"D:\01proj\typhoon\TyphoonSearchSys\demo_data"
+# P52S
+targetpath=r"D:\04git仓库\TyphoonSearchSys\demo_data"
+
 fullname=os.path.join(targetpath,targetfilename)
 
 

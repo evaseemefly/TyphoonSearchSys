@@ -1,9 +1,18 @@
 <template>
   <div id="mycontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
+    <l-map
+      ref="basemap"
+      :zoom="zoom"
+      :center="center"
+      @click="createMarker"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :fill="false"
+      ></l-polyline>
       <!-- 台风中心的圆点 -->
       <l-circle
         v-for="typhoon in typhoon_realdata_list"
@@ -17,9 +26,16 @@
       />
 
       <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
-      <l-marker :lat-lng="targetMarkerLatlon" :icon="icon_marker"></l-marker>
+      <l-marker
+        :lat-lng="targetMarkerLatlon"
+        :icon="icon_marker"
+      ></l-marker>
       <!-- 鼠标点击某个位置之后根据slider获取的半径 -->
-      <l-circle :lat-lng="targetMarkerLatlon" :weight="4" :radius="range"/>
+      <l-circle
+        :lat-lng="targetMarkerLatlon"
+        :weight="4"
+        :radius="range"
+      />
 
       <!-- 海洋站的div以及table样式 -->
       <!-- TODO: 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
@@ -46,8 +62,15 @@
       >
         <!-- TODO:[*] 19-04-23 注意此处将click从父级的l-marker中放在了子级中的l-icon中了——扔不行 -->
         <l-icon :options="icon_div_station_option">
-          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-            <table class="table table-bordered" border="1">
+          <div
+            id="station_form"
+            v-show="index!=select_station_index"
+            class="fade_enter"
+          >
+            <table
+              class="table table-bordered"
+              border="1"
+            >
               <tr>
                 <td
                   :class="[getStationAlarmClass(station),'station_name']"
@@ -73,7 +96,10 @@
             <div class="card-header">
               {{station.stationname}}
               <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
-              <button id="testclick" @click.stop="showModal">|查看</button>
+              <button
+                id="testclick"
+                @click.stop="showModal"
+              >|查看</button>
               <!-- <a @click.stop="showModal">|查看过程</a> -->
             </div>
             <div class="card-body">
@@ -123,8 +149,12 @@
     </div>-->
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
-    <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
+    <TyphoonList
+      :typhoon_list="typhoon_code_list"
+      :is_show="is_show_typhoon_list"
+    ></TyphoonList>
     <ModalDetail :station="station_temp"></ModalDetail>
+    <TextForm></TextForm>
   </div>
 </template>
 
@@ -156,7 +186,7 @@ import RangeSlider from "@/views/member/slider/rangeSlider.vue";
 import TyphoonList from "@/views/member/secondBar/typhoonListBar.vue";
 // 海洋站icon
 import StationIcon from "@/views/member/map/station_icon.vue";
-
+import TextForm from "@/views/member/form/text_form.vue";
 import ModalDetail from "@/views/member/modal/modal_detail.vue";
 // 引入公共的枚举
 import { TyphoonCircleStatus } from "@/common/Status.ts";
@@ -223,7 +253,8 @@ import fechaObj from "fecha";
     "l-icon": LIcon,
     RangeSlider, // 范围range子组件
     TyphoonList, // 台风列表子组件
-    ModalDetail //modal子组件
+    ModalDetail, //modal子组件
+    TextForm // 右侧的加载灾情信息的文本框
     // StationIcon
   },
   // 自定义过滤器
