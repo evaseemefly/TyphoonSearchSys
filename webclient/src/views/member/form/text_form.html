@@ -1,0 +1,16 @@
+<form id="main">
+  <button type="button" @click="isActive=!isActive" class="btn btn-info ani">
+    灾情信息
+  </button>
+  <MyCollapse>
+    <div v-show="isActive" id="textform" class="card" style="width: 18rem;">
+      <div class="card-body" v-html="text">
+        <h5 class="card-title">{{ title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">台风编号</h6>
+        <p class="card-text">{{ text }}</p>
+        <!-- <p class="card-text">{{targetTyphoon}}</p> -->
+        <a href="#" class="card-link">当前台风</a>
+      </div>
+    </div>
+  </MyCollapse>
+</form>
