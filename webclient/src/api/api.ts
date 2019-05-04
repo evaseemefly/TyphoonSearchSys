@@ -103,3 +103,16 @@ export /**
       params: par
     })
   }
+
+export  /**
+ * 根据台风（code）获取对应的灾情描述文本内容
+ *
+ * @param {ITyphoonRealDataParamas} par
+ * @returns
+ */
+  const loadTyphoonWord = (par: ITyphoonRealDataParamas) => {
+    let wordUrl = `${host}/gis/word/disaster/`
+    return axios.get(wordUrl, {
+      params: par
+    })
+  }
