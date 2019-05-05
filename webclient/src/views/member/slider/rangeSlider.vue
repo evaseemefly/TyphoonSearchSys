@@ -1,51 +1,19 @@
-<template>
-  <div id="map_range_slider">
-    <el-slider
-      v-model="range"
-      :min=min
-      :max=max
-      :step=step
-      show-stops
-    ></el-slider>
-    <div
-      class="btn-group"
-      role="group"
-    >
-      <button
-        type="button"
-        class="btn btn-success"
-        @click="getRangeTyphoonList"
-      ><span
-          class="glyphicon glyphicon-play"
-          aria-hidden="true"
-        >搜索</span> </button>
-      <button
-        type="button"
-        class="btn btn-danger"
-      ><span
-          class="glyphicon glyphicon glyphicon-stop"
-          aria-hidden="true"
-        >清除</span></button>
-    </div>
-  </div>
-</template>
+<template src="./range/range.html"></template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 // TODO [*] 19-03-21 通过vuex-class的写法，引入vuex
 import { Getter, Mutation, State } from "vuex-class";
+
+import { mixins } from "vue-class-component";
+// 使用mixin的方式，拓展的data
+import RangeDataMixin from "./range/range_data_mixin";
 @Component({
   components: {}
 })
 @Component
-export default class right_bar extends Vue {
-  // 初始数据可以直接声明为实例的属性
-  message: string = "Hello!";
-  min: number = 10000;
-  max: number = 100000;
-  step: number = 10000;
-  // range: number = 6000;
-  is_show_condition_bar: boolean = false;
+export default class right_bar extends mixins(RangeDataMixin) {
+// export default class right_bar extends Vue {
   // TODO [*] 19-03-21 通过vuex-class的写法，引入vuex
   // @State("range") range;
   // @Mutation("range") range;
@@ -76,15 +44,5 @@ export default class right_bar extends Vue {
 }
 </script>
 
-<style scoped>
-#map_range_slider {
-  /* position: relative; */
-  z-index: 19999;
-  position: absolute;
-  bottom: 50px;
-  left: 50px;
-  width: 250px;
-  height: 50px;
-  /* background: rgba(47, 68, 84, 0.331); */
-}
+<style scoped src="./range/range.css">
 </style>

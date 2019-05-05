@@ -1,4 +1,4 @@
-<template src="./text_form.html"></template>
+<template src="./text/text_form.html"></template>
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
@@ -20,7 +20,7 @@ import { ITyphoonRealDataParamas, loadTyphoonWord } from "@/api/api.ts";
 
 // TODO:[*] 19-05-04 将data从vue主文件中拆分
 // 使用mixin的方式，不使用拓展分隔符的方式
-import TextFormDataMixin from "./text_form_data_mixin";
+import TextFormDataMixin from "./text/text_form_data_mixin";
 import { mixins } from "vue-class-component";
 
 @Component({
@@ -66,5 +66,5 @@ export default class text_form extends mixins(TextFormDataMixin) {
 }
 </script>
 
-<style src="./text_form.css" scoped>
+<style src="./text/text_form.css" scoped>
 </style>
