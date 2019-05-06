@@ -15,18 +15,20 @@ import MapRangeDataMixin from "./map_complexsearch/complex_search_data_mixin";
 import Component, { mixins } from "vue-class-component";
 @Component({})
 export default class center_map_search extends mixins(MapRangeDataMixin) {
+  //   根据条件搜索 查询获取当前搜索条件符合条件的的台风code list 以及长度
   loadSearchResult(pageInfo) {
+    //   注意pageinfo 我理解就是this by casablaca
     //先关上其他表格
     this.isDateShow = false;
     this.isDetailShow = false;
-    let app = this;
+    var myself = this;
     let from = 0;
     let to = this.typhoonCodePageSize;
     var startDate = this.startMonth,
       endDate = this.endMonth;
     var start_str = "";
     var end_str = "";
-    // TODO:[*] 此处有问题，因为startDate与endDate为string类型，所以暂时先注释掉
+    // TODO:[-] 此处有问题，因为startDate与endDate为string类型，所以暂时先注释掉
     if (startDate) {
       start_str = startDate.getFullYear() + "-" + (startDate.getMonth() + 1);
     }
@@ -47,8 +49,8 @@ export default class center_map_search extends mixins(MapRangeDataMixin) {
       to
     ).then(res => {
       if (res.status === 200) {
-        app.typhoonCodeData = res.data.data;
-        app.typhoonCodeDataTotal = res.data.total;
+        myself.typhoonCodeData = res.data.data;
+        myself.typhoonCodeDataTotal = res.data.total;
       }
     });
   }
