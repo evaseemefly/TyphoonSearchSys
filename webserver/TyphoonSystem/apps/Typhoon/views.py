@@ -436,6 +436,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
 
         query = query.filter(code__ne='(nameless)')
         query = query.distinct('code')
+        total=len(query)
+        query = query[fromP:toP]
         # TODO [*] 19-05-05 由于前台需要的是code以及num，所以需要根据code获取到geoTyphoonRealData类型的列表，并序列化返回
         #  以下注释部分 -by zw
         # total = len(query)
@@ -447,7 +449,9 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         list_data=[
             TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code, GeoTyphoonRealData.objects(code=code)[0].date)
             for code in query]
-        json_data = TyphoonModelSerializer(list_data, many=True).data
+
+        json_data=TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_data,total)).data
+        # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data,status=status.HTTP_200_OK)
 
 

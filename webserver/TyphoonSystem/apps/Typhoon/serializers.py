@@ -14,12 +14,17 @@ class GeoTyphoonRealDataSerializer(serializers.Serializer):
     bp = serializers.FloatField()
     wsm = serializers.FloatField()
     level=serializers.IntegerField()
-    # TODO [*] 此处序列化会有问题 类型为PointField，可以通过serializers.DictField()的方式序列化，其他符合geojson格式的对象如何序列化？
+    # TODO [-] 此处序列化会有问题 类型为PointField，可以通过serializers.DictField()的方式序列化，其他符合geojson格式的对象如何序列化？
     latlon = serializers.DictField()
 
 class TyphoonModelSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     year = serializers.IntegerField()
+
+class TyphoonAndTotalModelSerializer(serializers.Serializer):
+    # TODO [-] 注意对于嵌套的对象数组，不要使用serializers.list
+    list=TyphoonModelSerializer(many=True)
+    total=serializers.IntegerField()
 
 class DisasterWordModelSerializer(serializers.Serializer):
     '''

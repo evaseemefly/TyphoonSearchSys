@@ -80,11 +80,11 @@
             <ul class="list-group">
               <li
                 class="list-group-item list-my-group-item"
-                v-for="(item,index) in typhoonCodeData"
+                v-for="(item,index) in typhoonCodeList"
                 :key="index"
                 @click="clickCodeForTime(item)"
               >
-                {{ item }}
+                {{ item.code }}|{{ item.year }}
               </li>
             </ul>
             <el-pagination

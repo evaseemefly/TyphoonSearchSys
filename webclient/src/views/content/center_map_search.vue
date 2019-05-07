@@ -4,15 +4,21 @@
 import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+
+// 使用mixin的方式拓展data
+import MapRangeDataMixin from "./map_complexsearch/complex_search_data_mixin";
+import Component, { mixins } from "vue-class-component";
+
+import {
+  DataList_Mid_Model,
+  TyphoonRealBase_Mid_Model
+} from "@/middle_model/common.ts";
+
 import {
   getTyphoonCodeByComplexCondition,
   getTimeByCode,
   getDetail
 } from "@/api/api.js";
-
-// 使用mixin的方式拓展data
-import MapRangeDataMixin from "./map_complexsearch/complex_search_data_mixin";
-import Component, { mixins } from "vue-class-component";
 @Component({})
 export default class center_map_search extends mixins(MapRangeDataMixin) {
   //   根据条件搜索 查询获取当前搜索条件符合条件的的台风code list 以及长度
@@ -22,6 +28,8 @@ export default class center_map_search extends mixins(MapRangeDataMixin) {
     this.isDateShow = false;
     this.isDetailShow = false;
     var myself = this;
+    // 注意每次点击时需要清空当前typhoonCodeList
+    this.typhoonCodeList = [];
     let from = 0;
     let to = this.typhoonCodePageSize;
     var startDate = this.startMonth,
@@ -49,11 +57,19 @@ export default class center_map_search extends mixins(MapRangeDataMixin) {
       to
     ).then(res => {
       if (res.status === 200) {
-        myself.typhoonCodeData = res.data.data;
+        // myself.typhoonCodeData = res.data.data;
+        // TODO:[-] 19-05-07 此处后台返回的为一个嵌套的序列化对象，包含list与total
+        res.data.list.forEach(obj => {
+          myself.typhoonCodeList.push(
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
+          );
+        });
         myself.typhoonCodeDataTotal = res.data.total;
       }
     });
   }
+
+  // 根据code获取对应的台风时间列表
   loadSearchDateByCode(pageInfo) {
     let app = this;
     getTimeByCode(pageInfo.code, pageInfo.from, pageInfo.to).then(res => {
@@ -84,9 +100,17 @@ export default class center_map_search extends mixins(MapRangeDataMixin) {
     }
     return codes;
   }
-  clickCodeForTime(row, event, column) {
+  // TODO:[*] 19-05-07 根据code修改当前的data中的code
+  clickCodeForTime(row: DataList_Mid_Model) {
+    /*
+      点击后除了如下操作以外还需要：
+          ——修改vuex中的当前选中台风对象
+
+    */
     //deal other table
-    this.code = row;
+    this.code = row.code;
+    //调用set方法写入修改vuex的typhoon
+    this.typhoon = row;
     this.setTimeData(row);
     this.isDateShow = true;
     this.isDetailShow = false;
@@ -160,6 +184,10 @@ export default class center_map_search extends mixins(MapRangeDataMixin) {
   }
   showParam() {
     alert(arguments);
+  }
+
+  set typhoon(val: DataList_Mid_Model) {
+    this.$store.commit("typhoon", val);
   }
 }
 </script>
