@@ -3,7 +3,7 @@
     <centerMapRange></centerMapRange>
     <!-- <rightBarDetail></rightBarDetail>
     <rightBarDisaster></rightBarDisaster>
-    <rightBarRealData></rightBarRealData> -->
+    <rightBarRealData></rightBarRealData>-->
     <!-- 范围搜索 -->
   </div>
 </template>
@@ -25,13 +25,12 @@ import rightBarRealData from "@/views/member/bar/rightBarRealData.vue";
   }
 })
 export default class index_map extends Vue {
-  // 初始数据可以直接声明为实例的属性
-  message: string = "Hello!";
-
-  // 组件方法也可以直接声明为实例的方法
-  onClick(): void {
-    window.alert(this.message);
-  }
+  // // 初始数据可以直接声明为实例的属性
+  // message: string = "Hello!";
+  // // 组件方法也可以直接声明为实例的方法
+  // onClick(): void {
+  //   window.alert(this.message);
+  // }
 }
 </script>
 

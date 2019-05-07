@@ -1,0 +1,10 @@
+#map_range_slider {
+  /* position: relative; */
+  z-index: 1000;
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+  width: 250px;
+  height: 50px;
+  /* background: rgba(47, 68, 84, 0.331); */
+}

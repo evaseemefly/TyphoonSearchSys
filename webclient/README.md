@@ -1,4 +1,4 @@
-# webclient
+# 历史台风相似路径查询系统
 
 ## Project setup
 
@@ -18,43 +18,55 @@ npm run serve
 npm run build
 ```
 
-### Run your tests
+## 项目主要参与人员
 
-```
-npm run test
-```
+主要参与人员：
 
-### Lints and fixes files
+[evaseemefly](https://github.com/evaseemefly)
 
-```
-npm run lint
-```
+[stupidanimal](https://github.com/stupidanimal)
 
-### Run your unit tests
+## 项目目录
 
-```
-npm run test:unit
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
-
----
-
-### 项目目录结构
-
+<pre><code>.
 ├──README.MD  
 ├── src <=项目源代码  
-| |── content <= 内容页面  
-| |── index <= 几个 home 页面  
-| |── member <= 组件  
-| | |──bar <= bar 组件
+│ ├── content <= 内容页面  
+│ │ ├── center_map_range.vue      <= 包含range 范围查询功能的map主页面
+│ │ ├── center_map_search.vue     <= 包含复杂查询的map主页面
+│ │ ├── backup                    <= 保存一些备份的页面（基本不再使用了）
+│ │ ├── map_base                  <= 基于地图页面的 base 组件(使用mixin，并且将页面与样式从基础vue文件中分离)
+│ │ ├── map_common                <= 部分公共的map的mixin组件
+│ │ ├── map_complexsearch         <= 复杂查询组件页面（业务逻辑及功能由 stupidanimal 完成，风格统一由 evaseemefly完成）
+│ │ ├── map_range                 <= 根据全选范围获取指定区域内的经过的台风页面
+│ ├── index                       <= 几个 home 页面  
+│ ├── member                      <= 组件
 
-- [x] 项目根目录
-  - [x] Readme.md
-  - [x] src 项目源代码  
-         _ [x]content 内容页面  
-         _ [x]index 几个 home 页面  
-         _ [x]member 组件  
-         _[x]bar bar 组件
+</code></pre>
+
+</details>
+
+## 组件结构说明
+
+对于复用的 vue 组件的目录结构被拆分为 vue 与相关的 html，css 以及 mixin 拆分出来的文件
+
+<pre><code>
+├──xx_xxx_xxxx.vue      <=命名规范为 定位_组件主要名称_功能.vue  
+├──xx_xxx
+│ ├──xxx_data_mixin.ts  <= vue中的data
+│ ├──xxx.html           <= vue中的template中的html代码，在template中由src直接指定相对路径
+│ ├──xxx.css            <= vue中的style中的css代码
+</code></pre>
+
+## 其他规约
+
+代码规范参考  
+[JavaScript 编码规范](https://github.com/fex-team/styleguide/blob/master/javascript.md)  
+[JavaScript 开发规范](https://juejin.im/entry/599d433cf265da24797b5c66)
+
+## 引用的第三方库
+
+会逐渐补充
+
+js 的 date 库:
+[fecha](https://github.com/taylorhakes/fecha)

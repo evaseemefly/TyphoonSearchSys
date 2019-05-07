@@ -8,3 +8,7 @@ class DisasterWordInfo(Document):
     code=StringField(max_length=20)
     # word内容
     wordDocument=StringField()
+
+    meta={
+        'collection':'disasterword'
+    }

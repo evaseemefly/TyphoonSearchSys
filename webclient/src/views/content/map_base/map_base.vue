@@ -1,43 +1,36 @@
-<template src="./map_range/map.html"></template>
+<template src="./map_base.html"></template>
 
 <script lang="ts">
-// 引入fecha
-import fecha from "fecha";
-
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import {
-  loadTyphoonList,
-  ITyphoonParams,
-  loadTyphoonRealData,
-  ITyphoonRealDataParamas,
-  loadStationTideDataList,
-  ITyphoonRealBaseParams
-} from "@/api/api.ts";
 
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
+
+// 使用mixin的方式拓展data
+import MapBaseDataMixin from "./map_base_data_mixin";
+import MapCommonMixin from "../map_common/map_common_mixin";
+import MapRangeVuexMixin from "../map_range/map_vuex_mixin";
+
+// 引入公共的枚举
+import { TyphoonCircleStatus } from "@/common/Status.ts";
+import { mixins } from "vue-class-component";
+// 引入枚举
+import { AlarmLevel } from "@/common/enum/map.ts";
+import {
+  DataList_Mid_Model,
+  TyphoonRealBase_Mid_Model
+} from "@/middle_model/common.ts";
 import {
   MeteorologyRealData_Mid_Model,
   TideRealData_Mid_Model,
   StationData_Mid_Model,
   EchartsScatterStationData_Mid_Model
 } from "@/middle_model/typhoon.ts";
-
-// 子组件
-// 底部rangeslider
-import RangeSlider from "@/views/member/slider/rangeSlider.vue";
-// 台风列表
-import TyphoonList from "@/views/member/secondBar/typhoonListBar.vue";
-// 海洋站icon
-import StationIcon from "@/views/member/map/station_icon.vue";
-import TextForm from "@/views/member/form/text_form.vue";
-import ModalDetail from "@/views/member/modal/modal_detail.vue";
-// 引入公共的枚举
-import { TyphoonCircleStatus } from "@/common/Status.ts";
 import {
-  DataList_Mid_Model,
-  TyphoonRealBase_Mid_Model
-} from "@/middle_model/common.ts";
-// 引入枚举
-import { AlarmLevel } from "@/common/enum/map.ts";
+  getTyphoonCodeByComplexCondition,
+  getTimeByCode,
+  getDetail
+} from "@/api/api.js";
 
 // 引入数据格式规范接口
 import {
@@ -46,13 +39,15 @@ import {
   IEchartsScatterData
 } from "@/interface/map/map.ts";
 
-// TODO:[*] 19-05-05 使用mixin的方式拓展的data
-import MapRangeDataMixin from "./map_range/map_data_mixin";
-import MapRangeVuexMixin from "./map_range/map_vuex_mixin";
-import MapTestMixin from "./map_range/map_test_mixin";
-import MapCommonMixin from "./map_common/map_common_mixin";
-// import "leaflet-tilelayer-mbtiles-ts";
-// import "leaflet-tilelayer-mbtiles";
+// 与后台交互的api
+import {
+  loadTyphoonList,
+  ITyphoonParams,
+  loadTyphoonRealData,
+  ITyphoonRealDataParamas,
+  loadStationTideDataList,
+  ITyphoonRealBaseParams
+} from "@/api/api.ts";
 
 // 解决默认icon找不到的问题
 import "leaflet/dist/leaflet.css";
@@ -75,57 +70,11 @@ import {
 } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
 
-//  19-04-18 引入ehcarts以及leaflet-echarts——此插件无法加载，暂时放弃
-// 此处不再使用
-// import "echarts-leaflet/dist/echarts-leaflet";
-// 使用 https://github.com/wandergis/leaflet-echarts
-// import "leaflet-echarts";
-// import "leaflet-echarts/dist/leaflet-echarts.js";
-// import echarts from "echarts/lib/echarts";
-// import "echarts/lib/chart/scatter";
-// import "echarts/lib/chart/effectScatter";
-
-// 19-04-18尝试使用超图的开源iclent插件
-import { tiledMapLayer, echartsLayer } from "@supermap/iclient-leaflet";
-
-import fechaObj from "fecha";
-import { mixins } from "vue-class-component";
-@Component({
-  components: {
-    "l-marker": LMarker,
-    "l-map": LMap,
-    "l-tile-layer": LTileLayer,
-    "l-polyline": LPolyline,
-    "l-circle": LCircle,
-    "l-icon": LIcon,
-    RangeSlider, // 范围range子组件
-    TyphoonList, // 台风列表子组件
-    ModalDetail, //modal子组件
-    TextForm // 右侧的加载灾情信息的文本框
-    // StationIcon
-  },
-  // 自定义过滤器
-  filters: {
-    //  时间格式化
-    formatDate(date: Date): String {
-      var str_format = fecha.format(date, "YY-MM-DD HH:mm:ss");
-      return str_format;
-    },
-    // TODO: [*] 19-04-13 对于type 为point的过滤器，还需要加入一个对于类型的判断
-    formatPoint(point: any): Array<number> {
-      var temp = point.coordinates;
-      var latlon = [temp[1].toString(), temp[0].toString()];
-      return latlon;
-    }
-  }
-
-  // @Mutation()
-})
-export default class center_map_range extends mixins(
-  MapRangeDataMixin,
-  MapRangeVuexMixin,
-  MapTestMixin,
-  MapCommonMixin
+@Component({})
+export default class center_map_search extends mixins(
+  MapBaseDataMixin,
+  MapCommonMixin,
+  MapRangeVuexMixin
 ) {
   convertData(data: any): any {
     var myself = this;
@@ -185,27 +134,27 @@ export default class center_map_range extends mixins(
 
   // [-] 19-03-21 由子组件触发的根据lat,lon,range从后台获取typhoonlist的方法
   loadTyphoonListByRange(): void {
-    var myself = this;
-    var range: number = this.range;
-    var latlon: number[] = this.targetMarkerLatlon;
-    var obj: ITyphoonParams = {
-      latlon: latlon,
-      range: range
-    };
-    loadTyphoonList(obj).then(res => {
-      if (res.status === 200) {
-        var data: any = res.data;
-        myself.is_show_typhoon_list = false;
-        myself.typhoon_code_list = [];
-        // data中为台风列表
-        data.forEach(obj => {
-          myself.typhoon_code_list.push(
-            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
-          );
-        });
-        myself.is_show_typhoon_list = true;
-      }
-    });
+    // var myself = this;
+    // var range: number = this.range;
+    // var latlon: number[] = this.targetMarkerLatlon;
+    // var obj: ITyphoonParams = {
+    //   latlon: latlon,
+    //   range: range
+    // };
+    // loadTyphoonList(obj).then(res => {
+    //   if (res.status === 200) {
+    //     var data: any = res.data;
+    //     myself.is_show_typhoon_list = false;
+    //     myself.typhoon_code_list = [];
+    //     // data中为台风列表
+    //     data.forEach(obj => {
+    //       myself.typhoon_code_list.push(
+    //         new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
+    //       );
+    //     });
+    //     myself.is_show_typhoon_list = true;
+    //   }
+    // });
   }
 
   // 计算圆柱体的偏移量
@@ -630,5 +579,5 @@ export default class center_map_range extends mixins(
 }
 </script>
 
-<style src="./map_range/map.css">
+<style src="./map_base.css">
 </style>
