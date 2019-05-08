@@ -30,10 +30,12 @@ npm run build
 
 <pre><code>.
 ├──README.MD  
-├── src <=项目源代码  
-│ ├── content <= 内容页面  
+├── document                      <=一些遇见的问题的归档 
+├── src                           <=项目源代码  
+│ ├── content                     <= 内容页面  
 │ │ ├── center_map_range.vue      <= 包含range 范围查询功能的map主页面
 │ │ ├── center_map_search.vue     <= 包含复杂查询的map主页面
+                                  <= 由 map_base 与 complex_search 子组件组成
 │ │ ├── backup                    <= 保存一些备份的页面（基本不再使用了）
 │ │ ├── map_base                  <= 基于地图页面的 base 组件(使用mixin，并且将页面与样式从基础vue文件中分离)
 │ │ ├── map_common                <= 部分公共的map的mixin组件

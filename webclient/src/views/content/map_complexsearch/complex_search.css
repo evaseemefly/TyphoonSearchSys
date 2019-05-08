@@ -1,7 +1,24 @@
+#main_search_content {
+  position: absolute;
+  top: 50px;
+  z-index: 1500;
+  text-align: left;
+  /* width: 100%; */
+}
+.quarter_content {
+  width: 30%;
+}
+.full_content {
+  width: 100%;
+}
 .row {
   text-shadow: 0 0 0 black !important;
 }
-
+#main_search_content .container-fluid {
+  background: rgba(255, 255, 255, 0);
+  color: black;
+  width: 80%;
+}
 .mt10 {
   margin-top: 10px;
 }
@@ -55,4 +72,12 @@
 
 .themeGreen {
   background: #59989d;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }

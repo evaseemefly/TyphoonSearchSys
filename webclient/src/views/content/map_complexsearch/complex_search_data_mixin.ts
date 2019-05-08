@@ -14,6 +14,7 @@ export default class MapRangeDataMixin extends Vue {
     // 当前选中的台风code （英文名称）
     code: string = ""
     date: string = ""
+    // 此属性控制宽度注意
     isDateShow: boolean = false
     isDetailShow: boolean = false
     tableData = []

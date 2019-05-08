@@ -1,98 +1,97 @@
-<div id="mycontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
-      <l-tile-layer :url="url"></l-tile-layer>
-      <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
-      <!-- 台风中心的圆点 -->
-      <l-circle
-        v-for="typhoon in typhoon_realdata_list"
-        :key="typhoon.id"
-        :lat-lng="typhoon.latlon"
-        :color="typhoon.getColor()"
-        :weight="typhoon.getWeight()"
-        @mouseover="showTyphoonDiv(typhoon)"
-        @mouseout="clearTyphoonDivIcon()"
-        @click="changeTyphoonRealBase(typhoon)"
-      />
-      <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
-      <l-marker :lat-lng="targetMarkerLatlon" :icon="icon_marker"></l-marker>
-      <!-- 海洋站的div以及table样式 -->
-      <!-- TODO: 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
-      <!-- TODO: 19-04-12 修改此处，移入zindex权重增加，移出减小 -->
-      <l-marker
-        v-for="(station,index) in station_tide_list"
-        :key="station.id"
-        :lat-lng="station.point|formatPoint"
-        @mouseover="upZIndex(index,station)"
-        @mouseout="downZindex(index,station)"
-        @click="changeStationIndex(index,station)"
-        :options="icon_div_station_option"
-      >
-        <!-- TODO:[*] 19-04-23 注意此处将click从父级的l-marker中放在了子级中的l-icon中了——扔不行 -->
-        <l-icon :options="icon_div_station_option">
-          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-            <table class="table table-bordered" border="1">
-              <tr>
-                <td
-                  :class="[getStationAlarmClass(station),'station_name']"
-                  rowspan="1"
-                >{{station.stationname}}</td>
-                <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
-                <!-- <td class="surge title">警戒</td>
-                <td class="surge">{{station.jw}}</td>-->
-              </tr>
-              <!-- 改为只保留一行，以前第一行是警戒潮位，第二行是实测潮位，现在讲实测潮位移至第一行 -->
-              <!-- <tr>
-                <td class="tide">潮位</td>
-                <td :class="getStationAlarmClass(station)">{{station.tide}}</td>
-              </tr>-->
-            </table>
+
+  <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
+    <l-tile-layer :url="url"></l-tile-layer>
+    <!-- 台风路径 -->
+    <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
+    <!-- 台风中心的圆点 -->
+    <l-circle
+      v-for="typhoon in typhoon_realdata_list"
+      :key="typhoon.id"
+      :lat-lng="typhoon.latlon"
+      :color="typhoon.getColor()"
+      :weight="typhoon.getWeight()"
+      @mouseover="showTyphoonDiv(typhoon)"
+      @mouseout="clearTyphoonDivIcon()"
+      @click="changeTyphoonRealBase(typhoon)"
+    />
+    <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
+    <l-marker :lat-lng="targetMarkerLatlon" :icon="icon_marker"></l-marker>
+    <!-- 海洋站的div以及table样式 -->
+    <!-- TODO: 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
+    <!-- TODO: 19-04-12 修改此处，移入zindex权重增加，移出减小 -->
+    <l-marker
+      v-for="(station,index) in station_tide_list"
+      :key="station.id"
+      :lat-lng="station.point|formatPoint"
+      @mouseover="upZIndex(index,station)"
+      @mouseout="downZindex(index,station)"
+      @click="changeStationIndex(index,station)"
+      :options="icon_div_station_option"
+    >
+      <!-- TODO:[*] 19-04-23 注意此处将click从父级的l-marker中放在了子级中的l-icon中了——扔不行 -->
+      <l-icon :options="icon_div_station_option">
+        <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
+          <table class="table table-bordered" border="1">
+            <tr>
+              <td
+                :class="[getStationAlarmClass(station),'station_name']"
+                rowspan="1"
+              >{{station.stationname}}</td>
+              <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
+              <!-- <td class="surge title">警戒</td>
+              <td class="surge">{{station.jw}}</td>-->
+            </tr>
+            <!-- 改为只保留一行，以前第一行是警戒潮位，第二行是实测潮位，现在讲实测潮位移至第一行 -->
+            <!-- <tr>
+              <td class="tide">潮位</td>
+              <td :class="getStationAlarmClass(station)">{{station.tide}}</td>
+            </tr>-->
+          </table>
+        </div>
+        <!-- <div id="station_detail" v-show="index==select_station_index" class="card box-shadow"> -->
+        <div
+          id="station_detail"
+          v-show="index==select_station_index"
+          :class="{card:true, 'box-shadow':true,'upzindex':index==select_station_index}"
+        >
+          <div class="card-header">
+            {{station.stationname}}
+            <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
+            <button id="testclick" @click.stop="showModal">|查看</button>
+            <!-- <a @click.stop="showModal">|查看过程</a> -->
           </div>
-          <!-- <div id="station_detail" v-show="index==select_station_index" class="card box-shadow"> -->
-          <div
-            id="station_detail"
-            v-show="index==select_station_index"
-            :class="{card:true, 'box-shadow':true,'upzindex':index==select_station_index}"
-          >
-            <div class="card-header">
-              {{station.stationname}}
-              <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
-              <button id="testclick" @click.stop="showModal">|查看</button>
-              <!-- <a @click.stop="showModal">|查看过程</a> -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">时间</div>
+              <div class="col-md-8">{{station.startdate|formatDate}}</div>
             </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-4">时间</div>
-                <div class="col-md-8">{{station.startdate|formatDate}}</div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">警戒潮位</div>
-                <div class="col-md-8">{{station.jw}}</div>
-              </div>
-              <div class="row">
-                <div class="col-md-4">平均潮位</div>
-                <div class="col-md-8">{{station.lev}}</div>
-              </div>
-              <div class="row row_footer">
-                <div class="typhoon_footer">
-                  <div class="columnar">
-                    <div class="subitem_top">{{station.tide}}</div>
-                    <div class="subitem_foot">实测潮位</div>
-                  </div>
-                  <div class="columnar">
-                    <div class="subitem_top">{{station.tide_forecast}}</div>
-                    <div class="subitem_foot">预报潮位</div>
-                  </div>
-                  <div class="columnar">
-                    <div class="subitem_top">{{station.tide-station.tide_forecast}}</div>
-                    <div class="subitem_foot">潮差</div>
-                  </div>
+            <div class="row">
+              <div class="col-md-4">警戒潮位</div>
+              <div class="col-md-8">{{station.jw}}</div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">平均潮位</div>
+              <div class="col-md-8">{{station.lev}}</div>
+            </div>
+            <div class="row row_footer">
+              <div class="typhoon_footer">
+                <div class="columnar">
+                  <div class="subitem_top">{{station.tide}}</div>
+                  <div class="subitem_foot">实测潮位</div>
+                </div>
+                <div class="columnar">
+                  <div class="subitem_top">{{station.tide_forecast}}</div>
+                  <div class="subitem_foot">预报潮位</div>
+                </div>
+                <div class="columnar">
+                  <div class="subitem_top">{{station.tide-station.tide_forecast}}</div>
+                  <div class="subitem_foot">潮差</div>
                 </div>
               </div>
             </div>
           </div>
-        </l-icon>
-        <!-- 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
-      </l-marker>
-    </l-map>
-  </div>
+        </div>
+      </l-icon>
+      <!-- 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
+    </l-marker>
+  </l-map>

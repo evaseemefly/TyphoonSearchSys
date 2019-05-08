@@ -1,11 +1,12 @@
-<template src="./complex_search.html"></template>
+<template src="./map_complexsearch/complex_search.html"></template>
+
 <script lang="ts">
 import Vue from "vue";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
 // 使用mixin的方式拓展data
-import ComplexSearchDataMixin from "@/views/content/map_complexsearch/complex_search_data_mixin";
+import MapRangeDataMixin from "./map_complexsearch/complex_search_data_mixin";
 import Component, { mixins } from "vue-class-component";
 
 import {
@@ -19,7 +20,7 @@ import {
   getDetail
 } from "@/api/api.js";
 @Component({})
-export default class center_map_search extends mixins(ComplexSearchDataMixin) {
+export default class center_map_search extends mixins(MapRangeDataMixin) {
   //   根据条件搜索 查询获取当前搜索条件符合条件的的台风code list 以及长度
   loadSearchResult(pageInfo) {
     //   注意pageinfo 我理解就是this by casablaca
@@ -114,10 +115,6 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     this.isDateShow = true;
     this.isDetailShow = false;
   }
-
-  hiddeDateForm() {
-    this.isDateShow = false;
-  }
   // TODO:[*] 19-04-22 加入了日期的修改 -by zw
   getFormatDate(dateStr) {
     if (!dateStr) return "";
@@ -190,15 +187,9 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
   }
 
   set typhoon(val: DataList_Mid_Model) {
-    this.isDateShow = false;
     this.$store.commit("typhoon", val);
-  }
-
-  //  当前选择的台风（由vuex获取）
-  get typhoon(): DataList_Mid_Model {
-    return this.$store.state.map.typhoon;
   }
 }
 </script>
-<style scoped src="./complex_search.css">
+<style scoped src="./map_complexsearch/complex_search.css">
 </style>

@@ -2,7 +2,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
+// 引入fecha
+import fecha from "fecha";
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
@@ -70,8 +71,33 @@ import {
 } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
 
-@Component({})
-export default class center_map_search extends mixins(
+@Component({
+  components: {
+    "l-marker": LMarker,
+    "l-map": LMap,
+    "l-tile-layer": LTileLayer,
+    "l-polyline": LPolyline,
+    "l-circle": LCircle,
+    "l-icon": LIcon
+  },
+  // 自定义过滤器
+  filters: {
+    //  时间格式化
+    formatDate(date: Date): String {
+      var str_format = fecha.format(date, "YY-MM-DD HH:mm:ss");
+      return str_format;
+    },
+    // TODO: [*] 19-04-13 对于type 为point的过滤器，还需要加入一个对于类型的判断
+    formatPoint(point: any): Array<number> {
+      var temp = point.coordinates;
+      var latlon = [temp[1].toString(), temp[0].toString()];
+      return latlon;
+    }
+  }
+
+  // @Mutation()
+})
+export default class map_base extends mixins(
   MapBaseDataMixin,
   MapCommonMixin,
   MapRangeVuexMixin
