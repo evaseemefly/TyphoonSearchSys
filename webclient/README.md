@@ -1,22 +1,26 @@
 # 历史台风相似路径查询系统
 
-## Project setup
+---
+
+### Project setup
 
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+#### Compiles and hot-reloads for development
 
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+#### Compiles and minifies for production
 
 ```
 npm run build
 ```
+
+---
 
 ## 项目主要参与人员
 
@@ -25,6 +29,8 @@ npm run build
 [evaseemefly](https://github.com/evaseemefly)
 
 [stupidanimal](https://github.com/stupidanimal)
+
+---
 
 ## 项目目录
 
@@ -60,11 +66,24 @@ npm run build
 │ ├──xxx.css            <= vue中的style中的css代码
 </code></pre>
 
+---
+
+## 注意事项：
+
+1. 注意台风实时数据可能会出现一个`code`不同年份重复的问题，现在使用台风编号替代-`numn`
+
+---
+
 ## 其他规约
 
 代码规范参考  
 [JavaScript 编码规范](https://github.com/fex-team/styleguide/blob/master/javascript.md)  
 [JavaScript 开发规范](https://juejin.im/entry/599d433cf265da24797b5c66)
+
+python 参考规范（参考 pep8）
+[pep8 规范](https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/)
+
+---
 
 ## 引用的第三方库
 
@@ -72,3 +91,9 @@ npm run build
 
 js 的 date 库:
 [fecha](https://github.com/taylorhakes/fecha)
+[vue-class-component](https://github.com/vuejs/vue-class-component)
+[Vue Property Decorator](https://github.com/kaorun343/vue-property-decorator)
+
+### 2 python 使用的库
+
+[python docx](https://python-docx.readthedocs.io/en/latest/)

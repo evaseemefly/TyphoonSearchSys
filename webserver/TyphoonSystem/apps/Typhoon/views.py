@@ -45,14 +45,14 @@ class PointInfoView(APIView):
 
 class TyphoonRealDataView(APIView):
     def get(self, request):
-        code = request.GET.get("code", settings.default_typhoon_code)
+        num = request.GET.get("num", settings.default_typhoon_code)
         # 根据台风的code获取该台风的气象数据
         # code="MERBOK"
         # 1：使用djongo的实现
         # realtime_list=GeoTyphoonRealData.objects.filter(code=code)
 
         # 2：使用mongoengine的实现
-        realtime_list = GeoTyphoonRealData.objects(code=code)
+        realtime_list = GeoTyphoonRealData.objects(num=num)
         json_data = GeoTyphoonRealDataSerializer(realtime_list, many=True).data
 
         return Response(json_data)
@@ -197,11 +197,12 @@ class StationDetailListView(APIView, BaseDetailListView):
         根据传入的 台风 code 以及 海洋站 name
         返回该过程中的该测站的连续观测值
     '''
+
     def get(self, request):
         code = request.GET.get('code')
         name = request.GET.get('name')
-        data_list=self.load(code, name)
-        data_json=TideRealMidModelSerializer(data_list,many=True)
+        data_list = self.load(code, name)
+        data_json = TideRealMidModelSerializer(data_list, many=True)
         return Response(data_json.data)
         # pass
 
@@ -222,12 +223,15 @@ class StationDetailListView(APIView, BaseDetailListView):
         #  StationTideData.objects(code=code,stationname=stationname)[0].realtidedata]
         # import datetime
         for realtide_temp in StationTideData.objects(code=code, stationname=stationname)[0].realtidedata:
-            if hasattr(realtide_temp, 'realdata') and hasattr(realtide_temp, 'targetdate') and hasattr(realtide_temp, 'forecastdata'):
+            if hasattr(realtide_temp, 'realdata') and hasattr(realtide_temp, 'targetdate') and hasattr(realtide_temp,
+                                                                                                       'forecastdata'):
                 # 提取每一日的realdata
                 # for realdata_temp in realtide_temp.realdata:
-                if hasattr(realtide_temp.realdata, 'realdata_arr') and hasattr(realtide_temp.forecastdata, 'forecast_arr'):
-                    for index,temp in enumerate(zip(realtide_temp.realdata.realdata_arr,realtide_temp.forecastdata.forecast_arr)):
-                    # for index, temp in enumerate(realtide_temp.realdata.realdata_arr) :
+                if hasattr(realtide_temp.realdata, 'realdata_arr') and hasattr(realtide_temp.forecastdata,
+                                                                               'forecast_arr'):
+                    for index, temp in enumerate(
+                            zip(realtide_temp.realdata.realdata_arr, realtide_temp.forecastdata.forecast_arr)):
+                        # for index, temp in enumerate(realtide_temp.realdata.realdata_arr) :
                         # temp_datetime = realtide_temp.targetdate + datetime.timedelta(hours=index)
                         # TODO date-> datetime 方式1：
                         # temp_datetime=datetime(temp.targetdate.year,temp.targetdate.month,temp.targetdate.day,index,0)
@@ -235,17 +239,18 @@ class StationDetailListView(APIView, BaseDetailListView):
                         import datetime
                         # TODO [-] 19-04-25 temp[0] 为real temp[1] 为forecast
                         # 需要判断是否没有-9999若存在-9999，则直接返回-9999
-                        if temp[0]==-9999 or temp[1]==-9999:
+                        if temp[0] == -9999 or temp[1] == -9999:
                             temp_tide = StationTideRealMidModel(-9999, temp_datetime)
                         else:
-                            temp_datetime=datetime.datetime.combine(realtide_temp.targetdate,datetime.time(index,0))
+                            temp_datetime = datetime.datetime.combine(realtide_temp.targetdate, datetime.time(index, 0))
                             # real-forecast 为实际的潮差
-                            temp_tide = StationTideRealMidModel(temp[0]-temp[1], temp_datetime)
+                            temp_tide = StationTideRealMidModel(temp[0] - temp[1], temp_datetime)
                         data_list.append(temp_tide)
                         # print(str(temp_tide))
             # print(realtide_temp)
         return data_list
         pass
+
 
 class FilterByMonth(BaseView):
     '''
@@ -325,7 +330,7 @@ class FilterByRange(BaseView):
         range = int(request.GET.get('range'))
 
         # 获取去重后的code list
-        codes = self.getTyphoonList(latlon=latlons, range=range)
+        nums = self.getTyphoonList(latlon=latlons, range=range)
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
         # list_data = [GeoTyphoonRealData.objects(code=code)[:1].code
         # for code in codes]
@@ -336,9 +341,13 @@ class FilterByRange(BaseView):
 
         #
         # 使用列表推导
-        list_data = [
-            TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code, GeoTyphoonRealData.objects(code=code)[0].date)
-            for code in codes]
+        # list_data = [
+        #     TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code, GeoTyphoonRealData.objects(num=num)[0].date,GeoTyphoonRealData.objects(num=num)[0].num)
+        #     for num in nums]
+        list_data = []
+        for num in nums:
+            obj=GeoTyphoonRealData.objects(num=num)[0]
+            list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
         json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
 
@@ -351,8 +360,8 @@ class FilterByRange(BaseView):
         '''
         latlon = kwargs.get('latlon')
         range = kwargs.get('range')
-
-        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('code')
+        # 注意此处去重是要根据 num 进行去重
+        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('num')
 
 
 class FilterByComplexCondition(BaseView):
@@ -432,11 +441,11 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         try:
             toP = int(toP)
         except:
-            toP=0
+            toP = 0
 
         query = query.filter(code__ne='(nameless)')
         query = query.distinct('code')
-        total=len(query)
+        total = len(query)
         query = query[fromP:toP]
         # TODO [*] 19-05-05 由于前台需要的是code以及num，所以需要根据code获取到geoTyphoonRealData类型的列表，并序列化返回
         #  以下注释部分 -by zw
@@ -446,14 +455,14 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         # result = {'total':total,'data':query}
         # return Response(result)
         # 因为返回的都是code，此部分只是多了一个year，暂时可以去掉
-        list_data=[
-            TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code, GeoTyphoonRealData.objects(code=code)[0].date)
+        list_data = [
+            TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code, GeoTyphoonRealData.objects(code=code)[0].date,
+                         GeoTyphoonRealData.objects(code=code)[0].num)
             for code in query]
 
-        json_data=TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_data,total)).data
+        json_data = TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_data, total)).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
-        return Response(json_data,status=status.HTTP_200_OK)
-
+        return Response(json_data, status=status.HTTP_200_OK)
 
 
 class GetTimeByCode(BaseView):
@@ -476,32 +485,34 @@ class GetTimeByCode(BaseView):
         try:
             toP = int(toP)
         except:
-            toP=0
+            toP = 0
 
-        query = query.aggregate({"$project":{"dt":{"$dateToString":{"format":"%Y-%m-%d %H","date":"$date"}}}},{"$group":{"_id":"$dt"}},{"$sort":{"_id":1}})
+        query = query.aggregate({"$project": {"dt": {"$dateToString": {"format": "%Y-%m-%d %H", "date": "$date"}}}},
+                                {"$group": {"_id": "$dt"}}, {"$sort": {"_id": 1}})
         lst = list(query)
         total = len(lst)
         lst = lst[fromP:toP]
         print(code)
-        result = {'total':total,'data':lst}
+        result = {'total': total, 'data': lst}
         return Response(result)
+
 
 class GetDetail(BaseView):
     '''
     '''
-    def get(self,request):
+
+    def get(self, request):
         code = request.GET.get('code')
         dateH = request.GET.get('date')
-        dts = datetime.strptime(dateH,'%Y-%m-%d %H')
-        dte = dts+timedelta(hours=1,seconds=-1)
-        dte = dte.isoformat()+".000+00:00"
-        dts = dts.isoformat()+".000+00:00"
+        dts = datetime.strptime(dateH, '%Y-%m-%d %H')
+        dte = dts + timedelta(hours=1, seconds=-1)
+        dte = dte.isoformat() + ".000+00:00"
+        dts = dts.isoformat() + ".000+00:00"
         query = GeoTyphoonRealData.objects()
-        query = query.all().filter(Q(code=code)&Q(date__gte=dts)&Q(date__lte=dte))
-        print(dts,dte)
-        json_data = GeoTyphoonRealDataSerializer(query,many=True).data
+        query = query.all().filter(Q(code=code) & Q(date__gte=dts) & Q(date__lte=dte))
+        print(dts, dte)
+        json_data = GeoTyphoonRealDataSerializer(query, many=True).data
         return Response(json_data)
-
 
 
 class FilterByDateRange(BaseView):
@@ -535,10 +546,11 @@ def add_months(sourcedate, months):
     day = min(sourcedate.day, calendar.monthrange(year, month)[1])
     return superdatetime.date(year, month, day)
 
+
 class DisasterWordView(APIView):
-    def get(self,request):
-        code='5622'
-        query=DisasterWordInfo.objects(code=code)
-        json_data=DisasterWordModelSerializer(query,many=True).data
+    def get(self, request):
+        code = '5622'
+        query = DisasterWordInfo.objects(code=code)
+        json_data = DisasterWordModelSerializer(query, many=True).data
         return Response(json_data)
         # pass

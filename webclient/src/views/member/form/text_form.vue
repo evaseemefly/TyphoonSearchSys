@@ -57,9 +57,13 @@ export default class text_form extends mixins(TextFormDataMixin) {
 
             myself.text = res.data[0].wordDocument.replace(/[\n\r]/g, "<br>");
           }
+        } else {
+          myself.text = "";
         }
+      } else {
+        myself.text = "";
       }
-      console.log(res.data);
+      // console.log(res.data);
     });
     // console.log(val);
   }

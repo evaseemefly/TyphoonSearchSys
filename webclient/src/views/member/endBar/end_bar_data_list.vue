@@ -1,12 +1,22 @@
 <template>
-  <div id="end_bar_div" class="col-md-8 card-columns" @mouseleave="mouseleave" v-show="end_bar_show">
+  <div
+    id="end_bar_div"
+    class="col-md-8 card-columns"
+    @mouseleave="mouseleave"
+    v-show="end_bar_show"
+  >
     <div class="card bg-secondary col-md-12 ">
-      <div class="card-header card-my-end-header text-white">台风编号{{target_typhoon.code}}</div>
+      <div class="card-header card-my-end-header text-white">台风编号{{target_typhoon.name}}</div>
       <div class="card-body card-my-end-body">
         <div class="row">
           <div class="col">
             <ul class="list-group">
-              <li class="list-group-item list-my-group-item" v-for="(item,index) in date_list" :key="index" @click="onClick(item)">
+              <li
+                class="list-group-item list-my-group-item"
+                v-for="(item,index) in date_list"
+                :key="index"
+                @click="onClick(item)"
+              >
                 {{item|formatDate}}
               </li>
             </ul>

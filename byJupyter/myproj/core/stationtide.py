@@ -1,10 +1,13 @@
-import os
+import os, re
 import pandas as pd
+import numpy as np
 from pandas import Series, DataFrame
 import datetime
 from mongoengine import *
+import abc
 
 from data.model import *
+from data.middle_model import GeoTyphoonRealDataMidModel
 
 
 class StationTideRealData:
@@ -51,7 +54,7 @@ class StationTideRealData:
 
         return checkpoint_arr
 
-    def convert2StationBaseModel(self, ser: Series = None, **kwargs)->StationTideData:
+    def convert2StationBaseModel(self, ser: Series = None, **kwargs) -> StationTideData:
         '''
             根据传入的series，根据指定位置进行截取
         '''
@@ -400,3 +403,4 @@ class StationTideRealData:
         # while index_recycle<3:
 
         return finial_data_list, index_temp
+
