@@ -2,6 +2,8 @@
 import datetime
 from apps.Typhoon.models import *
 
+
+
 class TyphoonModel:
     def __init__(self,code:str,date:datetime.datetime):
         self.code=code
@@ -10,6 +12,12 @@ class TyphoonModel:
     @property
     def year(self):
         return self._date.year
+
+class TyphoonAndTotalModel:
+    def __init__(self,list:[],total:int):
+        self.list=list
+        self.total=total
+
 
 class TideRealMidModel:
     '''

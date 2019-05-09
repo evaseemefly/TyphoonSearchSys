@@ -17,6 +17,7 @@ import json
 
 # 引入mongoengine
 # import mongoengineFilterByMonth
+from mongoengine.queryset.visitor import Q
 
 # 引入自己的组件
 from .models import *
@@ -390,6 +391,119 @@ class FilterByComplexCondition(BaseView):
         return Response(json_data, status=status.HTTP_200_OK)
 
 
+class GetTyphoonCodeByComplexCondition(BaseView):
+    '''
+    复杂条件查询 风速，级别，气压
+    http://127.0.0.1:8000/gis/filter/complex/?bp=1006&wsm=13&level=1
+    '''
+
+    def get(self, request):
+        level = request.GET.get('level')
+        wsm = request.GET.get('wsm')
+        bp = request.GET.get('bp')
+        startMonth = request.GET.get('startMonth')
+        endMonth = request.GET.get('endMonth')
+        fromP = request.GET.get('from')
+        toP = request.GET.get('to')
+
+        query = GeoTyphoonRealData.objects()
+
+        if level is not None and level != '':
+            query = query.filter(level=level)
+        if wsm is not None and wsm != '':
+            query = query.filter(wsm=wsm)
+        if bp is not None and bp != '':
+            query = query.filter(bp=bp)
+        if startMonth is not None and startMonth != '':
+            start_date = startMonth + '-01 00:00:00'
+            stime = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
+            query = query.filter(date__gte=stime)
+        if endMonth is not None and endMonth != '':
+            end_date = datetime.datetime.strptime(endMonth, '%Y-%m')
+            end_date = add_months(end_date, 1)
+            etime = end_date + timedelta(seconds=-1)
+            query = query.filter(date__lte=etime)
+
+        try:
+            fromP = int(fromP)
+        except Exception as e:
+            fromP = 0
+
+        try:
+            toP = int(toP)
+        except:
+            toP=0
+
+        query = query.filter(code__ne='(nameless)')
+        query = query.distinct('code')
+        total=len(query)
+        query = query[fromP:toP]
+        # TODO [*] 19-05-05 由于前台需要的是code以及num，所以需要根据code获取到geoTyphoonRealData类型的列表，并序列化返回
+        #  以下注释部分 -by zw
+        # total = len(query)
+        # query = query[fromP:toP]
+        #
+        # result = {'total':total,'data':query}
+        # return Response(result)
+        # 因为返回的都是code，此部分只是多了一个year，暂时可以去掉
+        list_data=[
+            TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code, GeoTyphoonRealData.objects(code=code)[0].date)
+            for code in query]
+
+        json_data=TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_data,total)).data
+        # json_data = TyphoonModelSerializer(list_data, many=True).data
+        return Response(json_data,status=status.HTTP_200_OK)
+
+
+
+class GetTimeByCode(BaseView):
+    '''
+    '''
+
+    def get(self, request):
+        code = request.GET.get('code')
+        fromP = request.GET.get('from')
+        toP = request.GET.get('to')
+
+        query = GeoTyphoonRealData.objects()
+        query = query.filter(code=code)
+
+        try:
+            fromP = int(fromP)
+        except Exception as e:
+            fromP = 0
+
+        try:
+            toP = int(toP)
+        except:
+            toP=0
+
+        query = query.aggregate({"$project":{"dt":{"$dateToString":{"format":"%Y-%m-%d %H","date":"$date"}}}},{"$group":{"_id":"$dt"}},{"$sort":{"_id":1}})
+        lst = list(query)
+        total = len(lst)
+        lst = lst[fromP:toP]
+        print(code)
+        result = {'total':total,'data':lst}
+        return Response(result)
+
+class GetDetail(BaseView):
+    '''
+    '''
+    def get(self,request):
+        code = request.GET.get('code')
+        dateH = request.GET.get('date')
+        dts = datetime.strptime(dateH,'%Y-%m-%d %H')
+        dte = dts+timedelta(hours=1,seconds=-1)
+        dte = dte.isoformat()+".000+00:00"
+        dts = dts.isoformat()+".000+00:00"
+        query = GeoTyphoonRealData.objects()
+        query = query.all().filter(Q(code=code)&Q(date__gte=dts)&Q(date__lte=dte))
+        print(dts,dte)
+        json_data = GeoTyphoonRealDataSerializer(query,many=True).data
+        return Response(json_data)
+
+
+
 class FilterByDateRange(BaseView):
     '''
     根据传过来的月份区间查找台风数据 类似2019-03 2019-03
@@ -420,3 +534,11 @@ def add_months(sourcedate, months):
     month = month % 12 + 1
     day = min(sourcedate.day, calendar.monthrange(year, month)[1])
     return superdatetime.date(year, month, day)
+
+class DisasterWordView(APIView):
+    def get(self,request):
+        code='5622'
+        query=DisasterWordInfo.objects(code=code)
+        json_data=DisasterWordModelSerializer(query,many=True).data
+        return Response(json_data)
+        # pass

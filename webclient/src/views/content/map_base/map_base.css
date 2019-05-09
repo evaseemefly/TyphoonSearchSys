@@ -1,0 +1,249 @@
+#mycontent {
+  /* position: absolute; */
+  /* top: 188px; */
+  /* height: 600px; */
+
+  /* bottom: 0px; */
+
+  /* height: 100%;
+      width: 100%;
+      left: 200px;
+      overflow: hidden;
+      position: absolute; */
+
+  flex: 8;
+  position: relative;
+}
+#basemap {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.typhoon_data_div .row {
+  color: black;
+}
+
+.typhoon_data_div .card-body {
+  color: black;
+}
+.typhoon_data_div {
+  color: black;
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+.typhoon_icon_default {
+  width: 750px !important;
+}
+
+.card-header {
+  text-align: center;
+  text-shadow: 2px 2px 10px grey;
+}
+.row {
+  /* color: black; */
+  text-align: center;
+  text-shadow: 2px 2px 10px grey;
+  margin-bottom: 10px;
+}
+/* 注意card有一个左右15px的padding */
+.card {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+.row_footer {
+  margin-left: -21px !important;
+  margin-right: -21px !important;
+  margin-bottom: -21px !important;
+}
+
+/* 底部div */
+.typhoon_footer {
+  display: flex;
+  flex-direction: row;
+  background: #0044cc;
+  width: 100%;
+  color: white;
+  border: 1px;
+  text-align: center;
+  /* 设置圆角 */
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  /* margin-left: -21px;
+                    margin-right: -21px; */
+}
+
+.typhoon_footer .columnar {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  border-right: 1px solid #0000ff;
+}
+
+.typhoon_footer .columnar .subitem_top {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  font-size: 20px;
+}
+
+.typhoon_footer .columnar .subitem_foot {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.625rem;
+}
+
+/* --------------------------------- */
+/* 缩略的station div icon的样式 */
+
+#station_form {
+  /* border: 2px solid white; */
+  width: 180px;
+  display: inline-block;
+  /* background: rgba(50, 124, 164, 0.829); */
+  background: #2c3e5034;
+  text-align: center;
+  color: aliceblue;
+  box-shadow: 10px 10px 5px #888888;
+  box-shadow: 0 0 10px whitesmoke;
+  /* 边角圆滑处理 */
+  border-radius: 10px;
+}
+
+#station_form :hover {
+  /* z-index: 9999; */
+  background: red;
+}
+
+.fade_enter {
+  transition: opacity 0.5s;
+}
+
+#station_form .table {
+  margin-bottom: 0px;
+  text-align: center;
+  text-shadow: 2px 2px 10px grey;
+  color: white;
+  font-size: 122%;
+}
+
+#station_form .station_name {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  width: 150px !important;
+  word-break: break-all;
+}
+
+#station_form .surge {
+  background: rgba(5, 213, 140, 0.646);
+  color: rgba(227, 238, 70, 0.872);
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+#station_form .tide {
+  background: rgba(45, 244, 174, 0.557);
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+#station_form .title {
+  width: 100px !important;
+}
+
+#station_form table tr td {
+  width: 80px;
+}
+
+#station_form .Green {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(45, 244, 174, 0.557);
+  /* border-radius: 10px; */
+}
+#station_form .Blue {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(41, 103, 173, 0.557);
+  /* border-radius: 10px; */
+}
+#station_form .Yellow {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(248, 244, 6, 0.557);
+  /* border-radius: 10px; */
+}
+#station_form .Orange {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(255, 158, 3, 0.557);
+  /* border-radius: 10px; */
+}
+#station_form .Red {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+  background: rgba(255, 1, 1, 0.877);
+  /* border-radius: 10px; */
+}
+
+/* ---------------------------- */
+/* 展开后的divIcon */
+
+#station_detail {
+  display: inline-block;
+  width: 340px;
+  /* background: rgba(0, 0, 255, 0.829); */
+  text-align: center;
+  /* color: rgba(9, 137, 249, 0.927); */
+  color: rgba(53, 83, 203, 0.783);
+  box-shadow: 10px 10px 5px #888888;
+  box-shadow: 0 0 10px whitesmoke;
+  /* 边角圆滑处理 */
+  border-radius: 10px;
+}
+
+#station_detail .card-header {
+  text-align: center;
+  text-shadow: 2px 2px 10px grey;
+  background: rgb(51, 152, 125);
+  color: white;
+  font-size: 120%;
+}
+
+#station_detail .card-body {
+  background: rgb(47, 68, 84);
+  color: white;
+}
+
+/* TODO:[*] 19-04-24 在station展开后的div中尝试加入一个修改zindex的样式 */
+.upzindex {
+  z-index: 999;
+}
+
+/* 海洋站的柱体样式 */
+.ellipse {
+  /* margin-left: 100px; */
+  width: 20px;
+  height: 20px;
+  border: solid 0.5px rgb(62, 105, 171);
+  background: rgb(51, 152, 125);
+  border-radius: 10px;
+  transform: rotateX(70deg);
+}
+
+.ellipse-after {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 100px;
+  position: relative;
+  opacity: 0.9;
+  background: rgb(51, 152, 125);
+  top: -10px;
+  left: -0.5px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
