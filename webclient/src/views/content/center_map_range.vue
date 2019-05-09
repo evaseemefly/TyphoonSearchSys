@@ -73,7 +73,7 @@
             <div class="card-header">
               {{station.stationname}}
               <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
-              <button id="testclick" @click.stop="showModal">|查看</button>
+              <!-- <button id="testclick" @click.stop="showModal">|查看</button> -->
               <!-- <a @click.stop="showModal">|查看过程</a> -->
             </div>
             <div class="card-body">
