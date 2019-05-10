@@ -268,6 +268,7 @@ export default class center_vue2map extends Vue {
     this.typhoon_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
+        "5601",
         new Date(),
         // [30.09, 127.75],
         [12.5, 115.4],
@@ -278,73 +279,11 @@ export default class center_vue2map extends Vue {
     this.typhoon_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
+        "5601",
         new Date(),
         [13.5, 116.0],
         1001.2,
         1.5
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [14.4, 116.6],
-        1001.2,
-        2
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [15.2, 116.9],
-        1001.2,
-        3
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [16.2, 116.9],
-        1001.2,
-        3.4
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [17.3, 117.3],
-        1001.2,
-        5
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [17.7, 117.8],
-        1001.2,
-        8
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [18.0, 118.6],
-        1001.2,
-        12
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [18.3, 119.5],
-        1001.2,
-        15
       )
     );
   }

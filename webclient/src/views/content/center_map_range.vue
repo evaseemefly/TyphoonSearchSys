@@ -200,7 +200,7 @@ export default class center_map_range extends mixins(
         // data中为台风列表
         data.forEach(obj => {
           myself.typhoon_code_list.push(
-            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num)
           );
         });
         myself.is_show_typhoon_list = true;
@@ -261,6 +261,7 @@ export default class center_map_range extends mixins(
     this.typhoon_realdata_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
+        "5601",
         new Date(),
         [17.6, 131.6],
         1001.2,
@@ -274,6 +275,7 @@ export default class center_map_range extends mixins(
     this.typhoon_temp = val;
     var typhoon_real = new TyphoonRealBase_Mid_Model(
       val.name,
+      val.num,
       val.code,
       val.date
     );
@@ -494,6 +496,7 @@ export default class center_map_range extends mixins(
           myself.typhoon_realdata_list.push(
             new MeteorologyRealData_Mid_Model(
               temp.code,
+              temp.num,
               new Date(date_str),
               [temp.latlon.coordinates[1], temp.latlon.coordinates[0]],
               temp.bp,

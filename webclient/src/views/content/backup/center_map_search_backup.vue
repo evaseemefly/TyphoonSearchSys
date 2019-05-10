@@ -1,4 +1,4 @@
-<template src="./map_complexsearch/complex_search.html"></template>
+<template src="@/views/content/map_complexsearch/complex_search.html"></template>
 
 <script lang="ts">
 import Vue from "vue";
@@ -6,7 +6,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 
 // 使用mixin的方式拓展data
-import MapRangeDataMixin from "./map_complexsearch/complex_search_data_mixin";
+import MapRangeDataMixin from "@/views/content/map_complexsearch/complex_search_data_mixin";
 import Component, { mixins } from "vue-class-component";
 
 import {
@@ -61,7 +61,7 @@ export default class center_map_search extends mixins(MapRangeDataMixin) {
         // TODO:[-] 19-05-07 此处后台返回的为一个嵌套的序列化对象，包含list与total
         res.data.list.forEach(obj => {
           myself.typhoonCodeList.push(
-            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num)
           );
         });
         myself.typhoonCodeDataTotal = res.data.total;

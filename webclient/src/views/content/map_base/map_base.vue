@@ -236,6 +236,7 @@ export default class map_base extends mixins(
     this.typhoon_realdata_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
+        "5601",
         new Date(),
         [17.6, 131.6],
         1001.2,
@@ -249,6 +250,7 @@ export default class map_base extends mixins(
     this.typhoon_temp = val;
     var typhoon_real = new TyphoonRealBase_Mid_Model(
       val.name,
+      val.num,
       val.code,
       val.date
     );
@@ -469,6 +471,7 @@ export default class map_base extends mixins(
           myself.typhoon_realdata_list.push(
             new MeteorologyRealData_Mid_Model(
               temp.code,
+              temp.num,
               new Date(date_str),
               [temp.latlon.coordinates[1], temp.latlon.coordinates[0]],
               temp.bp,

@@ -8,7 +8,9 @@ targetfilename=r"5622.docx"
 # aw
 # targetpath=r"D:\01proj\typhoon\TyphoonSearchSys\demo_data"
 # P52S
-targetpath=r"D:\04git仓库\TyphoonSearchSys\demo_data"
+# targetpath=r"D:\04git仓库\TyphoonSearchSys\demo_data"
+# mac15
+targetpath=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/demo_data"
 
 fullname=os.path.join(targetpath,targetfilename)
 

@@ -13,11 +13,21 @@
 ></div>
 ```
 
+---
+
 ## 收集的一些资料
 
 ### markdown 语法相关
 
 [Markdown 语法介绍](https://coding.net/help/doc/project/markdown.html)
+
+[一份简明的 Markdown 笔记与教程](https://github.com/mzlogin/markdown-intro)
+
+### pytho 相关
+
+#### python 常用语法
+
+1. 异常处理
 
 ### 前端集成及设计
 
@@ -36,3 +46,7 @@
 ### nosql
 
 [redis 的重要知识点](https://github.com/Weiwf/redis-mindmap/blob/master/README.md?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)
+
+### 电子书资源汇总
+
+[经典技术书籍 PDF](https://github.com/royeo/awesome-programming-books)

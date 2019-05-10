@@ -20,7 +20,7 @@
                 :key="index"
                 @click="onClick(item)"
               >
-                {{item.name}}|{{item.year}}
+                name:{{item.name}}|num:{{item.num}}|{{item.year}}
               </li>
             </ul>
           </div>

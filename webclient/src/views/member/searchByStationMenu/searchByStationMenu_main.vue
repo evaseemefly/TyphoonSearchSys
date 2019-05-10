@@ -161,11 +161,7 @@ import stationsList from "./searchByStationMenu_stations.vue";
 })
 export default class second_bar_condition_search extends Vue {
   // 初始数据可以直接声明为实例的属性
-  data_list: DataList_Mid_Model[] = [
-    new DataList_Mid_Model("台风1", 1, "code_a"),
-    new DataList_Mid_Model("台风2", 2, "code_b"),
-    new DataList_Mid_Model("台风3", 3, "code_c")
-  ];
+  data_list: DataList_Mid_Model[] = [];
   is_show: boolean = false;
   showStationList: boolean = false;
   code: string = "";

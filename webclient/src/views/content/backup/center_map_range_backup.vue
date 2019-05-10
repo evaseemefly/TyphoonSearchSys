@@ -1,9 +1,18 @@
 <template>
   <div id="mycontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
+    <l-map
+      ref="basemap"
+      :zoom="zoom"
+      :center="center"
+      @click="createMarker"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :fill="false"
+      ></l-polyline>
       <!-- 台风中心的圆点 -->
       <l-circle
         v-for="typhoon in typhoon_realdata_list"
@@ -17,9 +26,16 @@
       />
 
       <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
-      <l-marker :lat-lng="targetMarkerLatLon" :icon="icon_marker"></l-marker>
+      <l-marker
+        :lat-lng="targetMarkerLatLon"
+        :icon="icon_marker"
+      ></l-marker>
       <!-- 鼠标点击某个位置之后根据slider获取的半径 -->
-      <l-circle :lat-lng="targetMarkerLatLon" :weight="4" :radius="range"/>
+      <l-circle
+        :lat-lng="targetMarkerLatLon"
+        :weight="4"
+        :radius="range"
+      />
 
       <!-- 海洋站的div以及table样式 -->
       <!-- TODO: 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
@@ -36,8 +52,15 @@
         :icon="icon_marker"
       >
         <l-icon :options="icon_div_station_option">
-          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-            <table class="table table-bordered" border="1">
+          <div
+            id="station_form"
+            v-show="index!=select_station_index"
+            class="fade_enter"
+          >
+            <table
+              class="table table-bordered"
+              border="1"
+            >
               <tr>
                 <td
                   :class="[getStationAlarmClass(station),'station_name']"
@@ -52,7 +75,11 @@
               </tr>
             </table>
           </div>
-          <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
+          <div
+            id="station_detail"
+            v-show="index==select_station_index"
+            class="card box-shadow"
+          >
             <div class="card-header">{{station.name+index}}</div>
             <div class="card-body">
               <div class="row">
@@ -107,7 +134,10 @@
     </div>-->
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
-    <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
+    <TyphoonList
+      :typhoon_list="typhoon_code_list"
+      :is_show="is_show_typhoon_list"
+    ></TyphoonList>
   </div>
 </template>
 
@@ -278,7 +308,7 @@ export default class center_map_range extends Vue {
         // data中为台风列表
         data.forEach(obj => {
           myself.typhoon_code_list.push(
-            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num)
           );
         });
         myself.is_show_typhoon_list = true;
@@ -362,6 +392,7 @@ export default class center_map_range extends Vue {
     this.typhoon_realdata_list.push(
       new MeteorologyRealData_Mid_Model(
         "code_a",
+        "5601",
         new Date(),
         [17.6, 131.6],
         1001.2,
@@ -375,6 +406,7 @@ export default class center_map_range extends Vue {
     this.typhoon_temp = val;
     var typhoon_real = new TyphoonRealBase_Mid_Model(
       val.name,
+      val.num,
       val.code,
       val.date
     );
@@ -679,6 +711,7 @@ export default class center_map_range extends Vue {
           myself.typhoon_realdata_list.push(
             new MeteorologyRealData_Mid_Model(
               temp.code,
+              temp.num,
               new Date(date_str),
               [temp.latlon.coordinates[1], temp.latlon.coordinates[0]],
               temp.bp,

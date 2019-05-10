@@ -1,12 +1,29 @@
 <template>
   <div id="mycontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center">
+    <l-map
+      ref="basemap"
+      :zoom="zoom"
+      :center="center"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill=false>
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :fill=false
+      >
       </l-polyline>
       <!-- 台风中心的圆点 -->
-      <l-circle v-for="typhoon in typhoon_list" :key=typhoon.id :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" @mouseover="showTyphoonDiv(typhoon)" @mouseout="clearTyphoonDivIcon()" @click="changeTyphoon(typhoon)" />
+      <l-circle
+        v-for="typhoon in typhoon_list"
+        :key=typhoon.id
+        :lat-lng="typhoon.latlon"
+        :color="typhoon.getColor()"
+        :weight="typhoon.getWeight()"
+        @mouseover="showTyphoonDiv(typhoon)"
+        @mouseout="clearTyphoonDivIcon()"
+        @click="changeTyphoon(typhoon)"
+      />
 
       <!-- 方式1 -->
       <!-- <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon">
@@ -23,7 +40,13 @@
 
       <!-- 方式3 -->
       <!-- 海洋站所在位置的marker -->
-      <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @click="openStationDivIcon(station)">
+      <l-marker
+        v-for="station in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        :icon="icon_marker"
+        @click="openStationDivIcon(station)"
+      >
       </l-marker>
 
       <!-- <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" :icon="icon_marker" @mouseover="upZIndex(station)"> -->
@@ -39,22 +62,48 @@
       <!-- 此处注意：
       对于icon，若不指定图片url，设置iconSize无效 -->
       <!-- 对于l-icon可以直接指定icon-anchor设置偏移量 -->
-      <l-marker v-for="station in station_tide_list" :key=station.id :lat-lng="station.latlon" :zIndexOffset=999>
+      <l-marker
+        v-for="station in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        :zIndexOffset=999
+      >
         <!-- <l-icon :icon-anchor="icon_div_station_cylinder_anchor"> -->
         <l-icon :icon-anchor="iconStationCylinderAnchor(station.tide)">
           <div class="ellipse"></div>
           <!-- <div class="ellipse"></div> -->
-          <div class="ellipse-after" :style="{height:iconDivWeight(station)+'px'}"></div>
+          <div
+            class="ellipse-after"
+            :style="{height:iconDivWeight(station)+'px'}"
+          ></div>
         </l-icon>
       </l-marker>
 
       <!-- 海洋站的div以及table样式 -->
-      <l-marker v-for="(station,index) in station_tide_list" :key=station.id :lat-lng="station.latlon" @click="changeStationIndex(index)" @mouseout="upZIndex(station)" :options="icon_div_station_option" :zIndexOffset="getIconStationZIndex(index,station)">
+      <l-marker
+        v-for="(station,index) in station_tide_list"
+        :key=station.id
+        :lat-lng="station.latlon"
+        @click="changeStationIndex(index)"
+        @mouseout="upZIndex(station)"
+        :options="icon_div_station_option"
+        :zIndexOffset="getIconStationZIndex(index,station)"
+      >
         <l-icon :options="icon_div_station_option">
-          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-            <table class="table table-bordered" border="1">
+          <div
+            id="station_form"
+            v-show="index!=select_station_index"
+            class="fade_enter"
+          >
+            <table
+              class="table table-bordered"
+              border="1"
+            >
               <tr>
-                <td class="station_name" rowspan="2">{{station.name}}</td>
+                <td
+                  class="station_name"
+                  rowspan="2"
+                >{{station.name}}</td>
                 <td class="surge">{{station.ws}}</td>
                 <td class="surge">{{station.wd}}</td>
               </tr>
@@ -64,7 +113,11 @@
               </tr>
             </table>
           </div>
-          <div id="station_detail" v-show="index==select_station_index" class="card box-shadow">
+          <div
+            id="station_detail"
+            v-show="index==select_station_index"
+            class="card box-shadow"
+          >
             <div class="card-header">{{station.name+index}}</div>
             <div class="card-body">
               <div class="row">
@@ -208,88 +261,6 @@ export default class center_vue2map extends Vue {
   // 根据指定时间及code查询对应台风的实时数据
   loadTyphoonData(): void {
     // 此处只做模拟
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        // [30.09, 127.75],
-        [12.5, 115.4],
-        1001.2,
-        1
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [13.5, 116.0],
-        1001.2,
-        1.5
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [14.4, 116.6],
-        1001.2,
-        2
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [15.2, 116.9],
-        1001.2,
-        3
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [16.2, 116.9],
-        1001.2,
-        3.4
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [17.3, 117.3],
-        1001.2,
-        5
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [17.7, 117.8],
-        1001.2,
-        8
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [18.0, 118.6],
-        1001.2,
-        12
-      )
-    );
-    this.typhoon_list.push(
-      new MeteorologyRealData_Mid_Model(
-        "code_a",
-        new Date(),
-        [18.3, 119.5],
-        1001.2,
-        15
-      )
-    );
   }
 
   changeTyphoon(val): void {
