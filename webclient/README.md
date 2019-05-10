@@ -67,6 +67,25 @@ npm run build
 </code></pre>
 
 ---
+### 历史台风查询页面组件说明  
+历史台风查询页面-by [stupidanimal](https://github.com/stupidanimal)
+
+<pre><code>
+├── views                               <=
+│ ├── content                           <= 
+│ │  ├── form_static                    <=  统计页面的主文件夹
+│ │  │  ├── form_static_detail.vue      <=  下半部分的数据展示子组件。主要包含： map_single 地图缩略图显示子组件（暂时使用div填充即可）， typhoon_detail_chart 可复用的echarts子组件
+│ │  │  ├── form_static.vue             <=  统计页面的入口文件 需要嵌入上半部分的搜索子组件 search_statistic_typhoon 以及下半部分的数据展示 form_static_detail 子组件
+│ ├── member                            <= 
+│ │  ├── charts
+│ │  │  ├── typhoon_detail_chart.vue    <= 台风的echarts子组件
+│ │  ├── map
+│ │  │  ├── map_single.vue              <= 台风路径的缩小的子组件
+│ │  ├── search
+│ │  │  ├── search_statistic_typhoon.vue<= 台风的搜索子组件
+</code></pre>
+
+---
 
 ## 注意事项：
 
