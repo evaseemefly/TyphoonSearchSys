@@ -8,12 +8,12 @@ DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/demo_data"
 # DIR_PATH=r"/Users/casablanca/03project/typhoonSearchSys/demo_data"
 
 # aw
-# DIR_PATH=r"D:\01proj\typhoon\TyphoonSearchSys\demo_data"
+DIR_PATH=r"D:\01proj\typhoon\TyphoonSearchSys\data\typhoon"
 # p52s
 # DIR_PATH=r"D:\04git仓库\TyphoonSearchSys\demo_data"
 
 # w540
-DIR_PATH=r"D:\02git仓库\TyphoonSearchSys\data\typhoon"
+# DIR_PATH=r"D:\02git仓库\TyphoonSearchSys\data\typhoon"
 
 FILE_TARGET=r'5622.txt'
 

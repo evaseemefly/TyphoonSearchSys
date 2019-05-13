@@ -83,6 +83,14 @@ npm run build
 python 参考规范（参考 pep8）
 [pep8 规范](https://zh-google-styleguide.readthedocs.io/en/latest/google-python-styleguide/)
 
+引入的顺序
+
+1. 框架库
+2. 第三方库
+
+3. 自定义组件及 `mixin`
+4. 自定义的接口及 `model`
+
 ---
 
 ## 引用的第三方库
