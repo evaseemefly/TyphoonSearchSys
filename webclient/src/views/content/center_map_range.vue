@@ -184,13 +184,22 @@ export default class center_map_range extends mixins(
   }
 
   // [-] 19-03-21 由子组件触发的根据lat,lon,range从后台获取typhoonlist的方法
-  loadTyphoonListByRange(): void {
+  loadTyphoonListByRange(pageInfo): void {
     var myself = this;
     var range: number = this.range;
     var latlon: number[] = this.targetMarkerLatlon;
+    // TODO:[*] 19-05-13 分页写在此组件中，实际是为typhoonList 子组件传递to与from
+    if (myself.typhoonCodeDataTotal < 0) {
+      this.typhoonCodePageIndex = 0;
+    }
+    var size = this.typhoonCodePageSize;
+    var index = this.typhoonCodePageIndex;
     var obj: ITyphoonParams = {
       latlon: latlon,
-      range: range
+      range: range,
+      size: size,
+      index: index
+      // to: to
     };
     loadTyphoonList(obj).then(res => {
       if (res.status === 200) {

@@ -15,9 +15,24 @@ axios.defaults.headers = {
   // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE'
 }
 // 加载船舶状态信息列表
-export interface ITyphoonParams {
+export interface ITyphoonParams extends IPage {
   latlon: number[]
   range: number
+  //TODO:[*] 19-05-13 加入了分页
+}
+/**
+ * 可分页接口
+ *
+ * @export
+ * @interface IPage
+ */
+export interface IPage {
+  // 页容积
+  size: number
+  // 当前页
+  index: number
+  // 跳转页
+  to?: number
 }
 
 export interface ITyphoonRealDataParamas {

@@ -1,16 +1,9 @@
 <template>
-  <div
-    id="condition"
-    class="col-md-8"
-  >
-    <div class="col-md-4 subitem_div">
+  <div id="condition" class="col-md-3">
+    <div class="col-md-12 subitem_div">
       <!-- 次级菜单，搜索后加载的台风列表 -->
       <transition name="fade">
-        <div
-          id="ty_list"
-          class="card bg-info"
-          v-show="is_show"
-        >
+        <div id="ty_list" class="card bg-info" v-show="is_show">
           <div class="card-header card-my-header text-white">台风列表</div>
           <div class="card-body card-my-body">
             <ul class="list-group">
@@ -19,10 +12,15 @@
                 v-for="(item,index) in typhoon_list"
                 :key="index"
                 @click="onClick(item)"
-              >
-                name:{{item.name}}|num:{{item.num}}|{{item.year}}
-              </li>
+              >name:{{item.name}}|num:{{item.num}}|{{item.year}}</li>
             </ul>
+            <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="typhoonCodeDataTotal"
+              :page-size="typhoonCodePageSize"
+              @current-change="typhoonCodePageChange"
+            ></el-pagination>
           </div>
         </div>
       </transition>
@@ -35,11 +33,15 @@ import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 import { DataList_Mid_Model } from "../../../middle_model/common";
 
+// 使用mixin的方式拓展data
+import TyphoonListBarDataMixin from "./typhoon_list_bar/typhoon_list_bar_data_mixin";
+import { mixins } from "vue-class-component";
+
 @Component({
   components: {}
 })
 // @Component
-export default class typhoonListBar extends Vue {
+export default class typhoonListBar extends mixins(TyphoonListBarDataMixin) {
   // 初始数据可以直接声明为实例的属性
   // TODO [*] 由父类传入的台风列表
   @Prop() typhoon_list: DataList_Mid_Model[];
@@ -50,7 +52,6 @@ export default class typhoonListBar extends Vue {
   // ];
   @Prop() is_show: boolean;
 
-  code: string = "";
   // typhoon: DataList_Mid_Model = new DataList_Mid_Model("", 0, "");
   // 组件方法也可以直接声明为实例的方法
   onClick(obj: DataList_Mid_Model): void {

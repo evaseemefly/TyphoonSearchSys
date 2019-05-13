@@ -111,4 +111,11 @@ export default class MapRangeDataMixin extends Vue {
         color: "yellow"
     };
     markers: any = [];
+
+    // TODO:[*] 19-05-13 此处与 member/secondBar/typhoon_list_bar/typhoon_list_bar_data_mixin.ts中的data相同（是否可以直接mixin此ts？）
+    // 总的数据长度
+    typhoonCodeDataTotal: number = -1;
+    // 页容积
+    typhoonCodePageSize: number = 10;
+    typhoonCodePageIndex: number = -1;
 }

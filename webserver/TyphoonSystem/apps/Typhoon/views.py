@@ -329,8 +329,15 @@ class FilterByRange(BaseView):
 
         range = int(request.GET.get('range'))
 
+        # 获取index与count
+        index=request.GET.get('index')
+        size=request.GET.get('size')
+        start_index=index*size
+        finish_index=index*size+size
         # 获取去重后的code list
         nums = self.getTyphoonList(latlon=latlons, range=range)
+        total=len(nums)
+        codes=nums[start_index:finish_index]
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
         # list_data = [GeoTyphoonRealData.objects(code=code)[:1].code
         # for code in codes]
@@ -345,10 +352,14 @@ class FilterByRange(BaseView):
         #     TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code, GeoTyphoonRealData.objects(num=num)[0].date,GeoTyphoonRealData.objects(num=num)[0].num)
         #     for num in nums]
         list_data = []
-        for num in nums:
+        for num in codes:
             obj=GeoTyphoonRealData.objects(num=num)[0]
             list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
-        json_data = TyphoonModelSerializer(list_data, many=True).data
+
+        # TODO:[*] 19-05-13 返回的加入total
+        data=TyphoonAndTotalModel(list_data,total)
+        json_data=TyphoonAndTotalModelSerializer(data).data
+        # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
 
     def getTyphoonList(self, *args, **kwargs):

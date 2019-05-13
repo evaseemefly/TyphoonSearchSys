@@ -24,3 +24,16 @@
 - 19-05-11 - 12
 
 - [ ] 1. 完成历史台风查询页面 - By [stupidanimal](https://github.com/stupidanimal)
+
+---
+
+- 19-05-13
+- [ ] 1.`range` 页面的台风列表加入分页功能
+- [x] 2. 重写 `center_map_range` 中 `loadTyphoonListByRange`方法
+- [x] 3. 加入`IPage`接口
+- [x] 4. 修改部分其余代码
+- [ ] 5.对应后端做相应修改
+
+今天进度略慢 o(╥﹏╥)o
+
+---

@@ -13,10 +13,16 @@ import endBar from "../endBar/end_bar_data_list.vue";
 // import endDataList from "../endBar/end_data_list.vue";
 import endBarTest from "../endBar/end_bar_test.vue";
 
+// 使用mixin的方式拓展data
+import TyphoonListBarDataMixin from "./typhoon_list_bar/typhoon_list_bar_data_mixin";
+import { mixins } from "vue-class-component";
+
 @Component({
   components: { endBar, endBarTest }
 })
-export default class second_bar_condition_search extends Vue {
+export default class second_bar_condition_search extends mixins(
+  TyphoonListBarDataMixin
+) {
   // 初始数据可以直接声明为实例的属性
   data_list: DataList_Mid_Model[] = [];
   is_show: boolean = false;

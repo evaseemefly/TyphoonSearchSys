@@ -13,7 +13,7 @@ import RangeDataMixin from "./range/range_data_mixin";
 })
 @Component
 export default class right_bar extends mixins(RangeDataMixin) {
-// export default class right_bar extends Vue {
+  // export default class right_bar extends Vue {
   // TODO [*] 19-03-21 通过vuex-class的写法，引入vuex
   // @State("range") range;
   // @Mutation("range") range;
@@ -26,6 +26,7 @@ export default class right_bar extends mixins(RangeDataMixin) {
   getRangeTyphoonList(): void {
     var myself = this;
     // 触发父组件的请求方法
+    // this.$emit("loadTyphoonList", myself);
     this.$emit("loadTyphoonList");
   }
 

@@ -5,8 +5,8 @@
     @mouseleave="mouseleave"
     v-show="end_bar_show"
   >
-    <div class="card bg-secondary col-md-12 ">
-      <div class="card-header card-my-end-header text-white">台风编号{{target_typhoon.name}}</div>
+    <div class="card bg-secondary col-md-12">
+      <div class="card-header card-my-end-header text-white">台风编号{{target_typhoon}}</div>
       <div class="card-body card-my-end-body">
         <div class="row">
           <div class="col">
@@ -16,9 +16,7 @@
                 v-for="(item,index) in date_list"
                 :key="index"
                 @click="onClick(item)"
-              >
-                {{item|formatDate}}
-              </li>
+              >{{item|formatDate}}</li>
             </ul>
           </div>
         </div>
