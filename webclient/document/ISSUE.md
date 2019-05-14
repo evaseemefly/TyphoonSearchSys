@@ -40,6 +40,40 @@ loadTyphoonListByRange(pageInfo): void {
 
 ---
 
+### 2-element-ui：
+
+[官方 api](https://element.eleme.cn/#/zh-CN/component/pagination)
+
+1.使用 pagination 时出现的问题
+
+```
+ <el-pagination
+              background
+              layout="prev, pager, next"
+              :total="typhoonCodeDataTotal"
+              :page-size="typhoonCodePageSize"
+              :pager-count="3"
+              @current-change="onCurrentIndex"
+            >
+  </el-pagination>
+
+```
+
+参考官方 api 中的参数描述
+pager-count 页码按钮的数量，当总页数超过该值时会折叠 number 大于等于 5 且小于等于 21 的奇数 7
+此处若 pager-count 小于 5 的话会出现 bug
+提示错误信息如下：
+
+```
+vue.runtime.esm.js?2b0e:619
+[Vue warn]: Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: "typhoonCodeDataTotal"
+```
+
+暂时无法解决，会关注此问题
+[网上的同样错误的](https://github.com/ElemeFE/element/issues/14055)
+
+---
+
 ## 收集的一些资料
 
 ### markdown 语法相关

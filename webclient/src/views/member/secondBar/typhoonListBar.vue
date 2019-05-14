@@ -14,12 +14,15 @@
                 @click="onClick(item)"
               >name:{{item.name}}|num:{{item.num}}|{{item.year}}</li>
             </ul>
+            <!-- TODO:[*] 19-05-14 注意此处设置pager-count为3时，会提示出错
+            貌似是插件的bug，参考：https://github.com/ElemeFE/element/issues/14055-->
             <el-pagination
               background
               layout="prev, pager, next"
               :total="typhoonCodeDataTotal"
               :page-size="typhoonCodePageSize"
-              @current-change="typhoonCodePageChange"
+              :pager-count="3"
+              @current-change="onCurrentIndex"
             ></el-pagination>
           </div>
         </div>
@@ -51,6 +54,9 @@ export default class typhoonListBar extends mixins(TyphoonListBarDataMixin) {
   //   new DataList_Mid_Model("台风3", 3, "code_c")
   // ];
   @Prop() is_show: boolean;
+  @Prop() typhoonCodePageSize: number;
+  @Prop() typhoonCodeDataTotal: number;
+  @Prop() typhoonCodePageIndex: number;
 
   // typhoon: DataList_Mid_Model = new DataList_Mid_Model("", 0, "");
   // 组件方法也可以直接声明为实例的方法
@@ -72,6 +78,14 @@ export default class typhoonListBar extends mixins(TyphoonListBarDataMixin) {
   @Watch("is_show")
   onIsShow(val: boolean) {
     // alert(val);
+  }
+
+  // 当前选中的page index（注意默认1为开始注意减1）
+  onCurrentIndex(val, number) {
+    var index = val - 1;
+    console.log(val);
+    // 调用父组件中的修改 page index 的方法
+    this.$emit("setCurrentIndex", index);
   }
 }
 </script>
@@ -103,6 +117,15 @@ export default class typhoonListBar extends mixins(TyphoonListBarDataMixin) {
 li {
   list-style: none;
   text-align: left;
+}
+
+/* 覆盖磨人的样式，绿色线性渐变并加入一个透明效果 */
+.bg-info {
+  background: linear-gradient(
+    to right,
+    #1a6865 30%,
+    rgba(4, 107, 114, 0.639)
+  ) !important;
 }
 
 .list-my-group-item {
@@ -155,13 +178,17 @@ li {
 
 /* 对于多条件搜索的card的一些样式 */
 .card-my-header {
-  background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639));
+  /* 19-05-14 备份 */
+  /* background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.639)); */
+  background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.096));
   font-size: 90%;
   text-shadow: 2px 2px 8px rgb(33, 32, 32);
 }
 /* 自动以的card-body样式 */
 .card-my-body {
-  background: linear-gradient(to right, #248e8a 30%, rgba(4, 107, 114, 0.639));
+  /* 19-05-14 备份 */
+  /* background: linear-gradient(to right, #248e8a 30%, rgba(4, 107, 114, 0.639)); */
+  background: linear-gradient(to right, #248e8a 30%, rgba(4, 107, 114, 0.096));
   padding: 8px 8px 8px 8px;
 }
 .btn-my {

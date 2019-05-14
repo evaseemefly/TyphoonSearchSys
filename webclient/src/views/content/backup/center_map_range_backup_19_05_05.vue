@@ -1,18 +1,9 @@
 <template>
   <div id="mycontent">
-    <l-map
-      ref="basemap"
-      :zoom="zoom"
-      :center="center"
-      @click="createMarker"
-    >
+    <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline
-        :lat-lngs="polyline.latlngs"
-        :color="polyline.color"
-        :fill="false"
-      ></l-polyline>
+      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
       <!-- 台风中心的圆点 -->
       <l-circle
         v-for="typhoon in typhoon_realdata_list"
@@ -26,16 +17,9 @@
       />
 
       <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
-      <l-marker
-        :lat-lng="targetMarkerLatlon"
-        :icon="icon_marker"
-      ></l-marker>
+      <l-marker :lat-lng="targetMarkerLatlon" :icon="icon_marker"></l-marker>
       <!-- 鼠标点击某个位置之后根据slider获取的半径 -->
-      <l-circle
-        :lat-lng="targetMarkerLatlon"
-        :weight="4"
-        :radius="range"
-      />
+      <l-circle :lat-lng="targetMarkerLatlon" :weight="4" :radius="range"/>
 
       <!-- 海洋站的div以及table样式 -->
       <!-- TODO: 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
@@ -62,15 +46,8 @@
       >
         <!-- TODO:[*] 19-04-23 注意此处将click从父级的l-marker中放在了子级中的l-icon中了——扔不行 -->
         <l-icon :options="icon_div_station_option">
-          <div
-            id="station_form"
-            v-show="index!=select_station_index"
-            class="fade_enter"
-          >
-            <table
-              class="table table-bordered"
-              border="1"
-            >
+          <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
+            <table class="table table-bordered" border="1">
               <tr>
                 <td
                   :class="[getStationAlarmClass(station),'station_name']"
@@ -96,10 +73,7 @@
             <div class="card-header">
               {{station.stationname}}
               <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
-              <button
-                id="testclick"
-                @click.stop="showModal"
-              >|查看</button>
+              <button id="testclick" @click.stop="showModal">|查看</button>
               <!-- <a @click.stop="showModal">|查看过程</a> -->
             </div>
             <div class="card-body">
@@ -149,10 +123,7 @@
     </div>-->
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
-    <TyphoonList
-      :typhoon_list="typhoon_code_list"
-      :is_show="is_show_typhoon_list"
-    ></TyphoonList>
+    <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
     <ModalDetail :station="station_temp"></ModalDetail>
     <TextForm></TextForm>
   </div>
@@ -476,7 +447,9 @@ export default class center_map_range extends Vue {
     var latlon: number[] = this.targetMarkerLatlon;
     var obj: ITyphoonParams = {
       latlon: latlon,
-      range: range
+      range: range,
+      size: 10,
+      index: 0
     };
     loadTyphoonList(obj).then(res => {
       if (res.status === 200) {

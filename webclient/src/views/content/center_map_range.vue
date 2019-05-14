@@ -203,7 +203,8 @@ export default class center_map_range extends mixins(
     };
     loadTyphoonList(obj).then(res => {
       if (res.status === 200) {
-        var data: any = res.data;
+        var data: any = res.data.list;
+        myself.typhoonCodeDataTotal = res.data.total;
         myself.is_show_typhoon_list = false;
         myself.typhoon_code_list = [];
         // data中为台风列表
@@ -635,6 +636,15 @@ export default class center_map_range extends mixins(
     return opt;
   }
 
+  // 由子组件触发的修改当前page index的方法
+  setCurrentIndex(val: number) {
+    this.typhoonCodePageIndex = val;
+  }
+
+  @Watch("typhoonCodePageIndex")
+  onTyphoonCodePageIndex(val: number) {
+    this.loadTyphoonListByRange(null);
+  }
   //  计算海洋站圆柱体的高度
   iconDivWeight(val) {
     return val.tide * 5;

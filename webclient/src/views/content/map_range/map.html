@@ -122,7 +122,12 @@
     </div>-->
     <!-- 注意自定义模块要放在l-map外部，否则会有冲突 -->
     <RangeSlider @loadTyphoonList="loadTyphoonListByRange"></RangeSlider>
-    <TyphoonList :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list"></TyphoonList>
+    <TyphoonList 
+    :typhoon_list="typhoon_code_list" :is_show="is_show_typhoon_list" :typhoonCodeDataTotal="typhoonCodeDataTotal"
+    :typhoonCodePageSize="typhoonCodePageSize"
+    :typhoonCodePageIndex="typhoonCodePageIndex"
+    @setCurrentIndex="setCurrentIndex"
+    ></TyphoonList>
     <ModalDetail :station="station_temp"></ModalDetail>
     <TextForm></TextForm>
   </div>
