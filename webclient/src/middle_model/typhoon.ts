@@ -52,12 +52,12 @@ class MeteorologyRealData_Mid_Model {
     <div class="typhoon_data_div card mb-4 col-md-4 box-shadow">
 				<div class="card-header">台风数据</div>
 				<div class="card-body">
-					<div class="row typhoon_data_div">
+					<div class="row">
 						<div class="col-md-4">时间</div>
 						<div class="col-md-8">${fecha.format(
-              new Date(myself.date),
-              'YYYY-MM-DD HH:mm'
-            )}</div>
+      new Date(myself.date),
+      'YYYY-MM-DD HH:mm'
+    )}</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4">中心位置</div>
