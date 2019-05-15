@@ -84,6 +84,31 @@ vue.runtime.esm.js?2b0e:619
 
 ### pytho 相关
 
+实现虚拟类中定义虚拟属性方法
+
+枚举的实现：
+[enum 枚举的实现](https://www.cnblogs.com/codingmylife/archive/2013/05/31/3110656.html)
+
+实现 switch 的方式：
+[参考文章](https://www.zhihu.com/question/21123544)
+
+```
+def case1(somearg):
+    pass
+def case2(somearg):
+    pass
+def case3(somearg):
+    pass
+
+switch={
+1: case1,
+2: case2,
+3: case3
+}
+
+switch[case](arg)
+```
+
 #### python 常用语法
 
 1. 异常处理
