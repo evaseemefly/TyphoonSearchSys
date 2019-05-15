@@ -17,11 +17,12 @@ def main():
     mongoengine.connect(setting._MONGODB_NAME)
     # 测试
     # 写入测站数据
-    station=StationTideRealData(dir_path,file_name)
+    # station=StationTideRealData(dir_path,file_name)
+    station=StationRealData(dir_path)
     # station.open()
-    # station.run()
-    typhoon=TyphoonRealData(dir_path)
-    typhoon.run()
+    station.run()
+    # typhoon=TyphoonRealData(dir_path)
+    # typhoon.run()
     print('录入完成')
     pass
 

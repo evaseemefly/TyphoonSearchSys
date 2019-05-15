@@ -5,12 +5,74 @@ from pandas import Series, DataFrame
 import datetime
 from mongoengine import *
 import abc
+from enum import Enum
 
 from data.model import *
 from data.middle_model import GeoTyphoonRealDataMidModel
 
+class FILE_TYPE(Enum):
+    STATION=1
+    TYPHOON=2
 
-class StationTideRealData:
+# FILE_TYPE = {
+#     'STATION': 1,
+#     'TYPHOON': 2
+# }
+
+
+class File(abc.ABC):
+    # 读取的数据
+    _data = None
+    def __init__(self, dir, name):
+        self.dir_path = dir
+        self.file_name = name
+
+    def run(self):
+        pass
+
+    # @abc.abstractmethod
+    @property
+    #@abc.abstractproperty
+    def all_files(self):
+        '''
+            获取全部文件的由子类实现的虚拟方法
+        :return:
+        '''
+        '''
+            获取全部的.txt文件
+        :return:
+        '''
+        list_files = os.listdir(self.dir_path)
+        list_filted = list(filter(lambda x: re.match('^.+.txt$', x), list_files))
+        return list_filted
+
+    @property
+    def full_name(self):
+        return os.path.join(self.dir_path, self.file_name)
+
+    def _read_file(self, type: FILE_TYPE):
+        '''
+            根据fullname通过pandas读取文件，并保存至data中
+        :return:
+        '''
+
+        def case_station(f):
+            return pd.read_table(f, sep='\s+', encoding='utf-8', header=None, infer_datetime_format=False)
+
+        def case_typhoon(f):
+            return pd.read_table(f, sep='\s+', encoding='utf-8', header=None, infer_datetime_format=False)
+
+        switch = {
+            1: case_station,
+            2: case_typhoon
+        }
+
+        with open(self.full_name, 'rb') as f:
+            self._data = switch[type](f)
+            print('读取成功')
+
+
+class StationTideRealData(File):
     # 读取的数据
     _data = None
 
@@ -30,6 +92,14 @@ class StationTideRealData:
             返回全文件名称
         '''
         return os.path.join(self.dirPath, self.filename)
+
+    @property
+    def typhoonNum(self):
+        return self.filename[:4]
+
+    @property
+    def year(self):
+        return '2014'
 
     def open(self):
         '''
@@ -106,10 +176,12 @@ class StationTideRealData:
 
         :return:
         '''
-        self.open()
+        # TODO:[*] 19-05-15 使用抽象类完成文件的读取
+        # self.open()
+        self._read_file(FILE_TYPE.STATION)
         connect('typhoon')
         df = self._data
-        self.splitData(df, year='1956')
+        self.splitData(df, year=self.year)
 
     def splitData(self, df: DataFrame, **kwargs):
         '''
@@ -404,3 +476,19 @@ class StationTideRealData:
 
         return finial_data_list, index_temp
 
+
+class StationRealData:
+    def __init__(self, dir_path):
+        self.dir_path = dir_path
+
+    @property
+    def all_files(self):
+        list_files = os.listdir(self.dir_path)
+        list_filted = list(filter(lambda x: re.match('^.+.txt$', x), list_files))
+        return list_filted
+
+    def run(self):
+        for file in self.all_files:
+            StationTideRealData(self.dir_path,file).run()
+            print(f'{os.path.join(self.dir_path,file)}已处理完成！')
+            print('————————')
