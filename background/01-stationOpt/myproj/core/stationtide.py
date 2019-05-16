@@ -11,8 +11,19 @@ from data.model import *
 from data.middle_model import GeoTyphoonRealDataMidModel
 
 class FILE_TYPE(Enum):
+    '''
+        读取文件的类型——测站数据，台风数据
+    '''
     STATION=1
     TYPHOON=2
+
+class STATION_TYPE(Enum):
+    '''
+        测站的数据类型
+            测站数据以2011年为分割线，之前的数据格式为EXPIRED，之后的格式为PRESENT（两种格式的不同主要是测站基础数据的格式）
+    '''
+    EXPIRED=1
+    PRESENT=2
 
 # FILE_TYPE = {
 #     'STATION': 1,
@@ -63,8 +74,8 @@ class File(abc.ABC):
             return pd.read_table(f, sep='\s+', encoding='utf-8', header=None, infer_datetime_format=False)
 
         switch = {
-            1: case_station,
-            2: case_typhoon
+            FILE_TYPE.STATION: case_station,
+            FILE_TYPE.TYPHOON: case_typhoon
         }
 
         with open(self.full_name, 'rb') as f:
@@ -79,9 +90,9 @@ class StationTideRealData(File):
     # _checkpoint_arr=[]
 
     def __init__(self, dirPath, filename, *args, **kwargs):
-
-        self.dirPath = dirPath
-        self.filename = filename
+        super(StationTideRealData, self).__init__(dirPath,filename)
+        # self.dirPath = dirPath
+        # self.filename = filename
 
         # return super().__init__(*args, **kwargs)
         pass
