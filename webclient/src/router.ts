@@ -102,22 +102,12 @@ export default new Router({
       name: "search",
       component: () =>
         import("./views/content/center_map_search.vue")
+    },
+    {
+      path: "/statistics",
+      name: "statistics",
+      component: () =>
+        import("./views/content/form_statistic/form_static.vue")
     }
-    // {
-    //   path: '/search',
-    //   name: 'search',
-    //   children: [
-    //     {
-    //       path: 'condition',
-    //       name: 'condition',
-    //       component: ConditionSearch
-    //     }
-    //   ]
-    // }
-    // {
-    //   path: '/search/condition',
-    //   name: 'condition',
-    //   component: ConditionSearch
-    // }
   ]
-})
+});
