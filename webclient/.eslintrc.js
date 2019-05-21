@@ -4,21 +4,14 @@ module.exports = {
     browser: true,
     node: true,
     es6: true,
-    jest: true,
-
+    jest: true
   },
-
   globals: {
     L: true
-  },
-  parserOptions: {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "parser": "babel-eslint"
-  },
+  }
+  // parserOptions: {
+  //   parser: 'babel-eslint'
+  // },
   // extends: [
   //   'plugin:vue/recommended',
   //   'standard'

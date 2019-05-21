@@ -1,21 +1,30 @@
 <template>
   <div id="app">
-    <HeaderComp></HeaderComp>
+    <!-- <div id="my-header"></div> -->
+    <Header></Header>
+    <!-- 测试时需要，注释掉 -->
+    <!-- <div id="nav">
+      <router-link to="/index">导航栏页面</router-link>|
+      <router-link to="/map">地图页面</router-link>|
+      <router-link to="/vue2map">vue2map</router-link>|
+      <router-link to="/vue2mapclear">vue2mapclear</router-link>|
+      <router-link to="/main">整合页面</router-link>|
+    </div> -->
     <div id="index_map">
       <rightBar></rightBar>
       <router-view></router-view>
     </div>
-    <FooterComp></FooterComp>
+    <!-- <div id="my-footer"></div> -->
+    <Footer></Footer>
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import FooterComp from "@/views/footer/footer.vue";
-import HeaderComp from "@/views/head/header.vue";
+import Footer from "@/views/footer/footer.vue";
+import Header from "@/views/head/header.vue";
 import rightBar from "@/views/member/bar/right_bar.vue";
-
 @Component({
-  components: { FooterComp, HeaderComp, rightBar }
+  components: { Footer, Header, rightBar }
 })
 export default class right_bar extends Vue {}
 </script>

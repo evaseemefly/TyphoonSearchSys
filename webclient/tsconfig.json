@@ -13,30 +13,19 @@
     // 启用 vue-class-component 及 vuex-class 需要开启此选项
     "experimentalDecorators": true,
     // 启用 vuex-class 需要开启此选项
-    "strictFunctionTypes": true,
+    "strictFunctionTypes": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     // "inlineSources": true,
     // "inlineSourceMap": true,
     "baseUrl": ".",
-    "types": [
-      "webpack-env",
-      "mocha",
-      "chai"
-    ],
+    "types": ["webpack-env", "mocha", "chai"],
     // 此处配置后，可以在vue中引用入境时，使用@的方式，直接指向src目录（根目录）
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
-    "lib": [
-      "esnext",
-      "dom",
-      "dom.iterable",
-      "scripthost"
-    ]
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },
   "include": [
     "src/**/*.ts",
@@ -45,7 +34,5 @@
     "tests/**/*.ts",
     "tests/**/*.tsx"
   ],
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["node_modules"]
 }

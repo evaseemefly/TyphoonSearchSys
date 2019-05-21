@@ -14,7 +14,7 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-      <!-- <el-menu
+        <!-- <el-menu
         default-active="2"
         class="el-menu-vertical-demo"
         background-color="#545c64"
@@ -34,6 +34,9 @@
             </el-menu-item>
             <el-menu-item index="/range">
               <router-link to='/range'>范围搜索</router-link>
+            </el-menu-item>
+            <el-menu-item index="/search">
+              <router-link to='/search'>复杂条件搜索</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -72,10 +75,8 @@ export default class right_bar extends Vue {
   onClick(): void {
     window.alert(this.message);
   }
-  handleOpen():void{
-
-  }
-  handleClose():void{}
+  handleOpen(): void {}
+  handleClose(): void {}
 }
 </script>
 

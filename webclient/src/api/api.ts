@@ -15,9 +15,24 @@ axios.defaults.headers = {
   // 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE'
 }
 // 加载船舶状态信息列表
-export interface ITyphoonParams {
+export interface ITyphoonParams extends IPage {
   latlon: number[]
   range: number
+  //TODO:[*] 19-05-13 加入了分页
+}
+/**
+ * 可分页接口
+ *
+ * @export
+ * @interface IPage
+ */
+export interface IPage {
+  // 页容积
+  size: number
+  // 当前页
+  index: number
+  // 跳转页
+  to?: number
 }
 
 export interface ITyphoonRealDataParamas {
@@ -100,6 +115,19 @@ export /**
   const loadStationDetailDataList = (par: ITyphoonParams4Station) => {
     let stationDataUrl = `${host}/gis/data/detaillist/`
     return axios.get(stationDataUrl, {
+      params: par
+    })
+  }
+
+export  /**
+ * 根据台风（code）获取对应的灾情描述文本内容
+ *
+ * @param {ITyphoonRealDataParamas} par
+ * @returns
+ */
+  const loadTyphoonWord = (par: ITyphoonRealDataParamas) => {
+    let wordUrl = `${host}/gis/word/disaster/`
+    return axios.get(wordUrl, {
       params: par
     })
   }

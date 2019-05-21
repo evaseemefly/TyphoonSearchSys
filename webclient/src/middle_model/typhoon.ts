@@ -1,4 +1,8 @@
-import { IStation, IEchartsScatterData, IStationObservationTide } from '@/interface/map/map.ts';
+import {
+  IStation,
+  IEchartsScatterData,
+  IStationObservationTide
+} from '@/interface/map/map.ts'
 // 台风 middel model
 import { TyphoonCircleStatus } from '@/common/Status.ts'
 import fecha from 'fecha'
@@ -19,6 +23,7 @@ class TyphoonData_Mid_Model {
 // 不包含风向数据
 class MeteorologyRealData_Mid_Model {
   public code: string //台风代码（编号）
+  public num: string //台风代号（四位数字）
   public latlon: number[] //台风经纬度信息
   public date: Date = new Date() //当前时间
   public bp: number //气压
@@ -26,12 +31,14 @@ class MeteorologyRealData_Mid_Model {
   public typhoonCircleStatus: TyphoonCircleStatus
   constructor(
     code: string,
+    num: string,
     date: Date,
     latlon: number[],
     bp: number,
     wsm: number
   ) {
     this.code = code
+    this.num = num
     this.date = date
     this.latlon = latlon
     this.bp = bp
@@ -45,7 +52,7 @@ class MeteorologyRealData_Mid_Model {
     <div class="typhoon_data_div card mb-4 col-md-4 box-shadow">
 				<div class="card-header">台风数据</div>
 				<div class="card-body">
-					<div class="row typhoon_data_div">
+					<div class="row">
 						<div class="col-md-4">时间</div>
 						<div class="col-md-8">${fecha.format(
       new Date(myself.date),
@@ -149,7 +156,7 @@ class StationData_Mid_Model implements IStation {
   public jw: number
   public lev: number
   public point: any
-  public tide: number         // 实测潮位
+  public tide: number // 实测潮位
   public tide_forecast: number // 预报潮位
   public get latlon() {
     return [this.point.coordinates[1], this.point.coordinates[0]]
@@ -187,9 +194,7 @@ class StationData_Mid_Model implements IStation {
 class EchartsScatterStationData_Mid_Model implements IEchartsScatterData {
   public name: String
   public value: Array<number>
-  constructor(
-    name: string,
-    value: Array<number>) {
+  constructor(name: string, value: Array<number>) {
     this.name = name
     this.value = value
   }
@@ -204,15 +209,11 @@ class EchartsScatterStationData_Mid_Model implements IEchartsScatterData {
 class StationObservationTide_Mid_Model implements IStationObservationTide {
   public val: number
   public occurred: Date
-  constructor(
-    val: number,
-    occurred: Date
-  ) {
+  constructor(val: number, occurred: Date) {
     this.val = val
     this.occurred = occurred
   }
 }
-
 
 export {
   TyphoonData_Mid_Model,

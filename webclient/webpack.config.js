@@ -38,9 +38,6 @@ module.exports = {
   },
   // devtool: 'source-map',
   // devtool: "#cheap-module-eval-source-map",
-  parserOptions: {
-    sourceType: "module"
-  },
   devtool: "cheap-module-eval-source-map",
   plugins: [new VueLoaderPlugin()]
 };

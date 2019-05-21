@@ -101,7 +101,7 @@ export default new Router({
       path: "/search",
       name: "search",
       component: () =>
-        import("./views/Test/Search.vue")
+        import("./views/content/center_map_search.vue")
     }
     // {
     //   path: '/search',

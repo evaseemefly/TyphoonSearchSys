@@ -26,7 +26,8 @@
     "vue-class-component": "^6.0.0",
     "vue-property-decorator": "^7.0.0",
     "vue-router": "^3.0.1",
-    "vue2-leaflet": "^1.2.3"
+    "vue2-leaflet": "^1.2.3",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@types/chai": "^4.1.0",

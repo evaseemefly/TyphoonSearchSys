@@ -87,6 +87,7 @@ export default class end_data_list extends Vue {
       new TyphoonData_Mid_Model(
         new MeteorologyRealData_Mid_Model(
           "ty_a",
+          "5601",
           date_temp,
           [20.5, 112.2],
           1002.3,
