@@ -21,13 +21,14 @@ export const getTyphoonCodeByComplexCondition = (
   level,
   wsm,
   bp,
+  num,
   startMonth,
   endMonth,
   from,
   to
 ) => {
   // let url = `${host}/gis/filter/GetTyphoonCodeByComplexCondition/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`
-  let url = `${host}/gis/filter/typhoon/complex/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`;
+  let url = `${host}/gis/filter/typhoon/complex/?level=${level}&wsm=${wsm}&bp=${bp}&num=${num}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`;
   return axios.get(url);
 };
 

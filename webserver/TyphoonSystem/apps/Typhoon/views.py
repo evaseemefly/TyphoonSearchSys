@@ -111,7 +111,7 @@ class StationTideDataListView(APIView):
         '''
         # 找到当天的数据
         targetdate = date(targetdatetime.year, targetdatetime.month, targetdatetime.day)
-        list = StationTideData.objects(code=code, startdate=targetdate)
+        list = StationTideData.objects(typhoonnum=code)
 
         # 从返回的测站数据中找到对应的时刻
         def getTargetMoment(moment: datetime, realdate: StationTideData) -> StationTideAllDataMidModel:
@@ -421,6 +421,7 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         level = request.GET.get('level')
         wsm = request.GET.get('wsm')
         bp = request.GET.get('bp')
+        num = request.GET.get('num')
         startMonth = request.GET.get('startMonth')
         endMonth = request.GET.get('endMonth')
         fromP = request.GET.get('from')
@@ -432,6 +433,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
             query = query.filter(level=level)
         if wsm is not None and wsm != '':
             query = query.filter(wsm=wsm)
+        if num is not None and num != '':
+            query = query.filter(num=num)
         if bp is not None and bp != '':
             query = query.filter(bp=bp)
         if startMonth is not None and startMonth != '':
@@ -455,7 +458,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
             toP = 0
 
         query = query.filter(code__ne='(nameless)')
-        query = query.distinct('code')
+        # TODO:[-] 19-05-22 注意此处必须根据台风编号去重（num），因为code有可能有重复的！！！
+        query = query.distinct('num')
         total = len(query)
         query = query[fromP:toP]
         # TODO [*] 19-05-05 由于前台需要的是code以及num，所以需要根据code获取到geoTyphoonRealData类型的列表，并序列化返回
@@ -467,9 +471,9 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         # return Response(result)
         # 因为返回的都是code，此部分只是多了一个year，暂时可以去掉
         list_data = [
-            TyphoonModel(GeoTyphoonRealData.objects(code=code)[0].code, GeoTyphoonRealData.objects(code=code)[0].date,
-                         GeoTyphoonRealData.objects(code=code)[0].num)
-            for code in query]
+            TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code, GeoTyphoonRealData.objects(num=num)[0].date,
+                         GeoTyphoonRealData.objects(num=num)[0].num)
+            for num in query]
 
         json_data = TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_data, total)).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data

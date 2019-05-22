@@ -64,6 +64,8 @@ class StationTideData(Document):
     '''
         测站潮位数据
     '''
+    # 台风编号
+    typhoonnum=StringField()
     # 测站代码
     code = StringField(max_length=10)
     #     起始时间

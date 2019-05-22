@@ -13,6 +13,7 @@ class PointSerializer(serializers.Serializer):
 class GeoTyphoonRealDataSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     date = serializers.DateTimeField()
+    num = serializers.CharField()
     bp = serializers.FloatField()
     wsm = serializers.FloatField()
     level = serializers.IntegerField()

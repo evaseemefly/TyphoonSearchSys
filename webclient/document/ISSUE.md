@@ -73,6 +73,12 @@ vue.runtime.esm.js?2b0e:619
 [网上的同样错误的](https://github.com/ElemeFE/element/issues/14055)
 
 ---
+### 3 leaflet
+1. leaflet中引入echarts的散点图  
+使用超图的iclent中的`echartsLayer`  
+[超图-iclient](http://iclient.supermap.io/web/apis/leaflet.html)
+---
+
 
 ## 收集的一些资料
 

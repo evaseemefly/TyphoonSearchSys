@@ -50,6 +50,7 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
       this.level,
       this.wsm,
       this.bp,
+      this.num,
       start_str,
       end_str,
       from,

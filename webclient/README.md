@@ -1,20 +1,20 @@
 # 历史台风相似路径查询系统
 
 ---
-
-### Project setup
+## 项目安装及启动
+Project setup
 
 ```
 npm install
 ```
 
-#### Compiles and hot-reloads for development
+Compiles and hot-reloads for development
 
 ```
 npm run serve
 ```
 
-#### Compiles and minifies for production
+Compiles and minifies for production
 
 ```
 npm run build
@@ -120,6 +120,9 @@ js 的 date 库:
 [fecha](https://github.com/taylorhakes/fecha)
 [vue-class-component](https://github.com/vuejs/vue-class-component)
 [Vue Property Decorator](https://github.com/kaorun343/vue-property-decorator)
+
+地图相关库：
+[超图的 iclent](http://iclient.supermap.io/)
 
 ### 2 python 使用的库
 

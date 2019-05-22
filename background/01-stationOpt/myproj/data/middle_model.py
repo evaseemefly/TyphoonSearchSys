@@ -2,12 +2,13 @@ from datetime import datetime
 from .model import GeoTyphoonRealData
 from mongoengine import *
 
+
 class GeoTyphoonRealDataMidModel:
     '''
         支持geojson的存储至mongodb的model
     '''
 
-    def _convert_2typhoon(self, obj, code, num):
+    def _convert_2typhoon(self, obj, code, num: str):
         '''
             根据传入的series将其转为typhoob Model
         '''
@@ -16,7 +17,8 @@ class GeoTyphoonRealDataMidModel:
         stamp_str = obj[0]
         # TODO 注意此处需要修改num的值
         stamp = datetime.strptime(str(stamp_str), '%Y%m%d%H')
-        num_str = str(stamp_str)[2:4] + str('%02d' % num)
+        # num_str = str(stamp_str)[2:4] + str('%02d' % num)
+        num_str = str(num).zfill(4)
         typhoon_temp = GeoTyphoonRealData(code=code,
                                           date=stamp,
                                           num=num_str,
@@ -35,7 +37,7 @@ class GeoTyphoonRealDataMidModel:
         body = data.iloc[start:end, 0:6]
         return header, body
 
-    def _init_typhoon_list(self,data, list_startend):
+    def _init_typhoon_list(self, data, list_startend):
         typhoon_list = []
         for start in list_startend:
             start_index = start[0]
@@ -47,7 +49,7 @@ class GeoTyphoonRealDataMidModel:
                 end_index = start[1]
             # 获取header与body
             #     header,body=None
-            header, body = self._get_header_body(data,start_index + 1, end_index)
+            header, body = self._get_header_body(data, start_index + 1, end_index)
             # 从header中获取name
             #     typhoon_code=header[7]
             #     typhoon_num=header[3]
@@ -69,16 +71,16 @@ class GeoTyphoonRealDataMidModel:
                 print(f"写入的台风code为{header[7]}!!")
                 # TODO:[*] 19-05-09 可能出现得问题：ValueError: day is out of range for month
                 try:
-                    typhoon_list.append(self._convert_2typhoon(body.iloc[i + 1], header[7], header[3]))
+                    typhoon_list.append(self._convert_2typhoon(body.iloc[i + 1], header[7], header[4]))
                 except ValueError as ex:
                     print(f'err:{str(ex)}')
             print('--------')
         return typhoon_list
 
-    def save_mongo(self,data,list_startend):
+    def save_mongo(self, data, list_startend):
         # 写入mongodb
         index_save = 0
-        typhoon_list=self._init_typhoon_list(data,list_startend)
+        typhoon_list = self._init_typhoon_list(data, list_startend)
         for temp in typhoon_list:
             try:
                 temp.save()
