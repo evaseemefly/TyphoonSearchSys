@@ -565,3 +565,19 @@ class DisasterWordView(APIView):
         json_data = DisasterWordModelSerializer(query, many=True).data
         return Response(json_data)
         # pass
+
+
+#获取所有台风年份
+class GetAllTyphoonYear(APIView):
+    def get(self,request):
+        query = GeoTyphoonRealData.objects()
+        query = query.aggregate({"$group":{"_id":"null","years":{"$addToSet":{"$dateToString":{"format": "%Y","date":"$date"}}}}})
+        lst = list(query)
+        return Response(lst)
+
+#获取所有台风编号
+class GetAllTyphoonCode(APIView):
+    def get(self,request):
+        query = GeoTyphoonRealData.objects()
+        query = query.distinct('code')
+        return Response(query)

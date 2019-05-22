@@ -40,3 +40,13 @@ export const getDetail = (code, date) => {
   let url = `${host}/gis/filter/GetDetail/?code=${code}&date=${date}`;
   return axios.get(url);
 };
+
+export const getAllTyphoonCode = () => {
+  let url = `${host}/gis/data/GetAllTyphoonCode`;
+  return axios.get(url)
+}
+
+export const getAllTyphoonYear = () => {
+  let url = `${host}/gis/data/GetAllTyphoonYear`;
+  return axios.get(url)
+}
