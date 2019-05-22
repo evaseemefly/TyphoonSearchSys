@@ -113,6 +113,21 @@ switch[case](arg)
 
 1. 异常处理
 
+#### python 环境配置
+1. 使用pycharm创建虚拟环境（by anaconda3）   
+
+2. 快速查看python所在路径  
+```python
+>>> import sys
+>>> print(sys.path)
+['', '/Users/drno/anaconda3/lib/python36.zip', '/Users/drno/anaconda3/lib/python3.6', '/Users/drno/anaconda3/lib/python3.6/lib-dynload', '/Users/drno/anaconda3/lib/python3.6/site-packages', '/Users/drno/anaconda3/lib/python3.6/site-packages/aeosa']
+```
+
+[Python学习之工具准备——Anaconda+Pycharm的安装过程](https://zhuanlan.zhihu.com/p/36389880)  
+
+---
+
+
 ### 前端集成及设计
 
 [从前端角度看企业软件的研发过程](https://www.yuque.com/xufei-coder/code/fd0gv5?hmsr=toutiao.io&utm_medium=toutiao.io&utm_source=toutiao.io)

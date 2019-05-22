@@ -18,11 +18,16 @@ def main():
     # 测试
     # 写入测站数据
     # station=StationTideRealData(dir_path,file_name)
-    station=StationRealData(dir_path)
+
+    # 自动化录入测站数据
+    # station=StationRealData(dir_path)
+    # station.run()
+
     # station.open()
-    station.run()
-    # typhoon=TyphoonRealData(dir_path)
-    # typhoon.run()
+
+    # 自动化录入台风数据
+    typhoon=TyphoonRealData(dir_path)
+    typhoon.run()
     print('录入完成')
     pass
 
