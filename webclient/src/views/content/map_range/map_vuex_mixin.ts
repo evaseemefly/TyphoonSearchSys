@@ -27,4 +27,14 @@ export default class MapRangeVuexMixin extends Vue {
   set targetTyphoonRealBase(val: TyphoonRealBase_Mid_Model) {
     this.$store.commit('typhoonRealBase', val)
   }
+
+  // 更改当前的 选中的测站
+  set targetStation(val: IStation) {
+    this.$store.commit('station', val)
+  }
+
+  // 获取当前的 选中的测站
+  get targetStation(): IStation {
+    return this.$store.state.map.station
+  }
 }

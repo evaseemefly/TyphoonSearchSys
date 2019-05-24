@@ -3,12 +3,15 @@ import {
   DataList_Mid_Model,
   TyphoonRealBase_Mid_Model
 } from '@/middle_model/common.ts'
+// 引入数据格式规范接口
+import { IStation } from '@/interface/map/map.ts'
 
 // state的接口
 export interface State {
   range: number
   typhoon: DataList_Mid_Model
   typhoonRealBase: TyphoonRealBase_Mid_Model
+  station: IStation
 }
 
 // 用来存储应用状态的数据对象
@@ -17,7 +20,9 @@ const state: State = {
   range: 20000,
   typhoon: null,
   // 当前选择的台风的实时model（加入了date字段）
-  typhoonRealBase: null
+  typhoonRealBase: null,
+  // 当前选中的测站
+  station: null
 }
 
 // 用来改变应用状态的函数
@@ -30,6 +35,9 @@ const mutations = {
   },
   typhoonRealBase(state: State, typhoon: TyphoonRealBase_Mid_Model) {
     state.typhoonRealBase = typhoon
+  },
+  station(state: State, station: IStation) {
+    state.station = station
   }
 }
 

@@ -201,12 +201,13 @@ class StationDetailListView(APIView, BaseDetailListView):
     def get(self, request):
         code = request.GET.get('code')
         name = request.GET.get('name')
-        data_list = self.load(code, name)
+        num = request.GET.get('num')
+        data_list = self.load(code, name,num)
         data_json = TideRealMidModelSerializer(data_list, many=True)
         return Response(data_json.data)
         # pass
 
-    def load(self, code: str, stationname: str):
+    def load(self, code: str, stationname: str, num: str):
         '''
             根据台风code以及海洋站station name加载连续的测值
         :param code:
@@ -222,7 +223,8 @@ class StationDetailListView(APIView, BaseDetailListView):
         #  for realtide_temp in
         #  StationTideData.objects(code=code,stationname=stationname)[0].realtidedata]
         # import datetime
-        for realtide_temp in StationTideData.objects(code=code, stationname=stationname)[0].realtidedata:
+        for realtide_temp in StationTideData.objects(code=code, typhoonnum=num, stationname=stationname)[
+            0].realtidedata:
             if hasattr(realtide_temp, 'realdata') and hasattr(realtide_temp, 'targetdate') and hasattr(realtide_temp,
                                                                                                        'forecastdata'):
                 # 提取每一日的realdata

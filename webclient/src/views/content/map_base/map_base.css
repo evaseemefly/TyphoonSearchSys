@@ -14,6 +14,7 @@
   flex: 8;
   position: relative;
 }
+
 #basemap {
   height: 100%;
   width: 100%;
@@ -32,12 +33,14 @@
 .typhoon_data_div .card-body {
   color: white;
 }
+
 .typhoon_data_div {
   color: white;
   padding-left: 0px !important;
   padding-right: 0px !important;
   background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.103));
 }
+
 /* .typhoon_icon_default {
   width: 750px !important;
 } */
@@ -48,17 +51,20 @@
   text-shadow: 2px 2px 8px rgb(33, 32, 32);
   background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.123));
 }
+
 .row {
   /* color: black; */
   text-align: center;
   text-shadow: 2px 2px 10px grey;
   margin-bottom: 10px;
 }
+
 /* 注意card有一个左右15px的padding */
 .card {
   padding-left: 0px;
   padding-right: 0px;
 }
+
 .row_footer {
   margin-left: -21px !important;
   margin-right: -21px !important;
@@ -173,24 +179,28 @@
   background: rgba(45, 244, 174, 0.557);
   /* border-radius: 10px; */
 }
+
 #station_form .Blue {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(41, 103, 173, 0.557);
   /* border-radius: 10px; */
 }
+
 #station_form .Yellow {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(248, 244, 6, 0.557);
   /* border-radius: 10px; */
 }
+
 #station_form .Orange {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
   background: rgba(255, 158, 3, 0.557);
   /* border-radius: 10px; */
 }
+
 #station_form .Red {
   padding-top: 2px !important;
   padding-bottom: 2px !important;
