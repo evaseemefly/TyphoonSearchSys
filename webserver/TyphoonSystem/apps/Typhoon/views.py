@@ -246,7 +246,9 @@ class StationDetailListView(APIView, BaseDetailListView):
                         else:
                             temp_datetime = datetime.datetime.combine(realtide_temp.targetdate, datetime.time(index, 0))
                             # real-forecast 为实际的潮差
-                            temp_tide = StationTideRealMidModel(temp[0] - temp[1], temp_datetime)
+                            # TODO:[-] 19-05-28 注意此处之前录入的有问题，此处实际为forecast-real(forecast与real的录入录反了)
+                            # temp_tide = StationTideRealMidModel(temp[0] - temp[1], temp_datetime)
+                            temp_tide = StationTideRealMidModel(temp[1] - temp[0], temp_datetime)
                         data_list.append(temp_tide)
                         # print(str(temp_tide))
             # print(realtide_temp)
