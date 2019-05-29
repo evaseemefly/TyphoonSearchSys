@@ -446,7 +446,7 @@ class GetTyphoonCodeByComplexCondition(BaseView):
             stime = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S")
             query = query.filter(date__gte=stime)
         if endMonth is not None and endMonth != '':
-            end_date = datetime.datetime.strptime(endMonth, '%Y-%m')
+            end_date = datetime.strptime(endMonth, '%Y-%m')
             end_date = add_months(end_date, 1)
             etime = end_date + timedelta(seconds=-1)
             query = query.filter(date__lte=etime)
