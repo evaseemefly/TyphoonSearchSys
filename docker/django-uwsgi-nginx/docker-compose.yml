@@ -1,0 +1,29 @@
+# docker当前对应的Compose版本
+version: '0.5'
+# 容器组
+# services:
+# # 镜像容器服务标识
+#   web:
+# # 指定构建镜像上下文的目录，“.”当前目录
+#     build: .
+#     volumes: 
+#       mongo_db
+#       #- .:/code
+# # 映射容器的端口
+#     ports:
+#       - "80:8000"
+#     links: 
+#       -db
+#   db:
+#     image:mongo
+
+services:
+  db:
+    image: mongo
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code/TyphoonSystem
+    ports:
+      - "8000:8000"
