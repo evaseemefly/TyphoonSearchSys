@@ -1,5 +1,6 @@
 # docker当前对应的Compose版本
-version: '0.5'
+# 注意此处不能改为0.5，并不是创建的image的版本
+version: '3'
 # 容器组
 # services:
 # # 镜像容器服务标识
@@ -18,12 +19,22 @@ version: '0.5'
 #     image:mongo
 
 services:
+  # db:
+  #   image: mongo
   db:
     image: mongo
+    ports:
+      - "27017:27017"
   web:
     build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    # 注意此处使用python3，python在dockerfile创建的环境中为python2.7！
+    command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
-      - .:/code/TyphoonSystem
+      - .:/code
     ports:
+      # 容器内饰8000端口，对外也是8000端口
       - "8000:8000"
+    links:
+      - db
+    # depends_on:
+    #   - db

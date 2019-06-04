@@ -25,6 +25,8 @@ COPY requirements.txt /code/
 # RUN pip install -i https://pypi.doubanio.com/simple/ -r /home/docker/code/Lighten/requirements.txt
 RUN pip3 install -i https://pypi.doubanio.com/simple/ -r /code/requirements.txt
 RUN pip3 install -r requirements.txt
+# 此处copy之后在容器中的目录为：
+# /code/TyphoonSystem/ 为django项目的根目录
 COPY . /code/
 
 
