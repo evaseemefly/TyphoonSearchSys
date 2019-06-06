@@ -86,13 +86,28 @@
 - [x] 2. 部署 webserver 的 docker
 - [ ] 3. 部署 mongo 的 docker 并测试，录入数据
      明天继续，🆙
+
 ---
-- 19-05-30 
-- [x] 1. 部署mongo的docker
-- [x] 2. 部署webserver的docker
-- [ ] 3. 现出现的问题，webserver的docker部署完毕后启动后webclient访问时会提示不允许crsf
+
+- 19-05-30
+- [x] 1. 部署 mongo 的 docker
+- [x] 2. 部署 webserver 的 docker
+- [ ] 3. 现出现的问题，webserver 的 docker 部署完毕后启动后 webclient 访问时会提示不允许 crsf
+
 ---
+
 19-06-01
-- [ ] 1. 导入单位导出的docker文件
-出现的问题：
-- [ ] 导入的mongo的镜像启动后在win下外部无法访问，已注释docker配置中的bindip，仍无效
+
+- [x] 1. 导入单位导出的 docker 文件
+     出现的问题：
+- [ ] 导入的 mongo 的镜像启动后在 win 下外部无法访问，已注释 docker 配置中的 bindip，仍无效
+
+---
+
+19-06-06
+
+- [x] 1.完成了 v0.5 版本在 ubuntu18.04 下通过 docker 的部署
+- [x] 2.访问地址问 128.5.10.26:3000
+      下面的工作
+- [ ] 1. 完成部分 bug 的修改
+- [ ] 2. 加入测站比对的页面
