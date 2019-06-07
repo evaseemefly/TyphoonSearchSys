@@ -572,12 +572,71 @@ class GetAllTyphoonYear(APIView):
     def get(self,request):
         query = GeoTyphoonRealData.objects()
         query = query.aggregate({"$group":{"_id":"null","years":{"$addToSet":{"$dateToString":{"format": "%Y","date":"$date"}}}}})
-        lst = list(query)
+        lst=list(query)
         return Response(lst)
 
 #获取所有台风编号
+#这个写死了需要修改
 class GetAllTyphoonCode(APIView):
     def get(self,request):
-        query = GeoTyphoonRealData.objects()
-        query = query.distinct('code')
+        year = request.GET.get("year")
+        start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+        end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+        query = GeoTyphoonRealData.objects().filter(date__gte=start_date).filter(date__lte=end_date).filter(num__ne="0000")
+        #query = query.distinct('num')
+        query = query.values_list("code","num")
         return Response(query)
+
+#时间筛选需要修改，不认小时分的
+class GetAllObsStationCode(APIView):
+    def get(self,request):
+        year = request.GET.get("year")
+        code = request.GET.get("code")
+        query = StationTideData.objects()
+        start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+        end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+        query = query.filter(typhoonnum=code)
+        query = query.filter(startdate__gte=start_date)
+        query = query.filter(startdate__lte=end_date)
+        result = query.distinct('code')
+        #jsonstr = StationTideDataFullModelSerializer(query,many=True).data
+        lst = list(result)
+        return Response(lst)
+
+#时间筛选需要修改，不认小时分的
+class GetStationObserveData(APIView):
+    def get(self,request):
+        year = request.GET.get("year")
+        code = request.GET.get("code")
+        typhoonnum = request.GET.get("typhoonnum")
+        query = StationTideData.objects()
+        start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat()+'.000+00:00'
+        end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat()+'.000+00:00'
+        query = query.filter(code=code)
+        query = query.filter(startdate__gte=start_date)
+        query = query.filter(startdate__lte=end_date)
+        query = query.filter(typhoonnum=typhoonnum)
+        jsonstr = StationTideDataFullModelSerializer(query,many=True).data
+        return Response(jsonstr)
+
+class GetRealDataMws(APIView):
+    def get(self,request):
+        num = request.GET.get("num")
+        query = GeoTyphoonRealData.objects()
+        query = query.filter(num=num)
+        result = query.order_by('-wsm').limit(1).values_list("wsm","date")
+        dic = {"mws":result[0][0],"date":result[0][1]}
+        print(dic)
+        return Response(dic)
+
+class GetRealDataMbp(APIView):
+    def get(self,request):
+        num = request.GET.get("num")
+        query = GeoTyphoonRealData.objects()
+        query = query.filter(num=num)
+        result = query.order_by('-bp').limit(1).values_list("bp", "date")
+        dic = {"mbp": result[0][0], "date": result[0][1]}
+        print(dic)
+        return Response(dic)
+
+

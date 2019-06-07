@@ -23,7 +23,11 @@ urlpatterns = [
     url(r'filter/GetTimeByCode/$', GetTimeByCode.as_view()),
     url(r'filter/GetDetail/$', GetDetail.as_view()),
     url(r'data/GetAllTyphoonCode/', GetAllTyphoonCode.as_view()),
-    url(r'data/GetAllTyphoonYear/', GetAllTyphoonYear.as_view())
+    url(r'data/GetAllTyphoonYear/', GetAllTyphoonYear.as_view()),
+    url(r'data/GetAllObsStationCode/',GetAllObsStationCode.as_view()),
+    url(r'data/GetStationObserveData/',GetStationObserveData.as_view()),
+    url(r'data/GetRealDataMws/',GetRealDataMws.as_view()),
+    url(r'data/GetRealDataMbp/',GetRealDataMbp.as_view())
     # path("getAllData",views.getAllData),
     # path("getAreaTyphoonList", views.getAreaTyphoonList),
 ]

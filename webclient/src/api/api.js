@@ -41,12 +41,32 @@ export const getDetail = (code, date) => {
   return axios.get(url);
 };
 
-export const getAllTyphoonCode = () => {
-  let url = `${host}/gis/data/GetAllTyphoonCode`;
+export const getAllTyphoonCode = (year) => {
+  let url = `${host}/gis/data/GetAllTyphoonCode/?year=${year}`;
   return axios.get(url)
 }
 
 export const getAllTyphoonYear = () => {
   let url = `${host}/gis/data/GetAllTyphoonYear`;
+  return axios.get(url)
+}
+
+export const getAllObsStation = (year, code) => {
+  let url = `${host}/gis/data/GetAllObsStationCode/?year=${year}&code=${code}`
+  return axios.get(url)
+}
+
+export const getStationObserveData = (year, typhoonnum, code) => {
+  let url = `${host}/gis/data/GetStationObserveData/?year=${year}&code=${code}&typhoonnum=${typhoonnum}`
+  return axios.get(url)
+}
+
+export const getRealDataMws = (num) => {
+  let url = `${host}/gis/data/GetRealDataMws?num=${num}`
+  return axios.get(url)
+}
+
+export const getRealDataMbp = (num) => {
+  let url = `${host}/gis/data/GetRealDataMbp?num=${num}`
   return axios.get(url)
 }

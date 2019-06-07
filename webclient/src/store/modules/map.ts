@@ -17,7 +17,13 @@ const state: State = {
   range: 20000,
   typhoon: null,
   // 当前选择的台风的实时model（加入了date字段）
-  typhoonRealBase: null
+  typhoonRealBase: null,
+  displayData: {
+    forecastdata: [],
+    realdata: []
+  },
+  completeData: {},
+  testState: 0
 }
 
 // 用来改变应用状态的函数
@@ -30,8 +36,31 @@ const mutations = {
   },
   typhoonRealBase(state: State, typhoon: TyphoonRealBase_Mid_Model) {
     state.typhoonRealBase = typhoon
+  },
+  setData(state, data) {
+    state.displayData = data;
+    return state.displayData;
+  },
+  setCompleteData(state, data) {
+    state.completeData = data;
+    return state.completeData;
+  },
+  trigger(state, increment) {
+    state.testState += increment
   }
 }
+
+// tslint:disable-next-line:typedef
+const getters = {
+  getData(state: any): any {
+    return state.displayData;
+  },
+  getTest(state: any): number {
+    return state.testState;
+  }
+};
+
+
 
 // 异步调用api的函数（暂时不用）
 const actions = {}
@@ -41,5 +70,6 @@ export default {
   // namespaced: true,
   state,
   mutations,
-  actions
+  actions,
+  getters
 }
