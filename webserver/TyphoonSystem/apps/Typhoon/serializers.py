@@ -102,5 +102,54 @@ class StationTideIncludeAllMidModelSerializer(serializers.Serializer):
     '''
         StationTideIncludeForecastMidModel
     '''
-    station = StationTideDataModelSerializer()
-    forecast = TideAllMidModelSerializer()
+
+class DetailDataSerializer(serializers.Serializer):
+    occurredTime = serializers.CharField()
+    val = serializers.IntegerField()
+
+class ForecasetDataSerializer(serializers.Serializer):
+    forecast_arr=serializers.ListField()
+    heigh_heigh_tide = DetailDataSerializer()
+    heigh_low_tide = DetailDataSerializer()
+    low_heigh_tide = DetailDataSerializer()
+    low_low_tide = DetailDataSerializer()
+
+class RealDataSerializer(serializers.Serializer):
+    realdata_arr=serializers.ListField()
+    heigh_heigh_tide = DetailDataSerializer()
+    heigh_low_tide = DetailDataSerializer()
+    low_heigh_tide = DetailDataSerializer()
+    low_low_tide = DetailDataSerializer()
+
+class RealtideDataSerializer(serializers.Serializer):
+    targetdate = serializers.DateField()
+    forecastdata = ForecasetDataSerializer()
+    realdata = RealDataSerializer()
+
+
+class StationTideDataFullModelSerializer(serializers.Serializer):
+    '''
+        测站潮位数据
+    '''
+    typhoonnum=serializers.CharField()
+    # 测站代码
+    code = serializers.CharField()
+    #     起始时间
+    startdate = serializers.DateTimeField()
+    #     测站名称
+    stationname = serializers.CharField()
+    #     gesjon数据
+    point = serializers.DictField()
+    #     平均海平面
+    lev = serializers.IntegerField()
+    #     警戒潮位
+    jw = serializers.IntegerField()
+    #     潮汐调和常数
+    harmonicconstant = serializers.CharField()
+    #   更复杂的字段
+    realtidedata = RealtideDataSerializer(many=True)
+
+
+
+
+
