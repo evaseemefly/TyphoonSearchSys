@@ -18,6 +18,10 @@
 进度及问题：
 [进度](/webclient/document/SCHEDULE.md)
 [相关问题收集](/webclient/document/ISSUE.md)
+[规约](/PROMISE.md)  
+
+--- 
+
 ### 项目界面大致如下：
 
 1. 范围搜索，根据点选的位置，以及框选圆的半径获取该范围内的台风列表
