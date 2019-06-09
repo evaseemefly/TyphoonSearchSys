@@ -95,13 +95,15 @@ class StationTideIncludeForecastMidModelSerializer(serializers.Serializer):
         暂时不使用，由 StationTideIncludeAllMidModelSerializer 替代
     '''
     station = StationTideDataModelSerializer()
-    forecast = TideRealMidModelSerializer()
+    forecast = TideAllMidModelSerializer()
 
 
 class StationTideIncludeAllMidModelSerializer(serializers.Serializer):
     '''
         StationTideIncludeForecastMidModel
     '''
+    station = StationTideDataModelSerializer()
+    forecast = TideAllMidModelSerializer()
 
 
 class DetailDataSerializer(serializers.Serializer):

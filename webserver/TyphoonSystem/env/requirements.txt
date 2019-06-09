@@ -1,0 +1,11 @@
+dataclasses==0.6
+Django==2.2.1
+django-cors-headers==3.0.1
+djangorestframework==3.9.4
+djongo==1.2.32
+mongoengine==0.17.0
+pymongo==3.8.0
+python-dateutil==2.8.0
+pytz==2019.1
+six==1.12.0
+sqlparse==0.2.4
