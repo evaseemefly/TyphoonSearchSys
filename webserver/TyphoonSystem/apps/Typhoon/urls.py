@@ -8,7 +8,8 @@ app_name = '[gis]'
 urlpatterns = [
     # 获取指定日期的预报数据
     url(r'^point/$', PointInfoView.as_view(), name="gis-get-point"),
-    url(r'^data/typhoonrealdata/$', TyphoonRealDataView.as_view(), name="gis-get-point"),
+    url(r'^data/typhoonrealdata/$',
+        TyphoonRealDataView.as_view(), name="gis-get-point"),
     url(r'^filter/month/$', FilterByMonth.as_view()),
     url(r'^filter/year/$', FilterByYear.as_view()),
     url(r'^filter/range/$', FilterByRange.as_view()),
@@ -20,7 +21,13 @@ urlpatterns = [
     # 对于台风的复杂查询
     url(r'^filter/typhoon/complex/$', GetTyphoonCodeByComplexCondition.as_view()),
     url(r'filter/GetTimeByCode/$', GetTimeByCode.as_view()),
-    url(r'filter/GetDetail/$', GetDetail.as_view())
+    url(r'filter/GetDetail/$', GetDetail.as_view()),
+    url(r'data/GetAllTyphoonCode/', GetAllTyphoonCode.as_view()),
+    url(r'data/GetAllTyphoonYear/', GetAllTyphoonYear.as_view()),
+    url(r'data/GetAllObsStationCode/',GetAllObsStationCode.as_view()),
+    url(r'data/GetStationObserveData/',GetStationObserveData.as_view()),
+    url(r'data/GetRealDataMws/',GetRealDataMws.as_view()),
+    url(r'data/GetRealDataMbp/',GetRealDataMbp.as_view())
     # path("getAllData",views.getAllData),
     # path("getAreaTyphoonList", views.getAreaTyphoonList),
 ]

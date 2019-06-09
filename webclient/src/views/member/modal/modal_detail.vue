@@ -1,15 +1,6 @@
 <template>
-  <div
-    id="mymodal"
-    class="modal fade"
-    tabindex="-1"
-    role="dialog"
-  >
-    <div
-      id="modal_content"
-      class="modal-dialog"
-      role="document"
-    >
+  <div id="mymodal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="modal_content" class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <button
@@ -25,20 +16,14 @@
         <div class="modal-body my-content-primary">
           <div>
             <!-- <bbxDetailTable :bid="bid"></bbxDetailTable> -->
-            <ul
-              id="mytabs"
-              class="nav nav-tabs"
-            >
+            <ul id="mytabs" class="nav nav-tabs">
               <li
                 v-for="(item,index) in menulist"
                 :key="index"
                 role="presentation"
                 :class="{active:index===indexMenu}"
               >
-                <a
-                  href="#"
-                  @click="active(index)"
-                >{{item.name}}</a>
+                <a href="#" @click="active(index)">{{item.name}}</a>
               </li>
             </ul>
             <!-- <div
@@ -55,15 +40,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-default"
-            data-dismiss="modal"
-          >关闭</button>
-          <button
-            type="button"
-            class="btn btn-primary"
-          >确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary">确定</button>
         </div>
       </div>
       <!-- /.modal-content -->
