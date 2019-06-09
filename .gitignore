@@ -1,5 +1,6 @@
 
 webclient/package-lock.json
+/webserver/TyphoonSystem/.idea
 /webserver/.idea
 /webserver/venv
 /webserver/typhoon_venv
