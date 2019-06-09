@@ -102,7 +102,8 @@ class StationTideIncludeAllMidModelSerializer(serializers.Serializer):
     '''
         StationTideIncludeForecastMidModel
     '''
-
+    station = StationTideDataModelSerializer()
+    forecast = TideAllMidModelSerializer()
 
 class DetailDataSerializer(serializers.Serializer):
     occurredTime = serializers.CharField()
