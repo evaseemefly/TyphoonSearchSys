@@ -2,22 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a91e11b4-2ac7-45ca-a447-2f631681a399" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../webclient/src/Question.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/api/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../webclient/src/api/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/api/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/router.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/modules/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/modules/map.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static_detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/charts/typhoon_detail_charts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/charts/typhoon_detail_charts.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/modal/modal_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/modal/modal_detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/search/search_statistic_typhoon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/search/search_statistic_typhoon.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/TyphoonSystem.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/TyphoonSystem.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -32,9 +19,10 @@
     <session id="513081847">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="2" />
+          <entry key="project.closed" value="3" />
           <entry key="project.open.time.12" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.13" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -63,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/TyphoonSystem/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2718">
-              <caret line="9" column="51" lean-forward="true" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
+            <state relative-caret-position="180">
+              <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
               <folding>
                 <element signature="e#314#328#0" expanded="true" />
               </folding>
@@ -84,8 +72,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/Typhoon/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="132">
-              <caret line="575" lean-forward="true" selection-start-line="575" selection-end-line="575" />
+            <state relative-caret-position="152">
+              <caret line="576" lean-forward="true" selection-start-line="576" selection-end-line="576" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -96,7 +84,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/Typhoon/serializers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
+            <state relative-caret-position="1960">
               <caret line="99" selection-start-line="99" selection-end-line="99" />
             </state>
           </provider>
@@ -114,7 +102,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/Typhoon/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
+            <state relative-caret-position="420">
               <caret line="25" column="53" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="53" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -184,7 +172,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -244,6 +231,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -304,7 +292,7 @@
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28265238" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28667113" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -341,6 +329,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TyphoonSystem/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="9" column="51" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
+          <folding>
+            <element signature="e#314#328#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps/Typhoon/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="200">
@@ -348,10 +346,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/apps/Typhoon/serializers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1960">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://D:/03SetupPath/ANACONDA/Lib/site-packages/rest_framework/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="9240">
           <caret line="479" selection-start-line="479" selection-end-line="479" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/Typhoon/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="25" column="53" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -375,37 +390,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/Typhoon/serializers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="99" selection-start-line="99" selection-end-line="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/TyphoonSystem/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2718">
-          <caret line="9" column="51" lean-forward="true" selection-start-line="9" selection-start-column="51" selection-end-line="9" selection-end-column="51" />
-          <folding>
-            <element signature="e#314#328#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/Typhoon/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="25" column="53" selection-start-line="25" selection-start-column="36" selection-end-line="25" selection-end-column="53" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/Typhoon/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="575" lean-forward="true" selection-start-line="575" selection-end-line="575" />
+        <state relative-caret-position="152">
+          <caret line="576" lean-forward="true" selection-start-line="576" selection-end-line="576" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
