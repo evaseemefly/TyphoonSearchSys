@@ -1,5 +1,6 @@
 
 webclient/package-lock.json
+/webserver/TyphoonSystem/.idea
 /webserver/.idea
 /webserver/venv
 /webserver/typhoon_venv
@@ -7,3 +8,7 @@ webclient/package-lock.json
 /byJupyter/myproj/.idea
 /byJupyter/.ipynb_checkpoints
 /background/2-wordOpt/project/.idea
+/webserver/TyphoonSystem/TyphoonSystem/__pycache__
+/webserver/TyphoonSystem/common/__pycache__
+/webserver/TyphoonSystem/apps/__pycache__
+/webserver/TyphoonSystem/apps/Typhoon/__pycache__
