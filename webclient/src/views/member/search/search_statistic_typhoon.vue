@@ -1,26 +1,47 @@
 <template>
-  <div class="row form-group mt-10" style="margin-top:20px;">
+  <div
+    class="row form-group mt-10"
+    style="margin-top:20px;"
+  >
     <div class="col">
       <div class="alert form-group darkback">
         <div class="alert-heading">年份</div>
-        <select class="form-control" v-model="yearSelected">
-          <option v-for="item in yearList" :key="item">{{item}}</option>
+        <select
+          class="form-control"
+          v-model="yearSelected"
+        >
+          <option
+            v-for="item in yearList"
+            :key="item"
+          >{{item}}</option>
         </select>
       </div>
     </div>
     <div class="col">
       <div class="alert form-group darkback">
         <div class="alert-heading">编码</div>
-        <select class="form-control" v-model="codeSelected">
-          <option v-for="item in codeList" :key="item">{{item.name}}</option>
+        <select
+          class="form-control"
+          v-model="codeSelected"
+        >
+          <option
+            v-for="item in codeList"
+            :key="item.value"
+          >{{item.name}}</option>
         </select>
       </div>
     </div>
     <div class="col">
       <div class="alert form-group darkback">
         <div class="alert-heading">观测站</div>
-        <select class="form-control" v-model="stationSelected">
-          <option v-for="item in stationList" :key="item">{{item}}</option>
+        <select
+          class="form-control"
+          v-model="stationSelected"
+        >
+          <option
+            v-for="item in stationList"
+            :key="item"
+          >{{item}}</option>
         </select>
       </div>
     </div>
@@ -39,7 +60,7 @@ import {
 } from "@/api/api.js";
 
 export default {
-  data() {
+  data () {
     return {
       codeList: [],
       yearList: [],
@@ -51,7 +72,7 @@ export default {
     };
   },
   methods: {
-    initYearSelector() {
+    initYearSelector () {
       let app = this;
       getAllTyphoonYear().then(res => {
         if (res.status == 200 && res.data.length > 0) {
@@ -61,7 +82,7 @@ export default {
       });
     },
 
-    initCodeSelector() {
+    initCodeSelector () {
       let app = this;
       getAllTyphoonCode(app.yearSelected).then(res => {
         if (res.status == 200) {
@@ -78,7 +99,7 @@ export default {
         }
       });
     },
-    initStationSelector(num) {
+    initStationSelector (num) {
       let app = this;
       getAllObsStation(app.yearSelected, num).then(res => {
         if (res.status == 200) {
@@ -98,7 +119,7 @@ export default {
         }
       });
     },
-    setChart() {
+    setChart () {
       getStationObserveData(
         this.yearSelected,
         this.numSelected,
@@ -127,10 +148,10 @@ export default {
     }
   },
   watch: {
-    yearSelected() {
+    yearSelected () {
       this.initCodeSelector();
     },
-    codeSelected(data) {
+    codeSelected (data) {
       if (data) {
         let num = this.codeList.filter(x => x.name == data);
         if (num.length > 0) {
@@ -141,11 +162,11 @@ export default {
         this.numSelected = "";
       }
     },
-    stationSelected(res) {
+    stationSelected (res) {
       this.setChart();
     }
   },
-  mounted() {
+  mounted () {
     this.initYearSelector();
   }
 };

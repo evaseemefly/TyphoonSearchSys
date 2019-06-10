@@ -355,16 +355,30 @@ class FilterByRange(BaseView):
         # list_data = [
         #     TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code, GeoTyphoonRealData.objects(num=num)[0].date,GeoTyphoonRealData.objects(num=num)[0].num)
         #     for num in nums]
+        tup_python_name=('nameless','(nameless)')
         list_data = []
         for num in codes:
             obj = GeoTyphoonRealData.objects(num=num)[0]
-            list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
-
+            if obj.code not in tup_python_name:
+                list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
         # TODO:[*] 19-05-13 返回的加入total
         data = TyphoonAndTotalModel(list_data, total)
         json_data = TyphoonAndTotalModelSerializer(data).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
+
+    def sort(self,list_num)->[]:
+        list_num= sorted(list_num)
+        # 找到头两位是小于当前时间的的年份
+        index_year=int(str(datetime.now().year)[2:])
+        list_newcentury=[]
+        list_old=[]
+        list_newcentury=[temp for temp in list_num if (int(temp[:2])<index_year and int(temp[:2])>00)]
+        # list_newcentury=
+        list_old=list_num[len(list_newcentury)+2:]
+        list_final=list_old+list_newcentury
+        return list_final
+        # pass
 
     def getTyphoonList(self, *args, **kwargs):
         '''
@@ -376,7 +390,7 @@ class FilterByRange(BaseView):
         latlon = kwargs.get('latlon')
         range = kwargs.get('range')
         # 注意此处去重是要根据 num 进行去重
-        return GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('num')
+        return self.sort(GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('num'))
 
 
 class FilterByComplexCondition(BaseView):

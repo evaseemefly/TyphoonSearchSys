@@ -28,15 +28,17 @@
           </template>
           <el-menu-item-group>
             <!-- <el-menu-item index="/vue2map" @click="is_show_condition_bar=!is_show_condition_bar">条件搜索</el-menu-item> -->
-            <el-menu-item index="/vue2map">
-              <!-- 条件搜索 -->
+            <!-- <el-menu-item index="/vue2map">
               <router-link to="/vue2map">条件搜索</router-link>
-            </el-menu-item>
+            </el-menu-item> -->
             <el-menu-item index="/range">
               <router-link to='/range'>范围搜索</router-link>
             </el-menu-item>
             <el-menu-item index="/search">
               <router-link to='/search'>复杂条件搜索</router-link>
+            </el-menu-item>
+            <el-menu-item index="/statistics">
+              <router-link to='/statistics'>历史测站数据查询</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>

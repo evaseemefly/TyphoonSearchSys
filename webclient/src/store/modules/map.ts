@@ -12,6 +12,7 @@ export interface State {
   typhoon: DataList_Mid_Model
   typhoonRealBase: TyphoonRealBase_Mid_Model
   station: IStation
+  typhoonSearchNum: string
 }
 
 // 用来存储应用状态的数据对象
@@ -22,14 +23,16 @@ const state: State = {
   // 当前选择的台风的实时model（加入了date字段）
   // typhoonRealBase: null
   typhoonRealBase: null,
+  // 由历史测站数据查询选中的台风编号（num）
+  typhoonSearchNum: null,
+  completeData: {},
+  testState: 0,
   // 当前选中的测站
   station: null,
   displayData: {
     forecastdata: [],
     realdata: []
-  },
-  completeData: {},
-  testState: 0
+  }
 }
 
 // 用来改变应用状态的函数
@@ -46,14 +49,17 @@ const mutations = {
   station(state: State, station: IStation) {
     state.station = station
   },
-
+  // 赋值给搜索页面的台风编号（string）类型
+  typhoonSearchNum(state: State, num: string) {
+    state.typhoonSearchNum = num
+  },
   setData(state, data) {
-    state.displayData = data;
-    return state.displayData;
+    state.displayData = data
+    return state.displayData
   },
   setCompleteData(state, data) {
-    state.completeData = data;
-    return state.completeData;
+    state.completeData = data
+    return state.completeData
   },
   trigger(state, increment) {
     state.testState += increment
@@ -63,14 +69,12 @@ const mutations = {
 // tslint:disable-next-line:typedef
 const getters = {
   getData(state: any): any {
-    return state.displayData;
+    return state.displayData
   },
   getTest(state: any): number {
-    return state.testState;
+    return state.testState
   }
-};
-
-
+}
 
 // 异步调用api的函数（暂时不用）
 const actions = {}
