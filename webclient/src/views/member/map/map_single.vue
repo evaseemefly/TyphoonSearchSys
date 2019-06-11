@@ -1,25 +1,11 @@
 <template>
   <div id="singlecontent">
-    <l-map
-      ref="basemap"
-      :zoom="zoom"
-      :center="center"
-    >
+    <l-map ref="basemap" :zoom="zoom" :center="center">
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline
-        :lat-lngs="polyline.latlngs"
-        :color="polyline.color"
-        :fill="false"
-      ></l-polyline>
+      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
       <!-- 台风中心的圆点 -->
-      <l-circle
-        v-for="typhoon in typhoon_realdata_list"
-        :key="typhoon.id"
-        :lat-lng="typhoon.latlon"
-        :color="typhoon.getColor()"
-        :weight="typhoon.getWeight()"
-      />
+      <l-circle v-for="typhoon in typhoon_realdata_list" :key="typhoon.id" :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" />
     </l-map>
   </div>
 </template>
@@ -52,6 +38,10 @@ import {
 
 // ------
 import { MeteorologyRealData_Mid_Model } from "@/middle_model/typhoon.ts";
+
+// 与后台交互的api
+// 与后台交互的api
+import { loadTyphoonRealData, ITyphoonRealDataParamas } from "@/api/api.ts";
 // 缩小的map
 @Component({
   components: {
@@ -86,8 +76,7 @@ export default class map_base extends mixins() {
   typhoon_realdata_list: Array<MeteorologyRealData_Mid_Model> = []; // 台风气象实时数据列表
   zoom: number = 5;
   center: any = [17.6, 131.6];
-  url: string =
-    "//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}";
+  url: string = "//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}";
 
   initMap(): void {}
   mounted() {
@@ -101,6 +90,36 @@ export default class map_base extends mixins() {
   @Watch("searchNum")
   onSearchNum(val: string) {
     console.log(val);
+    var myself = this;
+    var par = {
+      code: val,
+      num: val
+    };
+    loadTyphoonRealData(par).then(res => {
+      // console.log(res.data);
+      if (res.status === 200) {
+        //记得每次需要清空
+        myself.typhoon_realdata_list = [];
+        myself.polyline.latlngs = [];
+        res.data.map(temp => {
+          var date_str = temp.date;
+          myself.typhoon_realdata_list.push(
+            new MeteorologyRealData_Mid_Model(
+              temp.code,
+              temp.num,
+              new Date(date_str),
+              [temp.latlon.coordinates[1], temp.latlon.coordinates[0]],
+              temp.bp,
+              temp.wsm
+            )
+          );
+          myself.polyline.latlngs.push([
+            temp.latlon.coordinates[1],
+            temp.latlon.coordinates[0]
+          ]);
+        });
+      }
+    });
   }
 }
 </script>
