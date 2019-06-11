@@ -7,12 +7,35 @@ import {
 import { IStation } from '@/interface/map/map.ts'
 
 // state的接口
-export interface State {
+export interface State extends ISearch, IDisplay, IRange, ITyphoon {
+  // range: number
+  // typhoon: DataList_Mid_Model
+  // typhoonRealBase: TyphoonRealBase_Mid_Model
+}
+/**
+ * 台风范围接口
+ *
+ * @export
+ * @interface IRange
+ */
+export interface IRange {
   range: number
+}
+
+export interface ITyphoon {
   typhoon: DataList_Mid_Model
   typhoonRealBase: TyphoonRealBase_Mid_Model
   station: IStation
-  typhoonSearchNum: string
+}
+
+export interface ISearch {
+  searchNum: string
+  searchStationName: string
+  completeData: object
+}
+
+export interface IDisplay {
+  displayData: object
 }
 
 // 用来存储应用状态的数据对象
@@ -24,9 +47,11 @@ const state: State = {
   // typhoonRealBase: null
   typhoonRealBase: null,
   // 由历史测站数据查询选中的台风编号（num）
-  typhoonSearchNum: null,
+  searchNum: null,
+  // 由历史测站数据查询选中的测站name（str）
+  searchStationName: null,
   completeData: {},
-  testState: 0,
+  // testState: 0,
   // 当前选中的测站
   station: null,
   displayData: {
@@ -49,9 +74,23 @@ const mutations = {
   station(state: State, station: IStation) {
     state.station = station
   },
-  // 赋值给搜索页面的台风编号（string）类型
-  typhoonSearchNum(state: State, num: string) {
-    state.typhoonSearchNum = num
+  /**
+   * 历史测站数据查询 页面 的台风编号（string）类型
+   *
+   * @param {State} state
+   * @param {string} num
+   */
+  searchNum(state: State, num: string) {
+    state.searchNum = num
+  },
+  /**
+   * 历史测站数据查询 页面中的 选择的测站的名字
+   *
+   * @param {State} state
+   * @param {string} name
+   */
+  searchStationName(state: State, name: string) {
+    state.searchStationName = name
   },
   setData(state, data) {
     state.displayData = data

@@ -65,9 +65,13 @@ export default {
       codeList: [],
       yearList: [],
       stationList: [],
+      // 选择的年份
       yearSelected: "",
+      // 选择的台风编号（code）
       codeSelected: "",
+      // 选择的测站名称
       stationSelected: "",
+      // 台风的数字编号（num）
       numSelected: ""
     };
   },
@@ -153,9 +157,11 @@ export default {
     },
     codeSelected (data) {
       if (data) {
+
         let num = this.codeList.filter(x => x.name == data);
         if (num.length > 0) {
           this.numSelected = num[0].value;
+          this.$store.state.map.searchNum = this.numSelected;
           this.initStationSelector(num[0].value);
           return;
         }
@@ -163,6 +169,7 @@ export default {
       }
     },
     stationSelected (res) {
+      this.$store.state.map.searchStationName = res;
       this.setChart();
     }
   },
