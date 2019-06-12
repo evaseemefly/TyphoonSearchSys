@@ -66,6 +66,7 @@ export default class station_detail_charts extends Vue {
       legend: {
         data: [myself.title]
       },
+
       xAxis: [
         {
           type: "category",

@@ -56,7 +56,8 @@ const state: State = {
   station: null,
   displayData: {
     forecastdata: [],
-    realdata: []
+    realdata: [],
+    startdate: null
   }
 }
 
