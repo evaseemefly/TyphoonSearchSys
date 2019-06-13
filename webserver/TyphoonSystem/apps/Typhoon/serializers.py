@@ -149,7 +149,7 @@ class StationTideDataFullModelSerializer(serializers.Serializer):
     #     潮汐调和常数
     harmonicconstant = serializers.CharField()
     #   更复杂的字段
-    realtidedata = RealtideDataSerializer(many=True)
+    # realtidedata = RealtideDataSerializer(many=True)
 
 
 
