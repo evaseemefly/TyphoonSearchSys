@@ -51,7 +51,8 @@
 <script>
 // 关于历史台风查询的父组件
 import Vue from "vue";
-
+// 引入第三方组件
+import fecha from "fecha"
 import {
   getAllTyphoonYear,
   getAllTyphoonCode,
@@ -123,6 +124,8 @@ export default {
         }
       });
     },
+
+    // 获取查询的数据
     setChart () {
       getStationObserveData(
         this.yearSelected,
@@ -134,6 +137,9 @@ export default {
             let arr = res.data[0].realtidedata;
 
             arr = arr.sort(x => x.targetdate);
+            // 获取起始的时间 str类型
+            let startdate = fecha.parse(arr[0].targetdate, 'YYYY-MM-DD')
+            // startdate
             let forecastdata = [];
             let realdata = [];
             for (let item of arr) {
@@ -144,7 +150,7 @@ export default {
                 realdata.push(r);
               }
             }
-            this.$store.commit("setData", { forecastdata, realdata });
+            this.$store.commit("setData", { forecastdata, realdata, startdate });
             this.$store.commit("setCompleteData", res.data[0]);
           }
         }

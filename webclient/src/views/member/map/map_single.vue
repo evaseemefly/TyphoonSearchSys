@@ -1,11 +1,25 @@
 <template>
   <div id="singlecontent">
-    <l-map ref="basemap" :zoom="zoom" :center="center">
+    <l-map
+      ref="basemap"
+      :zoom="zoom"
+      :center="center"
+    >
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
+      <l-polyline
+        :lat-lngs="polyline.latlngs"
+        :color="polyline.color"
+        :fill="false"
+      ></l-polyline>
       <!-- 台风中心的圆点 -->
-      <l-circle v-for="typhoon in typhoon_realdata_list" :key="typhoon.id" :lat-lng="typhoon.latlon" :color="typhoon.getColor()" :weight="typhoon.getWeight()" />
+      <l-circle
+        v-for="typhoon in typhoon_realdata_list"
+        :key="typhoon.id"
+        :lat-lng="typhoon.latlon"
+        :color="typhoon.getColor()"
+        :weight="typhoon.getWeight()"
+      />
     </l-map>
   </div>
 </template>
@@ -74,9 +88,10 @@ export default class map_base extends mixins() {
     color: "yellow"
   };
   typhoon_realdata_list: Array<MeteorologyRealData_Mid_Model> = []; // 台风气象实时数据列表
-  zoom: number = 5;
+  zoom: number = 4;
   center: any = [17.6, 131.6];
-  url: string = "//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}";
+  url: string =
+    "//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}";
 
   initMap(): void {}
   mounted() {
