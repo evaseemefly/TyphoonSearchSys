@@ -769,6 +769,7 @@ class GetAllObsStationCode(APIView):
 
 
 # 时间筛选需要修改，不认小时分的
+# 返回的是station的相关数据（包含警戒潮位与等信息）！！注意不包含台风最大气压以及最大风速的值
 class GetStationObserveData(APIView):
     def get(self, request):
         year = request.GET.get("year")
@@ -801,7 +802,9 @@ class GetRealDataMbp(APIView):
         num = request.GET.get("num")
         query = GeoTyphoonRealData.objects()
         query = query.filter(num=num)
-        result = query.order_by('-bp').limit(1).values_list("bp", "date")
+        # TODO:[x] 19-06-14 注意此处mongoengine中使用order_by 进行排序，而-bp 到标的是降序排列（即最大）
+        # 此处修改为返回最小值，之前为最大值
+        result = query.order_by('bp').limit(1).values_list("bp", "date")
         dic = {"mbp": result[0][0], "date": result[0][1]}
         print(dic)
         return Response(dic)

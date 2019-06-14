@@ -71,6 +71,7 @@ export const getRealDataMws = (num) => {
   return axios.get(url)
 }
 
+// 根据台风编号获取台风的最低气压（之前为最大气压）
 export const getRealDataMbp = (num) => {
   let url = `${host}/gis/data/GetRealDataMbp?num=${num}`
   return axios.get(url)
