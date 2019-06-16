@@ -7,7 +7,9 @@ enum MenuType {
     // 实测
     real = 0,
     // 预报
-    forecast = 1
+    forecast = 1,
+    // 实测加预报
+    all=2
 }
 
 export {

@@ -1,10 +1,14 @@
-import axios from "axios";
+import axios from 'axios'
 
-export const host = "http://127.0.0.1:8000";
+export const host = 'http://127.0.0.1:8000'
+// ʵ�ʲ����ַ���˿�
+// export const host = 'http://128.5.10.26:8000'
+// ����docker����
+// export const host = 'http://127.0.0.1:32773'
 // export const host ="http://127.0.0.1:64807";
 
-axios.defaults.withCredentials = true;
-axios.defaults.headers = {};
+axios.defaults.withCredentials = true
+axios.defaults.headers = {}
 
 export const filterByComplexCondition = (
   level,
@@ -13,35 +17,36 @@ export const filterByComplexCondition = (
   startMonth,
   endMonth
 ) => {
-  let url = `${host}/gis/filter/complex/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}`;
-  return axios.get(url);
-};
+  let url = `${host}/gis/filter/complex/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}`
+  return axios.get(url)
+}
 
 export const getTyphoonCodeByComplexCondition = (
   level,
   wsm,
   bp,
+  num,
   startMonth,
   endMonth,
   from,
   to
 ) => {
   // let url = `${host}/gis/filter/GetTyphoonCodeByComplexCondition/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`
-  let url = `${host}/gis/filter/typhoon/complex/?level=${level}&wsm=${wsm}&bp=${bp}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`;
-  return axios.get(url);
-};
+  let url = `${host}/gis/filter/typhoon/complex/?level=${level}&wsm=${wsm}&bp=${bp}&num=${num}&startMonth=${startMonth}&endMonth=${endMonth}&from=${from}&to=${to}`
+  return axios.get(url)
+}
 
 export const getTimeByCode = (code, from, to) => {
-  let url = `${host}/gis/filter/GetTimeByCode/?code=${code}&from=${from}&to=${to}`;
-  return axios.get(url);
-};
+  let url = `${host}/gis/filter/GetTimeByCode/?code=${code}&from=${from}&to=${to}`
+  return axios.get(url)
+}
 
 export const getDetail = (code, date) => {
-  let url = `${host}/gis/filter/GetDetail/?code=${code}&date=${date}`;
-  return axios.get(url);
-};
+  let url = `${host}/gis/filter/GetDetail/?code=${code}&date=${date}`
+  return axios.get(url)
+}
 
-export const getAllTyphoonCode = (year) => {
+export const getAllTyphoonCode=(year)=>{
   let url = `${host}/gis/data/GetAllTyphoonCode/?year=${year}`;
   return axios.get(url)
 }
@@ -66,6 +71,7 @@ export const getRealDataMws = (num) => {
   return axios.get(url)
 }
 
+// 根据台风编号获取台风的最低气压（之前为最大气压）
 export const getRealDataMbp = (num) => {
   let url = `${host}/gis/data/GetRealDataMbp?num=${num}`
   return axios.get(url)

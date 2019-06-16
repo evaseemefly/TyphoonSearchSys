@@ -14,7 +14,13 @@
 ## 项目主要构成目录
 
 前后端的相关描述请详见`webclient`与 `webserver` 目录下的 readme 文件
-[前端 readme](/webclient/README.md)
+[前端 readme](/webclient/README.md)  
+进度及问题：
+[进度](/webclient/document/SCHEDULE.md)
+[相关问题收集](/webclient/document/ISSUE.md)
+[规约](/PROMISE.md)  
+
+--- 
 
 ### 项目界面大致如下：
 
@@ -27,3 +33,6 @@
 
 4. 如表移入台风中心位置后加载该时刻的台风的气象数据
    ![avatar](/document/img/20190515105544.png)
+
+5. 点击指定时刻的台风加载指定时刻对应的测站数据
+  ![avatar](/document/img/20190522220708.png)

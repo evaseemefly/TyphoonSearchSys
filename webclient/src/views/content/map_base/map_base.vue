@@ -69,6 +69,9 @@ import {
   LCircle,
   LIcon
 } from "vue2-leaflet";
+// 引入其他子组件
+// 引入modal组件
+import modal_detail from "@/views/member/modal/modal_detail.vue";
 import { DivIcon, DivIconOptions } from "leaflet";
 
 @Component({
@@ -79,6 +82,7 @@ import { DivIcon, DivIconOptions } from "leaflet";
     "l-polyline": LPolyline,
     "l-circle": LCircle,
     "l-icon": LIcon
+    // ModalDetail: modal_detail
   },
   // 自定义过滤器
   filters: {
@@ -295,7 +299,7 @@ export default class map_base extends mixins(
     }
     // 判断是否符合条件需要触发展开modal的操作
     if (myself.index_stationdiv_click > 1) {
-      myself.showModal(station);
+      myself.showModal(station, myself.typhoon_temp);
     }
   }
 
@@ -382,9 +386,10 @@ export default class map_base extends mixins(
   openStationDivIcon(val): void {}
 
   // TODO:[*] 19-04-25 显示过程曲线的mdoal框
-  showModal(station: IStation): void {
+  showModal(station: IStation, typhoon: MeteorologyRealData_Mid_Model): void {
     console.log(station);
-    this.station_temp = station;
+    // this.station_temp = station;
+    this.targetStation = station;
 
     // alert("被处罚");
   }

@@ -1,8 +1,14 @@
 import axios from 'axios'
-import { MenuType } from "@/common/enum/menu.ts"
+import { MenuType } from '@/common/enum/menu.ts'
 
 // 后端的请求地址及端口
 export const host = 'http://127.0.0.1:8000'
+// 实际部署地址及端口
+// export const host = 'http://128.5.10.26:8000'
+// 实际部署地址及端口
+// export const host = 'http://128.5.10.26:8000'
+// 本地docker环境
+// export const host = 'http://127.0.0.1:32773'
 // export const host ="http://127.0.0.1:64807";
 // export const host = 'http://128.5.6.112:8015'
 axios.defaults.withCredentials = true
@@ -53,7 +59,6 @@ export interface ITyphoonRealBaseParams {
  * @interface ITyphoonParams4Station
  */
 export interface ITyphoonParams4Station {
-
   /**
    *台风code
    *
@@ -75,6 +80,13 @@ export interface ITyphoonParams4Station {
    * @memberof ITyphoonParams4Station
    */
   type: MenuType
+  /**
+   * 台风编号（4位数字）
+   *
+   * @type {string}
+   * @memberof ITyphoonParams4Station
+   */
+  num: string
 }
 
 export /**
@@ -83,12 +95,12 @@ export /**
  * @param {ITyphoonParams} par
  * @returns
  */
-  const loadTyphoonList = (par: ITyphoonParams) => {
-    let typhoonlistUrl = `${host}/gis/filter/range/`
-    return axios.get(typhoonlistUrl, {
-      params: par
-    })
-  }
+const loadTyphoonList = (par: ITyphoonParams) => {
+  let typhoonlistUrl = `${host}/gis/filter/range/`
+  return axios.get(typhoonlistUrl, {
+    params: par
+  })
+}
 
 export const loadTyphoonRealData = (par: ITyphoonRealDataParamas) => {
   let typhoonrealdataUrl = `${host}/gis/data/typhoonrealdata/`
@@ -105,29 +117,28 @@ export const loadStationTideDataList = (par: ITyphoonRealBaseParams) => {
   })
 }
 
-
 export /**
  * 根据 台风(code) 加载指定测站(station name)的过程潮位数据
  *
  * @param {ITyphoonParams4Station} par
  * @returns
  */
-  const loadStationDetailDataList = (par: ITyphoonParams4Station) => {
-    let stationDataUrl = `${host}/gis/data/detaillist/`
-    return axios.get(stationDataUrl, {
-      params: par
-    })
-  }
+const loadStationDetailDataList = (par: ITyphoonParams4Station) => {
+  let stationDataUrl = `${host}/gis/data/detaillist/`
+  return axios.get(stationDataUrl, {
+    params: par
+  })
+}
 
-export  /**
+export /**
  * 根据台风（code）获取对应的灾情描述文本内容
  *
  * @param {ITyphoonRealDataParamas} par
  * @returns
  */
-  const loadTyphoonWord = (par: ITyphoonRealDataParamas) => {
-    let wordUrl = `${host}/gis/word/disaster/`
-    return axios.get(wordUrl, {
-      params: par
-    })
-  }
+const loadTyphoonWord = (par: ITyphoonRealDataParamas) => {
+  let wordUrl = `${host}/gis/word/disaster/`
+  return axios.get(wordUrl, {
+    params: par
+  })
+}

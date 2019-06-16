@@ -1,9 +1,23 @@
 <template>
-  <div id="mymodal" class="modal fade" tabindex="-1" role="dialog">
-    <div id="modal_content" class="modal-dialog" role="document">
+  <div
+    id="mymodal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+  >
+    <div
+      id="modal_content"
+      class="modal-dialog"
+      role="document"
+    >
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">&times;</span>
           </button>
           <!-- <h4 class="modal-title">船舶编号{{}}</h4> -->
@@ -11,14 +25,20 @@
         <div class="modal-body my-content-primary">
           <div>
             <!-- <bbxDetailTable :bid="bid"></bbxDetailTable> -->
-            <ul id="mytabs" class="nav nav-tabs">
+            <ul
+              id="mytabs"
+              class="nav nav-tabs"
+            >
               <li
                 v-for="(item,index) in menulist"
                 :key="index"
                 role="presentation"
                 :class="{active:index===indexMenu}"
               >
-                <a href="#" @click="active(index)">{{item.name}}</a>
+                <a
+                  href="#"
+                  @click="active(index)"
+                >{{item.name}}</a>
               </li>
             </ul>
             <!-- <div
@@ -35,8 +55,15 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary">确定</button>
+          <button
+            type="button"
+            class="btn btn-default"
+            data-dismiss="modal"
+          >关闭</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+          >确定</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -48,6 +75,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import { ArrayPropsDefinition } from "vue/types/options";
+import { mixins } from "vue-class-component";
 import { menulist } from "@/common/menu/station_detail_tab_list.ts";
 // 引入数据格式规范接口
 import { IMenu } from "@/interface/menu/menu.ts";
@@ -56,10 +84,16 @@ import { IStation } from "@/interface/map/map.ts";
 import { MenuType } from "@/common/enum/menu.ts";
 // 引入子组件
 import stationChart from "@/views/member/charts/station_detail_charts.vue";
+
+import MapRangeVuexMixin from "@/views/content/map_range/map_vuex_mixin";
+
 // 尝试引入boostrap
 import "bootstrap";
 // 引入中间变量
-import { StationObservationTide_Mid_Model } from "@/middle_model/typhoon.ts";
+import {
+  StationObservationTide_Mid_Model,
+  MeteorologyRealData_Mid_Model
+} from "@/middle_model/typhoon.ts";
 // 访问后台的接口
 import {
   loadStationDetailDataList,
@@ -80,7 +114,7 @@ import { IStats } from "mocha";
     station: Object
   }
 })
-export default class modal_detail extends Vue {
+export default class modal_detail extends mixins(MapRangeVuexMixin) {
   // 菜单列表
   menulist: Array<IMenu> = menulist;
   indexMenu: number = 0;
@@ -105,14 +139,20 @@ export default class modal_detail extends Vue {
   }
 
   // 读取海洋站的连续观测值
-  loadStationData(code: string, name: string, type: MenuType) {
+  loadStationData(
+    code: string,
+    name: string,
+    type: MenuType,
+    typhoon: MeteorologyRealData_Mid_Model
+  ) {
     var myself = this;
     var params = {
       code: code,
       name: name,
-      type: type
+      type: type,
+      num: typhoon.num
     };
-
+    console.log(typhoon);
     loadStationDetailDataList(params).then(res => {
       if (res.status === 200) {
         var data = res.data;
@@ -159,7 +199,15 @@ export default class modal_detail extends Vue {
     // console.log(val);
     //清空charts的数据
     this.clearData();
-    this.loadStationData(val.code, val.stationname, MenuType.real);
+    // TODO:[*] 19-05-24 同时获取vuex中的targetTyphoon
+    var typhoon_temp = myself.targetTyphoon;
+
+    this.loadStationData(
+      val.code,
+      val.stationname,
+      MenuType.real,
+      typhoon_temp
+    );
     this.showModal();
     // if (myself.name != null) {
     //   console.log("坚挺到code与name均发生变化");

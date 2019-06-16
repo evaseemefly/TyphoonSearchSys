@@ -73,6 +73,12 @@ vue.runtime.esm.js?2b0e:619
 [网上的同样错误的](https://github.com/ElemeFE/element/issues/14055)
 
 ---
+### 3 leaflet
+1. leaflet中引入echarts的散点图  
+使用超图的iclent中的`echartsLayer`  
+[超图-iclient](http://iclient.supermap.io/web/apis/leaflet.html)
+---
+
 
 ## 收集的一些资料
 
@@ -112,6 +118,21 @@ switch[case](arg)
 #### python 常用语法
 
 1. 异常处理
+
+#### python 环境配置
+1. 使用pycharm创建虚拟环境（by anaconda3）   
+
+2. 快速查看python所在路径  
+```python
+>>> import sys
+>>> print(sys.path)
+['', '/Users/drno/anaconda3/lib/python36.zip', '/Users/drno/anaconda3/lib/python3.6', '/Users/drno/anaconda3/lib/python3.6/lib-dynload', '/Users/drno/anaconda3/lib/python3.6/site-packages', '/Users/drno/anaconda3/lib/python3.6/site-packages/aeosa']
+```
+
+[Python学习之工具准备——Anaconda+Pycharm的安装过程](https://zhuanlan.zhihu.com/p/36389880)  
+
+---
+
 
 ### 前端集成及设计
 

@@ -1,0 +1,40 @@
+# docker当前对应的Compose版本
+# 注意此处不能改为0.5，并不是创建的image的版本
+version: '3'
+# 容器组
+# services:
+# # 镜像容器服务标识
+#   web:
+# # 指定构建镜像上下文的目录，“.”当前目录
+#     build: .
+#     volumes: 
+#       mongo_db
+#       #- .:/code
+# # 映射容器的端口
+#     ports:
+#       - "80:8000"
+#     links: 
+#       -db
+#   db:
+#     image:mongo
+
+services:
+  # db:
+  #   image: mongo
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+  web:
+    build: .
+    # 注意此处使用python3，python在dockerfile创建的环境中为python2.7！
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    ports:
+      # 容器内饰8000端口，对外也是8000端口
+      - "8000:8000"
+    links:
+      - db
+    # depends_on:
+    #   - db

@@ -16,8 +16,10 @@ export default new Router({
       path: '/',
       name: 'home',
       // component: Home
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/index/index_map.vue')
+      // 保留的之前的包含灾情的页面（暂时不使用，以后可用）
+      // component: () =>
+      //   import(/* webpackChunkName: "about" */ './views/index/index_map.vue')
+      component: () => import('./views/content/center_map_search.vue')
     },
     {
       path: '/about',
@@ -64,7 +66,9 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import(/* webpackChunkName: "about" */ './views/content/center_vue2map_clear.vue')
+        import(
+          /* webpackChunkName: "about" */ './views/content/center_vue2map_clear.vue'
+        )
     },
     {
       path: '/index',
@@ -98,16 +102,14 @@ export default new Router({
         import(/* webpackChunkName: "about" */ './views/index/index_map.vue')
     },
     {
-      path: "/search",
-      name: "search",
-      component: () =>
-        import("./views/content/center_map_search.vue")
+      path: '/search',
+      name: 'search',
+      component: () => import('./views/content/center_map_search.vue')
     },
     {
-      path: "/statistics",
-      name: "statistics",
-      component: () =>
-        import("./views/content/form_statistic/form_static.vue")
+      path: '/statistics',
+      name: 'statistics',
+      component: () => import('./views/content/form_statistic/form_static.vue')
     }
   ]
-});
+})

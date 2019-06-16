@@ -29,7 +29,8 @@ import MapRangeDataMixin from "../map_range/map_data_mixin"
  */
 @Component
 export default class MapCommonMixin extends mixins(MapRangeDataMixin) {
-    //初始化echarts
+    //初始化echarts——散点图
+    // TODO:[*] 19-05-22 散点图存在一个偏移
     initCharts(): void {
         var myself = this;
         if (myself.layer_scatter != null) {
@@ -37,7 +38,7 @@ export default class MapCommonMixin extends mixins(MapRangeDataMixin) {
         }
         // 使用leaflet-echarts的步骤：不需要修改leaflet代码的部分，只需要将leaflet创建好的map作为参数传入
         var mymap: any = this.$refs.basemap["mapObject"];
-        var option: any = {
+        var echartsOptions: any = {
             title: {
                 text: "潮位",
                 subtext: "潮位",
@@ -47,11 +48,13 @@ export default class MapCommonMixin extends mixins(MapRangeDataMixin) {
             tooltip: {
                 trigger: "item"
             },
+            coordinateSystem: "leaflet",
             series: [
                 {
                     name: "潮位",
                     type: "scatter",
                     coordinateSystem: "leaflet",
+                    // coordinateSystem: "geo",
                     // data: myself.convertData(myself.data_echarts),
                     // [-] 19-04-18 散点图中的data绑定为model
                     data: myself.data_scatter_station,
@@ -109,7 +112,13 @@ export default class MapCommonMixin extends mixins(MapRangeDataMixin) {
                 }
             ]
         };
-        var echarts_scatter = echartsLayer(option);
+        var options:any={
+            // 水印
+            attribution:'nmefc '
+        }
+        // echartsLayer可选择的options
+        // 参考：http://iclient.supermap.io/web/apis/leaflet.html
+        var echarts_scatter = echartsLayer(echartsOptions,options);
 
         myself.layer_scatter = echarts_scatter;
 

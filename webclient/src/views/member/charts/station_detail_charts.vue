@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- <p>{{mytest}}</p> -->
-    <div id="main"></div>
+    <div id="main_charts"></div>
   </div>
 </template>
 
@@ -52,7 +52,7 @@ export default class station_detail_charts extends Vue {
     this.disposeCharts();
     if (myself.mychart === null) {
     }
-    myself.mychart = echarts.init(document.getElementById("main"));
+    myself.mychart = echarts.init(document.getElementById("main_charts"));
 
     // this.values = [];
     // this.columns = [];
@@ -66,6 +66,7 @@ export default class station_detail_charts extends Vue {
       legend: {
         data: [myself.title]
       },
+
       xAxis: [
         {
           type: "category",
@@ -158,16 +159,16 @@ export default class station_detail_charts extends Vue {
   }
   // 下拉
   slideDown() {
-    $("#main").slideDown("slow");
+    $("#main_charts").slideDown("slow");
   }
   // 收起
   slideUp() {
-    $("#main").slideUp("slow");
+    $("#main_charts").slideUp("slow");
   }
 
   mounted() {
     // this.slideUp();
-    this.initCharts();
+    // this.initCharts();
   }
 
   @Watch("values")
@@ -219,7 +220,7 @@ export default class station_detail_charts extends Vue {
 </script>
 
 <style scoped>
-#main {
+#main_charts {
   height: 500px;
   width: 800px;
 }

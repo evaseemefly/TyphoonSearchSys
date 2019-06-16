@@ -14,13 +14,16 @@ from conf import setting
 def main():
     dir_path=setting.DIR_PATH
     file_name=setting.FILE_TARGET
-    mongoengine.connect(setting._MONGODB_NAME)
+    mongoengine.connect(setting._MONGODB_NAME,host=setting._MONGODB_HOST)
     # 测试
     # 写入测站数据
     # station=StationTideRealData(dir_path,file_name)
+
+    # 自动化录入测站数据
     station=StationRealData(dir_path)
-    # station.open()
     station.run()
+
+    # 自动化录入台风数据
     # typhoon=TyphoonRealData(dir_path)
     # typhoon.run()
     print('录入完成')

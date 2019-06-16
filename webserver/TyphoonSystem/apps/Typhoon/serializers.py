@@ -13,6 +13,7 @@ class PointSerializer(serializers.Serializer):
 class GeoTyphoonRealDataSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     date = serializers.DateTimeField()
+    num = serializers.CharField()
     bp = serializers.FloatField()
     wsm = serializers.FloatField()
     level = serializers.IntegerField()
@@ -94,7 +95,7 @@ class StationTideIncludeForecastMidModelSerializer(serializers.Serializer):
         暂时不使用，由 StationTideIncludeAllMidModelSerializer 替代
     '''
     station = StationTideDataModelSerializer()
-    forecast = TideRealMidModelSerializer()
+    forecast = TideAllMidModelSerializer()
 
 
 class StationTideIncludeAllMidModelSerializer(serializers.Serializer):
@@ -148,7 +149,7 @@ class StationTideDataFullModelSerializer(serializers.Serializer):
     #     潮汐调和常数
     harmonicconstant = serializers.CharField()
     #   更复杂的字段
-    realtidedata = RealtideDataSerializer(many=True)
+    # realtidedata = RealtideDataSerializer(many=True)
 
 
 

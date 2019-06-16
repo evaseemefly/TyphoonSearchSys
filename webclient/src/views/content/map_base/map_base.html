@@ -1,5 +1,5 @@
 
-  <l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
+<l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
     <l-tile-layer :url="url"></l-tile-layer>
     <!-- 台风路径 -->
     <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
@@ -58,7 +58,8 @@
           <div class="card-header">
             {{station.stationname}}
             <!-- TODO:[*] 19-04-24 此处的click事件不会触发，只会触发上面的l-marker中的click事件 -->
-            <button id="testclick" @click.stop="showModal">|查看</button>
+            <!-- <button id="testclick" @click.stop="showModal">|查看</button> -->
+            |点击查看
             <!-- <a @click.stop="showModal">|查看过程</a> -->
           </div>
           <div class="card-body">
@@ -95,4 +96,7 @@
       </l-icon>
       <!-- 准备注释掉，提取出来为一个子组件 暂时不提取为子组件-->
     </l-marker>
+    
   </l-map>
+
+  
