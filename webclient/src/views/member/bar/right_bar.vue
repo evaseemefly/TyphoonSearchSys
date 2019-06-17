@@ -20,7 +20,7 @@
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
-      > -->
+        >-->
         <el-submenu index="1">
           <template slot="title">
             <i class="el-icon-location"></i>
@@ -30,15 +30,15 @@
             <!-- <el-menu-item index="/vue2map" @click="is_show_condition_bar=!is_show_condition_bar">条件搜索</el-menu-item> -->
             <!-- <el-menu-item index="/vue2map">
               <router-link to="/vue2map">条件搜索</router-link>
-            </el-menu-item> -->
+            </el-menu-item>-->
             <el-menu-item index="/range">
-              <router-link to='/range'>范围搜索</router-link>
+              <router-link to="/range">范围搜索</router-link>
             </el-menu-item>
             <el-menu-item index="/search">
-              <router-link to='/search'>复杂条件搜索</router-link>
+              <router-link to="/search">复杂条件搜索</router-link>
             </el-menu-item>
             <el-menu-item index="/statistics">
-              <router-link to='/statistics'>历史测站数据查询</router-link>
+              <router-link to="/statistics">历史测站数据查询</router-link>
             </el-menu-item>
           </el-menu-item-group>
         </el-submenu>
@@ -85,8 +85,15 @@ export default class right_bar extends Vue {
 <style scoped>
 #all_left_bar {
   /* position: relative; */
-  order: -1;
-  flex: 1;
+  /* order: -1;
+  flex: 1; */
   /* display: none; */
+  width: 45px;
+  transition: 0.3s;
+  overflow: hidden;
+}
+#all_left_bar:hover {
+  width: 200px;
+  margin-right: 5px;
 }
 </style>

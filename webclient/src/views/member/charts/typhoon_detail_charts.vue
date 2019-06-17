@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="alert"
-    style="background:rgba(255,255,255,0.5)"
-  >
+  <div class="alert" style="background:rgba(255,255,255,0.5)">
     <div id="dataChart"></div>
   </div>
 </template>
@@ -22,6 +19,7 @@ import {
 } from "@/api/api.ts";
 import { MenuType } from "@/common/enum/menu.ts";
 // 历史台风查询中的台风charts
+
 export default {
   data() {
     return {
@@ -162,16 +160,6 @@ export default {
                 }
               }
             }
-            // label: {
-            //   normal: {
-            //     show: true
-            //   }
-            // }
-            // label: {
-            //   normal: {
-            //     show: true
-            //   }
-            // }
           },
           {
             name: "实测潮位",
@@ -222,14 +210,17 @@ export default {
         i++;
       } while (i < 97);
       return listDate;
-      // for (; i < 73; i++) {
-      //   var tempDate=startdate
-      //   tempDate.setTime(tempDate.setHours(tempDate.getHours()+i))
-      // }
+    },
+    setHeight() {
+      //动态设定chart's constainer高度,.65系数看着给的没那么精细，毕竟两个row的高度没那么好算，写死也听傻的还不如就这样，而且硬设高度alert设定的是文字，不是内容也不太好算
+      let body = document.body;
+      let height = body.clientHeight;
+      this.chartEle.style.height = Math.ceil(height * 0.65) + "px";
     }
   },
   mounted() {
     this.chartEle = document.getElementById("dataChart");
+    this.setHeight();
     this.chart = echarts.init(this.chartEle);
   }
 };
@@ -237,7 +228,9 @@ export default {
 
 <style>
 #dataChart {
-  height: 400px;
+  /* height: 0px;
+  padding-bottom: 79%; */
+
   /* background: rgba(49, 208, 55, 0.851); */
 }
 </style>

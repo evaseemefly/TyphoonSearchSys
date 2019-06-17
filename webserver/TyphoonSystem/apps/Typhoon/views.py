@@ -742,13 +742,15 @@ class GetAllTyphoonYear(APIView):
 class GetAllTyphoonCode(APIView):
     def get(self, request):
         year = request.GET.get("year")
-        start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
-        end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
-        query = GeoTyphoonRealData.objects().filter(date__gte=start_date).filter(date__lte=end_date).filter(
-            num__ne="0000")
-        # query = query.distinct('num')
-        query = query.values_list("code", "num")
-        return Response(query)
+        try:
+            start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+            end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+            query = GeoTyphoonRealData.objects().filter(date__gte=start_date).filter(date__lte=end_date).filter(
+                num__ne="0000")
+            query = query.values_list("code", "num")
+            return Response(query)
+        except Exception as e:
+            return Response([])
 
 
 # 时间筛选需要修改，不认小时分的
@@ -756,16 +758,18 @@ class GetAllObsStationCode(APIView):
     def get(self, request):
         year = request.GET.get("year")
         code = request.GET.get("code")
-        query = StationTideData.objects()
-        start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
-        end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
-        query = query.filter(typhoonnum=code)
-        query = query.filter(startdate__gte=start_date)
-        query = query.filter(startdate__lte=end_date)
-        result = query.distinct('code')
-        # jsonstr = StationTideDataFullModelSerializer(query,many=True).data
-        lst = list(result)
-        return Response(lst)
+        try:
+            start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+            end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+            query = StationTideData.objects()
+            query = query.filter(typhoonnum=code)
+            query = query.filter(startdate__gte=start_date)
+            query = query.filter(startdate__lte=end_date)
+            result = query.distinct('code')
+            lst = list(result)
+            return Response(lst)
+        except Exception as e:
+            return Response([])
 
 
 # 时间筛选需要修改，不认小时分的
@@ -775,15 +779,18 @@ class GetStationObserveData(APIView):
         year = request.GET.get("year")
         code = request.GET.get("code")
         typhoonnum = request.GET.get("typhoonnum")
-        query = StationTideData.objects()
-        start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
-        end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
-        query = query.filter(code=code)
-        query = query.filter(startdate__gte=start_date)
-        query = query.filter(startdate__lte=end_date)
-        query = query.filter(typhoonnum=typhoonnum)
-        jsonstr = StationTideDataFullModelSerializer(query, many=True).data
-        return Response(jsonstr)
+        try:
+            start_date = datetime.strptime(year + "-01-01 00:00:00", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+            end_date = datetime.strptime(year + "-12-31 11:59:59", "%Y-%m-%d %H:%M:%S").isoformat() + '.000+00:00'
+            query = StationTideData.objects()
+            query = query.filter(code=code)
+            query = query.filter(startdate__gte=start_date)
+            query = query.filter(startdate__lte=end_date)
+            query = query.filter(typhoonnum=typhoonnum)
+            jsonstr = StationTideDataFullModelSerializer(query, many=True).data
+            return Response(jsonstr)
+        except Exception as e:
+            return Response([])
 
 
 class GetRealDataMws(APIView):

@@ -1,8 +1,5 @@
 <template>
-  <div
-    style="width:1800px;"
-    class="mt-20 main"
-  >
+  <div style="width:100%;" class="mt-20 main">
     <div class="container-fluid main">
       <statisticSearch></statisticSearch>
       <staticDetail></staticDetail>
@@ -42,12 +39,12 @@
 <script>
 import Vue from "vue";
 import staticDetail from "./form_static_detail";
-import mapSingle from "@/views/member/map/map_single.vue"
+import mapSingle from "@/views/member/map/map_single.vue";
 import statisticSearch from "@/views/member/search/search_statistic_typhoon.vue";
 import { getRealDataMws, getRealDataMbp } from "@/api/api.js";
 
 export default {
-  data () {
+  data() {
     return {
       timerange: "",
       wms: "",
@@ -57,12 +54,12 @@ export default {
     };
   },
   computed: {
-    completeData () {
+    completeData() {
       return this.$store.state.map.completeData;
     }
   },
   methods: {
-    setTimeRange (data) {
+    setTimeRange(data) {
       if (!data) return;
       let dateStart = new Date(data);
       let dateEnd = new Date(data);
@@ -71,21 +68,18 @@ export default {
         1}-${dateStart.getDate()} 至 ${dateEnd.getFullYear()}-${dateEnd.getMonth() +
         1}-${dateEnd.getDate()}`;
     },
-    setMws (data) {
+    setMws(data) {
       var app = this;
       getRealDataMws(data.typhoonnum).then(res => {
-        // if (res.status == 200 && res.data && res.data.date && res.data.mws) {
         if (res.status == 200) {
           app.wms = res.data.mws;
-          // app.wmsdate=`${res.data.date.getFullYear()}`;
           app.wmsdate = res.data.date.replace("T", " ");
         }
       });
     },
-    setMbp (data) {
+    setMbp(data) {
       var app = this;
       getRealDataMbp(data.typhoonnum).then(res => {
-        // if (res.status == 200 && res.data && res.data.date && res.data.mbp) {
         if (res.status == 200) {
           app.mbp = res.data.mbp;
           app.mbpdate = res.data.date.replace("T", " ");
@@ -94,7 +88,7 @@ export default {
     }
   },
   watch: {
-    completeData (data) {
+    completeData(data) {
       this.setTimeRange(data.startdate);
       this.setMws(data);
       this.setMbp(data);
