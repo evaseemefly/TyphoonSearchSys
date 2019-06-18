@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="alert"
-    style="background:rgba(255,255,255,0.5)"
-  >
+  <div class="alert" style="background:rgba(255,255,255,0.5)">
     <div id="dataChart"></div>
   </div>
 </template>
@@ -95,7 +92,7 @@ export default {
         listReal.push(obj.val_real);
         //2014-06-16T00:00:00Z
         // console.log(fecha.parse(obj.occurred, "YYYY-MM-DD hh:mm"));
-        listDate.push(fecha.format(new Date(obj.occurred), "YY-MM-DD hh:mm"));
+        listDate.push(fecha.format(new Date(obj.occurred),"YY-MM-DD hh:mm"));
       });
       // this.initDateList(startDate);
       var option = {
@@ -160,13 +157,17 @@ export default {
                 areaStyle: {
                   color: "rgba(18, 147, 97, 0.851)"
                 }
+
+                // label: {
+                //   show: true //显示每个点的值
+                // }
+              }
+            },
+            label: {
+              normal: {
+                show: true
               }
             }
-            // label: {
-            //   normal: {
-            //     show: true
-            //   }
-            // }
             // label: {
             //   normal: {
             //     show: true

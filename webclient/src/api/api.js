@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const host = 'http://127.0.0.1:8000'
+// export const host = 'http://127.0.0.1:8000'
 // ʵ�ʲ����ַ���˿�
-// export const host = 'http://128.5.10.26:8000'
+export const host = 'http://128.5.10.26:8000'
 // ����docker����
 // export const host = 'http://127.0.0.1:32773'
 // export const host ="http://127.0.0.1:64807";
@@ -46,13 +46,13 @@ export const getDetail = (code, date) => {
   return axios.get(url)
 }
 
-export const getAllTyphoonCode=(year)=>{
-  let url = `${host}/gis/data/GetAllTyphoonCode/?year=${year}`;
+export const getAllTyphoonCode = year => {
+  let url = `${host}/gis/data/GetAllTyphoonCode/?year=${year}`
   return axios.get(url)
 }
 
 export const getAllTyphoonYear = () => {
-  let url = `${host}/gis/data/GetAllTyphoonYear`;
+  let url = `${host}/gis/data/GetAllTyphoonYear`
   return axios.get(url)
 }
 
@@ -66,13 +66,17 @@ export const getStationObserveData = (year, typhoonnum, code) => {
   return axios.get(url)
 }
 
-export const getRealDataMws = (num) => {
+export const getRealDataMws = num => {
   let url = `${host}/gis/data/GetRealDataMws?num=${num}`
   return axios.get(url)
 }
 
+<<<<<<< HEAD
 // 根据台风编号获取台风的最低气压（之前为最大气压）
+export const getRealDataMbp = num => {
+=======
 export const getRealDataMbp = (num) => {
+>>>>>>> parent of 622192c... - [x] 1.修改最大气压为最低气压
   let url = `${host}/gis/data/GetRealDataMbp?num=${num}`
   return axios.get(url)
 }
