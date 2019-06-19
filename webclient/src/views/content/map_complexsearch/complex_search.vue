@@ -72,12 +72,14 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
   // 根据code获取对应的台风时间列表
   loadSearchDateByCode(pageInfo) {
     let app = this;
-    getTimeByCode(pageInfo.code, pageInfo.from, pageInfo.to).then(res => {
-      if (res.status == 200) {
-        app.typhoonTimeData = res.data.data;
-        app.typhoonTimeDataTotal = res.data.total;
+    getTimeByCode(pageInfo.code, pageInfo.from, pageInfo.to, pageInfo.num).then(
+      res => {
+        if (res.status == 200) {
+          app.typhoonTimeData = res.data.data;
+          app.typhoonTimeDataTotal = res.data.total;
+        }
       }
-    });
+    );
   }
   loadSearchDetail(pageInfo) {
     let app = this;
@@ -160,7 +162,8 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     let pageInfo = {
       code: this.code,
       from: pageNumInfo.from,
-      to: pageNumInfo.to
+      to: pageNumInfo.to,
+      num: this.num
     };
     this.loadSearchDateByCode(pageInfo);
   }

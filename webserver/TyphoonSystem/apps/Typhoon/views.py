@@ -310,6 +310,7 @@ class StationDetailAllList(IStationDetail):
                         data_list.append(temp_tide)
         return data_list
 
+
 class StationDetailListView(APIView):
     '''
         根据传入的 台风 code 以及 海洋站 name
@@ -638,15 +639,17 @@ class GetTyphoonCodeByComplexCondition(BaseView):
 
 class GetTimeByCode(BaseView):
     '''
+        根据传入的code以及num获取指定的台风的时间列表并返回
     '''
 
     def get(self, request):
         code = request.GET.get('code')
         fromP = request.GET.get('from')
         toP = request.GET.get('to')
+        num = request.GET.get('num')
 
         query = GeoTyphoonRealData.objects()
-        query = query.filter(code=code)
+        query = query.filter(code=code, num=num)
 
         try:
             fromP = int(fromP)

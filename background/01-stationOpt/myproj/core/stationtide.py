@@ -922,8 +922,25 @@ class StationTidePresentRealData(StationTideBaseRealData):
         lat_index = ser[ser == 'LAT.'].index[0]
         lon_index = ser[ser == 'LON.'].index[0]
 
-        latlon = [float(ser.iloc[lat_index + 1][:-1]), float(ser.iloc[lon_index + 1][:-1])]
 
+        def convert2latlon(lat_str,lon_str):
+            '''
+                将传入的经纬度 (str) 转成 [float,float]
+            :param lat_str:
+            :param lon_str:
+            :return:
+            '''
+            lat_point_index=lat_str.index('.')
+            lon_point_index=lon_str.index('.')
+            lat_float=round(int(lat_str[lat_point_index+1:])/60,2)
+            lon_float=round(int(lon_str[lon_point_index+1:])/60,2)
+            lat_final=int(lat_str[:lat_point_index])+lat_float
+            lon_final=int(lon_str[:lon_point_index])+lon_float
+            return [lat_final,lon_final]
+
+        # TODO:[-] 19-06-19 修改读取经纬度的方式，小数点后为分，需要转换
+        # latlon = [float(ser.iloc[lat_index + 1][:-1]), float(ser.iloc[lon_index + 1][:-1])]
+        latlon=convert2latlon(ser.iloc[lat_index + 1][:-1],ser.iloc[lon_index + 1][:-1])
         # 注意此处需要加入判断是否包含台风num
         # tp:
         # code 为测站代码（英文缩小 eg：XISHA）

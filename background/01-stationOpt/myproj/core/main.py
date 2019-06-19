@@ -14,7 +14,8 @@ from conf import setting
 def main():
     dir_path=setting.DIR_PATH
     file_name=setting.FILE_TARGET
-    mongoengine.connect(setting._MONGODB_NAME,host=setting._MONGODB_HOST)
+    mongoengine.connect(setting._MONGODB_NAME,host=setting._MONGODB_HOST,port=setting._MONGODB_PORT)
+    # mongoengine.connect(setting._MONGODB_NAME)
     # 测试
     # 写入测站数据
     # station=StationTideRealData(dir_path,file_name)
