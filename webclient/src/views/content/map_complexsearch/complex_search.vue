@@ -18,7 +18,16 @@ import {
   getTimeByCode,
   getDetail
 } from "@/api/api.js";
-@Component({})
+
+// 子组件
+// 显示台风基础信息的子组件
+import rightBarDetail from "@/views/member/bar/rightBarDetail.vue";
+@Component({
+  components: {
+    //显示台风基础信息的子组件
+    rightBarDetail
+  }
+})
 export default class center_map_search extends mixins(ComplexSearchDataMixin) {
   //   根据条件搜索 查询获取当前搜索条件符合条件的的台风code list 以及长度
   loadSearchResult(pageInfo) {
@@ -105,7 +114,7 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     return codes;
   }
   // TODO:[*] 19-05-07 根据code修改当前的data中的code
-  clickCodeForTime(row: DataList_Mid_Model) {
+  clickCode4Time(row: DataList_Mid_Model) {
     /*
       点击后除了如下操作以外还需要：
           ——修改vuex中的当前选中台风对象

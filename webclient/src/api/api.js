@@ -66,6 +66,7 @@ export const getStationObserveData = (year, typhoonnum, code) => {
   return axios.get(url)
 }
 
+// 根据台风num获取该过程的最大风速
 export const getRealDataMws = num => {
   let url = `${host}/gis/data/GetRealDataMws?num=${num}`
   return axios.get(url)

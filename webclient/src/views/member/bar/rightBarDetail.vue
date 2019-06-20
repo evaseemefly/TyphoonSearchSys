@@ -1,8 +1,5 @@
 <template>
-  <div
-    id="typhoon_base"
-    class="col-md-3"
-  >
+  <div id="typhoon_base" class="col-md-3">
     <div class="typhoon-total-header">
       <div class="sort col-md-2">01</div>
       <div class="total-title col-md-10">台风基础信息</div>
@@ -10,12 +7,12 @@
     <div class="typhoon-total-body">
       <div class="area">
         <div class="base-info u-lof2">
-          <div class="title">台风编号-title</div>
-          <div class="data my-font-contrast">5622|inah-data</div>
+          <div class="title">{{typhoonName}}</div>
+          <div class="data my-font-contrast">{{typhoonNum}}|{{typhoonName}}</div>
         </div>
         <div class="base-info u-lof2">
           <div class="title">登录地点</div>
-          <div class="data my-font-contrast">陆丰</div>
+          <!-- <div class="data my-font-contrast">陆丰</div> -->
         </div>
       </div>
       <div class="area line">
@@ -25,11 +22,11 @@
         </div>
         <div class="base-info">
           <div class="title">最大风速</div>
-          <div class="data my-font-primary">38m/s</div>
+          <div class="data my-font-primary">{{ws}} m/s</div>
         </div>
         <div class="base-info">
           <div class="title">中心气压</div>
-          <div class="data my-font-primary">976h Pa</div>
+          <div class="data my-font-primary">{{bp}} hPa</div>
         </div>
       </div>
     </div>
@@ -39,9 +36,51 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
+// 前后端交互api
+import { getRealDataMws, getRealDataMbp } from "@/api/api.js";
 @Component({})
 // export default class SearchByStationMenu_Stations extends Vue {
-export default class rightBarDetail extends Vue {}
+export default class rightBarDetail extends Vue {
+  // 气压
+  bp: number = -999;
+  // 最大风速
+  ws: number = -999;
+  // 台风编号
+  @Prop(String) typhoonNum: string;
+
+  //台风名称
+  @Prop(String) typhoonName: string;
+
+  // 根据传入的台风num加载台风的最大风速及气压
+  loadTyphoonDetail(num: string): void {
+    var myself = this;
+    /*
+      请求的地址
+      gis/data/GetRealDataMws/?num=1407
+      gis/data/GetRealDataMbp/?num=1407
+    */
+    getRealDataMws(num).then(res => {
+      // this.ws = res;
+      // console.log(this.ws);
+      if (res.status === 200) {
+        myself.ws = res.data.mws;
+        console.log(myself.bp);
+      }
+    });
+    getRealDataMbp(num).then(res => {
+      if (res.status === 200) {
+        myself.bp = res.data.mbp;
+        console.log(myself.bp);
+      }
+    });
+  }
+
+  @Watch("typhoonNum")
+  onTyNum(val) {
+    this.loadTyphoonDetail(val);
+    // console.log(val);
+  }
+}
 </script>
 
 <style scoped>
