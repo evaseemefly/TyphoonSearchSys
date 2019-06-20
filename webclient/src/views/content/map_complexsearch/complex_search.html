@@ -39,7 +39,7 @@
                 <div class="col-sm-3 smdiv">
                   <label for="inputAddress">台风编号</label>
                 </div>
-                <input class="form-control col-md-7" v-model="num" />
+                <input class="form-control col-md-7" v-model="searchNum" />
               </div>
             </div>
 
@@ -90,7 +90,7 @@
                 :key="index"
                 @click="clickCodeForTime(item)"
               >
-                {{ item.code }}|{{ item.year }}
+                {{ item.code }}|{{ item.year }}|{{item.num}}
               </li>
             </ul>
             <el-pagination
