@@ -16,6 +16,7 @@ import { IStation } from "@/interface/map/map.ts";
 // 底图子组件
 import MapBase from "@/views/content/map_base/map_base.vue";
 import ComplexSearch from "@/views/content/map_complexsearch/complex_search.vue";
+
 // 右侧的灾害详情菜单子组件
 import TextForm from "@/views/member/form/text_form.vue";
 // 引入modal组件

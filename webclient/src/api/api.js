@@ -36,8 +36,8 @@ export const getTyphoonCodeByComplexCondition = (
   return axios.get(url)
 }
 
-export const getTimeByCode = (code, from, to) => {
-  let url = `${host}/gis/filter/GetTimeByCode/?code=${code}&from=${from}&to=${to}`
+export const getTimeByCode = (code, from, to, num) => {
+  let url = `${host}/gis/filter/GetTimeByCode/?code=${code}&from=${from}&to=${to}&num=${num}`
   return axios.get(url)
 }
 
@@ -46,13 +46,13 @@ export const getDetail = (code, date) => {
   return axios.get(url)
 }
 
-export const getAllTyphoonCode=(year)=>{
-  let url = `${host}/gis/data/GetAllTyphoonCode/?year=${year}`;
+export const getAllTyphoonCode = year => {
+  let url = `${host}/gis/data/GetAllTyphoonCode/?year=${year}`
   return axios.get(url)
 }
 
 export const getAllTyphoonYear = () => {
-  let url = `${host}/gis/data/GetAllTyphoonYear`;
+  let url = `${host}/gis/data/GetAllTyphoonYear`
   return axios.get(url)
 }
 
@@ -66,13 +66,14 @@ export const getStationObserveData = (year, typhoonnum, code) => {
   return axios.get(url)
 }
 
-export const getRealDataMws = (num) => {
+// 根据台风num获取该过程的最大风速
+export const getRealDataMws = num => {
   let url = `${host}/gis/data/GetRealDataMws?num=${num}`
   return axios.get(url)
 }
 
 // 根据台风编号获取台风的最低气压（之前为最大气压）
-export const getRealDataMbp = (num) => {
+export const getRealDataMbp = num => {
   let url = `${host}/gis/data/GetRealDataMbp?num=${num}`
   return axios.get(url)
 }

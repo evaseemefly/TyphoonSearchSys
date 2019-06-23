@@ -18,7 +18,16 @@ import {
   getTimeByCode,
   getDetail
 } from "@/api/api.js";
-@Component({})
+
+// 子组件
+// 显示台风基础信息的子组件
+import rightBarDetail from "@/views/member/bar/rightBarDetail.vue";
+@Component({
+  components: {
+    //显示台风基础信息的子组件
+    rightBarDetail
+  }
+})
 export default class center_map_search extends mixins(ComplexSearchDataMixin) {
   //   根据条件搜索 查询获取当前搜索条件符合条件的的台风code list 以及长度
   loadSearchResult(pageInfo) {
@@ -46,11 +55,13 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     if (pageInfo.from !== undefined) from = pageInfo.from;
     if (pageInfo.to !== undefined) to = pageInfo.to;
 
+    // 根据复杂条件搜索框中的信息 加载 左下的 台风列表
     getTyphoonCodeByComplexCondition(
       this.level,
       this.wsm,
       this.bp,
-      this.num,
+      // TODO:[*] 19-06-20 此处的num应为复杂搜索框中的num（searchNum）
+      this.searchNum,
       start_str,
       end_str,
       from,
@@ -72,12 +83,14 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
   // 根据code获取对应的台风时间列表
   loadSearchDateByCode(pageInfo) {
     let app = this;
-    getTimeByCode(pageInfo.code, pageInfo.from, pageInfo.to).then(res => {
-      if (res.status == 200) {
-        app.typhoonTimeData = res.data.data;
-        app.typhoonTimeDataTotal = res.data.total;
+    getTimeByCode(pageInfo.code, pageInfo.from, pageInfo.to, pageInfo.num).then(
+      res => {
+        if (res.status == 200) {
+          app.typhoonTimeData = res.data.data;
+          app.typhoonTimeDataTotal = res.data.total;
+        }
       }
-    });
+    );
   }
   loadSearchDetail(pageInfo) {
     let app = this;
@@ -101,7 +114,7 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     return codes;
   }
   // TODO:[*] 19-05-07 根据code修改当前的data中的code
-  clickCodeForTime(row: DataList_Mid_Model) {
+  clickCode4Time(row: DataList_Mid_Model) {
     /*
       点击后除了如下操作以外还需要：
           ——修改vuex中的当前选中台风对象
@@ -111,6 +124,7 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     this.code = row.code;
     //调用set方法写入修改vuex的typhoon
     this.typhoon = row;
+    this.num = row.num;
     this.setTimeData(row);
     this.isDateShow = true;
     this.isDetailShow = false;
@@ -155,13 +169,17 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     let result = this.countPageNum(pageNum, this.typhoonCodePageSize);
     this.loadSearchResult(result);
   }
+  // 指定台风的 时间分页查询
   typhoonTimeDataPageChange(pageNum) {
     let pageNumInfo = this.countPageNum(pageNum, this.typhoonTimeDataPageSize);
     let pageInfo = {
       code: this.code,
       from: pageNumInfo.from,
-      to: pageNumInfo.to
+      to: pageNumInfo.to,
+      // TODO:[*] 19-06-20 解决点击了左下列表后，会自动修改左上复杂查询div中的num
+      num: this.searchNum === "" ? this.num : this.searchNum
     };
+    // 根据信息加载对应的台风时间列表（右侧的指定台风的时间列表）
     this.loadSearchDateByCode(pageInfo);
   }
   typhoonDetailPageChange(pageNum) {

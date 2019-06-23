@@ -40,11 +40,8 @@ import {
   getAllObsStation,
   getStationObserveData
 } from "@/api/api.js";
-import {
-  loadStationDetailDataList,
-  ITyphoonParams4Station
-} from "@/api/api.ts";
-import { MenuType } from "@/common/enum/menu.ts";
+import { loadStationDetailDataList,ITyphoonParams4Station } from "@/api/api.ts";
+import { MenuType } from '@/common/enum/menu.ts'
 export default {
   data() {
     return {
@@ -140,16 +137,16 @@ export default {
           }
         }
       });
-      // var myself=this;
-      // let pars:ITyphoonParams4Station={
-      //   code:myself.numSelected,
-      //   name:myself.stationSelected,
-      //   type:MenuType.all,
-      //   num:myself.numSelected
-      // }
-      // loadStationDetailDataList(pars).then(res => {
-      //   console.log(res);
-      // });
+      var myself=this;
+      let pars:ITyphoonParams4Station={
+        code:myself.numSelected,
+        name:myself.stationSelected,
+        type:MenuType.all,
+        num:myself.numSelected
+      }
+      loadStationDetailDataList(pars).then(res => {
+        console.log(res);
+      });
     }
   },
   watch: {
@@ -170,9 +167,8 @@ export default {
     },
     stationSelected(res) {
       this.$store.state.map.searchStationName = res;
-
+      
       // TODO:[*] 19-06-13 加载echart的数据不在此组件中实现，改为在echart的子组件中加载
-      // 注意修改vuex中的completeData应该在选中台风编号时就要修改，而不是在选择测站才触发
       this.setChart();
     }
   },

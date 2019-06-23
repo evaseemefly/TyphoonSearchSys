@@ -167,3 +167,5 @@ _MONGODB_DATABASE_HOST = \
 
 # mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
 mongoengine.connect(_MONGODB_NAME)
+# 线上配置
+# mongoengine.connect('typhoon',host="db")

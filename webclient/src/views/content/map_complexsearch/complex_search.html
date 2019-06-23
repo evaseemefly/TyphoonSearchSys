@@ -39,7 +39,7 @@
                 <div class="col-sm-3 smdiv">
                   <label for="inputAddress">台风编号</label>
                 </div>
-                <input class="form-control col-md-7" v-model="num" />
+                <input class="form-control col-md-7" v-model="searchNum" />
               </div>
             </div>
 
@@ -88,9 +88,9 @@
                 class="list-group-item list-my-group-item"
                 v-for="(item,index) in typhoonCodeList"
                 :key="index"
-                @click="clickCodeForTime(item)"
+                @click="clickCode4Time(item)"
               >
-                {{ item.code }}|{{ item.year }}
+                {{ item.code }}|{{ item.year }}|{{item.num}}
               </li>
             </ul>
             <el-pagination
@@ -102,7 +102,14 @@
             ></el-pagination>
           </div>
         </div>
+        {% comment %} 左侧下下侧台风气象基础信息框 {% endcomment %}
+        <div class="card mt10">
+        <rightBarDetail
+        :typhoonNum="num"
+        :typhoonName="code"></rightBarDetail>
+        </div>
       </div>
+      
       <transition name="fade">
         <div v-show="isDateShow" class="col-md-6">
           <!-- 右侧上侧对应台风时间列表 -->
@@ -137,7 +144,7 @@
               ></el-pagination>
             </div>
           </div>
-          <!-- 左侧下侧测站观测值 -->
+          <!-- 右侧下侧测站观测值 -->
           <div class="card mt10" v-show="isDetailShow">
             <!-- <div class="card-body card-my-body"></div> -->
             <div class="card-header card-my-header">观测数据</div>
