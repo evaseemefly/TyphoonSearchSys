@@ -26,6 +26,10 @@ import fecha from "fecha";
     columns: Array,
     // values
     values: Array,
+    // 实测值数组
+    valuesReal: Array,
+    // 预报值数组
+    valuesForecast: Array,
     factor: String
   }
 })
@@ -37,6 +41,10 @@ export default class station_detail_charts extends Vue {
   columns: any;
   // values
   values: any;
+  // 实测值数组
+  valuesReal: Array<number>;
+  // 预报值数组
+  valuesForecast: Array<number>;
   factor: string;
   // 销毁echarts
   disposeCharts() {
@@ -64,9 +72,18 @@ export default class station_detail_charts extends Vue {
         show: true
       },
       legend: {
-        data: [myself.title]
+        data: ["天文潮位", "实测潮位", "风暴增水"],
+        textStyle: {
+          color: "rgba(238, 238, 16, 0.92)"
+        }
       },
 
+      grid: {
+        left: "3%",
+        right: "4%",
+        bottom: "3%",
+        containLabel: true
+      },
       xAxis: [
         {
           type: "category",
@@ -90,7 +107,7 @@ export default class station_detail_charts extends Vue {
           //   return min;
           // },
           type: "value",
-          scale: myself.factor == "bp",
+          scale: true,
           axisLabel: {
             //					interval: 0,
             textStyle: {
@@ -104,7 +121,7 @@ export default class station_detail_charts extends Vue {
       ],
       series: [
         {
-          name: myself.title, //需要与legend中的data相同
+          name: "天文潮位", //需要与legend中的data相同
           type: "line",
           smooth: true, //不是折线，是曲线
           itemStyle: {
@@ -119,19 +136,79 @@ export default class station_detail_charts extends Vue {
               //自定义折线下区域的颜色
               areaStyle: {
                 color: "rgb(56, 196, 147)"
-              },
-
-              label: {
-                show: true //显示每个点的值
               }
+
+              // label: {
+              //   show: true //显示每个点的值
+              // }
             }
           }, //向下填充区域
-          data: myself.value2format,
-          label: {
+          data: myself.forecast2format
+          // label: {
+          //   normal: {
+          //     show: true
+          //   }
+          // }
+        },
+        {
+          name: "实测潮位", //需要与legend中的data相同
+          type: "line",
+          smooth: true, //不是折线，是曲线
+          itemStyle: {
             normal: {
-              show: true
+              //设置折点的颜色
+              color: "rgb(189, 196, 56)",
+              //注意lineStyle需要卸载normal里面
+              //自定义折线颜色
+              lineStyle: {
+                color: "rgba(54, 162, 220, 0.981)"
+              },
+              //自定义折线下区域的颜色
+              areaStyle: {
+                color: "rgba(96, 240, 219, 0.708)"
+              }
+
+              // label: {
+              //   show: true //显示每个点的值
+              // }
             }
-          }
+          }, //向下填充区域
+          data: myself.real2format
+          // label: {
+          //   normal: {
+          //     show: true
+          //   }
+          // }
+        },
+        {
+          name: "风暴增水", //需要与legend中的data相同
+          type: "line",
+          smooth: true, //不是折线，是曲线
+          itemStyle: {
+            normal: {
+              //设置折点的颜色
+              color: "rgba(225, 110, 61, 0.735)",
+              //注意lineStyle需要卸载normal里面
+              //自定义折线颜色
+              lineStyle: {
+                color: "rgba(223, 48, 17, 0.735)"
+              },
+              //自定义折线下区域的颜色
+              areaStyle: {
+                color: "rgba(189, 94, 11, 0.735)"
+              }
+
+              // label: {
+              //   show: true //显示每个点的值
+              // }
+            }
+          }, //向下填充区域
+          data: myself.difference2format
+          // label: {
+          //   normal: {
+          //     show: true
+          //   }
+          // }
         }
       ]
     };
@@ -171,11 +248,12 @@ export default class station_detail_charts extends Vue {
     // this.initCharts();
   }
 
-  @Watch("values")
+  @Watch("columns")
   onValues(val) {
     // 每次当values发生变化时，判断当前的values长度是否大于0，大于零则加载echarts
     var myself = this;
-    if (myself.values.length > 0) {
+    this.disposeCharts();
+    if (myself.columns.length > 0) {
       this.initCharts();
     }
     // console.log("发生变化");
@@ -205,6 +283,47 @@ export default class station_detail_charts extends Vue {
     return vals_format;
   }
 
+  get real2format() {
+    var myself = this;
+    var vals_format = [];
+    myself.valuesReal.forEach(obj => {
+      if (obj === -9999) {
+        vals_format.push(null);
+      } else {
+        vals_format.push(obj);
+      }
+    });
+    return vals_format;
+  }
+
+  get forecast2format() {
+    var myself = this;
+    var vals_format = [];
+    myself.valuesForecast.forEach(obj => {
+      if (obj === -9999) {
+        vals_format.push(null);
+      } else {
+        vals_format.push(obj);
+      }
+    });
+    return vals_format;
+  }
+
+  get difference2format() {
+    var myself = this;
+    var vals_format = [];
+    for (var i = 0; i < myself.valuesForecast.length; i++) {
+      if (
+        myself.valuesReal[i] === -9999 ||
+        myself.valuesForecast[i] === -9999
+      ) {
+        vals_format.push(null);
+      } else {
+        vals_format.push(myself.valuesReal[i] - myself.valuesForecast[i]);
+      }
+    }
+    return vals_format;
+  }
   // 对于每一个columns由于是date类型，所以只保留 mm-dd HH-mm即可
 }
 // watch: {
@@ -223,5 +342,6 @@ export default class station_detail_charts extends Vue {
 #main_charts {
   height: 500px;
   width: 800px;
+  /* background: rgba(238, 238, 16, 0.92) */
 }
 </style>

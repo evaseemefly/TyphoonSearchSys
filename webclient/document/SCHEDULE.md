@@ -192,3 +192,10 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 - [x] 1.最左侧导航栏自动伸缩
 - [x] 2.历史测站对比页面 option 中加入未选中，及相应级联操作
 - [x] 3.历史测站页面高度填充满，echart 高度自适应
+
+---
+
+19-06-25
+
+- [x] 1.所有的 echarts 均加载三条线（real，forecast，与差值）
+- [x] 2.modal 顶部加入测站对应的一些相关信息

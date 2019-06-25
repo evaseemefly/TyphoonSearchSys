@@ -1,5 +1,8 @@
 <template>
-  <div class="alert" style="background:rgba(255,255,255,0.5)">
+  <div
+    class="alert"
+    style="background:rgba(255,255,255,0.5)"
+  >
     <div id="dataChart"></div>
   </div>
 </template>
@@ -98,7 +101,7 @@ export default {
       // this.initDateList(startDate);
       var option = {
         legend: {
-          data: ["天文潮位", "实测潮位"]
+          data: ["天文潮", "实测潮位"]
         },
         grid: {
           left: "3%",

@@ -1,7 +1,8 @@
 import {
   IStation,
   IEchartsScatterData,
-  IStationObservationTide
+  IStationObservationTide,
+  IForecast
 } from '@/interface/map/map.ts'
 // 台风 middel model
 import { TyphoonCircleStatus } from '@/common/Status.ts'
@@ -55,9 +56,9 @@ class MeteorologyRealData_Mid_Model {
 					<div class="row">
 						<div class="col-md-4">时间</div>
 						<div class="col-md-8">${fecha.format(
-      new Date(myself.date),
-      'YYYY-MM-DD HH:mm'
-    )}</div>
+              new Date(myself.date),
+              'YYYY-MM-DD HH:mm'
+            )}</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4">中心位置</div>
@@ -214,6 +215,24 @@ class StationObservationTide_Mid_Model implements IStationObservationTide {
     this.occurred = occurred
   }
 }
+/**
+ * 测站的潮位观测对象（含预报与实测值）
+ *
+ * @class StationAllObservationTide
+ * @implements {IForecast}
+ */
+class StationAllObservationTide implements IForecast {
+  // 预报潮位
+  public val_forecast: number
+  // 实测潮位
+  public val_real: number
+  public occurred: Date
+  constructor(real, forecast, occurred) {
+    this.val_forecast = forecast
+    this.val_real = real
+    this.occurred = occurred
+  }
+}
 
 export {
   TyphoonData_Mid_Model,
@@ -221,5 +240,6 @@ export {
   TideRealData_Mid_Model,
   StationData_Mid_Model,
   EchartsScatterStationData_Mid_Model,
-  StationObservationTide_Mid_Model
+  StationObservationTide_Mid_Model,
+  StationAllObservationTide
 }

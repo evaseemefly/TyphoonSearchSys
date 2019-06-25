@@ -29,7 +29,7 @@
               id="mytabs"
               class="nav nav-tabs"
             >
-              <li
+              <!-- <li
                 v-for="(item,index) in menulist"
                 :key="index"
                 role="presentation"
@@ -39,15 +39,24 @@
                   href="#"
                   @click="active(index)"
                 >{{item.name}}</a>
-              </li>
+              </li> -->
             </ul>
+            <DetailTable></DetailTable>
             <!-- <div
               id="main"
               style=""
             ></div>-->
-            <stationChart
+            <!-- <stationChart
               :columns="childColumns"
               :values="childVals"
+              :title="childTitle"
+              :factor="childFactor"
+              ref="stationObs"
+            ></stationChart> -->
+            <stationChart
+              :columns="childColumns"
+              :valuesReal="childValsReal"
+              :valuesForecast="childValsForecast"
               :title="childTitle"
               :factor="childFactor"
               ref="stationObs"
@@ -84,6 +93,7 @@ import { IStation } from "@/interface/map/map.ts";
 import { MenuType } from "@/common/enum/menu.ts";
 // 引入子组件
 import stationChart from "@/views/member/charts/station_detail_charts.vue";
+import DetailTable from "@/views/member/modal/detail_tab.vue";
 
 import MapRangeVuexMixin from "@/views/content/map_range/map_vuex_mixin";
 
@@ -92,6 +102,7 @@ import "bootstrap";
 // 引入中间变量
 import {
   StationObservationTide_Mid_Model,
+  StationAllObservationTide,
   MeteorologyRealData_Mid_Model
 } from "@/middle_model/typhoon.ts";
 // 访问后台的接口
@@ -103,7 +114,8 @@ import { IStats } from "mocha";
 
 @Component({
   components: {
-    stationChart
+    stationChart,
+    DetailTable
   },
   props: {
     // 台风code
@@ -119,8 +131,12 @@ export default class modal_detail extends mixins(MapRangeVuexMixin) {
   menulist: Array<IMenu> = menulist;
   indexMenu: number = 0;
   // 海洋站的潮位观测数据
-  dataObservation: Array<StationObservationTide_Mid_Model> = [];
+  dataObservation: Array<StationAllObservationTide> = [];
   childVals: Array<number> = [];
+  // 子echart的实测数组
+  childValsReal: Array<number> = [];
+  // 子echart的预报数组
+  childValsForecast: Array<number> = [];
   childColumns: Array<any> = [];
   childFactor: any = null;
   childTitle: string = "测试测试";
@@ -152,18 +168,28 @@ export default class modal_detail extends mixins(MapRangeVuexMixin) {
       type: type,
       num: typhoon.num
     };
-    console.log(typhoon);
+    this.childValsReal = [];
+    this.childValsForecast = [];
+    // console.log(typhoon);
     loadStationDetailDataList(params).then(res => {
       if (res.status === 200) {
         var data = res.data;
         data.forEach(obj => {
-          // TODO:[*] 19-04-21 由于mongo中的时间是时区为0，此处进行了一个加8处理
-          var temp = new StationObservationTide_Mid_Model(
-            obj.val,
+          // TODO:[-] 19-04-21 由于mongo中的时间是时区为0，此处进行了一个加8处理
+          // var temp = new StationObservationTide_Mid_Model(
+          //   obj.val,
+          //   new Date(obj.occurred)
+          // );
+          // TODO :[*] 19-06-25 此处修改创建的为包含 预报 与 实测 的对象
+          var temp = new StationAllObservationTide(
+            obj.val_real,
+            obj.val_forecast,
             new Date(obj.occurred)
           );
           myself.dataObservation.push(temp);
-          myself.childVals.push(temp.val);
+          // myself.childVals.push(temp.val);
+          myself.childValsReal.push(temp.val_real);
+          myself.childValsForecast.push(temp.val_forecast);
           myself.childColumns.push(temp.occurred);
         });
         // console.log(myself.dataObservation);
@@ -202,12 +228,7 @@ export default class modal_detail extends mixins(MapRangeVuexMixin) {
     // TODO:[*] 19-05-24 同时获取vuex中的targetTyphoon
     var typhoon_temp = myself.targetTyphoon;
 
-    this.loadStationData(
-      val.code,
-      val.stationname,
-      MenuType.real,
-      typhoon_temp
-    );
+    this.loadStationData(val.code, val.stationname, MenuType.all, typhoon_temp);
     this.showModal();
     // if (myself.name != null) {
     //   console.log("坚挺到code与name均发生变化");
