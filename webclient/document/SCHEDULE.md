@@ -199,3 +199,9 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 
 - [x] 1.所有的 echarts 均加载三条线（real，forecast，与差值）
 - [x] 2.modal 顶部加入测站对应的一些相关信息
+
+---
+
+19-06-26
+
+- [x] 1.完成加载海洋站统计信息（最大增水及对应时间）的前端相关内容

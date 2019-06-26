@@ -4,7 +4,7 @@
       <div class="panel panel-default boxshadow">
         <div class="panel-heading">潮位站信息</div>
         <div class="panel-body table-responsive ">
-          <table class=" table table-striped table-hover table-bordered">
+          <table class=" table table-striped table-hover">
             <thead>
               <th>测站名称</th>
               <th>风暴增水极值</th>
@@ -15,7 +15,7 @@
               <tr>
                 <td>台州</td>
                 <td>3.5</td>
-                <td class="my-th-normal">2014-07-21 13：00</td>
+                <td>2014-07-21 13：00</td>
                 <!-- <td class="my-th-warm">{{ton}}</td> -->
               </tr>
             </tbody>
@@ -35,6 +35,10 @@ export default {
 <style scoped>
 .my-th-normal {
   color: #4154de;
+}
+.table {
+  border: 0px;
+  color: aliceblue;
 }
 .table th {
   color: blanchedalmond;

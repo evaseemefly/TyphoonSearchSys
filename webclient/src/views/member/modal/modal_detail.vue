@@ -25,9 +25,10 @@
         <div class="modal-body my-content-primary">
           <div>
             <!-- <bbxDetailTable :bid="bid"></bbxDetailTable> -->
+            <!-- 暂时去掉nav-tabs class，顶部会多出一条线 -->
             <ul
               id="mytabs"
-              class="nav nav-tabs"
+              class="nav"
             >
               <!-- <li
                 v-for="(item,index) in menulist"
@@ -108,6 +109,7 @@ import {
 // 访问后台的接口
 import {
   loadStationDetailDataList,
+  loadStationStatistics,
   ITyphoonParams4Station
 } from "@/api/api.ts";
 import { IStats } from "mocha";
@@ -197,6 +199,9 @@ export default class modal_detail extends mixins(MapRangeVuexMixin) {
       // console.log(res);
     });
   }
+
+  // 读取海洋站的主要统计数据（含风暴增水极值以及对应的时间）
+  loadStationStatistics(num: number, name: string) {}
   created() {
     // console.log("created");
   }

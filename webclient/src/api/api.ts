@@ -129,6 +129,18 @@ const loadStationDetailDataList = (par: ITyphoonParams4Station) => {
     params: par
   })
 }
+export /**
+ * 根据 台风（code）以及 测站名称（station name） 查询风暴增水极值及对应时间
+ *
+ * @param {ITyphoonParams4Station} par
+ * @returns
+ */
+const loadStationStatistics = (par: ITyphoonParams4Station) => {
+  let stationStatisticsUrl = `${host}/gis/data/stationstatistics/`
+  return axios.get(stationStatisticsUrl, {
+    params: par
+  })
+}
 
 export /**
  * 根据台风（code）获取对应的灾情描述文本内容
