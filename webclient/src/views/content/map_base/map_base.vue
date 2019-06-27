@@ -192,6 +192,27 @@ export default class map_base extends mixins(
     return [40, 10 + val * 5];
   }
 
+  zoomUp(val): void {
+    console.log(val);
+
+    if (val > this.zoom_index) {
+      console.log("正在放大"+val);
+      if (val > 6) {
+        this.zoom_mark_minifier = false;
+      }
+    }
+    if (val < this.zoom_index) {
+      console.log("正在缩小"+val);
+      if (val <= 6) {
+        // 缩放到6级后只加载测站的风暴增水不再显示名字
+        this.zoom_mark_minifier = true;
+      }
+    }
+    this.zoom_index = val;
+  }
+  zoomChange(val): void {
+    console.log("缩放级别改编");
+  }
   //  19-03-21 鼠标在地图上点击后，加载marker
   createMarker(event: any): void {
     // 鼠标点击地图上后，向该位置加入一个marker

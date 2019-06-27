@@ -210,3 +210,4 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 
 - [x] 1.完成加载海洋站统计信息（最大增水及对应时间）的前端剩余内容
 - [x] 2.完成加载海洋站统计信息（最大增水及对应时间）的后端api(StationStatisticsDataView)
+- [x] 3.争取今日完成，缩小到一定级别后测站的风暴增水只显示数值（是个蛋疼的需求）

@@ -173,6 +173,14 @@
   width: 80px;
 }
 
+/* 只显示风暴增水的div宽度 */
+.minifier {
+  width: 80px !important;
+}
+/* #station_form .table-minifier tr td {
+  width: 50px;
+} */
+
 #station_form .Green {
   padding-top: 2px !important;
   padding-bottom: 2px !important;

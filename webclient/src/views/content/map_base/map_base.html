@@ -1,5 +1,8 @@
 
-<l-map ref="basemap" :zoom="zoom" :center="center" @click="createMarker">
+<l-map ref="basemap" :zoom="zoom" :center="center" 
+@click="createMarker"
+@update:zoom="zoomUp"
+@update:zoomlevelschange="zoomChange">
     <l-tile-layer :url="url"></l-tile-layer>
     <!-- 台风路径 -->
     <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
@@ -30,14 +33,15 @@
     >
       <!-- TODO:[*] 19-04-23 注意此处将click从父级的l-marker中放在了子级中的l-icon中了——扔不行 -->
       <l-icon :options="icon_div_station_option">
-        <div id="station_form" v-show="index!=select_station_index" class="fade_enter">
-          <table class="table table-bordered" border="1">
+        <div id="station_form" v-show="index!=select_station_index" 
+        class="fade_enter" :class="zoom_mark_minifier ? 'minifier ' : ''">
+          <table v-show="!zoom_mark_minifier" class="table table-bordered"  border="1">
             <tr>
               <td
                 :class="[getStationAlarmClass(station),'station_name']"
                 rowspan="1"
               >{{station.stationname}}</td>
-              <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
+              <td :class="getStationAlarmClass(station)">{{station.tide_forecast-station.tide}}</td>
               <!-- <td class="surge title">警戒</td>
               <td class="surge">{{station.jw}}</td>-->
             </tr>
@@ -46,6 +50,12 @@
               <td class="tide">潮位</td>
               <td :class="getStationAlarmClass(station)">{{station.tide}}</td>
             </tr>-->
+          </table>
+          <!-- 缩小至6级以内只显示风暴增水，将宽度设置为50px（固定值） -->
+          <table v-show="zoom_mark_minifier" class="table table-bordered " border="1">
+            <tr>
+              <td :class="getStationAlarmClass(station)">{{station.tide_forecast-station.tide}}</td>
+            </tr>
           </table>
         </div>
         <!-- <div id="station_detail" v-show="index==select_station_index" class="card box-shadow"> -->
