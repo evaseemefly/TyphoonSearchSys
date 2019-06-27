@@ -27,7 +27,9 @@ urlpatterns = [
     url(r'data/GetAllObsStationCode/',GetAllObsStationCode.as_view()),
     url(r'data/GetStationObserveData/',GetStationObserveData.as_view()),
     url(r'data/GetRealDataMws/',GetRealDataMws.as_view()),
-    url(r'data/GetRealDataMbp/',GetRealDataMbp.as_view())
+    url(r'data/GetRealDataMbp/',GetRealDataMbp.as_view()),
+    # 根据 台风（code）以及 测站名称（station name） 查询风暴增水极值及对应时间
+    url(r'^data/stationstatistics/$',StationStatisticsDataView.as_view())
     # path("getAllData",views.getAllData),
     # path("getAreaTyphoonList", views.getAreaTyphoonList),
 ]

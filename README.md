@@ -18,13 +18,14 @@
 进度及问题：
 [进度](/webclient/document/SCHEDULE.md)
 [相关问题收集](/webclient/document/ISSUE.md)
-[规约](/PROMISE.md)  
+[规约](/PROMISE.md)
 
---- 
+---
 
 ### 项目界面大致如下：
 
-- v0.5版本
+- v0.5 版本
+
 1. 范围搜索，根据点选的位置，以及框选圆的半径获取该范围内的台风列表
    ![avatar](/document/img/20190514171719.png)
 2. 根据复杂查询条件获取匹配条件的台风列表
@@ -36,12 +37,18 @@
    ![avatar](/document/img/20190515105544.png)
 
 5. 点击指定时刻的台风加载指定时刻对应的测站数据
-  ![avatar](/document/img/20190522220708.png)
+   ![avatar](/document/img/20190522220708.png)
 
 6. 历史潮位数据查询页面
- ![avatar](document/img/WX20190620-213846.png)
+   ![avatar](document/img/WX20190620-213846.png)
 
- ---
- - v 1.0 版本
- 1. 地图页面加入了台风详情信息框（配色需再与当前配色统一）
- ![avatar](document/img/WX20190620-213739.png)
+---
+
+- v 1.0 版本
+
+1. 地图页面加入了台风详情信息框（配色需再与当前配色统一）
+   ![avatar](document/img/WX20190620-213739.png)
+
+2. 点击测站加载整个过程的三条曲线以及极值（现只获取过程中增水最大值及对应的时刻）  
+   by _19-06-27_
+   ![avatar](document/img/WX20190627-180029.png)

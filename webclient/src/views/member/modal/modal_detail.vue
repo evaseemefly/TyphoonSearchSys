@@ -1,23 +1,9 @@
 <template>
-  <div
-    id="mymodal"
-    class="modal fade"
-    tabindex="-1"
-    role="dialog"
-  >
-    <div
-      id="modal_content"
-      class="modal-dialog"
-      role="document"
-    >
+  <div id="mymodal" class="modal fade" tabindex="-1" role="dialog">
+    <div id="modal_content" class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
           <!-- <h4 class="modal-title">船舶编号{{}}</h4> -->
@@ -26,10 +12,7 @@
           <div>
             <!-- <bbxDetailTable :bid="bid"></bbxDetailTable> -->
             <!-- 暂时去掉nav-tabs class，顶部会多出一条线 -->
-            <ul
-              id="mytabs"
-              class="nav"
-            >
+            <ul id="mytabs" class="nav">
               <!-- <li
                 v-for="(item,index) in menulist"
                 :key="index"
@@ -40,9 +23,13 @@
                   href="#"
                   @click="active(index)"
                 >{{item.name}}</a>
-              </li> -->
+              </li>-->
             </ul>
-            <DetailTable></DetailTable>
+            <DetailTable
+              :stationName="childTabStationName"
+              :maxVal="childTabMaxVal"
+              :maxDate="childTabMaxDate"
+            ></DetailTable>
             <!-- <div
               id="main"
               style=""
@@ -53,7 +40,7 @@
               :title="childTitle"
               :factor="childFactor"
               ref="stationObs"
-            ></stationChart> -->
+            ></stationChart>-->
             <stationChart
               :columns="childColumns"
               :valuesReal="childValsReal"
@@ -65,15 +52,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-default"
-            data-dismiss="modal"
-          >关闭</button>
-          <button
-            type="button"
-            class="btn btn-primary"
-          >确定</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn btn-primary">确定</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -113,6 +93,7 @@ import {
   ITyphoonParams4Station
 } from "@/api/api.ts";
 import { IStats } from "mocha";
+import { DatePickerType } from "element-ui/types/date-picker";
 
 @Component({
   components: {
@@ -143,6 +124,9 @@ export default class modal_detail extends mixins(MapRangeVuexMixin) {
   childFactor: any = null;
   childTitle: string = "测试测试";
 
+  childTabStationName: string = null;
+  childTabMaxVal: number = 0;
+  childTabMaxDate: Date = null;
   // code: string;
   // name: string;
   station: IStation;
@@ -198,10 +182,27 @@ export default class modal_detail extends mixins(MapRangeVuexMixin) {
       }
       // console.log(res);
     });
+    this.loadStationStatistics(typhoon.num, name);
   }
 
   // 读取海洋站的主要统计数据（含风暴增水极值以及对应的时间）
-  loadStationStatistics(num: number, name: string) {}
+  loadStationStatistics(num: string, name: string) {
+    var myself = this;
+
+    loadStationStatistics({
+      code: num,
+      name: name,
+      type: MenuType.all,
+      num: num
+    }).then(res => {
+      // console.log(res);
+      if (res.status === 200) {
+        myself.childTabStationName = name;
+        myself.childTabMaxVal = res.data["max_val"];
+        myself.childTabMaxDate = new Date(res.data["max_date"]);
+      }
+    });
+  }
   created() {
     // console.log("created");
   }

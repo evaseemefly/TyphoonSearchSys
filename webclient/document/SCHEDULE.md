@@ -205,3 +205,8 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 19-06-26
 
 - [x] 1.完成加载海洋站统计信息（最大增水及对应时间）的前端相关内容
+
+19-06-27
+
+- [x] 1.完成加载海洋站统计信息（最大增水及对应时间）的前端剩余内容
+- [x] 2.完成加载海洋站统计信息（最大增水及对应时间）的后端api(StationStatisticsDataView)

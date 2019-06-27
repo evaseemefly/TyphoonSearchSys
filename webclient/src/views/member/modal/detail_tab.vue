@@ -3,8 +3,8 @@
     <div class="col-sm-12">
       <div class="panel panel-default boxshadow">
         <div class="panel-heading">潮位站信息</div>
-        <div class="panel-body table-responsive ">
-          <table class=" table table-striped table-hover">
+        <div class="panel-body table-responsive">
+          <table class="table table-striped table-hover">
             <thead>
               <th>测站名称</th>
               <th>风暴增水极值</th>
@@ -13,9 +13,9 @@
             </thead>
             <tbody>
               <tr>
-                <td>台州</td>
-                <td>3.5</td>
-                <td>2014-07-21 13：00</td>
+                <td>{{stationName}}</td>
+                <td>{{maxVal}}</td>
+                <td>{{maxDate|formatDate}}</td>
                 <!-- <td class="my-th-warm">{{ton}}</td> -->
               </tr>
             </tbody>
@@ -26,10 +26,26 @@
   </form>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+// 引入fecha
+import fecha from "fecha";
 
-}
+@Component({
+  props: {
+    stationName: String,
+    maxVal: Number,
+    maxDate: Date
+  },
+  filters: {
+    //  时间格式化
+    formatDate(date: Date): String {
+      var str_format = fecha.format(date, "YY-MM-DD HH:mm:ss");
+      return str_format;
+    }
+  }
+})
+export default class detail_tab extends Vue {}
 </script>
 
 <style scoped>

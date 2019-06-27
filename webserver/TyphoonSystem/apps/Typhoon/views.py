@@ -730,6 +730,57 @@ class DisasterWordView(APIView):
         # pass
 
 
+class StationStatisticsDataView(APIView):
+    '''
+        获取测站的极值数据
+    '''
+    def get(self, request):
+        num = request.GET.get("num", None)
+        stationname = request.GET.get('name', None)
+        # 根据stationname 与 typhoon num 找到 风暴增水的最大值
+        # forecast-realtide 差值的最大值
+        max_val,max_date = self.getDeviationVals(num, stationname)
+        result={
+            'max_val':max_val,
+            'max_date':max_date
+        }
+        return Response(result)
+        # pass
+
+    def getDeviationVals(self, num: str, stationname: str) :
+        '''
+            获取差值的数组
+        :return:
+        '''
+        real_arr = []
+        forecast_arr = []
+        deviation_arr = []
+        query = StationTideData.objects(typhoonnum=num, stationname=stationname).first()
+        # 分别取出real_arr与forecast
+        # for temp in query.realtidedata
+        for temp in query.realtidedata:
+            # AttributeError: 'ForecastData'
+            # object
+            # has
+            # no
+            # attribute
+            # 'realdata_arr'
+            forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            # forecast_arr = [forecast_temp for forecast in temp.forecastdata for forecast_temp in forecast]
+            real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            real_arr=real_arr+real_arr_temp
+            forecast_arr=forecast_arr+forecast_arr_temp
+            # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
+        # err：ValueError: not enough values to unpack (expected 3, got 2)
+        deviation_arr = [(i,y-x) for i, (x,y) in enumerate(zip(forecast_arr, real_arr))]
+        # 找到极值及其所在位置
+        max_deviation = max(deviation_arr, key=lambda x: x[1])
+        index=max_deviation[0]
+        max_targetdate=query.startdate+timedelta(hours=index)
+        max_val=max_deviation[1]
+        return max_val,max_targetdate
+
+
 # 获取所有台风年份
 class GetAllTyphoonYear(APIView):
     def get(self, request):
