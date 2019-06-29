@@ -52,6 +52,23 @@
   font-family: "Lato", Helvetica, Arial, sans-serif;
 }
 
+/* 右侧顶部的当前过程的测站数量样式 */
+.card-my-header font {
+  /* color: aqua; */
+  font-weight: bolder;
+  text-shadow: 2px 2px 10px #000;
+}
+
+.card-my-header .warning {
+  color: rgba(255, 4, 0, 0.858);
+}
+.card-my-header .info {
+  color: aqua;
+}
+.card-my-header .normal {
+  color: rgba(242, 254, 28, 0.913);
+}
+
 .card-my-body {
   background: linear-gradient(to right, #248e8a 30%, rgba(4, 107, 114, 0.639));
   padding: 8px 8px 8px 8px;
@@ -95,6 +112,6 @@
 .fade-leave-to
 
 /* .fade-leave-active below version 2.1.8 */
-  {
+ {
   opacity: 0;
 }

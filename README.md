@@ -59,3 +59,10 @@
  ![avatar](document/img/WX20190627-221200.png)
 缩放后：
  ![avatar](document/img/WX20190627-221214.png)
+
+ 4. 点击台风后加载该过程共影响的测站数量
+ by _19-06-29_
+ 不同数量的颜色略有不同
+ ![avatar]( document/img/WX20190629-171743.png)
+ ![avatar]( document/img/WX20190629-171806.png)
+  ![avatar]( document/img/WX20190629-171819.png)

@@ -18,7 +18,7 @@ import {
   getTimeByCode,
   getDetail
 } from "@/api/api.js";
-
+import { checkStationCount4Typhoon } from "@/api/api.ts";
 // 子组件
 // 显示台风基础信息的子组件
 import rightBarDetail from "@/views/member/bar/rightBarDetail.vue";
@@ -126,6 +126,9 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     this.typhoon = row;
     this.num = row.num;
     this.setTimeData(row);
+    // TODO[*]: 19-06-29
+    // 点击后加载指定台风的测站数据量
+    this.checkStationCountState(this.num);
     this.isDateShow = true;
     this.isDetailShow = false;
   }
@@ -150,6 +153,16 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
     } catch (e) {
       return dateStr.split("T")[0];
     }
+  }
+
+  // 根据台风num获取测站数量
+  checkStationCountState(num: string) {
+    checkStationCount4Typhoon(num).then(res => {
+      if (res.status == 200) {
+        // console.log(res.data);
+        this.stationNum = res.data.count;
+      }
+    });
   }
   setTimeData(code) {
     this.typhoonTimeDataPageChange(1);
@@ -206,6 +219,20 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
   }
   showParam() {
     alert(arguments);
+  }
+
+  // 计算样式的一些方法
+  // 右上顶部的此次过程对应的 测站 数量的class
+  stationNumStateClass(val: number) {
+    var className = "warning";
+
+    if (val <= 10 && val > 0) {
+      className = "info";
+    }
+    if (val > 10) {
+      className = "normal";
+    }
+    return className;
   }
 
   set typhoon(val: DataList_Mid_Model) {

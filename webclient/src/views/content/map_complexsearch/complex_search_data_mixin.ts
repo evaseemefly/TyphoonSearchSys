@@ -14,6 +14,8 @@ export default class MapRangeDataMixin extends Vue {
   // 当前选中的台风code （英文名称）
   code: string = "";
   num: string = "";
+  //当前台风的对应测站数量
+  stationNum: number = 0;
   // 搜索栏绑定的台风num
   searchNum: string = "";
   date: string = "";

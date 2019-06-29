@@ -790,6 +790,21 @@ class GetAllTyphoonYear(APIView):
         lst = list(query)
         return Response(lst)
 
+class CheckStationCount4Typhoon(APIView):
+    '''
+        根据传入的 typhon 判断是否有对应的 测站列表
+    '''
+    def get(self,request):
+        num=request.GET.get('num',None)
+        query=StationTideData.objects(typhoonnum=num)
+        count=len(query)
+        result={
+            'count':count
+        }
+        return Response(result)
+        # pass
+
+        # count=query
 
 # 获取所有台风编号
 # 这个写死了需要修改

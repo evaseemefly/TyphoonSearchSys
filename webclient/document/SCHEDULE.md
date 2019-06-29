@@ -206,8 +206,21 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 
 - [x] 1.完成加载海洋站统计信息（最大增水及对应时间）的前端相关内容
 
+---
+
 19-06-27
 
 - [x] 1.完成加载海洋站统计信息（最大增水及对应时间）的前端剩余内容
-- [x] 2.完成加载海洋站统计信息（最大增水及对应时间）的后端api(StationStatisticsDataView)
+- [x] 2.完成加载海洋站统计信息（最大增水及对应时间）的后端 api(StationStatisticsDataView)
 - [x] 3.争取今日完成，缩小到一定级别后测站的风暴增水只显示数值（是个蛋疼的需求）
+
+---
+
+16-06-29
+
+- [x] 1.根据台风查询是否有测站数据并在前台做相应标记
+- [x] 2.根据测站的数量标记会变色（0=红色，<=10 亮蓝色，>10 黄色）
+效果图如下：
+ ![avatar](/webclient/document/img/WX20190629-170543.png)
+ ![avatar](/webclient/document/img/WX20190629-170605.png)
+ 
