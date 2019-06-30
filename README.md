@@ -65,4 +65,10 @@
  不同数量的颜色略有不同
  ![avatar]( document/img/WX20190629-171743.png)
  ![avatar]( document/img/WX20190629-171806.png)
-  ![avatar]( document/img/WX20190629-171819.png)
+  ![avatar]( document/img/WX20190629-171819.png)  
+  
+
+  5. 级别改为下拉菜单，对应为 1-6 级（val 对应也是 1-6），并加上对应的风速范围（热带低压->强台风）
+  by _19-06-30_
+  效果如下：  
+  ![avatar]( document/img/WX20190630-114713.png)

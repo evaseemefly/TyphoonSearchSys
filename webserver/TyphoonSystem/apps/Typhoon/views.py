@@ -575,7 +575,9 @@ class GetTyphoonCodeByComplexCondition(BaseView):
     '''
 
     def get(self, request):
+        # 注意此处若传入的 level 为0，说明为未选中台风等级，忽略此条件
         level = request.GET.get('level')
+        # level=int(level)
         wsm = request.GET.get('wsm')
         bp = request.GET.get('bp')
         num = request.GET.get('num')
@@ -586,8 +588,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
 
         query = GeoTyphoonRealData.objects()
 
-        if level is not None and level != '':
-            query = query.filter(level=level)
+        if level is not None and level != '' and level !='0':
+            query = query.filter(level=int(level))
         if wsm is not None and wsm != '':
             query = query.filter(wsm=wsm)
         if num is not None and num != '':

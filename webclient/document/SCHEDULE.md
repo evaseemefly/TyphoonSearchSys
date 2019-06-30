@@ -220,7 +220,14 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 
 - [x] 1.根据台风查询是否有测站数据并在前台做相应标记
 - [x] 2.根据测站的数量标记会变色（0=红色，<=10 亮蓝色，>10 黄色）
-效果图如下：
- ![avatar](/webclient/document/img/WX20190629-170543.png)
- ![avatar](/webclient/document/img/WX20190629-170605.png)
- 
+      效果图如下：
+      ![avatar](/document/img/WX20190629-170614.png)
+      ![avatar](/document/img/WX20190629-170605.png)
+
+---
+
+16-06-29
+
+- [x] 1.级别改为下拉菜单，对应为 1-6 级（val 对应也是 1-6），并加上对应的风速范围（热带低压->强台风）
+      效果图如下：
+      ![avatar](/document/img/WX20190630-114713.png)

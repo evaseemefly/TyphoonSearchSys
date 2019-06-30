@@ -1,12 +1,12 @@
 import { Component, Vue } from "vue-property-decorator";
-import {
-  DataList_Mid_Model,
-  TyphoonRealBase_Mid_Model
-} from "@/middle_model/common.ts";
+import { DataList_Mid_Model } from "@/middle_model/common.ts";
 
+import { TyphoonLevelOptionMidModel } from "@/middle_model/menu.ts";
+// 台风种类下拉框常量
+import { OptionList } from "@/common/menu/typhoon_level_option_list.ts";
 @Component
 export default class MapRangeDataMixin extends Vue {
-  level: string = "";
+  level: number = 0;
   wsm: string = "";
   bp: string = "";
   startMonth: Date = null;
@@ -40,4 +40,9 @@ export default class MapRangeDataMixin extends Vue {
   typhoonCodePageSize: number = 6;
   typhoonTimeDataPageSize: number = 6;
   typhoonDetailPageSize: number = 6;
+
+  // 复杂查询搜索框中的下拉框相关内容
+  typhoonLevelOptions: Array<TyphoonLevelOptionMidModel> = OptionList;
+  // 不使用新增的data，使用之前的level
+  // selectTyphoonLevelOpt: number = 0;
 }
