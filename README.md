@@ -14,11 +14,13 @@
 ## 项目主要构成目录
 
 前后端的相关描述请详见`webclient`与 `webserver` 目录下的 readme 文件
-[前端 readme](/webclient/README.md)  
+[前端 readme](/webclient/README.md) 较详细
 进度及问题：
 [进度](/webclient/document/SCHEDULE.md)
 [相关问题收集](/webclient/document/ISSUE.md)
 [规约](/PROMISE.md)
+
+[部分自己总结的知识点请见](https://github.com/evaseemefly/CodingBook/blob/417c6fb1860c6b5fd77e8a77da1c45d44f3793da/README.md) 以后均汇总至此
 
 ---
 
@@ -53,22 +55,21 @@
    by _19-06-27_
    ![avatar](document/img/WX20190627-180029.png)
 
-3. 缩小到一定级别（6级）后测站的风暴增水只显示数值  
- by _19-06-27_
- 缩放前：
- ![avatar](document/img/WX20190627-221200.png)
-缩放后：
- ![avatar](document/img/WX20190627-221214.png)
+3. 缩小到一定级别（6 级）后测站的风暴增水只显示数值  
+    by _19-06-27_
+   缩放前：
+   ![avatar](document/img/WX20190627-221200.png)
+   缩放后：
+   ![avatar](document/img/WX20190627-221214.png)
 
- 4. 点击台风后加载该过程共影响的测站数量
- by _19-06-29_
- 不同数量的颜色略有不同
- ![avatar]( document/img/WX20190629-171743.png)
- ![avatar]( document/img/WX20190629-171806.png)
-  ![avatar]( document/img/WX20190629-171819.png)  
-  
+4. 点击台风后加载该过程共影响的测站数量
+   by _19-06-29_
+   不同数量的颜色略有不同
+   ![avatar](document/img/WX20190629-171743.png)
+   ![avatar](document/img/WX20190629-171806.png)
+   ![avatar](document/img/WX20190629-171819.png)
 
-  5. 级别改为下拉菜单，对应为 1-6 级（val 对应也是 1-6），并加上对应的风速范围（热带低压->强台风）
-  by _19-06-30_
-  效果如下：  
-  ![avatar]( document/img/WX20190630-114713.png)
+5) 级别改为下拉菜单，对应为 1-6 级（val 对应也是 1-6），并加上对应的风速范围（热带低压->强台风）
+   by _19-06-30_
+   效果如下：  
+   ![avatar](document/img/WX20190630-114713.png)

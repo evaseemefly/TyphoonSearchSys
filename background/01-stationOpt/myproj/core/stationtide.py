@@ -9,7 +9,7 @@ from enum import Enum
 
 from data.model import *
 from data.middle_model import GeoTyphoonRealDataMidModel
-
+from conf.setting import TZ_UTC_8
 
 class FILE_TYPE(Enum):
     '''
@@ -639,6 +639,8 @@ class StationTideBaseRealData(File, abc.ABC):
             print(baseinfo_ser)
             # TODO:[*] 19-05-22 此处获取每个测站的起始时间
             start_date=self.getStartDate(year,self._data.iloc[val_checkpoint + 2][0].split())
+            # TODO:[*] 19-07-01 加入时区
+            # start_date=start_date.replace(tzinfo=TZ_UTC_8)
             base_model.startdate=start_date
             # 获取当前时间
             temp_date = base_model.startdate
