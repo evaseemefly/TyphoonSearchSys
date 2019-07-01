@@ -1,6 +1,7 @@
 from datetime import datetime
 from .model import GeoTyphoonRealData
 from mongoengine import *
+from conf.setting import TZ_UTC_8
 
 
 class GeoTyphoonRealDataMidModel:
@@ -17,6 +18,8 @@ class GeoTyphoonRealDataMidModel:
         stamp_str = obj[0]
         # TODO 注意此处需要修改num的值
         stamp = datetime.strptime(str(stamp_str), '%Y%m%d%H')
+        # TODO:[-] 加入时区
+        stamp = stamp.replace(tzinfo=TZ_UTC_8)
         # num_str = str(stamp_str)[2:4] + str('%02d' % num)
         num_str = str(num).zfill(4)
         typhoon_temp = GeoTyphoonRealData(code=code,
@@ -71,7 +74,9 @@ class GeoTyphoonRealDataMidModel:
                 print(f"写入的台风code为{header[7]}!!")
                 # TODO:[*] 19-05-09 可能出现得问题：ValueError: day is out of range for month
                 try:
-                    typhoon_list.append(self._convert_2typhoon(body.iloc[i + 1], header[7], header[4]))
+                    # TODO:[-] 19-06-30 注意此处存在一个bug，注意iloc是根据index进行索引（注意index是从0开始的）
+                    # typhoon_list.append(self._convert_2typhoon(body.iloc[i + 1], header[7], header[4]))
+                    typhoon_list.append(self._convert_2typhoon(body.iloc[i], header[7], header[4]))
                 except ValueError as ex:
                     print(f'err:{str(ex)}')
             print('--------')

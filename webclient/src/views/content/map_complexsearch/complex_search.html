@@ -19,7 +19,11 @@
                 <div class="col-sm-3 smdiv">
                   <label for="inputEmail4">级别</label>
                 </div>
-                <input v-model="level" class="form-control col-md-7" />
+                <!-- <input v-model="level" class="form-control col-md-7" /> -->
+                <select class="from-control col-md-7" v-model="level">
+                <option v-for="item in typhoonLevelOptions" :key="item.key"
+                :value="item.key">{{item.name}}</option>
+                </select>
               </div>
               <div class="form-group col-md-6 form-inline">
                 <div class="col-sm-3 smdiv">
@@ -121,7 +125,7 @@
             <!-- <div class="card-body card-my-body">
                 
               </div>-->
-            <div class="card-header card-my-header">时间列表|此次过程中共影响<font :class='stationNumStateClass(stationNum)'>{{stationNum}}</font>个测站</div>
+            <div class="card-header card-my-header">影响时间|此次过程中共影响<font :class='stationNumStateClass(stationNum)'>{{stationNum}}</font>个测站</div>
             <!-- <h5 class="card-title">台风编号</h5> -->
             <!-- 此处不再套在card-body中，样式更好看一些，去掉了padding -->
             <div class="card-body card-my-body">

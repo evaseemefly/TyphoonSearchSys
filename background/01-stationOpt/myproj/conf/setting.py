@@ -1,12 +1,13 @@
 import datetime
+from datetime import timezone,timedelta
 
 # 单位 处理台风对应的测站数据的路径
 # DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/demo_data"
-DIR_PATH = r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/station/2014"
+# DIR_PATH = r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/station/2014"
 # mac16 测站数据
 # DIR_PATH=r"/Users/drno/Documents/01proj/TyphoonSearchSys/data/station/2014"
 # 单位 处理台风的实时气象数据
-# DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/typhoon"
+DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/typhoon"
 # mac16 处理台风是的实时气象数据
 # DIR_PATH=r"/Users/drno/Documents/01proj/TyphoonSearchSys/data/typhoon"
 # 家中
@@ -30,6 +31,8 @@ DAYS = 4
 DEFAULT_VAL = -9999
 DEFAULT_DATE = datetime.date(1701, 1, 1)
 
+# 北京时区
+TZ_UTC_8=timezone(timedelta(hours=8))
 # mongodb相关
 _MONGODB_NAME = 'typhoon'
 _MONGODB_HOST='192.168.0.109'

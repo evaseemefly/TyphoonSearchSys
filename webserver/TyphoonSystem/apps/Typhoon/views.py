@@ -102,6 +102,7 @@ class StationTideDataListView(APIView):
         # json_data = StationTideMaxMidModelSerializer(list_data, many=True).data
 
         # json_data=StationTideIncludeForecastMidModelSerializer(filter_list,many=True).data
+        # TODO:[-] 19-06-30 注意此处的 val_forecast 与 val_real 实际值是颠倒的，注意
         json_data = StationTideIncludeAllMidModelSerializer(filter_list, many=True).data
         return Response(json_data)
 
@@ -244,12 +245,14 @@ class StationDetailMinList(IStationDetail):
                         # temp_datetime=datetime(temp.targetdate.year,temp.targetdate.month,temp.targetdate.day,index,0)
                         # TODO date-> datetime 方式2：
                         import datetime
+                        # TODO [*] 19-06-30 注意此处的时间之前是在判断之中
+                        temp_datetime = datetime.datetime.combine(realtide_temp.targetdate, datetime.time(index, 0))
                         # TODO [-] 19-04-25 temp[0] 为real temp[1] 为forecast
                         # 需要判断是否没有-9999若存在-9999，则直接返回-9999
                         if temp[0] == -9999 or temp[1] == -9999:
                             temp_tide = StationTideRealMidModel(-9999, temp_datetime)
                         else:
-                            temp_datetime = datetime.datetime.combine(realtide_temp.targetdate, datetime.time(index, 0))
+                            # temp_datetime = datetime.datetime.combine(realtide_temp.targetdate, datetime.time(index, 0))
                             # real-forecast 为实际的潮差
                             # TODO:[-] 19-05-28 注意此处之前录入的有问题，此处实际为forecast-real(forecast与real的录入录反了)
                             # temp_tide = StationTideRealMidModel(temp[0] - temp[1], temp_datetime)
@@ -297,17 +300,20 @@ class StationDetailAllList(IStationDetail):
                         # temp_datetime=datetime(temp.targetdate.year,temp.targetdate.month,temp.targetdate.day,index,0)
                         # TODO date-> datetime 方式2：
                         import datetime
+                        # TODO [*] 19-06-30
+                        temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
+                                                                  datetime.time(index, 0))
+                        temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
+
                         # TODO [-] 19-04-25 temp[0] 为real temp[1] 为forecast
                         # 需要判断是否没有-9999若存在-9999，则直接返回-9999
-                        if temp[0] == -9999 or temp[1] == -9999:
-                            temp_tide = StationTideRealMidModel(-9999, temp_datetime)
-                        else:
-                            temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
-                                                                      datetime.time(index, 0))
-                            # real-forecast 为实际的潮差
-                            # TODO:[-] 19-05-28 注意此处之前录入的有问题，此处实际为forecast-real(forecast与real的录入录反了)
-                            # temp_tide = StationTideRealMidModel(temp[0] - temp[1], temp_datetime)
-                            temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
+                        # if temp[0] == -9999 or temp[1] == -9999:
+                        #     temp_tide = StationTideRealMidModel(-9999, temp_datetime)
+                        # else:
+                        #     # real-forecast 为实际的潮差
+                        #     # TODO:[-] 19-05-28 注意此处之前录入的有问题，此处实际为forecast-real(forecast与real的录入录反了)
+                        #     # temp_tide = StationTideRealMidModel(temp[0] - temp[1], temp_datetime)
+                        #     temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
                         data_list.append(temp_tide)
         return data_list
 
@@ -576,7 +582,9 @@ class GetTyphoonCodeByComplexCondition(BaseView):
     '''
 
     def get(self, request):
+        # 注意此处若传入的 level 为0，说明为未选中台风等级，忽略此条件
         level = request.GET.get('level')
+        # level=int(level)
         wsm = request.GET.get('wsm')
         bp = request.GET.get('bp')
         num = request.GET.get('num')
@@ -587,8 +595,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
 
         query = GeoTyphoonRealData.objects()
 
-        if level is not None and level != '':
-            query = query.filter(level=level)
+        if level is not None and level != '' and level !='0':
+            query = query.filter(level=int(level))
         if wsm is not None and wsm != '':
             query = query.filter(wsm=wsm)
         if num is not None and num != '':
@@ -773,7 +781,8 @@ class StationStatisticsDataView(APIView):
             forecast_arr=forecast_arr+forecast_arr_temp
             # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
         # err：ValueError: not enough values to unpack (expected 3, got 2)
-        deviation_arr = [(i,y-x) for i, (x,y) in enumerate(zip(forecast_arr, real_arr))]
+        # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
+        deviation_arr = [(i,x-y) for i, (x,y) in enumerate(zip(forecast_arr, real_arr))]
         # 找到极值及其所在位置
         max_deviation = max(deviation_arr, key=lambda x: x[1])
         index=max_deviation[0]
