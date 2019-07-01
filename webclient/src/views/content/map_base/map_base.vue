@@ -193,16 +193,16 @@ export default class map_base extends mixins(
   }
 
   zoomUp(val): void {
-    console.log(val);
+    // console.log(val);
 
     if (val > this.zoom_index) {
-      console.log("正在放大"+val);
+      // console.log("正在放大"+val);
       if (val > 6) {
         this.zoom_mark_minifier = false;
       }
     }
     if (val < this.zoom_index) {
-      console.log("正在缩小"+val);
+      // console.log("正在缩小"+val);
       if (val <= 6) {
         // 缩放到6级后只加载测站的风暴增水不再显示名字
         this.zoom_mark_minifier = true;
@@ -226,8 +226,9 @@ export default class map_base extends mixins(
   // [-] 19-04-12 获取警报级别对应的颜色
   getStationAlarmClass(station: StationData_Mid_Model): string {
     let alarm_class = "";
+    // 注意差值减错了，应该是tide_forecast-tide
     // 实测潮位 - 警戒潮位
-    var abs: number = station.tide - station.jw;
+    var abs: number = station.tide_forecast - station.tide;
     var alarm: AlarmLevel = AlarmLevel.Green;
     switch (true) {
       case abs <= -300:
@@ -559,12 +560,18 @@ export default class map_base extends mixins(
                 [
                   temp_station.point.coordinates[0],
                   temp_station.point.coordinates[1],
-                  // TODO:[*] 19-04-23 散点图中的val为实测-预报值
+                  // TODO:[-] 19-04-23 散点图中的val为实测-预报值
                   // temp_station.jw
+                  // TODO"[*] 19-06-30 注意此处后台返回的val的值预报与实测是相反的，
+                  // 所以在此处相减时主要需要颠倒一下
+                  // temp_forecast.val_real === -9999 ||
+                  // temp_forecast.val_forecast === -9999
+                  //   ? 0
+                  //   : temp_forecast.val_real - temp_forecast.val_forecast
                   temp_forecast.val_real === -9999 ||
                   temp_forecast.val_forecast === -9999
                     ? 0
-                    : temp_forecast.val_real - temp_forecast.val_forecast
+                    : temp_forecast.val_forecast - temp_forecast.val_real
                 ]
               )
             );

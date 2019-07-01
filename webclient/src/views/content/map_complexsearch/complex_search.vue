@@ -60,7 +60,7 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
       this.level,
       this.wsm,
       this.bp,
-      // TODO:[*] 19-06-20 此处的num应为复杂搜索框中的num（searchNum）
+      // TODO:[-] 19-06-20 此处的num应为复杂搜索框中的num（searchNum）
       this.searchNum,
       start_str,
       end_str,
@@ -189,7 +189,7 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
       code: this.code,
       from: pageNumInfo.from,
       to: pageNumInfo.to,
-      // TODO:[*] 19-06-20 解决点击了左下列表后，会自动修改左上复杂查询div中的num
+      // TODO:[x] 19-06-20 解决点击了左下列表后，会自动修改左上复杂查询div中的num
       num: this.searchNum === "" ? this.num : this.searchNum
     };
     // 根据信息加载对应的台风时间列表（右侧的指定台风的时间列表）
