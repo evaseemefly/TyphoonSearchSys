@@ -3,6 +3,7 @@ import calendar
 import datetime as superdatetime
 import dateutil
 import abc
+import os
 
 from django.shortcuts import render
 from rest_framework import status
@@ -884,3 +885,36 @@ class GetRealDataMbp(APIView):
         dic = {"mbp": result[0][0], "date": result[0][1]}
         print(dic)
         return Response(dic)
+
+class GetDisasterPicPath(APIView):
+    '''
+    根据灾情参数读取所有文件，并生成url路径，贡轮播使用
+    '''
+    def get(self,request):
+        base_path = settings.DISASTER_PIC_PATH
+        num = request.GET.get("num")
+        year = request.GET.get("year")
+        img_dir_path = os.path.join(base_path,year,num);
+        if not os.path.exists(img_dir_path):
+            return Response([])
+        img_name_list = os.listdir(img_dir_path)
+        reslist = []
+        #暂时先写死img路径
+        get_pic_url = 'data/DisplayDisasterPic/'+year+'/'+num+'/'
+        print(get_pic_url)
+        for name in img_name_list:
+            reslist.append(get_pic_url+name);
+        return Response(reslist);
+
+
+def DisplayDisasterPic(request,num,year,filename):
+    '''
+    根据路径读取单张图片并返回
+    '''
+    base_path = settings.DISASTER_PIC_PATH
+    file_path = os.path.join(base_path,year,num,filename)
+    image_data = open(file_path,"rb").read()
+    _,imgtype = os.path.splitext(file_path)
+    content_type = "image/"+imgtype.lstrip('.')
+    return HttpResponse(image_data,content_type=content_type)
+    

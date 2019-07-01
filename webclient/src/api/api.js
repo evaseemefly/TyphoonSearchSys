@@ -77,3 +77,12 @@ export const getRealDataMbp = num => {
   let url = `${host}/gis/data/GetRealDataMbp?num=${num}`
   return axios.get(url)
 }
+
+export const getDisasterPicPath = (year, num) => {
+  let url = `${host}/gis/data/GetDisasterPicPath?year=${year}&num=${num}`
+  return axios.get(url);
+}
+
+export const getBaseHostPicPath = () => {
+  return `${host}/gis/`
+}
