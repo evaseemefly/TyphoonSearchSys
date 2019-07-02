@@ -78,11 +78,12 @@ export const getRealDataMbp = num => {
   return axios.get(url)
 }
 
+//根据year和num获取灾情图片url列表
 export const getDisasterPicPath = (year, num) => {
   let url = `${host}/gis/data/GetDisasterPicPath?year=${year}&num=${num}`
   return axios.get(url);
 }
-
+//返回一个基础路径配合图片地址
 export const getBaseHostPicPath = () => {
   return `${host}/gis/`
 }
