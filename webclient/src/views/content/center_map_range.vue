@@ -168,5 +168,7 @@ export default class center_map_range extends mixins(
 }
 </script>
 
-<style src="./map_range/map.css">
+
+<style>
+/* <style src="./map_range/map.css"> */
 </style>

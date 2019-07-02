@@ -23,6 +23,7 @@
 
 /* 台风div */
 .typhoon_icon_default {
+  width: 750px !important;
   z-index: 1700 !important;
 }
 
@@ -63,6 +64,7 @@
 .card {
   padding-left: 0px;
   padding-right: 0px;
+  background: rgba(223, 63, 63, 0.125) !important;
 }
 
 .row_footer {
