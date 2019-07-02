@@ -1,46 +1,10 @@
-<template src="./map_base.html"></template>
+<template src="./map_range/map.html"></template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 // 引入fecha
 import fecha from "fecha";
-import ElementUI from "element-ui";
-import "element-ui/lib/theme-chalk/index.css";
 
-// 使用mixin的方式拓展data
-import MapBaseDataMixin from "./map_base_data_mixin";
-import MapCommonMixin from "../map_common/map_common_mixin";
-import MapRangeVuexMixin from "../map_range/map_vuex_mixin";
-
-// 引入公共的枚举
-import { TyphoonCircleStatus } from "@/common/Status.ts";
-import { mixins } from "vue-class-component";
-// 引入枚举
-import { AlarmLevel } from "@/common/enum/map.ts";
-import {
-  DataList_Mid_Model,
-  TyphoonRealBase_Mid_Model
-} from "@/middle_model/common.ts";
-import {
-  MeteorologyRealData_Mid_Model,
-  TideRealData_Mid_Model,
-  StationData_Mid_Model,
-  EchartsScatterStationData_Mid_Model
-} from "@/middle_model/typhoon.ts";
-import {
-  getTyphoonCodeByComplexCondition,
-  getTimeByCode,
-  getDetail
-} from "@/api/api.js";
-
-// 引入数据格式规范接口
-import {
-  IStation,
-  IForecast,
-  IEchartsScatterData
-} from "@/interface/map/map.ts";
-
-// 与后台交互的api
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 import {
   loadTyphoonList,
   ITyphoonParams,
@@ -49,6 +13,46 @@ import {
   loadStationTideDataList,
   ITyphoonRealBaseParams
 } from "@/api/api.ts";
+
+import {
+  MeteorologyRealData_Mid_Model,
+  TideRealData_Mid_Model,
+  StationData_Mid_Model,
+  EchartsScatterStationData_Mid_Model
+} from "@/middle_model/typhoon.ts";
+
+// 子组件
+// 底部rangeslider
+import RangeSlider from "@/views/member/slider/rangeSlider.vue";
+// 台风列表
+import TyphoonList from "@/views/member/secondBar/typhoonListBar.vue";
+// 海洋站icon
+import StationIcon from "@/views/member/map/station_icon.vue";
+import TextForm from "@/views/member/form/text_form.vue";
+import ModalDetail from "@/views/member/modal/modal_detail.vue";
+// 引入公共的枚举
+import { TyphoonCircleStatus } from "@/common/Status.ts";
+import {
+  DataList_Mid_Model,
+  TyphoonRealBase_Mid_Model
+} from "@/middle_model/common.ts";
+// 引入枚举
+import { AlarmLevel } from "@/common/enum/map.ts";
+
+// 引入数据格式规范接口
+import {
+  IStation,
+  IForecast,
+  IEchartsScatterData
+} from "@/interface/map/map.ts";
+
+// TODO:[*] 19-05-05 使用mixin的方式拓展的data
+import MapRangeDataMixin from "./map_range/map_data_mixin";
+import MapRangeVuexMixin from "./map_range/map_vuex_mixin";
+import MapTestMixin from "./map_range/map_test_mixin";
+import MapCommonMixin from "./map_common/map_common_mixin";
+// import "leaflet-tilelayer-mbtiles-ts";
+// import "leaflet-tilelayer-mbtiles";
 
 // 解决默认icon找不到的问题
 import "leaflet/dist/leaflet.css";
@@ -69,15 +73,23 @@ import {
   LCircle,
   LIcon
 } from "vue2-leaflet";
-// TODO:[*] 19-07-02 此处引用的超图的插件，之前是放在map_common_mixin.ts中，以后废弃会导致data不一致的冲突
+import { DivIcon, DivIconOptions } from "leaflet";
+
+//  19-04-18 引入ehcarts以及leaflet-echarts——此插件无法加载，暂时放弃
+// 此处不再使用
+// import "echarts-leaflet/dist/echarts-leaflet";
+// 使用 https://github.com/wandergis/leaflet-echarts
+// import "leaflet-echarts";
+// import "leaflet-echarts/dist/leaflet-echarts.js";
+// import echarts from "echarts/lib/echarts";
+// import "echarts/lib/chart/scatter";
+// import "echarts/lib/chart/effectScatter";
+
 // 19-04-18尝试使用超图的开源iclent插件
 import { tiledMapLayer, echartsLayer } from "@supermap/iclient-leaflet";
 
-// 引入其他子组件
-// 引入modal组件
-import modal_detail from "@/views/member/modal/modal_detail.vue";
-import { DivIcon, DivIconOptions } from "leaflet";
-
+import fechaObj from "fecha";
+import { mixins } from "vue-class-component";
 @Component({
   components: {
     "l-marker": LMarker,
@@ -85,8 +97,12 @@ import { DivIcon, DivIconOptions } from "leaflet";
     "l-tile-layer": LTileLayer,
     "l-polyline": LPolyline,
     "l-circle": LCircle,
-    "l-icon": LIcon
-    // ModalDetail: modal_detail
+    "l-icon": LIcon,
+    RangeSlider, // 范围range子组件
+    TyphoonList, // 台风列表子组件
+    ModalDetail, //modal子组件
+    TextForm // 右侧的加载灾情信息的文本框
+    // StationIcon
   },
   // 自定义过滤器
   filters: {
@@ -105,10 +121,11 @@ import { DivIcon, DivIconOptions } from "leaflet";
 
   // @Mutation()
 })
-export default class map_base extends mixins(
-  MapBaseDataMixin,
-  // MapCommonMixin, // TODO:[*] 19-07-02 不在引入mapcommonmixin，会引发data的循环依赖会有冲突
-  MapRangeVuexMixin
+export default class center_map_range extends mixins(
+  MapRangeDataMixin,
+  MapRangeVuexMixin,
+  MapTestMixin,
+  MapCommonMixin
 ) {
   convertData(data: any): any {
     var myself = this;
@@ -167,57 +184,45 @@ export default class map_base extends mixins(
   }
 
   // [-] 19-03-21 由子组件触发的根据lat,lon,range从后台获取typhoonlist的方法
-  // TODO:[-] 19-07-02 注意此处由另一个继承的父组件（map_range）中实现，此处不再实现
-  // loadTyphoonListByRange(): void {
-  // var myself = this;
-  // var range: number = this.range;
-  // var latlon: number[] = this.targetMarkerLatlon;
-  // var obj: ITyphoonParams = {
-  //   latlon: latlon,
-  //   range: range
-  // };
-  // loadTyphoonList(obj).then(res => {
-  //   if (res.status === 200) {
-  //     var data: any = res.data;
-  //     myself.is_show_typhoon_list = false;
-  //     myself.typhoon_code_list = [];
-  //     // data中为台风列表
-  //     data.forEach(obj => {
-  //       myself.typhoon_code_list.push(
-  //         new DataList_Mid_Model(obj.code, -1, obj.code, obj.year)
-  //       );
-  //     });
-  //     myself.is_show_typhoon_list = true;
-  //   }
-  // });
-  // }
+  loadTyphoonListByRange(pageInfo): void {
+    var myself = this;
+    var range: number = this.range;
+    var latlon: number[] = this.targetMarkerLatlon;
+    // TODO:[*] 19-05-13 分页写在此组件中，实际是为typhoonList 子组件传递to与from
+    if (myself.typhoonCodeDataTotal < 0) {
+      this.typhoonCodePageIndex = 0;
+    }
+    var size = this.typhoonCodePageSize;
+    var index = this.typhoonCodePageIndex;
+    var obj: ITyphoonParams = {
+      latlon: latlon,
+      range: range,
+      size: size,
+      index: index
+      // to: to
+    };
+    loadTyphoonList(obj).then(res => {
+      if (res.status === 200) {
+        var data: any = res.data.list;
+        myself.typhoonCodeDataTotal = res.data.total;
+        myself.is_show_typhoon_list = false;
+        myself.typhoon_code_list = [];
+        // data中为台风列表
+        data.forEach(obj => {
+          myself.typhoon_code_list.push(
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num)
+          );
+        });
+        myself.is_show_typhoon_list = true;
+      }
+    });
+  }
 
   // 计算圆柱体的偏移量
   iconStationCylinderAnchor(val): Array<number> {
     return [40, 10 + val * 5];
   }
 
-  zoomUp(val): void {
-    // console.log(val);
-
-    if (val > this.zoom_index) {
-      // console.log("正在放大"+val);
-      if (val > 6) {
-        this.zoom_mark_minifier = false;
-      }
-    }
-    if (val < this.zoom_index) {
-      // console.log("正在缩小"+val);
-      if (val <= 6) {
-        // 缩放到6级后只加载测站的风暴增水不再显示名字
-        this.zoom_mark_minifier = true;
-      }
-    }
-    this.zoom_index = val;
-  }
-  zoomChange(val): void {
-    console.log("缩放级别改编");
-  }
   //  19-03-21 鼠标在地图上点击后，加载marker
   createMarker(event: any): void {
     // 鼠标点击地图上后，向该位置加入一个marker
@@ -231,9 +236,8 @@ export default class map_base extends mixins(
   // [-] 19-04-12 获取警报级别对应的颜色
   getStationAlarmClass(station: StationData_Mid_Model): string {
     let alarm_class = "";
-    // 注意差值减错了，应该是tide_forecast-tide
     // 实测潮位 - 警戒潮位
-    var abs: number = station.tide_forecast - station.tide;
+    var abs: number = station.tide - station.jw;
     var alarm: AlarmLevel = AlarmLevel.Green;
     switch (true) {
       case abs <= -300:
@@ -326,7 +330,7 @@ export default class map_base extends mixins(
     }
     // 判断是否符合条件需要触发展开modal的操作
     if (myself.index_stationdiv_click > 1) {
-      myself.showModal(station, myself.typhoon_temp);
+      myself.showModal(station);
     }
   }
 
@@ -413,10 +417,9 @@ export default class map_base extends mixins(
   openStationDivIcon(val): void {}
 
   // TODO:[*] 19-04-25 显示过程曲线的mdoal框
-  showModal(station: IStation, typhoon: MeteorologyRealData_Mid_Model): void {
+  showModal(station: IStation): void {
     console.log(station);
-    // this.station_temp = station;
-    this.targetStation = station;
+    this.station_temp = station;
 
     // alert("被处罚");
   }
@@ -565,18 +568,12 @@ export default class map_base extends mixins(
                 [
                   temp_station.point.coordinates[0],
                   temp_station.point.coordinates[1],
-                  // TODO:[-] 19-04-23 散点图中的val为实测-预报值
+                  // TODO:[*] 19-04-23 散点图中的val为实测-预报值
                   // temp_station.jw
-                  // TODO"[*] 19-06-30 注意此处后台返回的val的值预报与实测是相反的，
-                  // 所以在此处相减时主要需要颠倒一下
-                  // temp_forecast.val_real === -9999 ||
-                  // temp_forecast.val_forecast === -9999
-                  //   ? 0
-                  //   : temp_forecast.val_real - temp_forecast.val_forecast
                   temp_forecast.val_real === -9999 ||
                   temp_forecast.val_forecast === -9999
                     ? 0
-                    : temp_forecast.val_forecast - temp_forecast.val_real
+                    : temp_forecast.val_real - temp_forecast.val_forecast
                 ]
               )
             );
@@ -639,156 +636,21 @@ export default class map_base extends mixins(
     return opt;
   }
 
+  // 由子组件触发的修改当前page index的方法
+  setCurrentIndex(val: number) {
+    this.typhoonCodePageIndex = val;
+  }
+
+  @Watch("typhoonCodePageIndex")
+  onTyphoonCodePageIndex(val: number) {
+    this.loadTyphoonListByRange(null);
+  }
   //  计算海洋站圆柱体的高度
   iconDivWeight(val) {
     return val.tide * 5;
   }
-
-  // TODO:[*] 19-07-02 将map_common_mixin中的部分方法（注意是方法），放在此处，以后map_common_mixin.ts废弃
-  // TODO:[*] 19-05-22 散点图存在一个偏移
-  initCharts(): void {
-    var myself = this;
-    if (myself.layer_scatter != null) {
-      myself.layer_scatter.remove();
-    }
-    // 使用leaflet-echarts的步骤：不需要修改leaflet代码的部分，只需要将leaflet创建好的map作为参数传入
-    var mymap: any = this.$refs.basemap["mapObject"];
-    var echartsOptions: any = {
-      title: {
-        text: "潮位",
-        subtext: "潮位",
-        // sublink: "http://www.pm25.in",
-        left: "center"
-      },
-      tooltip: {
-        trigger: "item"
-      },
-      coordinateSystem: "leaflet",
-      series: [
-        {
-          name: "潮位",
-          type: "scatter",
-          coordinateSystem: "leaflet",
-          // coordinateSystem: "geo",
-          // data: myself.convertData(myself.data_echarts),
-          // [-] 19-04-18 散点图中的data绑定为model
-          data: myself.data_scatter_station,
-          // [-] 19-04-23 散点图的大小
-          symbolSize: function(val) {
-            return myself.getSymbolSize(val);
-          },
-          hoverAnimation: true,
-          label: {
-            normal: {
-              formatter: "{b}",
-              position: "right",
-              show: false
-            },
-            emphasis: {
-              show: true
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: "#ddb926"
-            }
-          }
-        },
-        {
-          name: "Top 5",
-          type: "effectScatter",
-          coordinateSystem: "leaflet",
-          // [-] 19-04-18 散点图中的data绑定为model
-          data: myself.data_scatter_station,
-          symbolSize: function(val) {
-            return myself.getSymbolSize(val);
-          },
-          showEffectOn: "render",
-          rippleEffect: {
-            brushType: "stroke"
-          },
-          hoverAnimation: true,
-          label: {
-            normal: {
-              formatter: "{b}",
-              position: "right",
-              show: true
-            }
-          },
-          itemStyle: {
-            normal: {
-              // color: "#f4e925",
-              color: "rgb(51, 152, 125)",
-              shadowBlur: 10,
-              shadowColor: "#333"
-            }
-          },
-          zlevel: 1
-        }
-      ]
-    };
-    var options: any = {
-      // 水印
-      attribution: "nmefc "
-    };
-    // echartsLayer可选择的options
-    // 参考：http://iclient.supermap.io/web/apis/leaflet.html
-    var echarts_scatter = echartsLayer(echartsOptions, options);
-
-    myself.layer_scatter = echarts_scatter;
-
-    myself.layer_scatter.addTo(mymap);
-  }
-
-  // 19-04-23 对于散点图的大小的转换
-  // index=0:max;inde=1:min
-  transformScatterSize(): number[] {
-    /*
-          
-         */
-    var arr_val = [];
-    this.data_scatter_station.forEach(obj => {
-      if (obj.value[2] !== -9999) {
-        arr_val.push(obj.value[2]);
-      }
-    });
-    var max = Math.max(...arr_val);
-    var min = Math.min(...arr_val);
-    return [max, min];
-  }
-
-  // 19-04-23 对于散点图的大小的转换
-  getSymbolSize(val: any): number {
-    var myself = this;
-    //index=0:max;inde=1:min
-    var arr_maxmin = myself.transformScatterSize();
-    var max = arr_maxmin[0];
-    var min = arr_maxmin[1];
-    var val_temp = val[2];
-    // 系数
-    var factor_percent = 200;
-    var factor_magnify = 3;
-    if (val !== -9999) {
-      var count = max - min;
-
-      var maxValue = max - min - min / count;
-      var percent = Math.floor(((val_temp - min) / count) * factor_percent);
-      percent = Math.sqrt(percent);
-      return percent * factor_magnify;
-      // return percent * factor;
-      // var maxSize = 100;
-      // var scale = 1;
-      // if (maxSize) {
-      //   scale = maxValue / maxSize;
-      // }
-
-      // return (val[2] - min - min / count) / scale;
-    } else {
-      return 0;
-    }
-  }
 }
 </script>
 
-<style src="./map_base.css">
+<style src="./map_range/map.css">
 </style>

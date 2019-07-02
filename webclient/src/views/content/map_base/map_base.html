@@ -19,6 +19,9 @@
     />
     <!-- 鼠标点击某一个位置，获取周边一定范围内的经过台风 -->
     <l-marker :lat-lng="targetMarkerLatlon" :icon="icon_marker"></l-marker>
+    <!-- 鼠标点击某个位置之后根据slider获取的半径 -->
+    <l-circle :lat-lng="targetMarkerLatlon" :weight="4" :radius="range"/>
+
     <!-- 海洋站的div以及table样式 -->
     <!-- TODO: 注意此处需要指定icon的url，否则会出现动态url，而无法找到marker的图标 -->
     <!-- TODO: 19-04-12 修改此处，移入zindex权重增加，移出减小 -->
