@@ -241,3 +241,9 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 - [x] 2.弃用 src/views/content/map_common/map_common_mixin.ts
 - [x] 3.将弃用文件中的部分代码放在 src/views/content/center_map_range.vue 中
 - [ ] 4.总结本次重构以及出现的问题
+
+---
+
+19-07-03
+
+- [x] 1.合并了点击台风后加载的灾情图片 by [stupidanimal](https://github.com/stupidanimal)
