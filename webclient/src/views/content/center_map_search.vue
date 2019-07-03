@@ -21,13 +21,15 @@ import ComplexSearch from "@/views/content/map_complexsearch/complex_search.vue"
 import TextForm from "@/views/member/form/text_form.vue";
 // 引入modal组件
 import ModalDetail from "@/views/member/modal/modal_detail.vue";
+import DisasterPic from "@/views/member/form/disaster_pic.vue";
 
 @Component({
   components: {
     MapBase,
     ComplexSearch,
     TextForm,
-    ModalDetail
+    ModalDetail,
+    DisasterPic
   }
 })
 export default class center_map_search extends mixins(MapRangeVuexMixin) {

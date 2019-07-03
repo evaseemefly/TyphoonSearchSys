@@ -10,7 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
-import os, sys
+import os
+import sys
 
 import mongoengine
 
@@ -148,11 +149,14 @@ default_typhoon_code = "(nameless)"
 # 为查询station而设置的tpyhoon code
 DEFAULT_TYPHOON_CODE_BYSTATION = "default"
 
-DEFAULT_TYPHOON_DATE='1700-1-1'
+DEFAULT_TYPHOON_DATE = '1700-1-1'
 
 
 # mongodb中保存stationtidedata的document的名字
 MONGO_STATIONTIDEDATA_DOCUMENT_NAME = 'geostationtidedata'
+
+# 灾情图片文件夹，为了方便部署，还是选择绝对路径
+DISASTER_PIC_PATH = r'D:\MyProject\合作项目\TyphoonSys\TyphoonSearchSys\disasterPics'
 
 # 使用mongoengine
 # TODO [*] 此处暂时注释掉，不然会报错，稍后解决

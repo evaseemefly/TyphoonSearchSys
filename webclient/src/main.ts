@@ -21,8 +21,15 @@ import "echarts";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.js";
 
+//引入滑动模块
+import VueAwesomeSwiper from "vue-awesome-swiper"
+import "swiper/dist/css/swiper.css"
+
+
+
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(VueAwesomeSwiper)
 new Vue({
   router,
   store,
