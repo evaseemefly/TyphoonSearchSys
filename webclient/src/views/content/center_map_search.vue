@@ -40,5 +40,6 @@ export default class center_map_search extends mixins(MapRangeVuexMixin) {
   }
 }
 </script>
-<style scoped src="./map_range/map.css">
+<style scoped >
+/* <style scoped src="./map_range/map.css"> */
 </style>
