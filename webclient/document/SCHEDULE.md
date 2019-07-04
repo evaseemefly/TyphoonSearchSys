@@ -247,3 +247,11 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 19-07-03
 
 - [x] 1.合并了点击台风后加载的灾情图片 by [stupidanimal](https://github.com/stupidanimal)
+
+---
+19-07-04
+
+- [x] 1.加入日志功能
+- [x] 2.范围搜索页面未引入 `台风基础气象数据信息` 与`灾情图片信息` 组件
+- [x] 3.解决第三个页面兄弟组件之间由于动态调整高度造成另一个组件高度加载异常的问题。([问题解决办法](/document/Question.md))
+- [ ] 4. `灾情图片信息`还剩余一点未完成

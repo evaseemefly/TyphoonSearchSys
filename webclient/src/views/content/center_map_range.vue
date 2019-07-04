@@ -32,6 +32,8 @@ import TyphoonList from "@/views/member/secondBar/typhoonListBar.vue";
 import StationIcon from "@/views/member/map/station_icon.vue";
 import TextForm from "@/views/member/form/text_form.vue";
 import ModalDetail from "@/views/member/modal/modal_detail.vue";
+// 显示台风基础信息的子组件
+import rightBarDetail from "@/views/member/bar/rightBarDetail.vue";
 // 引入公共的枚举
 import { TyphoonCircleStatus } from "@/common/Status.ts";
 import {
@@ -104,7 +106,8 @@ import { mixins } from "vue-class-component";
     RangeSlider, // 范围range子组件
     TyphoonList, // 台风列表子组件
     ModalDetail, //modal子组件
-    TextForm // 右侧的加载灾情信息的文本框
+    TextForm, // 右侧的加载灾情信息的文本框
+    rightBarDetail
     // StationIcon
   }
 })
@@ -161,9 +164,24 @@ export default class center_map_range extends mixins(
     this.loadTyphoonListByRange(val);
   }
   stationTemp: IStation = null;
+  // 当前选中的台风code （英文名称）
+  code: string = "";
+  num: string = "";
   @Watch("targetStation")
   onTargetStation(val: IStation) {
     this.stationTemp = val;
+    // this.code=val.code;
+    // this.num=val.code;
+  }
+
+  @Watch("targetTyphoon")
+  onTargetTyphoon(val: MeteorologyRealData_Mid_Model) {
+    // console.log(val);
+    this.code = val.code;
+    this.num = val.num;
+    // this.stationTemp = val;
+    // this.code=val.code;
+    // this.num=val.code;
   }
 }
 </script>

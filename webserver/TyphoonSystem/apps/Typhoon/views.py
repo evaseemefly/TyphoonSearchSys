@@ -4,6 +4,7 @@ import datetime as superdatetime
 import dateutil
 import abc
 import os
+import logging
 
 from django.shortcuts import render
 from rest_framework import status
@@ -325,19 +326,24 @@ class StationDetailListView(APIView):
     '''
 
     def get(self, request):
-        code = request.GET.get('code')
-        name = request.GET.get('name')
-        num = request.GET.get('num')
+        code = request.GET.get('code',None)
+        name = request.GET.get('name',None)
+        num = request.GET.get('num',None)
         type = int(request.GET.get('type', '0'))
         switch = {
             0: StationDetailMinList,
             2: StationDetailAllList
         }
-        data_json = switch[type]().toSerialize(code, name, num, type)
-        # data_json = self.toSerialize(code, name, num, type)
-        # data_list = self.load(code, name, num)
-        # data_json = TideRealMidModelSerializer(data_list, many=True)
-        return Response(data_json.data)
+        try:
+            data_json = switch[type]().toSerialize(code, name, num, type)
+            # data_json = self.toSerialize(code, name, num, type)
+            # data_list = self.load(code, name, num)
+            # data_json = TideRealMidModelSerializer(data_list, many=True)
+            return Response(data_json.data)
+        except Exception as e:
+            logging.error(e)
+            return Response('',status=500)
+
         # pass
 
     # def get(self, request):
@@ -748,11 +754,16 @@ class StationStatisticsDataView(APIView):
         stationname = request.GET.get('name', None)
         # 根据stationname 与 typhoon num 找到 风暴增水的最大值
         # forecast-realtide 差值的最大值
-        max_val,max_date = self.getDeviationVals(num, stationname)
-        result={
-            'max_val':max_val,
-            'max_date':max_date
-        }
+        result={}
+        try:
+            max_val,max_date = self.getDeviationVals(num, stationname)
+            result={
+                'max_val':max_val,
+                'max_date':max_date
+            }
+        except Exception as e:
+            logging.error(e)
+
         return Response(result)
         # pass
 
@@ -829,6 +840,7 @@ class GetAllTyphoonCode(APIView):
             query = query.values_list("code", "num")
             return Response(query)
         except Exception as e:
+
             return Response([])
 
 

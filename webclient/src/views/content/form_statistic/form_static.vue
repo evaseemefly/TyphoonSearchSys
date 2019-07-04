@@ -3,7 +3,7 @@
     <div class="container-fluid main">
       <statisticSearch></statisticSearch>
       <staticDetail></staticDetail>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col">
           <div class="block">
             <mapSingle></mapSingle>
@@ -12,7 +12,7 @@
         <div class="col">
           <div class="block"></div>
         </div>
-      </div>
+      </div> -->
       <div class="row mt-10">
         <div class="col">
           <div class="alert alert-success block-content">

@@ -85,6 +85,7 @@ export default class rightBarDetail extends Vue {
 
 <style scoped>
 #typhoon_base {
+  z-index: 1500;
   position: fixed;
   top: 150px;
   right: 20px;
