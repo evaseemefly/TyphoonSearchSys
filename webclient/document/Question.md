@@ -1,11 +1,13 @@
 项目中出现的问题以后收集于此
 
 ## 1 动态计算 echarts 的高度，导致兄弟组件 100%自适应高度出问题
-![avatar](/document/img/WX20190704-213602.png)
-如图所示，本页面大概的加载顺序为，中间的部分
+![avatar](img/WX20190704-213602.png)
+如图所示，本页面大概的加载顺序为，中间的部分  
+
 | form_static_detail | |
 |----------|:-------------:|
-| map_single | typhoon_detail_charts |
+| map_single | typhoon_detail_charts |  
+
 由于右侧的`typhoon_detail_charts`的高度是动态计算得来的
 _在页面加载之后动态计算调整其高度_
 
