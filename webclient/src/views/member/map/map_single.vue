@@ -1,17 +1,14 @@
 <template>
-  <div id="singlecontent">
-    <l-map
+  <div v-if="isShow" id="singlecontent">
+    <l-map :zoom="zoom" :center="center">
+      <!-- <l-map
       ref="basemap"
       :zoom="zoom"
       :center="center"
-    >
+      >-->
       <l-tile-layer :url="url"></l-tile-layer>
       <!-- 台风路径 -->
-      <l-polyline
-        :lat-lngs="polyline.latlngs"
-        :color="polyline.color"
-        :fill="false"
-      ></l-polyline>
+      <l-polyline :lat-lngs="polyline.latlngs" :color="polyline.color" :fill="false"></l-polyline>
       <!-- 台风中心的圆点 -->
       <l-circle
         v-for="typhoon in typhoon_realdata_list"
@@ -92,7 +89,7 @@ export default class map_base extends mixins() {
   center: any = [17.6, 131.6];
   url: string =
     "//map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}";
-
+  isShow: boolean = false;
   initMap(): void {}
   mounted() {
     this.initMap();
@@ -102,9 +99,13 @@ export default class map_base extends mixins() {
     return this.$store.state.map.searchNum;
   }
 
+  get isStaticEchartsShow(): boolean {
+    return this.$store.state.chart.isStaticEchartsShow;
+  }
+
   @Watch("searchNum")
   onSearchNum(val: string) {
-    console.log(val);
+    // console.log(val);
     var myself = this;
     var par = {
       code: val,
@@ -136,6 +137,10 @@ export default class map_base extends mixins() {
       }
     });
   }
+  @Watch("isStaticEchartsShow")
+  onIsStaticEchartsShow(val: boolean) {
+    this.isShow = val;
+  }
 }
 </script>
 
@@ -144,5 +149,6 @@ export default class map_base extends mixins() {
   flex: 8;
   position: relative;
   height: 100%;
+  /* height: 600px; */
 }
 </style>

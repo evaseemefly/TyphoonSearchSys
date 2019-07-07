@@ -73,3 +73,11 @@
    by _19-06-30_
    效果如下：  
    ![avatar](document/img/WX20190630-114713.png)
+
+6. 点击台风后加载的灾情图片
+   by _19-07-03_
+   ![avatar](document/img/WX20190703-151902.png)
+   收起的效果
+   ![avatar](document/img/WX20190703-151933.png)
+   展开的效果
+   ![avatar](document/img/WX20190703-151942.png)

@@ -231,4 +231,27 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 - [x] 1.级别改为下拉菜单，对应为 1-6 级（val 对应也是 1-6），并加上对应的风速范围（热带低压->强台风）
       效果图如下：
       ![avatar](/document/img/WX20190630-114713.png)
-- [x] 2.修改散点图中的散点大小以及散点周围的div的填色以及div中的val（之前的实际与预测值搞反了）
+- [x] 2.修改散点图中的散点大小以及散点周围的 div 的填色以及 div 中的 val（之前的实际与预测值搞反了）
+
+---
+
+19-07-02
+
+- [x] 1.重构了/content/map_range
+- [x] 2.弃用 src/views/content/map_common/map_common_mixin.ts
+- [x] 3.将弃用文件中的部分代码放在 src/views/content/center_map_range.vue 中
+- [ ] 4.总结本次重构以及出现的问题
+
+---
+
+19-07-03
+
+- [x] 1.合并了点击台风后加载的灾情图片 by [stupidanimal](https://github.com/stupidanimal)
+
+---
+19-07-04
+
+- [x] 1.加入日志功能
+- [x] 2.范围搜索页面未引入 `台风基础气象数据信息` 与`灾情图片信息` 组件
+- [x] 3.解决第三个页面兄弟组件之间由于动态调整高度造成另一个组件高度加载异常的问题。([问题解决办法](Question.md))
+- [ ] 4. `灾情图片信息`还剩余一点未完成

@@ -59,6 +59,7 @@ export default {
     }
   },
   watch: {
+    //vuexc关注的参数属性值
     targetTyphoon(data) {
       let app = this;
       if (!data) return;
@@ -69,7 +70,7 @@ export default {
           let imgPartUrlList = res.data;
           let imgUrlList = [];
           for (let i in imgPartUrlList) {
-            imgUrlList.push(getBaseHostPicPath() + imgPartUrlList[i]);
+            imgUrlList.push(getBaseHostPicPath() + imgPartUrlList[i]);//组装成浏览器可以直接发送请求的url
           }
           if (imgUrlList.length > 0) app.items = imgUrlList;
           else {

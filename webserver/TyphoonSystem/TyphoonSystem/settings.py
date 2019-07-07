@@ -156,7 +156,9 @@ DEFAULT_TYPHOON_DATE = '1700-1-1'
 MONGO_STATIONTIDEDATA_DOCUMENT_NAME = 'geostationtidedata'
 
 # 灾情图片文件夹，为了方便部署，还是选择绝对路径
-DISASTER_PIC_PATH = r'D:\MyProject\合作项目\TyphoonSys\TyphoonSearchSys\disasterPics'
+# zw
+# DISASTER_PIC_PATH = r'D:\MyProject\合作项目\TyphoonSys\TyphoonSearchSys\disasterPics'
+DISASTER_PIC_PATH = r'/Users/liusihan/Documents/01project/TyphoonSearchSys/disasterPics'
 
 # 使用mongoengine
 # TODO [*] 此处暂时注释掉，不然会报错，稍后解决
@@ -170,6 +172,6 @@ _MONGODB_DATABASE_HOST = \
     % (_MONGODB_USER, _MONGODB_PASSWD, _MONGODB_HOST, _MONGODB_NAME)
 
 # mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
-mongoengine.connect(_MONGODB_NAME)
+# mongoengine.connect(_MONGODB_NAME)
 # 线上配置
-# mongoengine.connect('typhoon',host="db")
+mongoengine.connect('typhoon',host="db")

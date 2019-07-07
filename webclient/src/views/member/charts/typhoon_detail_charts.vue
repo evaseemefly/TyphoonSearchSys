@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="alert"
-    style="background:rgba(255,255,255,0.5)"
-  >
+  <div id="chart_container" class="alert" style="background:rgba(255,255,255,0.5)">
     <div id="dataChart"></div>
   </div>
 </template>
@@ -214,17 +211,40 @@ export default {
       } while (i < 97);
       return listDate;
     },
+    setContainerHeight() {
+      let body = document.body;
+      let height = body.clientHeight;
+      // 找到在echart div外侧的容器div
+      var container = document.getElementById("chart_container");
+      container.style.height = Math.ceil(height * 0.66) + "px";
+    },
     setHeight() {
       //动态设定chart's constainer高度,.65系数看着给的没那么精细，毕竟两个row的高度没那么好算，写死也听傻的还不如就这样，而且硬设高度alert设定的是文字，不是内容也不太好算
       let body = document.body;
       let height = body.clientHeight;
       this.chartEle.style.height = Math.ceil(height * 0.65) + "px";
+      // TODO:[-] 19-07-04 注意此处修改了echart的高度之后需要通知左边的 map 组件可以加载了！
+      this.$store.state.chart.isStaticEchartsShow = true;
     }
   },
   mounted() {
     this.chartEle = document.getElementById("dataChart");
     this.setHeight();
     this.chart = echarts.init(this.chartEle);
+  },
+  created() {
+    // this.setHeight();
+    console.log("created");
+    // 每次创建时，需要设置 chart的isShow为false（注意！）
+    this.$store.state.chart.isStaticEchartsShow = false;
+  },
+  beforeCreate() {
+    console.log("beforecreate");
+    // this.setHeight();
+  },
+  beforeMount() {
+    console.log("beforceMount");
+    // this.setContainerHeight();
   }
 };
 </script>
