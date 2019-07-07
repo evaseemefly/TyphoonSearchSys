@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const host = 'http://127.0.0.1:8000'
+// export const host = 'http://127.0.0.1:8000'
 // ʵ�ʲ����ַ���˿�
-// export const host = 'http://128.5.10.26:8000'
+export const host = 'http://128.5.10.26:8000'
 // ����docker����
 // export const host = 'http://127.0.0.1:32773'
 // export const host ="http://127.0.0.1:64807";
@@ -81,7 +81,7 @@ export const getRealDataMbp = num => {
 //根据year和num获取灾情图片url列表
 export const getDisasterPicPath = (year, num) => {
   let url = `${host}/gis/data/GetDisasterPicPath?year=${year}&num=${num}`
-  return axios.get(url);
+  return axios.get(url)
 }
 //返回一个基础路径配合图片地址
 export const getBaseHostPicPath = () => {
