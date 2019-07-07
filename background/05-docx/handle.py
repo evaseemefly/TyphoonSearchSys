@@ -27,7 +27,6 @@ def handleFile(fplist):
             lines = f.readlines()
             f.close()
             document = Document()
-
             for line in lines:
                 paragraph = document.add_paragraph(line)
 
@@ -47,10 +46,9 @@ def handleFile(fplist):
 #遍历文件夹
 def detectPath(path):
     for root, dirs, files in os.walk(path):
-        fplist = [os.path.join(root, f) for f in files]
-        handleFile(fplist)
-        for d in dirs:
-            detectPath(os.path.join(root, d))
+      print(root,dirs,files)
+      fplist = [os.path.join(root, f) for f in files]
+      handleFile(fplist)
 
 
 #执行方法
