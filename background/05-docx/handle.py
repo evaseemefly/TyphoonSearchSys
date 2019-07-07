@@ -5,10 +5,11 @@ from docx import Document
 # from docx.shared import Inches
 import os
 
-
+##目标目录
 basep = '.\\'
 dirs = []
 files = []
+##可以指定targetpath 如果不写就在各个文件的根目录下生成docx
 targetPath = '.\\result'
 # targetPath=''
 
