@@ -249,6 +249,7 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 - [x] 1.合并了点击台风后加载的灾情图片 by [stupidanimal](https://github.com/stupidanimal)
 
 ---
+
 19-07-04
 
 - [x] 1.加入日志功能
@@ -257,7 +258,14 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 - [ ] 4. `灾情图片信息`还剩余一点未完成
 
 ---
-19-07-07 
 
--[x] 1.总结上周的vue2leaflet的相关问题
--[x] 2.之前部分onenote中的总结移交至git上
+19-07-07
+
+- [x] 1.总结上周的 vue2leaflet 的相关问题 -[x] 2.之前部分 onenote 中的总结移交至 git 上
+
+---
+
+19-07-10
+
+- [x] 1.完成台风名称字典的录入
+- [ ] 2.后台完成根据指定的台风 num（或 code）返回台风中文名称
