@@ -6,11 +6,11 @@ from docx import Document
 import os
 
 ##目标目录
-basep = '/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/background/05-docx'
+basep = '/Users/liusihan/Documents/01project/TyphoonSearchSys/data/word/source'
 dirs = []
 files = []
 ##可以指定targetpath 如果不写就在各个文件的根目录下生成docx
-targetPath = '/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/background/05-docx/result'
+targetPath = '/Users/liusihan/Documents/01project/TyphoonSearchSys/data/word/convert'
 # targetPath=''
 
 if targetPath == None:
@@ -24,27 +24,35 @@ def handleFile(fplist):
     for fp in fplist:
         if os.path.exists(fp) and os.path.splitext(fp)[-1] == '.txt':
             lines = []
-            f = open(fp,encoding='gb2312')
-            # f = open(fp,encoding='utf-8')
-            # UnicodeDecodeError: 'utf-8' codec can't decode byte 0xba in position 4: invalid start byte
-            lines = f.readlines()
-            f.close()
-            document = Document()
-            for line in lines:
-                paragraph = document.add_paragraph(line)
+            # print(fp)
+            try:
+                # f = open(fp)
+                f = open(fp, encoding='gb2312')
+                # f = open(fp,encoding='utf-8')
+                # UnicodeDecodeError: 'utf-8' codec can't decode byte 0xba in position 4: invalid start byte
+                # UnicodeDecodeError: 'gb2312' codec can't decode byte 0x9c in position 323: illegal multibyte sequence
+                lines = f.readlines()
+                f.close()
+                document = Document()
+                for line in lines:
+                    paragraph = document.add_paragraph(line)
 
-            savepath = ''
-            if targetPath != '':
-                name = os.path.splitext(os.path.basename(fp))[0]
-                savepath = os.path.join(targetPath, name+'.docx')
-                document.save(savepath)
+                savepath = ''
+                if targetPath != '':
+                    name = os.path.splitext(os.path.basename(fp))[0]
+                    savepath = os.path.join(targetPath, name+'.docx')
+                    document.save(savepath)
 
-            else:
-                name = os.path.splitext(fp)[0]
-                savepath = name+'.docx'
-                document.save(savepath)
-            if savepath != '':
-                print('file saved:', savepath)
+                else:
+                    name = os.path.splitext(fp)[0]
+                    savepath = name+'.docx'
+                    document.save(savepath)
+                # if savepath != '':
+                #     print('file saved:', savepath)
+            except UnicodeDecodeError as uerr:
+                # print('Error: {}'.format(uerr))
+                print(f'异常文件为{fp},错入提示{uerr}')
+
 
 #遍历文件夹
 def detectPath(path):

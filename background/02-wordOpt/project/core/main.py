@@ -11,9 +11,9 @@ targetfilename=r"5622.docx"
 # P52S
 # targetpath=r"D:\04git仓库\TyphoonSearchSys\demo_data"
 # mac15
-# targetpath=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/demo_data"
+targetpath = '/Users/liusihan/Documents/01project/TyphoonSearchSys/data/word/convert'
 # mac16
-targetpath=r"/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/background/05-docx/result"
+# targetpath=r"/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/background/05-docx/result"
 
 
 fullname=os.path.join(targetpath,targetfilename)
@@ -43,7 +43,7 @@ def main():
         if word.standard==True:
             code=word.typhoonNum
             # code = '5622'
-            par = Paragraph(word.dir, word.filename)
+            par = Paragraph(word.dir, word.fullname)
             # 写入mongo
             connect('typhoon')
             dis = DisasterWordInfo(code=code, wordDocument=par.wordText)

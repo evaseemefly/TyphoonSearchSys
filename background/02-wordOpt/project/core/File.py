@@ -56,6 +56,10 @@ class WordFile:
         return ext
 
     @property
+    def fullname(self):
+        return self._filename
+
+    @property
     def standard(self):
         '''
             根据文件后缀是否为 .docx 来判断是否为标准文件
