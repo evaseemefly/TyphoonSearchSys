@@ -5,7 +5,7 @@ from datetime import timezone,timedelta
 # DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/demo_data"
 # DIR_PATH = r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/station/2014"
 # mac16 测站数据
-DIR_PATH=r"/Users/drno/Documents/01proj/TyphoonSearchSys/data/station/2014"
+DIR_PATH=r"/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext/txt"
 # 单位 处理台风的实时气象数据
 # DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/typhoon"
 # mac16 处理台风是的实时气象数据

@@ -269,3 +269,14 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 
 - [x] 1.完成台风名称字典的录入
 - [ ] 2.后台完成根据指定的台风 num（或 code）返回台风中文名称
+
+---
+
+19-07-11
+
+- [x] 1.根据新老数据修改对应的录入代码
+- [x] 2.录入全部的测站数据
+
+效果图如下：
+      ![avatar](/document/img/WX20190711-192858.png)
+      ![avatar](/document/img/WX20190711-192946.png)

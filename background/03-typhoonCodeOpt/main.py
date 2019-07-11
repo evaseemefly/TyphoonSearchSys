@@ -4,7 +4,9 @@ import os
 import re
 
 filename = "typhoonNumCode.txt"
-targetpath=r'D:\02git仓库\TyphoonSearchSys\data\ext'
+# targetpath=r'D:\02git仓库\TyphoonSearchSys\data\ext'
+# mac16
+targetpath=r'/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext'
 extfilename='typhoonNumCode.txt'
 mongoengine.connect('typhoon', host="127.0.0.1:27017")
 gt = model.GeoTyphoonRealData
@@ -52,6 +54,10 @@ def insertTyphoonNumbyCh(fullname:str):
             -2 逐行读取并录入mongo
     '''
     with open(fullname,'r') as file:
+        # mac中会出现以下错误：
+        '''
+            UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb4 in position 12: invalid start byte
+        '''
         list=file.readlines()
         # 循环写入
         for typhoon in list:

@@ -6,7 +6,7 @@
 
 使用 `mouseleave` 实现鼠标移出时事件的触发，使用 `mouseout` 可能可会引发冒泡，而出现一些问题，建议使用`mouseleave`
 
-```
+```html
 
 <div
     class="card mt10"
@@ -19,7 +19,7 @@
 
 子组件中：触发父组件的某个方法，并将`this`（也就是 myself）传过去
 
-```
+```js
 // 根据当前的range以及经纬度提交后台返回对应的台风列表
   getRangeTyphoonList(): void {
     var myself = this;
@@ -30,7 +30,7 @@
 
 在父组件中，直接为传入的子组件对象新增新的属性
 
-```
+```js
 loadTyphoonListByRange(pageInfo): void {
     var myself = this;
     //
@@ -46,7 +46,7 @@ loadTyphoonListByRange(pageInfo): void {
 
 1.使用 pagination 时出现的问题
 
-```
+```html
  <el-pagination
               background
               layout="prev, pager, next"
