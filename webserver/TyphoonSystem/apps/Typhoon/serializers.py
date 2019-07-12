@@ -151,6 +151,17 @@ class StationTideDataFullModelSerializer(serializers.Serializer):
     #   更复杂的字段
     # realtidedata = RealtideDataSerializer(many=True)
 
+class TyphoonNumChDictSerializer(serializers.Serializer):
+    '''
+        台风名称对照表
+    '''
+    # 台风英文名称
+    code = serializers.CharField()
+    # 台风编号
+    num = serializers.CharField()
+    # 台风对应中文名字
+    chname = serializers.CharField()
+
 
 
 

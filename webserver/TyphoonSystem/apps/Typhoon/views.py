@@ -211,6 +211,23 @@ class IStationDetail(abc.ABC):
         pass
 
 
+class TyphoonNameDictView(APIView):
+    '''
+        台风名称字典 视图
+    '''
+
+    def get(self, request):
+        num_list = request.GET.get('nums', None)
+        list_dict: [] = []
+        if num_list != None:
+            list_dict = TyphoonNumChDictData.objects(num__in=num_list)
+        else:
+            list_dict = TyphoonNumChDictData.objects()
+        # list_dict = list_dict.distinct('num')
+        json_data = TyphoonNumChDictSerializer(list_dict,many=True).data
+        return Response(json_data)
+
+
 class StationDetailMinList(IStationDetail):
     def load(self, code: str, stationname: str, num: str):
         '''
@@ -326,9 +343,9 @@ class StationDetailListView(APIView):
     '''
 
     def get(self, request):
-        code = request.GET.get('code',None)
-        name = request.GET.get('name',None)
-        num = request.GET.get('num',None)
+        code = request.GET.get('code', None)
+        name = request.GET.get('name', None)
+        num = request.GET.get('num', None)
         type = int(request.GET.get('type', '0'))
         switch = {
             0: StationDetailMinList,
@@ -342,7 +359,7 @@ class StationDetailListView(APIView):
             return Response(data_json.data)
         except Exception as e:
             logging.error(e)
-            return Response('',status=500)
+            return Response('', status=500)
 
         # pass
 
@@ -601,7 +618,7 @@ class GetTyphoonCodeByComplexCondition(BaseView):
 
         query = GeoTyphoonRealData.objects()
 
-        if level is not None and level != '' and level !='0':
+        if level is not None and level != '' and level != '0':
             query = query.filter(level=int(level))
         if wsm is not None and wsm != '':
             query = query.filter(wsm=wsm)
@@ -753,17 +770,18 @@ class StationStatisticsDataView(APIView):
     '''
         获取测站的极值数据
     '''
+
     def get(self, request):
         num = request.GET.get("num", None)
         stationname = request.GET.get('name', None)
         # 根据stationname 与 typhoon num 找到 风暴增水的最大值
         # forecast-realtide 差值的最大值
-        result={}
+        result = {}
         try:
-            max_val,max_date = self.getDeviationVals(num, stationname)
-            result={
-                'max_val':max_val,
-                'max_date':max_date
+            max_val, max_date = self.getDeviationVals(num, stationname)
+            result = {
+                'max_val': max_val,
+                'max_date': max_date
             }
         except Exception as e:
             logging.error(e)
@@ -771,7 +789,7 @@ class StationStatisticsDataView(APIView):
         return Response(result)
         # pass
 
-    def getDeviationVals(self, num: str, stationname: str) :
+    def getDeviationVals(self, num: str, stationname: str):
         '''
             获取差值的数组
         :return:
@@ -792,18 +810,18 @@ class StationStatisticsDataView(APIView):
             forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
             # forecast_arr = [forecast_temp for forecast in temp.forecastdata for forecast_temp in forecast]
             real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
-            real_arr=real_arr+real_arr_temp
-            forecast_arr=forecast_arr+forecast_arr_temp
+            real_arr = real_arr + real_arr_temp
+            forecast_arr = forecast_arr + forecast_arr_temp
             # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
         # err：ValueError: not enough values to unpack (expected 3, got 2)
         # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
-        deviation_arr = [(i,x-y) for i, (x,y) in enumerate(zip(forecast_arr, real_arr))]
+        deviation_arr = [(i, x - y) for i, (x, y) in enumerate(zip(forecast_arr, real_arr))]
         # 找到极值及其所在位置
         max_deviation = max(deviation_arr, key=lambda x: x[1])
-        index=max_deviation[0]
-        max_targetdate=query.startdate+timedelta(hours=index)
-        max_val=max_deviation[1]
-        return max_val,max_targetdate
+        index = max_deviation[0]
+        max_targetdate = query.startdate + timedelta(hours=index)
+        max_val = max_deviation[1]
+        return max_val, max_targetdate
 
 
 # 获取所有台风年份
@@ -815,21 +833,24 @@ class GetAllTyphoonYear(APIView):
         lst = list(query)
         return Response(lst)
 
+
 class CheckStationCount4Typhoon(APIView):
     '''
         根据传入的 typhon 判断是否有对应的 测站列表
     '''
-    def get(self,request):
-        num=request.GET.get('num',None)
-        query=StationTideData.objects(typhoonnum=num)
-        count=len(query)
-        result={
-            'count':count
+
+    def get(self, request):
+        num = request.GET.get('num', None)
+        query = StationTideData.objects(typhoonnum=num)
+        count = len(query)
+        result = {
+            'count': count
         }
         return Response(result)
         # pass
 
         # count=query
+
 
 # 获取所有台风编号
 # 这个写死了需要修改
@@ -911,35 +932,36 @@ class GetRealDataMbp(APIView):
         print(dic)
         return Response(dic)
 
+
 class GetDisasterPicPath(APIView):
     '''
     根据灾情参数读取所有文件，并生成url路径，贡轮播使用
     '''
-    def get(self,request):
+
+    def get(self, request):
         base_path = settings.DISASTER_PIC_PATH
         num = request.GET.get("num")
         year = request.GET.get("year")
-        img_dir_path = os.path.join(base_path,year,num);
+        img_dir_path = os.path.join(base_path, year, num);
         if not os.path.exists(img_dir_path):
             return Response([])
         img_name_list = os.listdir(img_dir_path)
         reslist = []
-        #暂时先写死img路径
-        get_pic_url = 'data/DisplayDisasterPic/'+year+'/'+num+'/'
+        # 暂时先写死img路径
+        get_pic_url = 'data/DisplayDisasterPic/' + year + '/' + num + '/'
         print(get_pic_url)
         for name in img_name_list:
-            reslist.append(get_pic_url+name);
+            reslist.append(get_pic_url + name);
         return Response(reslist);
 
 
-def DisplayDisasterPic(request,num,year,filename):
+def DisplayDisasterPic(request, num, year, filename):
     '''
     根据路径读取单张图片并返回
     '''
     base_path = settings.DISASTER_PIC_PATH
-    file_path = os.path.join(base_path,year,num,filename)
-    image_data = open(file_path,"rb").read()
-    _,imgtype = os.path.splitext(file_path)
-    content_type = "image/"+imgtype.lstrip('.')
-    return HttpResponse(image_data,content_type=content_type)
-    
+    file_path = os.path.join(base_path, year, num, filename)
+    image_data = open(file_path, "rb").read()
+    _, imgtype = os.path.splitext(file_path)
+    content_type = "image/" + imgtype.lstrip('.')
+    return HttpResponse(image_data, content_type=content_type)
