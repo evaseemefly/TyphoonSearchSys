@@ -211,20 +211,23 @@ class IStationDetail(abc.ABC):
         pass
 
 
-class TyphoonNameDictView(APIView):
+class TyphoonNameDictView(BaseView):
     '''
         台风名称字典 视图
     '''
 
     def get(self, request):
-        num_list = request.GET.get('nums', None)
-        list_dict: [] = []
-        if num_list != None:
-            list_dict = TyphoonNumChDictData.objects(num__in=num_list)
-        else:
-            list_dict = TyphoonNumChDictData.objects()
+        nums = request.GET.get('nums', '')
+        # TODO:[*] 19-07-12 放在父类中
+        num_list = nums.split(',')
+        # list_dict: [] = []
+        # if len(num_list)==1 and num_list[0]=='':
+        #     list_dict = TyphoonNumChDictData.objects()
+        # else:
+        #     list_dict = TyphoonNumChDictData.objects(num__in=num_list)
         # list_dict = list_dict.distinct('num')
-        json_data = TyphoonNumChDictSerializer(list_dict,many=True).data
+        list_dict = self.getTyphoonChNameDict(nums=num_list)
+        json_data = TyphoonNumChDictSerializer(list_dict, many=True).data
         return Response(json_data)
 
 
@@ -529,8 +532,17 @@ class FilterByRange(BaseView):
             obj = GeoTyphoonRealData.objects(num=num)[0]
             if obj.code not in tup_python_name:
                 list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
+        # TODO:[*] 19-07-12 加入中文typhoonName
+        list_typhoonNum = [temp.num for temp in list_data]
+        list_namesDict = self.getTyphoonChNameDict(nums=list_typhoonNum)
+        list_dataFinal = []
+        if len(list_namesDict)>0:
+            [list_dataFinal.append(TyphoonModel(temp[1].code, temp[1].date, temp[1].num, temp[0])) for temp in
+         zip(list_data, list_namesDict)]
+        else:
+            list_dataFinal=list_data
         # TODO:[*] 19-05-13 返回的加入total
-        data = TyphoonAndTotalModel(list_data, total)
+        data = TyphoonAndTotalModel(list_dataFinal, total)
         json_data = TyphoonAndTotalModelSerializer(data).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
@@ -757,8 +769,9 @@ class DisasterWordView(APIView):
     '''
         获取灾情描述word信息
     '''
+
     def get(self, request):
-        code=request.GET.get('code',None)
+        code = request.GET.get('code', None)
         # code = '5622'
         query = DisasterWordInfo.objects(code=code)
         json_data = DisasterWordModelSerializer(query, many=True).data

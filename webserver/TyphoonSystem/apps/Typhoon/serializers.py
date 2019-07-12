@@ -25,6 +25,7 @@ class TyphoonModelSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)
     year = serializers.IntegerField()
     num = serializers.CharField(required=False)
+    nameCh = serializers.CharField()
 
 
 class TyphoonAndTotalModelSerializer(serializers.Serializer):
@@ -105,23 +106,27 @@ class StationTideIncludeAllMidModelSerializer(serializers.Serializer):
     station = StationTideDataModelSerializer()
     forecast = TideAllMidModelSerializer()
 
+
 class DetailDataSerializer(serializers.Serializer):
     occurredTime = serializers.CharField()
     val = serializers.IntegerField()
 
+
 class ForecasetDataSerializer(serializers.Serializer):
-    forecast_arr=serializers.ListField()
+    forecast_arr = serializers.ListField()
     heigh_heigh_tide = DetailDataSerializer()
     heigh_low_tide = DetailDataSerializer()
     low_heigh_tide = DetailDataSerializer()
     low_low_tide = DetailDataSerializer()
 
+
 class RealDataSerializer(serializers.Serializer):
-    realdata_arr=serializers.ListField()
+    realdata_arr = serializers.ListField()
     heigh_heigh_tide = DetailDataSerializer()
     heigh_low_tide = DetailDataSerializer()
     low_heigh_tide = DetailDataSerializer()
     low_low_tide = DetailDataSerializer()
+
 
 class RealtideDataSerializer(serializers.Serializer):
     targetdate = serializers.DateField()
@@ -133,7 +138,7 @@ class StationTideDataFullModelSerializer(serializers.Serializer):
     '''
         测站潮位数据
     '''
-    typhoonnum=serializers.CharField()
+    typhoonnum = serializers.CharField()
     # 测站代码
     code = serializers.CharField()
     #     起始时间
@@ -151,6 +156,7 @@ class StationTideDataFullModelSerializer(serializers.Serializer):
     #   更复杂的字段
     # realtidedata = RealtideDataSerializer(many=True)
 
+
 class TyphoonNumChDictSerializer(serializers.Serializer):
     '''
         台风名称对照表
@@ -161,8 +167,3 @@ class TyphoonNumChDictSerializer(serializers.Serializer):
     num = serializers.CharField()
     # 台风对应中文名字
     chname = serializers.CharField()
-
-
-
-
-

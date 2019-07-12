@@ -12,3 +12,8 @@ webclient/package-lock.json
 /webserver/TyphoonSystem/common/__pycache__
 /webserver/TyphoonSystem/apps/__pycache__
 /webserver/TyphoonSystem/apps/Typhoon/__pycache__
+/data/typhoon
+/data/word
+/data/station/new
+/data/station/old
+/data/station/txt

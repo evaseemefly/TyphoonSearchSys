@@ -4,9 +4,9 @@ import os
 import re
 
 filename = "typhoonNumCode.txt"
-# targetpath=r'D:\02git仓库\TyphoonSearchSys\data\ext'
+targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\ext'
 # mac16
-targetpath=r'/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext'
+# targetpath=r'/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext'
 extfilename='typhoonNumCode.txt'
 mongoengine.connect('typhoon', host="127.0.0.1:27017")
 gt = model.GeoTyphoonRealData
@@ -79,6 +79,7 @@ def main():
     # 要读取的字典文件
     full=os.path.join(targetpath,extfilename)
     insertTyphoonNumbyCh(full)
+    print('录入完成')
 
 
 if __name__ == '__main__':
