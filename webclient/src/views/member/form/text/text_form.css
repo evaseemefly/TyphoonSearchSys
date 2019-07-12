@@ -10,7 +10,11 @@
   margin-bottom: 10px;
 }
 #textform {
-  background: linear-gradient(to right, #2c3e50 30%, rgba(4, 107, 114, 0.639));
+  background: linear-gradient(
+    to right,
+    #2c3e50 30%,
+    rgba(4, 107, 114, 0.966)
+  ) !important;
   max-height: 600px;
   overflow-y: scroll;
 }

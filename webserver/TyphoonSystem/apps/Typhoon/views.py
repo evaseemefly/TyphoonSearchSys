@@ -737,8 +737,12 @@ def add_months(sourcedate, months):
 
 
 class DisasterWordView(APIView):
+    '''
+        获取灾情描述word信息
+    '''
     def get(self, request):
-        code = '5622'
+        code=request.GET.get('code',None)
+        # code = '5622'
         query = DisasterWordInfo.objects(code=code)
         json_data = DisasterWordModelSerializer(query, many=True).data
         return Response(json_data)

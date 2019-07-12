@@ -7,11 +7,11 @@ from mongoengine import *
 
 targetfilename=r"5622.docx"
 # aw
-# targetpath=r"D:\01proj\typhoon\TyphoonSearchSys\demo_data"
+targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\word\convert'
 # P52S
 # targetpath=r"D:\04git仓库\TyphoonSearchSys\demo_data"
 # mac15
-targetpath = '/Users/liusihan/Documents/01project/TyphoonSearchSys/data/word/convert'
+# targetpath = '/Users/liusihan/Documents/01project/TyphoonSearchSys/data/word/convert'
 # mac16
 # targetpath=r"/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/background/05-docx/result"
 
