@@ -280,3 +280,8 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 效果图如下：
       ![avatar](/document/img/WX20190711-192858.png)
       ![avatar](/document/img/WX20190711-192946.png)
+
+---
+19-07-13
+-[x] 1.对于复杂查询页面(complex_search)，加入了台风列表的倒叙操作；
+-[x] 2.复杂查询页面与range页面，对台风加入了中文名称

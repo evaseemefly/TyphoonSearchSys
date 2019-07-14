@@ -28,6 +28,7 @@ from .serializers import *
 from .middle_models import *
 from common import dateCommon
 from .view_decorator import *
+from common.dateCommon import sortTyphoonNum
 
 
 # Create your views here.
@@ -512,6 +513,7 @@ class FilterByRange(BaseView):
         # 获取去重后的code list
         nums = self.getTyphoonList(latlon=latlons, range=range)
         total = len(nums)
+        # TODO:[*] 19-07-13 对nums加入排序升序排序
         codes = nums[start_index:finish_index]
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
         # list_data = [GeoTyphoonRealData.objects(code=code)[:1].code
@@ -534,13 +536,25 @@ class FilterByRange(BaseView):
                 list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
         # TODO:[*] 19-07-12 加入中文typhoonName
         list_typhoonNum = [temp.num for temp in list_data]
-        list_namesDict = self.getTyphoonChNameDict(nums=list_typhoonNum)
-        list_dataFinal = []
-        if len(list_namesDict)>0:
-            [list_dataFinal.append(TyphoonModel(temp[1].code, temp[1].date, temp[1].num, temp[0])) for temp in
-         zip(list_data, list_namesDict)]
-        else:
-            list_dataFinal=list_data
+
+        # 以下部分封装至 BaseView 中的 addChnameVariable 方法中
+        # list_namesDict = self.getTyphoonChNameDict(nums=list_typhoonNum)
+        # dict_names = {}
+        # # ((lambda x: dict_names[x.num]=x.chname)(temp) for temp in list_namesDict)
+        # for temp in list_namesDict:
+        #     dict_names[temp.num] = temp.chname
+        # list_dataFinal = []
+        # if len(list_namesDict) > 0:
+        #     # lis for temp in list_data
+        #     [
+        #         list_dataFinal.append(TyphoonModel(temp.code, temp.date, temp.num, dict_names.get(temp.num)))
+        #      for
+        #      temp in
+        #      list_data]
+        # else:
+        #     list_dataFinal = list_data
+
+        list_dataFinal = self.addChnameVariable(list_data, nums=list_typhoonNum)
         # TODO:[*] 19-05-13 返回的加入total
         data = TyphoonAndTotalModel(list_dataFinal, total)
         json_data = TyphoonAndTotalModelSerializer(data).data
@@ -628,6 +642,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         fromP = request.GET.get('from')
         toP = request.GET.get('to')
 
+        # TODO:[*] 19-07-13 需要对复杂条件查询加入台风的中文名称chname
+
         query = GeoTyphoonRealData.objects()
 
         if level is not None and level != '' and level != '0':
@@ -647,7 +663,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
             end_date = add_months(end_date, 1)
             etime = end_date + timedelta(seconds=-1)
             query = query.filter(date__lte=etime)
-
+        # TODO:[-] 19-07-11 加入排序
+        query = query.order_by('date')
         try:
             fromP = int(fromP)
         except Exception as e:
@@ -660,8 +677,13 @@ class GetTyphoonCodeByComplexCondition(BaseView):
 
         query = query.filter(code__ne='(nameless)')
         # TODO:[-] 19-05-22 注意此处必须根据台风编号去重（num），因为code有可能有重复的！！！
+        #  19-07-13 暂时去掉根据num去重，此时的query就不再是一个num的 list，而是一个GeoTyphoonRealData的list，
+        # 注意此处的num确实是会有重复的，必须要去重
         query = query.distinct('num')
         total = len(query)
+        # TODO:[*] 19-07-13 加入一个排序，使用升序排列
+        # query = sorted(query, key=lambda x: int(x), reverse=False)
+        query = sortTyphoonNum(query, False, 49)
         query = query[fromP:toP]
         # TODO [*] 19-05-05 由于前台需要的是code以及num，所以需要根据code获取到geoTyphoonRealData类型的列表，并序列化返回
         #  以下注释部分 -by zw
@@ -671,12 +693,15 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         # result = {'total':total,'data':query}
         # return Response(result)
         # 因为返回的都是code，此部分只是多了一个year，暂时可以去掉
+
         list_data = [
-            TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code, GeoTyphoonRealData.objects(num=num)[0].date,
+            TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code,
+                         GeoTyphoonRealData.objects(num=num)[0].date,
                          GeoTyphoonRealData.objects(num=num)[0].num)
             for num in query]
-
-        json_data = TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_data, total)).data
+        typhoon_nums = [temp.num for temp in list_data]
+        list_dataFinal = self.addChnameVariable(list_data, nums=typhoon_nums)
+        json_data = TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_dataFinal, total)).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
 

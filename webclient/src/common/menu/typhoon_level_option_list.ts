@@ -8,7 +8,7 @@ const OptionList = [
   new TyphoonLevelOptionMidModel("热带风暴", TyphoonLevel.ts, 2),
   new TyphoonLevelOptionMidModel("强热带风暴", TyphoonLevel.sts, 3),
   new TyphoonLevelOptionMidModel("台风", TyphoonLevel.ty, 4),
-  new TyphoonLevelOptionMidModel("强大风", TyphoonLevel.td, 5),
+  new TyphoonLevelOptionMidModel("强台风", TyphoonLevel.td, 5),
   new TyphoonLevelOptionMidModel("超强台风", TyphoonLevel.superty, 6)
 ];
 export { OptionList };

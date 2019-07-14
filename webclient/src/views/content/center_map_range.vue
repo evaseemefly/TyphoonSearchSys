@@ -146,7 +146,7 @@ export default class center_map_range extends mixins(
         // data中为台风列表
         data.forEach(obj => {
           myself.typhoon_code_list.push(
-            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num)
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num,obj.nameCh)
           );
         });
         myself.is_show_typhoon_list = true;

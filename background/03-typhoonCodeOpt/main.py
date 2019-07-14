@@ -4,9 +4,9 @@ import os
 import re
 
 filename = "typhoonNumCode.txt"
-targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\ext'
+# targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\ext'
 # mac16
-# targetpath=r'/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext'
+targetpath=r'/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext'
 extfilename='typhoonNumCode.txt'
 mongoengine.connect('typhoon', host="127.0.0.1:27017")
 gt = model.GeoTyphoonRealData
@@ -53,7 +53,9 @@ def insertTyphoonNumbyCh(fullname:str):
             -1 读取指定文件
             -2 逐行读取并录入mongo
     '''
-    with open(fullname,'r') as file:
+    # mac下可能会出现 utf-8 编码错误，编码格式改为 gb2312
+    # encoding='gb2312'
+    with open(fullname,'r',encoding='gb2312') as file:
         # mac中会出现以下错误：
         '''
             UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb4 in position 12: invalid start byte

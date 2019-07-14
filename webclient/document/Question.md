@@ -68,3 +68,28 @@ _在页面加载之后动态计算调整其高度_
 此处由引出一个问题就是页面的顺序加载
 对于时间上的顺序加载，可以通过上面说的`v-if`与`v-show`。即1组件加载之后，再加载2组件。
 
+
+---
+
+## 在vs中使用vetur可能会对ts-lint或es-lint造成冲突
+eg：
+假设定义了一个构造函数，其中包含可选参数（chname）
+```js
+constructor(
+    name: string,
+    id: number,
+    code: string,
+    year: number,
+    num: string,
+    chname?: string 
+  )
+```
+调用时
+```ts
+myself.typhoon_code_list.push(
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num,obj.nameCh)
+          );
+```
+会提示一个vetur的错误  
+现在的解决办法是在`设置`中禁用掉
+`vetur>Validation:Script`

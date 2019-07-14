@@ -13,6 +13,10 @@ class TyphoonModel:
     def year(self):
         return self._date.year
 
+    @property
+    def date(self):
+        return self._date
+
 
 class TyphoonAndTotalModel:
     def __init__(self, list: [], total: int):
