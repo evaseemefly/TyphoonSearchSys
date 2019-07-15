@@ -88,3 +88,13 @@ class StationTideData(Document):
 
     def __str__(self):
         return f'code:{self.code}|startdate:{self.startdate}|stationname:{self.stationname}|point:{self.point}|lev:{self.lev}|jw:{self.jw}|harmonicconstant:{self.harmonicconstant}'
+
+
+class StationNameDict(Document):
+    '''
+        测站名称对照表
+    '''
+    name = StringField()
+    chname = StringField()
+
+    meta = {'collection': 'stationnamedict'}
