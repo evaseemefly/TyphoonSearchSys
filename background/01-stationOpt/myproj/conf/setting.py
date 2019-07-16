@@ -4,7 +4,7 @@ from datetime import timezone,timedelta
 # 单位 处理台风对应的测站数据的路径
 # DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/demo_data"
 # aw
-# DIR_PATH = r"D:\01proj\typhoon\TyphoonSearchSys\data\station\txt"
+DIR_PATH = r"D:\01proj\typhoon\TyphoonSearchSys\data\station\txt"
 # mac16 测站数据
 # DIR_PATH=r"/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext/txt"
 # 单位 处理台风的实时气象数据
@@ -15,7 +15,7 @@ from datetime import timezone,timedelta
 # DIR_PATH=r"/Users/casablanca/03project/typhoonSearchSys/demo_data"
 
 # aw
-DIR_PATH=r"D:\01proj\typhoon\TyphoonSearchSys\data\typhoon"
+# DIR_PATH=r"D:\01proj\typhoon\TyphoonSearchSys\data\typhoon"
 # p52s
 # DIR_PATH=r"D:\04git仓库\TyphoonSearchSys\demo_data"
 
@@ -36,6 +36,6 @@ DEFAULT_DATE = datetime.date(1701, 1, 1)
 TZ_UTC_8=timezone(timedelta(hours=8))
 # mongodb相关
 _MONGODB_NAME = 'typhoon'
-# _MONGODB_HOST='192.168.0.109'
-_MONGODB_HOST = '127.0.0.1'
+_MONGODB_HOST='192.168.0.109'
+# _MONGODB_HOST = '127.0.0.1'
 _MONGODB_PORT = 27017

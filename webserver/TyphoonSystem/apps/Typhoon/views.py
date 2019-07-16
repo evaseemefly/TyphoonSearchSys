@@ -1003,3 +1003,12 @@ def DisplayDisasterPic(request, num, year, filename):
     _, imgtype = os.path.splitext(file_path)
     content_type = "image/" + imgtype.lstrip('.')
     return HttpResponse(image_data, content_type=content_type)
+
+class ReadmeView(APIView):
+    '''
+        获取灾情描述word信息
+    '''
+
+    def get(self, request):
+        readme='v1.5:19-07-15'
+        return Response(readme)
