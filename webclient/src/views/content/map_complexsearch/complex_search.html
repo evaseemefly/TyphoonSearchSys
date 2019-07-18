@@ -12,7 +12,20 @@
             </div>-->
           <!-- <h5 class="card-title card-my-header">搜索条件</h5> -->
           <!-- TODO [-] 此处修改 -->
-          <div class="card-header card-my-header">多条件搜索</div>
+          <div class="card-header card-my-header">
+            多条件搜索
+            <i class="fa fa-window-maximize icon-white" aria-hidden="true"></i>
+            <!-- <button
+              type="button"
+              class="btn btn-default btn-close"
+              aria-label="Left Align"
+            >
+              <i
+                class="fa fa-window-maximize icon-white"
+                aria-hidden="true"
+              ></i>
+            </button> -->
+          </div>
           <form class="card-body card-my-body">
             <div class="form-row">
               <div class="form-group col-md-6 form-inline">
@@ -21,8 +34,12 @@
                 </div>
                 <!-- <input v-model="level" class="form-control col-md-7" /> -->
                 <select class="from-control col-md-7" v-model="level">
-                <option v-for="item in typhoonLevelOptions" :key="item.key"
-                :value="item.key">{{item.name}}</option>
+                  <option
+                    v-for="item in typhoonLevelOptions"
+                    :key="item.key"
+                    :value="item.key"
+                    >{{ item.name }}</option
+                  >
                 </select>
               </div>
               <div class="form-group col-md-6 form-inline">
@@ -94,7 +111,7 @@
                 :key="index"
                 @click="clickCode4Time(item)"
               >
-                {{ item.code }}|{{ item.year }}|{{item.num}}|{{item.chname}}
+                {{ item.code }}|{{ item.year }}|{{ item.num }}|{{ item.chname }}
               </li>
             </ul>
             <el-pagination
@@ -108,12 +125,13 @@
         </div>
         <!-- 左侧下下侧台风气象基础信息框 -->
         <div class="card mt10">
-        <rightBarDetail
-        :typhoonNum="num"
-        :typhoonName="code"></rightBarDetail>
+          <rightBarDetail
+            :typhoonNum="num"
+            :typhoonName="code"
+          ></rightBarDetail>
         </div>
       </div>
-      
+
       <transition name="fade">
         <div v-show="isDateShow" class="col-md-6">
           <!-- 右侧上侧对应台风时间列表 -->
@@ -125,7 +143,12 @@
             <!-- <div class="card-body card-my-body">
                 
               </div>-->
-            <div class="card-header card-my-header">影响时间|此次过程中共影响<font :class='stationNumStateClass(stationNum)'>{{stationNum}}</font>个测站</div>
+            <div class="card-header card-my-header">
+              影响时间|此次过程中共影响<font
+                :class="stationNumStateClass(stationNum)"
+                >{{ stationNum }}</font
+              >个测站
+            </div>
             <!-- <h5 class="card-title">台风编号</h5> -->
             <!-- 此处不再套在card-body中，样式更好看一些，去掉了padding -->
             <div class="card-body card-my-body">

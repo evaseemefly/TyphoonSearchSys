@@ -17,6 +17,9 @@ import { IStation } from "@/interface/map/map.ts";
 import MapBase from "@/views/content/map_base/map_base.vue";
 import ComplexSearch from "@/views/content/map_complexsearch/complex_search.vue";
 
+// 新引入的图例子组件
+import LegendFrame from "@/views/member/legendFrame/legend_frame.vue";
+
 // 右侧的灾害详情菜单子组件
 import TextForm from "@/views/member/form/text_form.vue";
 // 引入modal组件
@@ -29,7 +32,8 @@ import DisasterPic from "@/views/member/form/disaster_pic.vue";
     ComplexSearch,
     TextForm,
     ModalDetail,
-    DisasterPic
+    DisasterPic,
+    LegendFrame
   }
 })
 export default class center_map_search extends mixins(MapRangeVuexMixin) {

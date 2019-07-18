@@ -93,3 +93,16 @@ myself.typhoon_code_list.push(
 会提示一个vetur的错误  
 现在的解决办法是在`设置`中禁用掉
 `vetur>Validation:Script`
+
+## 引入字体图标的方式
+在vue项目中引入网络字体图标的方式  
+例如引入[font-awesome](http://fontawesome.dashgame.com/)  
+
+- 1  全局安装`font-awesome`
+`cnpm install font-awesome --save-dev`
+
+- 2 在main.js中引入
+` import 'font-awesome/css/font-awesome.min.css'`
+
+- 3 在相关文件中使用
+`<i class="fa fa-motorcycle" aria-hidden="true"></i>`
