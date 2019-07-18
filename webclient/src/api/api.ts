@@ -95,12 +95,12 @@ export /**
  * @param {ITyphoonParams} par
  * @returns
  */
-const loadTyphoonList = (par: ITyphoonParams) => {
-  let typhoonlistUrl = `${host}/gis/filter/range/`
-  return axios.get(typhoonlistUrl, {
-    params: par
-  })
-}
+  const loadTyphoonList = (par: ITyphoonParams) => {
+    let typhoonlistUrl = `${host}/gis/filter/range/`
+    return axios.get(typhoonlistUrl, {
+      params: par
+    })
+  }
 
 export const loadTyphoonRealData = (par: ITyphoonRealDataParamas) => {
   let typhoonrealdataUrl = `${host}/gis/data/typhoonrealdata/`
@@ -123,24 +123,24 @@ export /**
  * @param {ITyphoonParams4Station} par
  * @returns
  */
-const loadStationDetailDataList = (par: ITyphoonParams4Station) => {
-  let stationDataUrl = `${host}/gis/data/detaillist/`
-  return axios.get(stationDataUrl, {
-    params: par
-  })
-}
+  const loadStationDetailDataList = (par: ITyphoonParams4Station) => {
+    let stationDataUrl = `${host}/gis/data/detaillist/`
+    return axios.get(stationDataUrl, {
+      params: par
+    })
+  }
 export /**
  * 根据 台风（code）以及 测站名称（station name） 查询风暴增水极值及对应时间
  *
  * @param {ITyphoonParams4Station} par
  * @returns
  */
-const loadStationStatistics = (par: ITyphoonParams4Station) => {
-  let stationStatisticsUrl = `${host}/gis/data/stationstatistics/`
-  return axios.get(stationStatisticsUrl, {
-    params: par
-  })
-}
+  const loadStationStatistics = (par: ITyphoonParams4Station) => {
+    let stationStatisticsUrl = `${host}/gis/data/stationstatistics/`
+    return axios.get(stationStatisticsUrl, {
+      params: par
+    })
+  }
 
 export /**
  * 根据台风（code）获取对应的灾情描述文本内容
@@ -148,12 +148,12 @@ export /**
  * @param {ITyphoonRealDataParamas} par
  * @returns
  */
-const loadTyphoonWord = (par: ITyphoonRealDataParamas) => {
-  let wordUrl = `${host}/gis/word/disaster/`
-  return axios.get(wordUrl, {
-    params: par
-  })
-}
+  const loadTyphoonWord = (par: ITyphoonRealDataParamas) => {
+    let wordUrl = `${host}/gis/word/disaster/`
+    return axios.get(wordUrl, {
+      params: par
+    })
+  }
 
 export /**
  *  根据传入的 typhon 判断是否有对应的 测站列表
@@ -161,11 +161,11 @@ export /**
  * @param {string} par
  * @returns
  */
-const checkStationCount4Typhoon = (par: string) => {
-  let url = `${host}/gis/data/CheckStation4Typhoon/`
-  return axios.get(url, {
-    params: {
-      num: par
-    }
-  })
-}
+  const checkStationCount4Typhoon = (par: string) => {
+    let url = `${host}/gis/data/CheckStation4Typhoon/`
+    return axios.get(url, {
+      params: {
+        num: par
+      }
+    })
+  }

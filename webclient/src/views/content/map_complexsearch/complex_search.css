@@ -115,3 +115,12 @@
  {
   opacity: 0;
 }
+
+/* 对所有的i标签加入一个统一的样式 */
+i {
+  color: white;
+  
+}
+.btn-close{
+  float: left;
+}

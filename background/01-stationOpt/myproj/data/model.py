@@ -50,8 +50,9 @@ class TideData(EmbeddedDocument):
     # # 极小值得24小时观测数组
     # realdata_arr = ListField(IntField())
     # 目标日期（年-月-日）
-    #     targetdate=DateTimeField()
-    targetdate = DateField(default=None)
+    # 注意此处的目标时间为 datetime（若为date，设置了的时区会没有）
+    targetdate=DateTimeField(default=None)
+    # targetdate = DateField(default=None)
     forecastdata=EmbeddedDocumentField(ForecastData)
     realdata=EmbeddedDocumentField(RealData)
     # heigh_heigh_tide = EmbeddedDocumentField(Extremum)

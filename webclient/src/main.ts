@@ -25,7 +25,8 @@ import "bootstrap/dist/js/bootstrap.js";
 import VueAwesomeSwiper from "vue-awesome-swiper"
 import "swiper/dist/css/swiper.css"
 
-
+// 引入font-awesome
+import 'font-awesome/css/font-awesome.min.css'
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);

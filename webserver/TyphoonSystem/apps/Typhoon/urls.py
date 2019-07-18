@@ -36,6 +36,7 @@ urlpatterns = [
     path("data/DisplayDisasterPic/<str:year>/<str:num>/<str:filename>",
          views.DisplayDisasterPic),
     url(r'^data/typhoonnamedict/$', TyphoonNameDictView.as_view()),
+    url(r'^other/readme/$$', ReadmeView.as_view())
     # path("getAllData",views.getAllData),
     # path("getAreaTyphoonList", views.getAreaTyphoonList),
 ]

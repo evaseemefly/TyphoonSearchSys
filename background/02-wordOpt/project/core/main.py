@@ -15,6 +15,11 @@ targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\word\convert'
 # mac16
 # targetpath=r"/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/background/05-docx/result"
 
+# mongodb相关
+_MONGODB_NAME = 'typhoon'
+# _MONGODB_HOST='192.168.0.109'
+_MONGODB_HOST='127.0.0.1'
+_MONGODB_PORT = 27017
 
 fullname=os.path.join(targetpath,targetfilename)
 
@@ -45,7 +50,8 @@ def main():
             # code = '5622'
             par = Paragraph(word.dir, word.fullname)
             # 写入mongo
-            connect('typhoon')
+            # connect('typhoon')
+            connect(_MONGODB_NAME, host=_MONGODB_HOST, port=_MONGODB_PORT)
             dis = DisasterWordInfo(code=code, wordDocument=par.wordText)
             dis.save()
             print(par.wordText)
