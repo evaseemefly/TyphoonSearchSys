@@ -4,14 +4,18 @@
 >
   <div class="container-fluid">
     <div class="row">
-      <<transition name="fade">
+      <transition name="fade">
         <button
           type="button"
           v-show="!isShowComplex"
           @click="isShowComplex=!isShowComplex"
           class="btn btn-info ani"
         >
-          展开搜索框
+          展开搜索框 <i
+          class="fa fa-bar-chart-o icon-white corner-mark"
+          aria-hidden="true"
+          @click="isShowComplex=!isShowComplex"
+        ></i>
         </button>
       </transition>
       <transition name="fade">
@@ -26,7 +30,7 @@
             <div class="card-header card-my-header">
               多条件搜索
               <i
-                class="fa fa-window-maximize icon-white"
+                class="fa fa-minus-circle icon-white corner-mark"
                 aria-hidden="true"
                 @click="isShowComplex=!isShowComplex"
               ></i>
