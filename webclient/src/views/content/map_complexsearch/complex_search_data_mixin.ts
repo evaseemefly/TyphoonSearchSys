@@ -45,4 +45,7 @@ export default class MapRangeDataMixin extends Vue {
   typhoonLevelOptions: Array<TyphoonLevelOptionMidModel> = OptionList;
   // 不使用新增的data，使用之前的level
   // selectTyphoonLevelOpt: number = 0;
+
+  // 是否显示复杂搜索框(默认显示)
+  isShowComplex: boolean = true;
 }

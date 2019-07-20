@@ -4,11 +4,12 @@ import os
 import re
 
 filename = "typhoonNumCode.txt"
-# targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\ext'
+targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\ext'
 # mac16
-targetpath=r'/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext'
+# targetpath=r'/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext'
 extfilename='typhoonNumCode.txt'
 mongoengine.connect('typhoon', host="127.0.0.1:27017")
+# mongoengine.connect('typhoon', host="192.168.0.109:27017")
 gt = model.GeoTyphoonRealData
 
 

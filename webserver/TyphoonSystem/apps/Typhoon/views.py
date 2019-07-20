@@ -325,6 +325,7 @@ class StationDetailAllList(IStationDetail):
                         # TODO [*] 19-06-30
                         temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
                                                                   datetime.time(index, 0))
+                        # temp_datetime=temp_datetime.replace(tzinfo=)
                         temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
 
                         # TODO [-] 19-04-25 temp[0] 为real temp[1] 为forecast
@@ -1003,3 +1004,12 @@ def DisplayDisasterPic(request, num, year, filename):
     _, imgtype = os.path.splitext(file_path)
     content_type = "image/" + imgtype.lstrip('.')
     return HttpResponse(image_data, content_type=content_type)
+
+class ReadmeView(APIView):
+    '''
+        获取灾情描述word信息
+    '''
+
+    def get(self, request):
+        readme='v1.5:19-07-15'
+        return Response(readme)

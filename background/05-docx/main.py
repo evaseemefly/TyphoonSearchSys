@@ -6,7 +6,7 @@ from docx import Document
 import os
 
 ##Ä¿±êÄ¿Â¼
-basep = '/Users/liusihan/Documents/01project/TyphoonSearchSys/data/word/source'
+# basep = '/Users/liusihan/Documents/01project/TyphoonSearchSys/data/word/source'
 # aw
 basep = r'D:\01proj\typhoon\TyphoonSearchSys\data\word\source'
 dirs = []

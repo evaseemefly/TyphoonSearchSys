@@ -72,7 +72,14 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
         // TODO:[-] 19-05-07 此处后台返回的为一个嵌套的序列化对象，包含list与total
         res.data.list.forEach(obj => {
           myself.typhoonCodeList.push(
-            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num,obj.nameCh)
+            new DataList_Mid_Model(
+              obj.code,
+              -1,
+              obj.code,
+              obj.year,
+              obj.num,
+              obj.nameCh
+            )
           );
         });
         myself.typhoonCodeDataTotal = res.data.total;
@@ -219,6 +226,11 @@ export default class center_map_search extends mixins(ComplexSearchDataMixin) {
   }
   showParam() {
     alert(arguments);
+  }
+
+  hiddenFrame() {
+    // console.log("触发了hidden事件");
+    this.isShowComplex = false;
   }
 
   // 计算样式的一些方法
