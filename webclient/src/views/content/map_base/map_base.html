@@ -34,7 +34,16 @@
       @mouseout="downZindex(index,station)"
       @click="changeStationIndex(index,station)"
       :options="icon_div_station_option"
-    >
+      :zIndexOffset='select_station_index===index?1700:200'
+    >  
+    <!-- <l-marker
+      v-for="(station,index) in station_tide_list"
+      :key="station.id"
+      :lat-lng="station.point|formatPoint"
+      @mouseover="upZIndex(index,station)"
+      @click="changeStationIndex(index,station)"
+      :options="icon_div_station_option"
+    >-->
       <!-- TODO:[*] 19-04-23 注意此处将click从父级的l-marker中放在了子级中的l-icon中了——扔不行 -->
       <l-icon :options="icon_div_station_option">
         <div id="station_form" v-show="index!=select_station_index" 

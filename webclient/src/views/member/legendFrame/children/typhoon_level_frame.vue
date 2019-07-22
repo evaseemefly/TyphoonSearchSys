@@ -2,7 +2,7 @@
   <div id="level_frame">
     <transition name="fade">
       <button type="button" v-show="!isShow" @click="isShow=!isShow" class="btn btn-info ani">
-        展开搜索框 
+        展开图例 
         <i class="fa fa-plus-square icon-white" aria-hidden="true"></i>
       </button>
     </transition>

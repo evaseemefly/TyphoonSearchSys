@@ -128,6 +128,7 @@
   box-shadow: 0 0 10px whitesmoke;
   /* 边角圆滑处理 */
   border-radius: 10px;
+  /* z-index: 1500; */
 }
 
 #station_form :hover {
@@ -232,6 +233,7 @@
   box-shadow: 0 0 10px whitesmoke;
   /* 边角圆滑处理 */
   border-radius: 10px;
+  z-index: 1600;
 }
 
 #station_detail .card-header {
