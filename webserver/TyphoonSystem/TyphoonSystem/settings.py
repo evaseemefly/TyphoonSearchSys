@@ -132,7 +132,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'
+
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
@@ -150,7 +152,6 @@ default_typhoon_code = "(nameless)"
 DEFAULT_TYPHOON_CODE_BYSTATION = "default"
 
 DEFAULT_TYPHOON_DATE = '1700-1-1'
-
 
 # mongodb中保存stationtidedata的document的名字
 MONGO_STATIONTIDEDATA_DOCUMENT_NAME = 'geostationtidedata'

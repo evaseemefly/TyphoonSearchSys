@@ -325,6 +325,7 @@ class StationDetailAllList(IStationDetail):
                         # TODO [*] 19-06-30
                         temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
                                                                   datetime.time(index, 0))
+                        # temp_datetime=temp_datetime.replace(tzinfo=)
                         temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
 
                         # TODO [-] 19-04-25 temp[0] 为real temp[1] 为forecast

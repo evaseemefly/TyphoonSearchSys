@@ -4,9 +4,9 @@
 ![avatar](img/WX20190704-213602.png)
 如图所示，本页面大概的加载顺序为，中间的部分  
 
-| form_static_detail | |
-|----------|:-------------:|
-| map_single | typhoon_detail_charts |  
+| form_static_detail |                       |
+| ------------------ | :-------------------: |
+| map_single         | typhoon_detail_charts |
 
 由于右侧的`typhoon_detail_charts`的高度是动态计算得来的
 _在页面加载之后动态计算调整其高度_
@@ -93,3 +93,16 @@ myself.typhoon_code_list.push(
 会提示一个vetur的错误  
 现在的解决办法是在`设置`中禁用掉
 `vetur>Validation:Script`
+
+## 引入字体图标的方式
+在vue项目中引入网络字体图标的方式  
+例如引入[font-awesome](http://fontawesome.dashgame.com/)  
+
+- 1  全局安装`font-awesome`  
+`cnpm install font-awesome --save-dev`
+
+- 2 在main.js中引入  
+` import 'font-awesome/css/font-awesome.min.css'`
+
+- 3 在相关文件中使用  
+`<i class="fa fa-motorcycle" aria-hidden="true"></i>`

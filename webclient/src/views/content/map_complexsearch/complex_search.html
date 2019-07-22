@@ -4,116 +4,157 @@
 >
   <div class="container-fluid">
     <div class="row">
-      <div class="isDateShow?'col-md-4':'col-md-12'">
-        <!-- 多条件搜索 -->
-        <div class="card mt10" style="margin-top:10px;">
-          <!-- <div class="card-body">
+      <transition name="fade">
+        <button
+          type="button"
+          v-show="!isShowComplex"
+          @click="isShowComplex=!isShowComplex"
+          class="btn btn-info ani"
+        >
+          展开搜索框 <i
+          class="fa fa-bar-chart-o icon-white corner-mark"
+          aria-hidden="true"
+          @click="isShowComplex=!isShowComplex"
+        ></i>
+        </button>
+      </transition>
+      <transition name="fade">
+        <div v-show="isShowComplex" class="isDateShow?'col-md-4':'col-md-12'">
+          <!-- 多条件搜索 -->
+          <div class="card mt10" style="margin-top:10px;">
+            <!-- <div class="card-body">
               
             </div>-->
-          <!-- <h5 class="card-title card-my-header">搜索条件</h5> -->
-          <!-- TODO [-] 此处修改 -->
-          <div class="card-header card-my-header">多条件搜索</div>
-          <form class="card-body card-my-body">
-            <div class="form-row">
-              <div class="form-group col-md-6 form-inline">
-                <div class="col-sm-3 smdiv">
-                  <label for="inputEmail4">级别</label>
-                </div>
-                <!-- <input v-model="level" class="form-control col-md-7" /> -->
-                <select class="from-control col-md-7" v-model="level">
-                <option v-for="item in typhoonLevelOptions" :key="item.key"
-                :value="item.key">{{item.name}}</option>
-                </select>
-              </div>
-              <div class="form-group col-md-6 form-inline">
-                <div class="col-sm-3 smdiv">
-                  <label for="inputPassword4">最大风速</label>
-                </div>
-                <input class="form-control col-md-7" v-model="wsm" />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group col-md-6 form-inline">
-                <div class="col-sm-3 smdiv">
-                  <label for="inputAddress">气压</label>
-                </div>
-                <input class="form-control col-md-7" v-model="bp" />
-              </div>
-              <div class="form-group col-md-6 form-inline">
-                <div class="col-sm-3 smdiv">
-                  <label for="inputAddress">台风编号</label>
-                </div>
-                <input class="form-control col-md-7" v-model="searchNum" />
-              </div>
-            </div>
+            <!-- <h5 class="card-title card-my-header">搜索条件</h5> -->
+            <!-- TODO [-] 此处修改 -->
+            <div class="card-header card-my-header">
+              多条件搜索
+              <i
+                class="fa fa-minus-circle icon-white corner-mark"
+                aria-hidden="true"
+                @click="isShowComplex=!isShowComplex"
+              ></i>
 
-            <div class="form-row">
-              <div
-                class="form-group col-md-6 form-inline"
-                style="text-align:left;"
-              >
-                <div class="col-sm-3 smdiv">
-                  <label>起始月</label>
-                </div>
-
-                <el-date-picker
-                  v-model="startMonth"
-                  type="month"
-                  placeholder="起始月"
-                  style="width:60%;"
-                ></el-date-picker>
-              </div>
-              <div class="form-group col-md-6 form-inline">
-                <div class="col-sm-3 smdiv">
-                  <label>截至月</label>
-                </div>
-                <el-date-picker
-                  v-model="endMonth"
-                  type="month"
-                  placeholder="截至月"
-                  style="width:60%;"
-                ></el-date-picker>
-              </div>
-            </div>
-            <el-button
-              type="primary"
-              icon="el-icon-search"
-              @click="loadSearchResult"
-              >搜索</el-button
+              <!-- <button
+              type="button"
+              class="btn btn-default btn-close"
+              aria-label="Left Align"
             >
-          </form>
-        </div>
-        <!-- 左侧下侧台风列表 -->
-        <div class="card mt10">
-          <div class="card-header card-my-header">台风列表</div>
-          <div class="card-body card-my-body">
-            <ul class="list-group">
-              <li
-                class="list-group-item list-my-group-item"
-                v-for="(item,index) in typhoonCodeList"
-                :key="index"
-                @click="clickCode4Time(item)"
+              <i
+                class="fa fa-window-maximize icon-white"
+                aria-hidden="true"
+              ></i>
+            </button> -->
+            </div>
+            <form class="card-body card-my-body">
+              <div class="form-row">
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label for="inputEmail4">级别</label>
+                  </div>
+                  <!-- <input v-model="level" class="form-control col-md-7" /> -->
+                  <select class="from-control col-md-7" v-model="level">
+                    <option
+                      v-for="item in typhoonLevelOptions"
+                      :key="item.key"
+                      :value="item.key"
+                      >{{ item.name }}</option
+                    >
+                  </select>
+                </div>
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label for="inputPassword4">最大风速</label>
+                  </div>
+                  <input class="form-control col-md-7" v-model="wsm" />
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label for="inputAddress">气压</label>
+                  </div>
+                  <input class="form-control col-md-7" v-model="bp" />
+                </div>
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label for="inputAddress">台风编号</label>
+                  </div>
+                  <input class="form-control col-md-7" v-model="searchNum" />
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div
+                  class="form-group col-md-6 form-inline"
+                  style="text-align:left;"
+                >
+                  <div class="col-sm-3 smdiv">
+                    <label>起始月</label>
+                  </div>
+
+                  <el-date-picker
+                    v-model="startMonth"
+                    type="month"
+                    placeholder="起始月"
+                    style="width:60%;"
+                  ></el-date-picker>
+                </div>
+                <div class="form-group col-md-6 form-inline">
+                  <div class="col-sm-3 smdiv">
+                    <label>截至月</label>
+                  </div>
+                  <el-date-picker
+                    v-model="endMonth"
+                    type="month"
+                    placeholder="截至月"
+                    style="width:60%;"
+                  ></el-date-picker>
+                </div>
+              </div>
+              <el-button
+                type="primary"
+                icon="el-icon-search"
+                @click="loadSearchResult"
+                >搜索</el-button
               >
-                {{ item.code }}|{{ item.year }}|{{item.num}}|{{item.chname}}
-              </li>
-            </ul>
-            <el-pagination
-              background
-              layout="prev, pager, next"
-              :total="typhoonCodeDataTotal"
-              :page-size="typhoonCodePageSize"
-              @current-change="typhoonCodePageChange"
-            ></el-pagination>
+            </form>
+          </div>
+          <!-- 左侧下侧台风列表 -->
+          <div class="card mt10">
+            <div class="card-header card-my-header">台风列表</div>
+            <div class="card-body card-my-body">
+              <ul class="list-group">
+                <li
+                  class="list-group-item list-my-group-item"
+                  v-for="(item,index) in typhoonCodeList"
+                  :key="index"
+                  @click="clickCode4Time(item)"
+                >
+                  {{ item.code }}|{{ item.year }}|{{ item.num }}|{{
+                    item.chname
+                  }}
+                </li>
+              </ul>
+              <el-pagination
+                background
+                layout="prev, pager, next"
+                :total="typhoonCodeDataTotal"
+                :page-size="typhoonCodePageSize"
+                @current-change="typhoonCodePageChange"
+              ></el-pagination>
+            </div>
+          </div>
+          <!-- 左侧下下侧台风气象基础信息框 -->
+          <div class="card mt10">
+            <rightBarDetail
+              :typhoonNum="num"
+              :typhoonName="code"
+            ></rightBarDetail>
           </div>
         </div>
-        <!-- 左侧下下侧台风气象基础信息框 -->
-        <div class="card mt10">
-        <rightBarDetail
-        :typhoonNum="num"
-        :typhoonName="code"></rightBarDetail>
-        </div>
-      </div>
-      
+      </transition>
+
       <transition name="fade">
         <div v-show="isDateShow" class="col-md-6">
           <!-- 右侧上侧对应台风时间列表 -->
@@ -125,7 +166,12 @@
             <!-- <div class="card-body card-my-body">
                 
               </div>-->
-            <div class="card-header card-my-header">影响时间|此次过程中共影响<font :class='stationNumStateClass(stationNum)'>{{stationNum}}</font>个测站</div>
+            <div class="card-header card-my-header">
+              影响时间|此次过程中共影响<font
+                :class="stationNumStateClass(stationNum)"
+                >{{ stationNum }}</font
+              >个测站
+            </div>
             <!-- <h5 class="card-title">台风编号</h5> -->
             <!-- 此处不再套在card-body中，样式更好看一些，去掉了padding -->
             <div class="card-body card-my-body">

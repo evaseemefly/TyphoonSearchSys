@@ -276,7 +276,7 @@ class StationTideRealData(File):
                         add_days = add_days - 1
                         print(f'出现MAX或MIN')
 
-                    print(f'当前位置{index_current-1}')
+                    print(f'当前位置{index_current - 1}')
                     print(f'当前日期{temp_date},循环{add_days}')
                     print('-----------')
                 # for index in range(3):
@@ -306,7 +306,7 @@ class StationTideRealData(File):
                     self.insert2model(realdata, base_model, targetdate=temp_date)
                 # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
                 # index_current = index_current + 1
-                print(f'当前位置{index_current-1}')
+                print(f'当前位置{index_current - 1}')
                 print('-----------')
             # TODO [*] 19-03-30调用写入mongo的操作
             try:
@@ -607,7 +607,7 @@ class StationTideBaseRealData(File, abc.ABC):
         max_2 = max_ser
         pass
 
-    def run(self,**kwargs):
+    def run(self, **kwargs):
         '''
 
         :return:
@@ -618,7 +618,7 @@ class StationTideBaseRealData(File, abc.ABC):
         connect('typhoon')
         df = self._data
         # TODO:[*] 19-07-11 此处需要传入文件种类（老数据格式 还是 新的数据格式）
-        self.splitData(df, year=self.year, filename=self.file_name,datatype=kwargs.get('datatype'))
+        self.splitData(df, year=self.year, filename=self.file_name, datatype=kwargs.get('datatype'))
 
     def splitData(self, df: DataFrame, **kwargs):
         '''
@@ -627,7 +627,7 @@ class StationTideBaseRealData(File, abc.ABC):
         :return:
         '''
         # 获取文件类型
-        file_type=kwargs.get('datatype')
+        file_type = kwargs.get('datatype')
         # 1 获取截取的数组
         checkpoint_arr = self.getCheckPointList()
         add_days = 0
@@ -644,14 +644,14 @@ class StationTideBaseRealData(File, abc.ABC):
             base_model = self.convert2StationBaseModel(baseinfo_ser, year=year, filename=kwargs.get('filename'))
             print(baseinfo_ser)
             # TODO:[*] 19-05-22 此处获取每个测站的起始时间
-            if file_type==STATION_TYPE.PRESENT:
+            if file_type == STATION_TYPE.PRESENT:
                 start_date = self.getStartDate(year, self._data.iloc[val_checkpoint + 2][0].split())
                 base_model.startdate = start_date
             else:
                 start_date = base_model.startdate
             # 获取当前时间
             temp_date = base_model.startdate
-            if temp_date==None:
+            if temp_date == None:
                 continue
 
             # 每次到标志位时，将循环时 +1 的days清零
@@ -711,7 +711,7 @@ class StationTideBaseRealData(File, abc.ABC):
                         add_days = add_days - 1
                         print(f'出现MAX或MIN')
 
-                    print(f'当前位置{index_current-1}')
+                    print(f'当前位置{index_current - 1}')
                     print(f'当前日期{temp_date},循环{add_days}')
                     print('-----------')
                 # for index in range(3):
@@ -744,7 +744,7 @@ class StationTideBaseRealData(File, abc.ABC):
                         continue
                 # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
                 # index_current = index_current + 1
-                print(f'当前位置{index_current-1}')
+                print(f'当前位置{index_current - 1}')
                 print('-----------')
             # TODO [*] 19-03-30调用写入mongo的操作
             try:
@@ -782,17 +782,29 @@ class StationTideBaseRealData(File, abc.ABC):
         if 'targetdate' in kwargs:
             targetdate = kwargs.get('targetdate')
             extremum_realdata = arr_data[1][24:]
+            len_extremum_real = len(extremum_realdata)
+            check_real = False if len_extremum_real < 8 else True
             extremum_forecast = arr_data[0][24:]
+            len_extremum_forecast = len(extremum_forecast)
+            check_forecast = False if len_extremum_forecast < 8 else True
             real_data = RealData(realdata_arr=arr_data[1][:24],
-                                 heigh_heigh_tide=Extremum(extremum_realdata[0], extremum_realdata[1]),
-                                 heigh_low_tide=Extremum(extremum_realdata[2], extremum_realdata[3]),
-                                 low_heigh_tide=Extremum(extremum_realdata[4], extremum_realdata[5]),
-                                 low_low_tide=Extremum(extremum_realdata[6], extremum_realdata[7]))
+                                 heigh_heigh_tide=Extremum(extremum_realdata[0],
+                                                           extremum_realdata[1]) if check_real else None,
+                                 heigh_low_tide=Extremum(extremum_realdata[2],
+                                                         extremum_realdata[3]) if check_real else None,
+                                 low_heigh_tide=Extremum(extremum_realdata[4],
+                                                         extremum_realdata[5]) if check_real else None,
+                                 low_low_tide=Extremum(extremum_realdata[6],
+                                                       extremum_realdata[7]) if check_real else None)
             forecast_data = ForecastData(forecast_arr=arr_data[0][:24],
-                                         heigh_heigh_tide=Extremum(extremum_forecast[0], extremum_forecast[1]),
-                                         heigh_low_tide=Extremum(extremum_forecast[2], extremum_forecast[3]),
-                                         low_heigh_tide=Extremum(extremum_forecast[4], extremum_forecast[5]),
-                                         low_low_tide=Extremum(extremum_forecast[6], extremum_forecast[7]))
+                                         heigh_heigh_tide=Extremum(extremum_forecast[0],
+                                                                   extremum_forecast[1]) if check_forecast else None,
+                                         heigh_low_tide=Extremum(extremum_forecast[2],
+                                                                 extremum_forecast[3]) if check_forecast else None,
+                                         low_heigh_tide=Extremum(extremum_forecast[4],
+                                                                 extremum_forecast[5]) if check_forecast else None,
+                                         low_low_tide=Extremum(extremum_forecast[6],
+                                                               extremum_forecast[7]) if check_forecast else None)
             tide_data = TideData(targetdate=targetdate,
                                  forecastdata=forecast_data,
                                  realdata=real_data
@@ -1039,7 +1051,11 @@ class StationTideOldRealData(StationTideBaseRealData):
         # 新添加一个typhoon_num
         typhoon_num = ser[2]
         # 起始时间
-        startdate = datetime.date(year, int(ser[3]), int(ser[4]))
+        # startdate = datetime.date(year, int(ser[3]), int(ser[4]))
+        date_str = str(year) + str(int(ser[3])) + str(int(ser[4]))
+        startdate = datetime.datetime.strptime(date_str, '%Y%m%d')
+        # TODO:[*] 19-07-17 对于测站数据加入时区（因为台风数据已经加入了时区）
+        startdate = startdate.replace(tzinfo=TZ_UTC_8)
         stationname = ser[5]
         # if stationname == 'SHACHENG':
         #     print(kwargs.get('index'))
@@ -1200,7 +1216,7 @@ class StationRealData:
             try:
                 self.switch[data_type](self.dir_path, file).run(**kwargs)
                 # StationTidePresentRealData(self.dir_path, file).run()
-                print(f'{os.path.join(self.dir_path,file)}已处理完成！')
+                print(f'{os.path.join(self.dir_path, file)}已处理完成！')
                 print('————————')
             except UnicodeDecodeError as uncodeErr:
                 print(f'文件编码错误:{self.dir_path},{file}')
