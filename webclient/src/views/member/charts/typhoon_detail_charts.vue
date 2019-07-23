@@ -24,7 +24,10 @@ export default {
   data() {
     return {
       chartEle: {},
-      chart: {}
+      chart: {},
+      listReal: [],
+      listForecast: [],
+      listDate: []
       // name: null,
       // num: null
     };
@@ -38,6 +41,42 @@ export default {
     },
     searchStationName() {
       return this.$store.state.map.searchStationName;
+    },
+    real2format() {
+      var myself = this;
+      var vals_format = [];
+      myself.listReal.forEach(obj => {
+        if (obj === -9999) {
+          vals_format.push(null);
+        } else {
+          vals_format.push(obj);
+        }
+      });
+      return vals_format;
+    },
+    forecast2format() {
+      var myself = this;
+      var vals_format = [];
+      myself.listForecast.forEach(obj => {
+        if (obj === -9999) {
+          vals_format.push(null);
+        } else {
+          vals_format.push(obj);
+        }
+      });
+      return vals_format;
+    },
+    difference2format() {
+      var myself = this;
+      var vals_format = [];
+      for (var i = 0; i < myself.listForecast.length; i++) {
+        if (myself.listReal[i] === -9999 || myself.listForecast[i] === -9999) {
+          vals_format.push(null);
+        } else {
+          vals_format.push(myself.listReal[i] - myself.listForecast[i]);
+        }
+      }
+      return vals_format;
     }
   },
   watch: {
@@ -51,10 +90,10 @@ export default {
       let searchStationName = this.$store.state.map.searchStationName;
       // this.num=searchNum;
       // this.name=searchStationName;
-      console.log({
-        searchNum,
-        searchStationName
-      });
+      // console.log({
+      //   searchNum,
+      //   searchStationName
+      // });
       // 根据num与name加载echart表
       if (searchNum != null && searchStationName != null) {
         this.loadData(searchNum, searchStationName);
@@ -85,15 +124,21 @@ export default {
       // // 获取起始时间
       // let startDate = data.startdate;
       // TODO:[*] 19-06-13 后端进行修改后返回的是一个混合的model，包含（occurred，val_forecast，val_real）
-      let listForecast: Array<number> = [];
-      let listReal: Array<number> = [];
-      let listDate: Array<string> = [];
+      var myself = this;
+      // let listForecast: Array<number> = [];
+      // let listReal: Array<number> = [];
+      // let listDate: Array<string> = [];
+      myself.listForecast = [];
+      myself.listReal = [];
+      myself.listDate = [];
       data.forEach(obj => {
-        listForecast.push(obj.val_forecast);
-        listReal.push(obj.val_real);
+        myself.listForecast.push(obj.val_forecast);
+        myself.listReal.push(obj.val_real);
         //2014-06-16T00:00:00Z
         // console.log(fecha.parse(obj.occurred, "YYYY-MM-DD hh:mm"));
-        listDate.push(fecha.format(new Date(obj.occurred), "YY-MM-DD hh:mm"));
+        myself.listDate.push(
+          fecha.format(new Date(obj.occurred), "MM-DD HH:mm")
+        );
       });
       // this.initDateList(startDate);
       var option = {
@@ -125,7 +170,7 @@ export default {
               color: "#FFFFFF"
             }
           },
-          data: listDate
+          data: myself.listDate
         },
         yAxis: {
           type: "value",
@@ -143,7 +188,7 @@ export default {
             type: "line",
             stack: "总量",
             smooth: true,
-            data: listForecast,
+            data: myself.forecast2format,
             // areaStyle: {},
             itemStyle: {
               normal: {
@@ -166,7 +211,7 @@ export default {
             type: "line",
             stack: "总量",
             smooth: true,
-            data: listReal,
+            data: myself.real2format,
             itemStyle: {
               normal: {
                 //设置折点的颜色
@@ -180,17 +225,29 @@ export default {
                 areaStyle: {
                   color: "rgba(61, 155, 162, 0.851)"
                 }
-
-                // label: {
-                //   show: true //显示每个点的值
-                // }
               }
             }
-            // label: {
-            //   normal: {
-            //     show: true
-            //   }
-            // }
+          },
+          {
+            name: "风暴增水", //需要与legend中的data相同
+            type: "line",
+            smooth: true, //不是折线，是曲线
+            itemStyle: {
+              normal: {
+                //设置折点的颜色
+                color: "rgba(225, 110, 61, 0.735)",
+                //注意lineStyle需要卸载normal里面
+                //自定义折线颜色
+                lineStyle: {
+                  color: "rgba(223, 48, 17, 0.735)"
+                },
+                //自定义折线下区域的颜色
+                areaStyle: {
+                  color: "rgba(189, 94, 11, 0.735)"
+                }
+              }
+            }, //向下填充区域
+            data: myself.difference2format
           }
         ]
       };

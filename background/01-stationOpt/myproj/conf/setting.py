@@ -6,13 +6,13 @@ from datetime import timezone,timedelta
 # aw
 # DIR_PATH = r"D:\01proj\typhoon\TyphoonSearchSys\data\station\txt"
 # dell 7530
-DIR_PATH = r"D:\02proj\TyphoonSearchSys\data\new_ty"
+# DIR_PATH = r"D:\02proj\TyphoonSearchSys\data\new_ty"
 # mac16 测站数据
 # DIR_PATH=r"/Users/drno/Documents/01proj/TyphoonSearchSys_new/TyphoonSearchSys/data/ext/txt"
 # 单位 处理台风的实时气象数据
 # DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/typhoon"
 # 7530 测站数据
-# DIR_PATH = r"D:\02proj\TyphoonSearchSys\data\station\test"
+DIR_PATH = r"D:\02proj\TyphoonSearchSys\data\station\test"
 # mac16 处理台风是的实时气象数据
 # DIR_PATH=r"/Users/drno/Documents/01proj/TyphoonSearchSys/data/typhoon"
 # 家中

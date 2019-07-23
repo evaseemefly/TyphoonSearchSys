@@ -920,7 +920,9 @@ class GetAllObsStationCode(APIView):
             query = query.filter(typhoonnum=code)
             query = query.filter(startdate__gte=start_date)
             query = query.filter(startdate__lte=end_date)
-            result = query.distinct('code')
+            # 此处暂时改为stationname
+            result=query.distinct('stationname')
+            # result = query.distinct('code')
             lst = list(result)
             return Response(lst)
         except Exception as e:
