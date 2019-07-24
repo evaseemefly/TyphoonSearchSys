@@ -7,7 +7,9 @@ from mongoengine import *
 
 targetfilename=r"5622.docx"
 # aw
-targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\word\convert'
+# targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\word\convert'
+7530
+targetpath=r'D:\02proj\TyphoonSearchSys\data\word\convert'
 # P52S
 # targetpath=r"D:\04git仓库\TyphoonSearchSys\demo_data"
 # mac15
@@ -17,8 +19,8 @@ targetpath=r'D:\01proj\typhoon\TyphoonSearchSys\data\word\convert'
 
 # mongodb相关
 _MONGODB_NAME = 'typhoon'
-# _MONGODB_HOST='192.168.0.109'
-_MONGODB_HOST='127.0.0.1'
+_MONGODB_HOST='192.168.0.109'
+# _MONGODB_HOST='127.0.0.1'
 _MONGODB_PORT = 27017
 
 fullname=os.path.join(targetpath,targetfilename)

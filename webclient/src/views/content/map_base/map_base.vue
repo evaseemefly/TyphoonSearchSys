@@ -92,7 +92,7 @@ import { DivIcon, DivIconOptions } from "leaflet";
   filters: {
     //  时间格式化
     formatDate(date: Date): String {
-      var str_format = fecha.format(date, "YY-MM-DD HH:mm:ss");
+      var str_format = fecha.format(new Date(date), "YY-MM-DD HH:mm:ss");
       return str_format;
     },
     // TODO: [*] 19-04-13 对于type 为point的过滤器，还需要加入一个对于类型的判断
@@ -233,26 +233,26 @@ export default class map_base extends mixins(
     let alarm_class = "";
     // 注意差值减错了，应该是tide_forecast-tide
     // 实测潮位 - 警戒潮位
-    var abs: number = station.tide_forecast - station.tide;
+    var abs: number = station.tide - station.tide_forecast;
     var alarm: AlarmLevel = AlarmLevel.Green;
     switch (true) {
-      case abs <= -300:
+      case abs <= -30:
         alarm = AlarmLevel.Green;
         break;
       // -30-0：蓝色
-      case abs < 0 && abs >= -300:
+      case abs < 0 && abs >= -30:
         alarm = AlarmLevel.Blue;
         break;
       // 0-30：黄色
-      case abs < 300 && abs >= 0:
+      case abs < 30 && abs >= 0:
         alarm = AlarmLevel.Yellow;
         break;
       // 30-80 橙色
-      case abs < 800 && abs >= 300:
+      case abs < 80 && abs >= 30:
         alarm = AlarmLevel.Orange;
         break;
       // 80-无穷 红色
-      case abs > 800:
+      case abs > 80:
         alarm = AlarmLevel.Red;
         break;
     }

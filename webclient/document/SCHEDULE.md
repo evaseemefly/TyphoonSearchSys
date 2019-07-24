@@ -292,3 +292,9 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 - [x] 2.后台时区改为 beijing 时区
 - [x] 3.测站与对应时间相差8小时
 - [ ] 4.搜索框可隐藏
+
+---
+19-07-24
+- [x] 1.修改了点击台风point后前后台传输由于时区问题引起的bug
+- [x] 2.去掉了测站显示的境界潮位等信息
+- [x] 3.其他

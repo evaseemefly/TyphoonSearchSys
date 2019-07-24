@@ -141,6 +141,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+from datetime import timezone,timedelta
+TZ_UTC_0=timezone(timedelta(hours=0))
+TZ_UTC_8=timezone(timedelta(hours=8))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/

@@ -54,7 +54,7 @@
                 :class="[getStationAlarmClass(station),'station_name']"
                 rowspan="1"
               >{{station.stationname}}</td>
-              <td :class="getStationAlarmClass(station)">{{station.tide_forecast-station.tide}}</td>
+              <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
               <!-- <td class="surge title">警戒</td>
               <td class="surge">{{station.jw}}</td>-->
             </tr>
@@ -67,7 +67,7 @@
           <!-- 缩小至6级以内只显示风暴增水，将宽度设置为50px（固定值） -->
           <table v-show="zoom_mark_minifier" class="table table-bordered " border="1">
             <tr>
-              <td :class="getStationAlarmClass(station)">{{station.tide_forecast-station.tide}}</td>
+              <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
             </tr>
           </table>
         </div>
@@ -90,14 +90,14 @@
               <div class="col-md-4">时间</div>
               <div class="col-md-8">{{station.startdate|formatDate}}</div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class="col-md-4">警戒潮位</div>
               <div class="col-md-8">{{station.jw}}</div>
             </div>
             <div class="row">
               <div class="col-md-4">平均潮位</div>
               <div class="col-md-8">{{station.lev}}</div>
-            </div>
+            </div> -->
             <div class="row row_footer">
               <div class="typhoon_footer">
                 <div class="columnar">
@@ -106,11 +106,11 @@
                 </div>
                 <div class="columnar">
                   <div class="subitem_top">{{station.tide_forecast}}</div>
-                  <div class="subitem_foot">预报潮位</div>
+                  <div class="subitem_foot">天文潮位</div>
                 </div>
                 <div class="columnar">
                   <div class="subitem_top">{{station.tide-station.tide_forecast}}</div>
-                  <div class="subitem_foot">潮差</div>
+                  <div class="subitem_foot">风暴增水</div>
                 </div>
               </div>
             </div>

@@ -1049,7 +1049,11 @@ class StationTideOldRealData(StationTideBaseRealData):
         # 注意此处的code为测站代码
         code = ser[1]
         # 新添加一个typhoon_num
-        typhoon_num = ser[2]
+        # TODO:[*] 19-07-24 台风编号有可能出现三位数字的情况
+        # eg：0917
+        # 此处需要加一个判断，判断长度是否为四位
+        typhoon_num = ser[2].zfill(4) if len(ser[2]) < 4 else ser[2]
+        # typhoon_num = ser[2]
         # 起始时间
         # startdate = datetime.date(year, int(ser[3]), int(ser[4]))
         date_str = str(year) + str(int(ser[3])) + str(int(ser[4]))

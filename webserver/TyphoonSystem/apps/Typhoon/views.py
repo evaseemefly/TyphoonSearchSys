@@ -17,6 +17,7 @@ from mongoengine import *
 from TyphoonSystem import settings
 from .views_base import BaseView, BaseDetailListView
 import json
+from TyphoonSystem.settings import TZ_UTC_0,TZ_UTC_8
 
 # 引入mongoengine
 # import mongoengineFilterByMonth
@@ -86,7 +87,9 @@ class StationTideDataListView(APIView):
         code = request.GET.get("code", settings.DEFAULT_TYPHOON_CODE_BYSTATION)
         self.code = code
         date_str = request.GET.get("date", settings.DEFAULT_TYPHOON_DATE)
+        # todo:[*] 19-07-24 注意此处会省略时区
         targetdate = dateutil.parser.parse(date_str)
+        # targetdate=targetdate.replace(tzinfo=utc)
         # targetdate = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
         # print(targetdate)
         # print(code)
@@ -131,16 +134,18 @@ class StationTideDataListView(APIView):
                 思路：
                     
             '''
+            # todo:[*] 19-07-24 注意此处的moment 是utc时间，注意！！
             date_moment = date(moment.year, moment.month, moment.day)
             hour_moment = moment.hour
-            datetime_moment = datetime(moment.year, moment.month, moment.day, moment.hour, 0)
+            # todo:[-] 19-07-24 注意这么写的话需要进行一下时区的转化！！
+            datetime_moment = datetime(moment.year, moment.month, moment.day, moment.hour, 0).replace(tzinfo=TZ_UTC_0)
             temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == date_moment]
             # temp_forecasttidedata=[temp for temp in realdate.forecastdata if temp.targetdate==date_moment]
             if len(temp_realtidedata) > 0:
                 # TODO 19-04-11 此处修改
                 return StationTideAllDataMidModel(
-                    temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],
                     temp_realtidedata[0].realdata.realdata_arr[hour_moment],
+                    temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],
                     datetime_moment
                 )
                 # return StationTideForecastMidModel(temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],datetime_moment)
@@ -921,7 +926,7 @@ class GetAllObsStationCode(APIView):
             query = query.filter(startdate__gte=start_date)
             query = query.filter(startdate__lte=end_date)
             # 此处暂时改为stationname
-            result=query.distinct('stationname')
+            result = query.distinct('stationname')
             # result = query.distinct('code')
             lst = list(result)
             return Response(lst)
@@ -1007,11 +1012,12 @@ def DisplayDisasterPic(request, num, year, filename):
     content_type = "image/" + imgtype.lstrip('.')
     return HttpResponse(image_data, content_type=content_type)
 
+
 class ReadmeView(APIView):
     '''
         获取灾情描述word信息
     '''
 
     def get(self, request):
-        readme='v1.5:19-07-15'
+        readme = 'v1.5:19-07-15'
         return Response(readme)
