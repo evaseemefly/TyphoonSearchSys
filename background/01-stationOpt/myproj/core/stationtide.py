@@ -11,6 +11,8 @@ from data.model import *
 from data.middle_model import GeoTyphoonRealDataMidModel
 from conf.setting import TZ_UTC_8
 
+from .common import local2utc
+
 
 class FILE_TYPE(Enum):
     '''
@@ -646,6 +648,9 @@ class StationTideBaseRealData(File, abc.ABC):
             # TODO:[*] 19-05-22 此处获取每个测站的起始时间
             if file_type == STATION_TYPE.PRESENT:
                 start_date = self.getStartDate(year, self._data.iloc[val_checkpoint + 2][0].split())
+                if start_date==None:
+                    continue
+                start_date = datetime.datetime(start_date.year,start_date.month,start_date.day) + datetime.timedelta(hours=-8)
                 base_model.startdate = start_date
             else:
                 start_date = base_model.startdate
@@ -780,7 +785,11 @@ class StationTideBaseRealData(File, abc.ABC):
         # tide_data=None
         # 方式2：TODO [*] 直接将预报值与实际值都传入
         if 'targetdate' in kwargs:
+            # TODO:[*] 19-07-25 注意此处录入时，需要转成utc时间
             targetdate = kwargs.get('targetdate')
+
+            # targetdate = datetime.datetime(targetdate.year,targetdate.month,targetdate.day) + datetime.timedelta(hours=-8)
+
             extremum_realdata = arr_data[1][24:]
             len_extremum_real = len(extremum_realdata)
             check_real = False if len_extremum_real < 8 else True
@@ -1058,8 +1067,9 @@ class StationTideOldRealData(StationTideBaseRealData):
         # startdate = datetime.date(year, int(ser[3]), int(ser[4]))
         date_str = str(year) + str(int(ser[3])) + str(int(ser[4]))
         startdate = datetime.datetime.strptime(date_str, '%Y%m%d')
-        # TODO:[*] 19-07-17 对于测站数据加入时区（因为台风数据已经加入了时区）
-        startdate = startdate.replace(tzinfo=TZ_UTC_8)
+        # TODO:[*] 19-07-17 对于测站数据加入时区（因为台风数据已经加入了时区），此处还是需要改为utc时间，不要存储北京时间
+        startdate = local2utc(startdate)
+        # startdate = startdate.replace(tzinfo=TZ_UTC_8)
         stationname = ser[5]
         # if stationname == 'SHACHENG':
         #     print(kwargs.get('index'))

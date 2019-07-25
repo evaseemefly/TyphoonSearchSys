@@ -40,6 +40,6 @@ DEFAULT_DATE = datetime.date(1701, 1, 1)
 TZ_UTC_8=timezone(timedelta(hours=8))
 # mongodb相关
 _MONGODB_NAME = 'typhoon'
-_MONGODB_HOST='192.168.0.109'
-# _MONGODB_HOST = '127.0.0.1'
+# _MONGODB_HOST='192.168.0.109'
+_MONGODB_HOST = '127.0.0.1'
 _MONGODB_PORT = 27017
