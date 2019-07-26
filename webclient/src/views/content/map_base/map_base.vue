@@ -576,7 +576,7 @@ export default class map_base extends mixins(
                   temp_forecast.val_real === -9999 ||
                   temp_forecast.val_forecast === -9999
                     ? 0
-                    : temp_forecast.val_forecast - temp_forecast.val_real
+                    : temp_forecast.val_real-temp_forecast.val_forecast  
                 ]
               )
             );

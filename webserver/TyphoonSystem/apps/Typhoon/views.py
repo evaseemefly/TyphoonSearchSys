@@ -139,14 +139,29 @@ class StationTideDataListView(APIView):
             hour_moment = moment.hour
             # todo:[-] 19-07-24 注意这么写的话需要进行一下时区的转化！！
             datetime_moment = datetime(moment.year, moment.month, moment.day, moment.hour, 0).replace(tzinfo=TZ_UTC_0)
-            temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == date_moment]
+            # todo:[*] 19-07-26 此处需要重新梳理一遍关于时区的问题
+            '''
+                s1：现传入的moment是一个utc的datetime（前台传递过来的是utc时间，后端不再做时区的修改）
+                1： 对于测站数据的查询需要根据一个datetime去获取realtidedata数组中的每一个targetdate
+                2： 而其中的forecastdata->forecast_arr 是根据北京时间来保存的（我日你妈！）
+                ---
+                1： 创建两个datetime变量，一个用来存储utc时间，一个用来存储beijing时间
+                2： utc时间用来找到targetdate
+                3： beijing时间用来获取每个小时的测值
+            '''
+            # utc时间与对应的北京时间
+            moment_utc=moment
+            moment_bj=moment+timedelta(hours=8)
+            #获取当前传入的时间的当日起始时间,注意也是utc时间
+            date_utc_start=(datetime(year=moment_bj.year,month=moment_bj.month,day=moment_bj.day)+timedelta(hours=-8)).date()
+            temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == date_utc_start]
             # temp_forecasttidedata=[temp for temp in realdate.forecastdata if temp.targetdate==date_moment]
             if len(temp_realtidedata) > 0:
                 # TODO 19-04-11 此处修改
                 return StationTideAllDataMidModel(
-                    temp_realtidedata[0].realdata.realdata_arr[hour_moment],
-                    temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],
-                    datetime_moment
+                    temp_realtidedata[0].realdata.realdata_arr[moment_bj.hour],
+                    temp_realtidedata[0].forecastdata.forecast_arr[moment_bj.hour],
+                    moment_utc
                 )
                 # return StationTideForecastMidModel(temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],datetime_moment)
                 # return temp_realtidedata[0].forecastdata.forecast_arr[hour_moment]
