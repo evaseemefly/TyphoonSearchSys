@@ -278,38 +278,49 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 - [x] 2.录入全部的测站数据
 
 效果图如下：
-      ![avatar](/document/img/WX20190711-192858.png)
-      ![avatar](/document/img/WX20190711-192946.png)
+![avatar](/document/img/WX20190711-192858.png)
+![avatar](/document/img/WX20190711-192946.png)
 
 ---
+
 19-07-13
+
 - [x] 1.对于复杂查询页面(complex_search)，加入了台风列表的倒叙操作；
-- [x] 2.复杂查询页面与range页面，对台风加入了中文名称
+- [x] 2.复杂查询页面与 range 页面，对台风加入了中文名称
 
 ---
+
 19-07-18
+
 - [x] 1.加入台风等级的图例
 - [x] 2.后台时区改为 beijing 时区
-- [x] 3.测站与对应时间相差8小时
+- [x] 3.测站与对应时间相差 8 小时
 - [ ] 4.搜索框可隐藏
 
 ---
+
 19-07-24
-- [x] 1.修改了点击台风point后前后台传输由于时区问题引起的bug
+
+- [x] 1.修改了点击台风 point 后前后台传输由于时区问题引起的 bug
 - [x] 2.去掉了测站显示的境界潮位等信息
 - [x] 3.其他
 
----   
+---
+
 19-07-25-26  
--[x] 1.重新修改了前后台由于时区引起的一些bug的逻辑 前后端交互时统一使用utc时间，mongo存储的也是utc时间   
+-[x] 1.重新修改了前后台由于时区引起的一些 bug 的逻辑 前后端交互时统一使用 utc 时间，mongo 存储的也是 utc 时间  
 -[ ] 2.重新梳理一下（待总结）  
--[x] 3.数据中的部分bug加入了一些判断条件
+-[x] 3.数据中的部分 bug 加入了一些判断条件
 
 ---
-19-07-29  
-- [x] 点击测点加载的modal中测站的数据时间有问题  
-> 主要问题出在  
-`StationTideDataListView ->getStationTargetRealData->getTargetMoment  `  
 
-传入的`moment`为utc时间，需要转为北京时间后获取该日的起始时间00时，后转为`utc`时间，再进行判断获取对应的值  
+19-07-29
+
+- [x] 1. 点击测点加载的 modal 中测站的数据时间有问题
+     > 主要问题出在  
+     > `StationTideDataListView ->getStationTargetRealData->getTargetMoment`
+
+传入的`moment`为 utc 时间，需要转为北京时间后获取该日的起始时间 00 时，后转为`utc`时间，再进行判断获取对应的值  
 此处也可以又更好的办吧，暂时如此吧
+
+- [x] 2.重新修改了读取`station` 存在的 bug，对于读取的最后一个文件会导致只读取一天的 bug

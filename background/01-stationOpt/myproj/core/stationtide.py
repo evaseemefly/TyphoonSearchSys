@@ -648,9 +648,10 @@ class StationTideBaseRealData(File, abc.ABC):
             # TODO:[*] 19-05-22 此处获取每个测站的起始时间
             if file_type == STATION_TYPE.PRESENT:
                 start_date = self.getStartDate(year, self._data.iloc[val_checkpoint + 2][0].split())
-                if start_date==None:
+                if start_date == None:
                     continue
-                start_date = datetime.datetime(start_date.year,start_date.month,start_date.day) + datetime.timedelta(hours=-8)
+                start_date = datetime.datetime(start_date.year, start_date.month, start_date.day) + datetime.timedelta(
+                    hours=-8)
                 base_model.startdate = start_date
             else:
                 start_date = base_model.startdate
@@ -666,6 +667,7 @@ class StationTideBaseRealData(File, abc.ABC):
             # 两个标志位之间的逐行循环
             # TODO [*] 此处修改为while，不使用range循环
             # for index, val in enumerate(range(1, checkpoint_arr[index_checkpoint + 1] - val_checkpoint)):
+
             if index_checkpoint + 1 < len(checkpoint_arr):
                 # 是否未到下一个mark_point 并且日期计数 <4(0，1，2，3）——未读到第四天的数据（实际读取的次数——其中可能有max和min，需要跳过并不计数）
                 while index_current < checkpoint_arr[index_checkpoint + 1] - 2 and add_days < setting.DAYS:
@@ -720,37 +722,88 @@ class StationTideBaseRealData(File, abc.ABC):
                     print(f'当前日期{temp_date},循环{add_days}')
                     print('-----------')
                 # for index in range(3):
+            # TODO:[*] 19-07-29 是读取到的最后一组数据
             else:
-                # temp_str=self._data.iloc[val_checkpoint+index+1][0]
-                index_current = index_current + 1
-                temp_str = self._data.iloc[index_current][0]
-                # 当前日期加1
-                temp_date = temp_date + datetime.timedelta(days=1)
-                print(temp_date)
-                # 此处的series只是单纯为了判断是否为下一个时间标记位使用（对于其他无效果！）
-                temp_ser = Series(temp_str.split())
-                add_days = 0
-                # while self.checkIsNextDateDataPoint(index_current) == False:
-                # realdata_ser=self._data.iloc(val_checkpoint)
-                # 判断是否为下一个时间节点标记位
-                # 注意 +1 操作放在此处
-                if self.checkIsNextDateDataPoint(index_current) == False:
-                    realdata, index_current = self.convert2RealData4Day(temp_str,
-                                                                        start_date=temp_date,
-                                                                        adddays=0,
-                                                                        index_current=index_current)
-                    print(f'第1行:{realdata[0]}')
+                while  add_days < setting.DAYS:
+                    # 将日期计数器 +1
+                    add_days = add_days + 1
+                    # TODO 19-03-29 注意此处不需要转换为series了，因为无法切分（4位数的情况会与下一个位置的数字连在一起）
+                    # temp_str=self._data.iloc[val_checkpoint+index+1][0]
+                    index_current = index_current + 1
+                    temp_str = self._data.iloc[index_current][0]
+                    print(f'当前行数据{temp_str}')
 
-                    print(f'第2行:{realdata[1]}')
-                    try:
-                        self.insert2model(realdata, base_model, targetdate=temp_date)
-                    except IndexError as indexErr:
-                        print(f'出现错误，msg:{indexErr}')
-                        continue
-                # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
+                    # TODO 此处的series只是单纯为了判断是否为下一个时间标记位使用（对于其他无效果！）
+                    temp_ser = Series(temp_str.split())
+
+                    # while self.checkIsNextDateDataPoint(index_current) == False:
+                    # realdata_ser=self._data.iloc(val_checkpoint)
+                    # 判断是否为下一个时间节点标记位
+                    # 注意 +1 操作放在此处
+                    if self.checkIsNextDateDataPoint(index_current) == False:
+                        try:
+                            realdata, index_current = self.convert2RealData4Day(temp_str,
+                                                                                start_date=temp_date,
+                                                                                adddays=0,
+                                                                                index_current=index_current)
+
+                        except IndexError as indexErr:
+                            print(indexErr)
+                            continue
+                        print(f'第1行:{realdata[0]}')
+                        print(f'第2行:{realdata[1]}')
+                        # 方式1：
+                        # self.insert2model(realdata[0], base_model, type='forecast')
+                        # TODO [*] 19-03-30 将返回的realdata写入model中
+                        # 方式2
+                        # 已对base_model中的tidedata进行了append操作
+                        try:
+
+                            self.insert2model(realdata, base_model, targetdate=temp_date)
+                        except IndexError as indexErr:
+                            print(f'出现错误，msg:{indexErr}')
+                            continue
+                        # 当前日期加1
+                        temp_date = temp_date + datetime.timedelta(days=1)
+                        print(temp_date)
+                    # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
+                    # index_current = index_current + 1
+                    else:
+                        add_days = add_days - 1
+                        print(f'出现MAX或MIN')
+
+                    print(f'当前位置{index_current - 1}')
+                    print(f'当前日期{temp_date},循环{add_days}')
+                    print('-----------')
+
+                pass
                 # index_current = index_current + 1
-                print(f'当前位置{index_current - 1}')
-                print('-----------')
+                # temp_str = self._data.iloc[index_current][0]
+                # # 当前日期加1
+                # temp_date = temp_date + datetime.timedelta(days=1)
+                # print(temp_date)
+                # # 此处的series只是单纯为了判断是否为下一个时间标记位使用（对于其他无效果！）
+                # temp_ser = Series(temp_str.split())
+                # add_days = 0
+                # # 判断是否为下一个时间节点标记位
+                # # 注意 +1 操作放在此处
+                # if self.checkIsNextDateDataPoint(index_current) == False:
+                #     realdata, index_current = self.convert2RealData4Day(temp_str,
+                #                                                         start_date=temp_date,
+                #                                                         adddays=0,
+                #                                                         index_current=index_current)
+                #     print(f'第1行:{realdata[0]}')
+                #
+                #     print(f'第2行:{realdata[1]}')
+                #     try:
+                #         self.insert2model(realdata, base_model, targetdate=temp_date)
+                #     except IndexError as indexErr:
+                #         print(f'出现错误，msg:{indexErr}')
+                #         continue
+                # # 注意此处不需要再 +1 了，在while 开始的地方已经 +1 了，不要再次 +1了
+                #
+                # print(f'当前位置{index_current - 1}')
+                # print('-----------')
             # TODO [*] 19-03-30调用写入mongo的操作
             try:
                 base_model.save()
