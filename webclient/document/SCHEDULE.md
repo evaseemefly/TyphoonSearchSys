@@ -304,3 +304,12 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 -[x] 1.重新修改了前后台由于时区引起的一些bug的逻辑 前后端交互时统一使用utc时间，mongo存储的也是utc时间   
 -[ ] 2.重新梳理一下（待总结）  
 -[x] 3.数据中的部分bug加入了一些判断条件
+
+---
+19-07-29  
+- [x] 点击测点加载的modal中测站的数据时间有问题  
+> 主要问题出在  
+`StationTideDataListView ->getStationTargetRealData->getTargetMoment  `  
+
+传入的`moment`为utc时间，需要转为北京时间后获取该日的起始时间00时，后转为`utc`时间，再进行判断获取对应的值  
+此处也可以又更好的办吧，暂时如此吧

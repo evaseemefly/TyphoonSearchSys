@@ -112,7 +112,8 @@ class TideData(EmbeddedDocument):
     # realdata_arr = ListField(IntField())
     # 目标日期（年-月-日）
     #     targetdate=DateTimeField()
-    targetdate = DateField(default=None)
+    # TODO:[-] 注意此处的类型不再是date而是datetime！！注意
+    targetdate = DateTimeField(default=None)
     forecastdata = EmbeddedDocumentField(ForecastData)
     realdata = EmbeddedDocumentField(RealData)
     # heigh_heigh_tide = EmbeddedDocumentField(Extremum)

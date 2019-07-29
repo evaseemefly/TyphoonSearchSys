@@ -153,8 +153,10 @@ class StationTideDataListView(APIView):
             moment_utc=moment
             moment_bj=moment+timedelta(hours=8)
             #获取当前传入的时间的当日起始时间,注意也是utc时间
-            date_utc_start=(datetime(year=moment_bj.year,month=moment_bj.month,day=moment_bj.day)+timedelta(hours=-8)).date()
-            temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == date_utc_start]
+            # datetime_utc_start=(datetime(year=moment_bj.year,month=moment_bj.month,day=moment_bj.day)+timedelta(hours=-8)).date()+timedelta(hours=16)
+            datetime_utc_start = datetime(year=moment_bj.year,month=moment_bj.month,day=moment_bj.day)+timedelta(hours=-8)
+            # todo:[*] 19-07-29 由于修改了 realtidedate中的targetdate（由date修改为datetime），此处暂时直接判断传入的moment即可
+            temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == datetime_utc_start]
             # temp_forecasttidedata=[temp for temp in realdate.forecastdata if temp.targetdate==date_moment]
             if len(temp_realtidedata) > 0:
                 # TODO 19-04-11 此处修改
@@ -343,8 +345,10 @@ class StationDetailAllList(IStationDetail):
                         # TODO date-> datetime 方式2：
                         import datetime
                         # TODO [*] 19-06-30
-                        temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
-                                                                  datetime.time(index, 0))
+                        # temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
+                        #                                           datetime.time(index, 0))
+                        # TODO [*] 19-07-29 此处为targetdate与当前的计数器相加
+                        temp_datetime=realtide_temp.targetdate+timedelta(hours=index)
                         # todo[*] 19-07-26 此处需要注意一下时区的问题
                         # temp_datetime=temp_datetime.replace(tzinfo=)
                         temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
