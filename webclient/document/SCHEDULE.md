@@ -324,3 +324,7 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 此处也可以又更好的办吧，暂时如此吧
 
 - [x] 2.重新修改了读取`station` 存在的 bug，对于读取的最后一个文件会导致只读取一天的 bug
+
+--- 
+19-07-30 
+- [x] 1.修改`data/stationstatistics`读取此次过程出现的风暴增水的极值的bug

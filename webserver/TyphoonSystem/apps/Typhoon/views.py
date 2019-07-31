@@ -17,7 +17,7 @@ from mongoengine import *
 from TyphoonSystem import settings
 from .views_base import BaseView, BaseDetailListView
 import json
-from TyphoonSystem.settings import TZ_UTC_0,TZ_UTC_8
+from TyphoonSystem.settings import TZ_UTC_0, TZ_UTC_8
 
 # 引入mongoengine
 # import mongoengineFilterByMonth
@@ -150,11 +150,12 @@ class StationTideDataListView(APIView):
                 3： beijing时间用来获取每个小时的测值
             '''
             # utc时间与对应的北京时间
-            moment_utc=moment
-            moment_bj=moment+timedelta(hours=8)
-            #获取当前传入的时间的当日起始时间,注意也是utc时间
+            moment_utc = moment
+            moment_bj = moment + timedelta(hours=8)
+            # 获取当前传入的时间的当日起始时间,注意也是utc时间
             # datetime_utc_start=(datetime(year=moment_bj.year,month=moment_bj.month,day=moment_bj.day)+timedelta(hours=-8)).date()+timedelta(hours=16)
-            datetime_utc_start = datetime(year=moment_bj.year,month=moment_bj.month,day=moment_bj.day)+timedelta(hours=-8)
+            datetime_utc_start = datetime(year=moment_bj.year, month=moment_bj.month, day=moment_bj.day) + timedelta(
+                hours=-8)
             # todo:[*] 19-07-29 由于修改了 realtidedate中的targetdate（由date修改为datetime），此处暂时直接判断传入的moment即可
             temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == datetime_utc_start]
             # temp_forecasttidedata=[temp for temp in realdate.forecastdata if temp.targetdate==date_moment]
@@ -348,7 +349,7 @@ class StationDetailAllList(IStationDetail):
                         # temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
                         #                                           datetime.time(index, 0))
                         # TODO [*] 19-07-29 此处为targetdate与当前的计数器相加
-                        temp_datetime=realtide_temp.targetdate+timedelta(hours=index)
+                        temp_datetime = realtide_temp.targetdate + timedelta(hours=index)
                         # todo[*] 19-07-26 此处需要注意一下时区的问题
                         # temp_datetime=temp_datetime.replace(tzinfo=)
                         temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
@@ -871,19 +872,24 @@ class StationStatisticsDataView(APIView):
             # no
             # attribute
             # 'realdata_arr'
-            forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
-            # forecast_arr = [forecast_temp for forecast in temp.forecastdata for forecast_temp in forecast]
-            real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            # TODO:[*] 19-07-30 注意数据库中存取的数据real与forecast是相反的！！
+            # forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            # real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            # 此处需要颠倒一下，上面是之前的未颠倒的，暂时保留
+            real_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            forecast_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
             real_arr = real_arr + real_arr_temp
             forecast_arr = forecast_arr + forecast_arr_temp
             # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
         # err：ValueError: not enough values to unpack (expected 3, got 2)
         # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
-        deviation_arr = [(i, x - y) for i, (x, y) in enumerate(zip(forecast_arr, real_arr))]
+        deviation_arr = [(i, x - y) for i, (x, y) in enumerate(zip(real_arr, forecast_arr))]
         # 找到极值及其所在位置
         max_deviation = max(deviation_arr, key=lambda x: x[1])
         index = max_deviation[0]
+        # TODO:[*] 19-07-30 此处需要转为utc时间 replace(tzinfo=TZ_UTC_0)
         max_targetdate = query.startdate + timedelta(hours=index)
+        max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
         max_val = max_deviation[1]
         return max_val, max_targetdate
 
