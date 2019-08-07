@@ -167,3 +167,10 @@ class TyphoonNumChDictSerializer(serializers.Serializer):
     num = serializers.CharField()
     # 台风对应中文名字
     chname = serializers.CharField()
+
+class StationNameChDictSerializer(serializers.Serializer):
+    '''
+        测站名称对照表
+    '''
+    name = serializers.CharField()
+    chname = serializers.CharField()

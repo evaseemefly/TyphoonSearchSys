@@ -197,3 +197,12 @@ class TyphoonNumChDictData(Document):
     # 台风对应中文名字
     chname = StringField(max_length=50)
     meta = {'collection': 'typhoonnumchdict'}
+
+class StationNameDict(Document):
+    '''
+        测站名称对照表
+    '''
+    name = StringField()
+    chname = StringField()
+
+    meta = {'collection': 'stationnamedict'}

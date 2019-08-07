@@ -1,8 +1,12 @@
 import model
 import mongoengine
 import os
+import re
 
-filename = "stationCode.txt"
+# 读取的文件夹路径
+target_path=r'D:\02proj\TyphoonSearchSys\data\ext'
+
+file_name = "stationCode.txt"
 mongoengine.connect('typhoon', host="127.0.0.1:27017")
 
 
@@ -28,6 +32,7 @@ def produceStationNameList():
 def insertStationNamebyCh(fullname:str):
     '''
         根据 指定文件 测站名称对照表 向mongo中插入中英对照表
+        此部分与读取typhoonNameDict的类似
     :param fullname:
     :return:
     '''
@@ -37,9 +42,24 @@ def insertStationNamebyCh(fullname:str):
             -1 读取指定文件
             -2 逐行录入mongo
     '''
+    # 注意在win下面不需要加入 encoding='utf-8'
+    with open(fullname,'r') as file:
+        list=file.readlines()
+        for station in list:
+            try:
+                temp=station.split(',')
+                pattern = re.compile(r'\w*')
+                name_ch = pattern.match(temp[1]).group()
+                model.StationNameDict(name=temp[0],chname=name_ch).save()
+            except IndexError as err:
+                print(f'{temp},index出现错误')
     pass
 
 def main():
+    fullname=os.path.join(target_path,file_name)
+    insertStationNamebyCh(fullname)
+    print('录入完成')
+    print('-------------------')
     pass
 
 
