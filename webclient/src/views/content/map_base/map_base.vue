@@ -50,6 +50,8 @@ import {
   ITyphoonRealBaseParams
 } from "@/api/api.ts";
 
+import { INameCH } from "@/common/dict/nameCH.ts";
+
 // 解决默认icon找不到的问题
 import "leaflet/dist/leaflet.css";
 // 需要引入leaflet的样式
@@ -540,7 +542,12 @@ export default class map_base extends mixins(
       if (res.status == 200) {
         myself.clearStationDivs();
         // todo:[*] 19-08-07 加入了从cookie中取出 测站名称字典
-        var stationNameDict = getStationDictChCookie(myself);
+        var stationNameDict: Array<INameCH> = getStationDictChCookie(myself);
+        var stationDict = new Array();
+        stationNameDict.forEach(temp => {
+          stationDict[temp.name] = temp.chname;
+        });
+
         res.data.map(temp => {
           // console.log(temp);
           try {
@@ -563,6 +570,7 @@ export default class map_base extends mixins(
                 temp_station.code,
                 new Date(temp_forecast.occurred),
                 temp_station.stationname,
+                stationNameDict[temp_station.stationname],
                 temp_station.jw,
                 temp_station.lev,
                 temp_station.point,

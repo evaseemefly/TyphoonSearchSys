@@ -154,6 +154,7 @@ class StationData_Mid_Model implements IStation {
   public code: string
   public startdate: Date
   public stationname: string
+  public stationnameCh: string
   public jw: number
   public lev: number
   public point: any
@@ -168,6 +169,7 @@ class StationData_Mid_Model implements IStation {
     code: string,
     startdate: Date,
     stationname: string,
+    stationnameCh: string,
     jw: number,
     lev: number,
     point: any,
@@ -175,6 +177,7 @@ class StationData_Mid_Model implements IStation {
     tide_forecast: number
   ) {
     this.stationname = stationname
+    this.stationnameCh = stationnameCh
     this.code = code
     this.point = point
     this.startdate = startdate

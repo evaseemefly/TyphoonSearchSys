@@ -4,7 +4,9 @@ import os
 import re
 
 # 读取的文件夹路径
-target_path=r'D:\02proj\TyphoonSearchSys\data\ext'
+# target_path=r'D:\02proj\TyphoonSearchSys\data\ext'
+# mac
+target_path=r'../../data/ext'
 
 file_name = "stationCode.txt"
 mongoengine.connect('typhoon', host="127.0.0.1:27017")
@@ -23,7 +25,7 @@ def produceStationNameList():
 
     stlist.sort()
 
-    f = open(filename, 'w')
+    f = open(file_name, 'w')
     for s in stlist:
         f.write(s + ',\n')
 
@@ -43,7 +45,8 @@ def insertStationNamebyCh(fullname:str):
             -2 逐行录入mongo
     '''
     # 注意在win下面不需要加入 encoding='utf-8'
-    with open(fullname,'r') as file:
+    # 注意若在mac下需要设定编码格式为 gb2312
+    with open(fullname,'r',encoding='gb2312') as file:
         list=file.readlines()
         for station in list:
             try:
