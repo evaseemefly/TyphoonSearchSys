@@ -11,7 +11,7 @@
             v-bind:key="index"
             style="height:400px;width:400px"
           >
-            <img :src="item" class="disasterImg">
+            <img :src="item" class="disasterImg" />
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -70,7 +70,7 @@ export default {
           let imgPartUrlList = res.data;
           let imgUrlList = [];
           for (let i in imgPartUrlList) {
-            imgUrlList.push(getBaseHostPicPath() + imgPartUrlList[i]);//组装成浏览器可以直接发送请求的url
+            imgUrlList.push(getBaseHostPicPath() + imgPartUrlList[i]); //组装成浏览器可以直接发送请求的url
           }
           if (imgUrlList.length > 0) app.items = imgUrlList;
           else {
@@ -111,7 +111,7 @@ export default {
   height: 500px;
   top: 40%;
   position: fixed;
-  z-index: 9999;
+  z-index: 1500;
 }
 .disaster-pic-img {
   height: 100%;

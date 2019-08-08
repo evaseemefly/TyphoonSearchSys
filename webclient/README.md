@@ -117,12 +117,15 @@ python 参考规范（参考 pep8）
 会逐渐补充
 
 js 的 date 库:
-[fecha](https://github.com/taylorhakes/fecha)
-[vue-class-component](https://github.com/vuejs/vue-class-component)
+[fecha](https://github.com/taylorhakes/fecha)  
+[vue-class-component](https://github.com/vuejs/vue-class-component)  
 [Vue Property Decorator](https://github.com/kaorun343/vue-property-decorator)
 
 地图相关库：
 [超图的 iclent](http://iclient.supermap.io/)
+
+图标相关库：
+使用了[font awesome文字图标库](http://fontawesome.dashgame.com/)
 
 ### 2 python 使用的库
 

@@ -4,16 +4,17 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --max_old_space_size=4096",
     "lint": "vue-cli-service lint",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
   },
   "dependencies": {
-    "@supermap/iclient-leaflet": "^9.1.1",
+    "@supermap/iclient-leaflet": "^9.1.2",
     "@types/jquery": "^3.3.29",
     "@types/leaflet": "^1.4.3",
     "Leaflet.TileLayer.MBTiles": "^1.0.0",
-    "axios": "^0.18.0",
+    "axios": "^0.19.0",
     "bootstrap": "^4.3.1",
     "cross-env": "^5.2.0",
     "echarts": "^4.2.1",
@@ -21,7 +22,7 @@
     "eslint-plugin-html": "^5.0.3",
     "fecha": "^3.0.2",
     "increase-memory-limit": "^1.0.7",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "jshint": "^2.10.1",
     "leaflet": "^1.4.0",
     "leaflet-defaulticon-compatibility": "^0.1.1",
@@ -52,6 +53,7 @@
     "chai": "^4.1.2",
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
+    "font-awesome": "^4.7.0",
     "typescript": "~3.2.2",
     "vue-template-compiler": "^2.5.21"
   },

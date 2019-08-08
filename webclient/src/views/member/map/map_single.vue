@@ -92,7 +92,8 @@ export default class map_base extends mixins() {
   isShow: boolean = false;
   initMap(): void {}
   mounted() {
-    this.initMap();
+    // this.initMap();
+    this.isShow = true;
   }
 
   get searchNum(): string {
@@ -144,7 +145,7 @@ export default class map_base extends mixins() {
 }
 </script>
 
-<style>
+<style scoped>
 #singlecontent {
   flex: 8;
   position: relative;

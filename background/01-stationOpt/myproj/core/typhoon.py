@@ -24,7 +24,11 @@ class TyphoonFileInfo:
         :return:
         '''
         with open(self.full_name, 'rb') as f:
-            self.data = pd.read_table(f, sep='\s+', encoding='utf-8', header=None, infer_datetime_format=False)
+            # TODO:[*] 19-07-17
+            # pandas.errors.ParserError: Error tokenizing data. C error: Expected 6 fields in line 4, saw 15
+            self.data = pd.read_table(f, sep='\s+', encoding='utf-8', header=None, infer_datetime_format=False,error_bad_lines=False)
+            # self.data = pd.read_table(f, sep='\s+', encoding='utf-8', header=None, infer_datetime_format=False,
+            #                           error_bad_lines=False)
             print('读取成功')
 
     def _check_mark(self, index):

@@ -3,14 +3,19 @@ from apps.Typhoon.models import *
 
 
 class TyphoonModel:
-    def __init__(self, code: str, date: datetime.datetime, num: str):
+    def __init__(self, code: str, date: datetime.datetime, num: str, nameCh: str = ''):
         self.code = code
         self._date = date
         self.num = num
+        self.nameCh = nameCh
 
     @property
     def year(self):
         return self._date.year
+
+    @property
+    def date(self):
+        return self._date
 
 
 class TyphoonAndTotalModel:

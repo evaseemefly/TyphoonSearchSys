@@ -6,7 +6,7 @@ from . import views
 
 app_name = '[gis]'
 urlpatterns = [
-    # 获取指定日期的预报数据
+    # 获取指定日期的预报数据data/stationtide
     url(r'^point/$', PointInfoView.as_view(), name="gis-get-point"),
     url(r'^data/typhoonrealdata/$',
         TyphoonRealDataView.as_view(), name="gis-get-point"),
@@ -35,6 +35,8 @@ urlpatterns = [
     url(r'data/GetDisasterPicPath/$', GetDisasterPicPath.as_view()),
     path("data/DisplayDisasterPic/<str:year>/<str:num>/<str:filename>",
          views.DisplayDisasterPic),
+    url(r'^data/typhoonnamedict/$', TyphoonNameDictView.as_view()),
+    url(r'^other/readme/$$', ReadmeView.as_view())
     # path("getAllData",views.getAllData),
     # path("getAreaTyphoonList", views.getAreaTyphoonList),
 ]

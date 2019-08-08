@@ -12,7 +12,7 @@
                 v-for="(item,index) in typhoon_list"
                 :key="index"
                 @click="onClick(item)"
-              >name:{{item.name}}|num:{{item.num}}|{{item.year}}</li>
+              >name:{{item.name}}|num:{{item.num}}|{{item.year}}|{{item.chname}}</li>
             </ul>
             <!-- TODO:[*] 19-05-14 注意此处设置pager-count为3时，会提示出错
             貌似是插件的bug，参考：https://github.com/ElemeFE/element/issues/14055-->

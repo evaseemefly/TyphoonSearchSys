@@ -134,11 +134,16 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
+# TIME_ZONE = 'Asia/Shanghai'
+
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+from datetime import timezone,timedelta
+TZ_UTC_0=timezone(timedelta(hours=0))
+TZ_UTC_8=timezone(timedelta(hours=8))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -150,7 +155,6 @@ default_typhoon_code = "(nameless)"
 DEFAULT_TYPHOON_CODE_BYSTATION = "default"
 
 DEFAULT_TYPHOON_DATE = '1700-1-1'
-
 
 # mongodb中保存stationtidedata的document的名字
 MONGO_STATIONTIDEDATA_DOCUMENT_NAME = 'geostationtidedata'
@@ -172,6 +176,6 @@ _MONGODB_DATABASE_HOST = \
     % (_MONGODB_USER, _MONGODB_PASSWD, _MONGODB_HOST, _MONGODB_NAME)
 
 # mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
-mongoengine.connect(_MONGODB_NAME)
+# mongoengine.connect(_MONGODB_NAME)
 # 线上配置
-# mongoengine.connect('typhoon',host="db")
+mongoengine.connect('typhoon',host="db")

@@ -112,7 +112,8 @@ class TideData(EmbeddedDocument):
     # realdata_arr = ListField(IntField())
     # 目标日期（年-月-日）
     #     targetdate=DateTimeField()
-    targetdate = DateField(default=None)
+    # TODO:[-] 注意此处的类型不再是date而是datetime！！注意
+    targetdate = DateTimeField(default=None)
     forecastdata = EmbeddedDocumentField(ForecastData)
     realdata = EmbeddedDocumentField(RealData)
     # heigh_heigh_tide = EmbeddedDocumentField(Extremum)
@@ -184,3 +185,15 @@ class DisasterWordInfo(Document):
     meta={
         'collection':'disasterword'
     }
+
+class TyphoonNumChDictData(Document):
+    '''
+        台风名称对照表
+    '''
+    # 台风英文名称
+    code = StringField(max_length=10)
+    # 台风编号
+    num = StringField()
+    # 台风对应中文名字
+    chname = StringField(max_length=50)
+    meta = {'collection': 'typhoonnumchdict'}

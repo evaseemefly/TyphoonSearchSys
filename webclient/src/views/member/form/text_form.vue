@@ -49,7 +49,7 @@ export default class text_form extends mixins(TextFormDataMixin) {
     */
     var myself = this;
     this.title = val.code;
-    loadTyphoonWord({ code: val.code }).then(res => {
+    loadTyphoonWord({ code: val.num }).then(res => {
       if (res.status === 200) {
         if (res.data.length === 1) {
           if ("wordDocument" in res.data[0]) {

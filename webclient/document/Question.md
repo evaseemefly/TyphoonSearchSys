@@ -4,9 +4,9 @@
 ![avatar](img/WX20190704-213602.png)
 如图所示，本页面大概的加载顺序为，中间的部分  
 
-| form_static_detail | |
-|----------|:-------------:|
-| map_single | typhoon_detail_charts |  
+| form_static_detail |                       |
+| ------------------ | :-------------------: |
+| map_single         | typhoon_detail_charts |
 
 由于右侧的`typhoon_detail_charts`的高度是动态计算得来的
 _在页面加载之后动态计算调整其高度_
@@ -68,3 +68,41 @@ _在页面加载之后动态计算调整其高度_
 此处由引出一个问题就是页面的顺序加载
 对于时间上的顺序加载，可以通过上面说的`v-if`与`v-show`。即1组件加载之后，再加载2组件。
 
+
+---
+
+## 在vs中使用vetur可能会对ts-lint或es-lint造成冲突
+eg：
+假设定义了一个构造函数，其中包含可选参数（chname）
+```js
+constructor(
+    name: string,
+    id: number,
+    code: string,
+    year: number,
+    num: string,
+    chname?: string 
+  )
+```
+调用时
+```ts
+myself.typhoon_code_list.push(
+            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num,obj.nameCh)
+          );
+```
+会提示一个vetur的错误  
+现在的解决办法是在`设置`中禁用掉
+`vetur>Validation:Script`
+
+## 引入字体图标的方式
+在vue项目中引入网络字体图标的方式  
+例如引入[font-awesome](http://fontawesome.dashgame.com/)  
+
+- 1  全局安装`font-awesome`  
+`cnpm install font-awesome --save-dev`
+
+- 2 在main.js中引入  
+` import 'font-awesome/css/font-awesome.min.css'`
+
+- 3 在相关文件中使用  
+`<i class="fa fa-motorcycle" aria-hidden="true"></i>`

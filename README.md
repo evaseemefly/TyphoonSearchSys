@@ -81,3 +81,8 @@
    ![avatar](document/img/WX20190703-151933.png)
    展开的效果
    ![avatar](document/img/WX20190703-151942.png)
+
+7. 录入全部测站数据后的效果
+   by _19-07-11_
+   ![avatar](document/img/WX20190711-192858.png)
+   ![avatar](webclient/document/img/WX20190711-192946.png)

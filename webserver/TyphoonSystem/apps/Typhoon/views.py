@@ -17,6 +17,7 @@ from mongoengine import *
 from TyphoonSystem import settings
 from .views_base import BaseView, BaseDetailListView
 import json
+from TyphoonSystem.settings import TZ_UTC_0, TZ_UTC_8
 
 # 引入mongoengine
 # import mongoengineFilterByMonth
@@ -28,6 +29,7 @@ from .serializers import *
 from .middle_models import *
 from common import dateCommon
 from .view_decorator import *
+from common.dateCommon import sortTyphoonNum
 
 
 # Create your views here.
@@ -85,7 +87,9 @@ class StationTideDataListView(APIView):
         code = request.GET.get("code", settings.DEFAULT_TYPHOON_CODE_BYSTATION)
         self.code = code
         date_str = request.GET.get("date", settings.DEFAULT_TYPHOON_DATE)
+        # todo:[*] 19-07-24 注意此处会省略时区
         targetdate = dateutil.parser.parse(date_str)
+        # targetdate=targetdate.replace(tzinfo=utc)
         # targetdate = datetime.datetime.strptime(date_str, '%Y-%m-%d %H:%M')
         # print(targetdate)
         # print(code)
@@ -130,17 +134,37 @@ class StationTideDataListView(APIView):
                 思路：
                     
             '''
+            # todo:[*] 19-07-24 注意此处的moment 是utc时间，注意！！
             date_moment = date(moment.year, moment.month, moment.day)
             hour_moment = moment.hour
-            datetime_moment = datetime(moment.year, moment.month, moment.day, moment.hour, 0)
-            temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == date_moment]
+            # todo:[-] 19-07-24 注意这么写的话需要进行一下时区的转化！！
+            datetime_moment = datetime(moment.year, moment.month, moment.day, moment.hour, 0).replace(tzinfo=TZ_UTC_0)
+            # todo:[*] 19-07-26 此处需要重新梳理一遍关于时区的问题
+            '''
+                s1：现传入的moment是一个utc的datetime（前台传递过来的是utc时间，后端不再做时区的修改）
+                1： 对于测站数据的查询需要根据一个datetime去获取realtidedata数组中的每一个targetdate
+                2： 而其中的forecastdata->forecast_arr 是根据北京时间来保存的（我日你妈！）
+                ---
+                1： 创建两个datetime变量，一个用来存储utc时间，一个用来存储beijing时间
+                2： utc时间用来找到targetdate
+                3： beijing时间用来获取每个小时的测值
+            '''
+            # utc时间与对应的北京时间
+            moment_utc = moment
+            moment_bj = moment + timedelta(hours=8)
+            # 获取当前传入的时间的当日起始时间,注意也是utc时间
+            # datetime_utc_start=(datetime(year=moment_bj.year,month=moment_bj.month,day=moment_bj.day)+timedelta(hours=-8)).date()+timedelta(hours=16)
+            datetime_utc_start = datetime(year=moment_bj.year, month=moment_bj.month, day=moment_bj.day) + timedelta(
+                hours=-8)
+            # todo:[*] 19-07-29 由于修改了 realtidedate中的targetdate（由date修改为datetime），此处暂时直接判断传入的moment即可
+            temp_realtidedata = [temp for temp in realdate.realtidedata if temp.targetdate == datetime_utc_start]
             # temp_forecasttidedata=[temp for temp in realdate.forecastdata if temp.targetdate==date_moment]
             if len(temp_realtidedata) > 0:
                 # TODO 19-04-11 此处修改
                 return StationTideAllDataMidModel(
-                    temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],
-                    temp_realtidedata[0].realdata.realdata_arr[hour_moment],
-                    datetime_moment
+                    temp_realtidedata[0].realdata.realdata_arr[moment_bj.hour],
+                    temp_realtidedata[0].forecastdata.forecast_arr[moment_bj.hour],
+                    moment_utc
                 )
                 # return StationTideForecastMidModel(temp_realtidedata[0].forecastdata.forecast_arr[hour_moment],datetime_moment)
                 # return temp_realtidedata[0].forecastdata.forecast_arr[hour_moment]
@@ -209,6 +233,26 @@ class IStationDetail(abc.ABC):
     @abc.abstractmethod
     def load(self, code: str, stationname: str, num: str):
         pass
+
+
+class TyphoonNameDictView(BaseView):
+    '''
+        台风名称字典 视图
+    '''
+
+    def get(self, request):
+        nums = request.GET.get('nums', '')
+        # TODO:[*] 19-07-12 放在父类中
+        num_list = nums.split(',')
+        # list_dict: [] = []
+        # if len(num_list)==1 and num_list[0]=='':
+        #     list_dict = TyphoonNumChDictData.objects()
+        # else:
+        #     list_dict = TyphoonNumChDictData.objects(num__in=num_list)
+        # list_dict = list_dict.distinct('num')
+        list_dict = self.getTyphoonChNameDict(nums=num_list)
+        json_data = TyphoonNumChDictSerializer(list_dict, many=True).data
+        return Response(json_data)
 
 
 class StationDetailMinList(IStationDetail):
@@ -302,8 +346,12 @@ class StationDetailAllList(IStationDetail):
                         # TODO date-> datetime 方式2：
                         import datetime
                         # TODO [*] 19-06-30
-                        temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
-                                                                  datetime.time(index, 0))
+                        # temp_datetime = datetime.datetime.combine(realtide_temp.targetdate,
+                        #                                           datetime.time(index, 0))
+                        # TODO [*] 19-07-29 此处为targetdate与当前的计数器相加
+                        temp_datetime = realtide_temp.targetdate + timedelta(hours=index)
+                        # todo[*] 19-07-26 此处需要注意一下时区的问题
+                        # temp_datetime=temp_datetime.replace(tzinfo=)
                         temp_tide = StationTideAllDataMidModel(temp[0], temp[1], temp_datetime)
 
                         # TODO [-] 19-04-25 temp[0] 为real temp[1] 为forecast
@@ -326,9 +374,9 @@ class StationDetailListView(APIView):
     '''
 
     def get(self, request):
-        code = request.GET.get('code',None)
-        name = request.GET.get('name',None)
-        num = request.GET.get('num',None)
+        code = request.GET.get('code', None)
+        name = request.GET.get('name', None)
+        num = request.GET.get('num', None)
         type = int(request.GET.get('type', '0'))
         switch = {
             0: StationDetailMinList,
@@ -342,7 +390,7 @@ class StationDetailListView(APIView):
             return Response(data_json.data)
         except Exception as e:
             logging.error(e)
-            return Response('',status=500)
+            return Response('', status=500)
 
         # pass
 
@@ -492,6 +540,7 @@ class FilterByRange(BaseView):
         # 获取去重后的code list
         nums = self.getTyphoonList(latlon=latlons, range=range)
         total = len(nums)
+        # TODO:[*] 19-07-13 对nums加入排序升序排序
         codes = nums[start_index:finish_index]
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
         # list_data = [GeoTyphoonRealData.objects(code=code)[:1].code
@@ -512,8 +561,29 @@ class FilterByRange(BaseView):
             obj = GeoTyphoonRealData.objects(num=num)[0]
             if obj.code not in tup_python_name:
                 list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
+        # TODO:[*] 19-07-12 加入中文typhoonName
+        list_typhoonNum = [temp.num for temp in list_data]
+
+        # 以下部分封装至 BaseView 中的 addChnameVariable 方法中
+        # list_namesDict = self.getTyphoonChNameDict(nums=list_typhoonNum)
+        # dict_names = {}
+        # # ((lambda x: dict_names[x.num]=x.chname)(temp) for temp in list_namesDict)
+        # for temp in list_namesDict:
+        #     dict_names[temp.num] = temp.chname
+        # list_dataFinal = []
+        # if len(list_namesDict) > 0:
+        #     # lis for temp in list_data
+        #     [
+        #         list_dataFinal.append(TyphoonModel(temp.code, temp.date, temp.num, dict_names.get(temp.num)))
+        #      for
+        #      temp in
+        #      list_data]
+        # else:
+        #     list_dataFinal = list_data
+
+        list_dataFinal = self.addChnameVariable(list_data, nums=list_typhoonNum)
         # TODO:[*] 19-05-13 返回的加入total
-        data = TyphoonAndTotalModel(list_data, total)
+        data = TyphoonAndTotalModel(list_dataFinal, total)
         json_data = TyphoonAndTotalModelSerializer(data).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
@@ -599,9 +669,11 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         fromP = request.GET.get('from')
         toP = request.GET.get('to')
 
+        # TODO:[*] 19-07-13 需要对复杂条件查询加入台风的中文名称chname
+
         query = GeoTyphoonRealData.objects()
 
-        if level is not None and level != '' and level !='0':
+        if level is not None and level != '' and level != '0':
             query = query.filter(level=int(level))
         if wsm is not None and wsm != '':
             query = query.filter(wsm=wsm)
@@ -618,7 +690,8 @@ class GetTyphoonCodeByComplexCondition(BaseView):
             end_date = add_months(end_date, 1)
             etime = end_date + timedelta(seconds=-1)
             query = query.filter(date__lte=etime)
-
+        # TODO:[-] 19-07-11 加入排序
+        query = query.order_by('date')
         try:
             fromP = int(fromP)
         except Exception as e:
@@ -631,8 +704,13 @@ class GetTyphoonCodeByComplexCondition(BaseView):
 
         query = query.filter(code__ne='(nameless)')
         # TODO:[-] 19-05-22 注意此处必须根据台风编号去重（num），因为code有可能有重复的！！！
+        #  19-07-13 暂时去掉根据num去重，此时的query就不再是一个num的 list，而是一个GeoTyphoonRealData的list，
+        # 注意此处的num确实是会有重复的，必须要去重
         query = query.distinct('num')
         total = len(query)
+        # TODO:[*] 19-07-13 加入一个排序，使用升序排列
+        # query = sorted(query, key=lambda x: int(x), reverse=False)
+        query = sortTyphoonNum(query, False, 49)
         query = query[fromP:toP]
         # TODO [*] 19-05-05 由于前台需要的是code以及num，所以需要根据code获取到geoTyphoonRealData类型的列表，并序列化返回
         #  以下注释部分 -by zw
@@ -642,12 +720,15 @@ class GetTyphoonCodeByComplexCondition(BaseView):
         # result = {'total':total,'data':query}
         # return Response(result)
         # 因为返回的都是code，此部分只是多了一个year，暂时可以去掉
+
         list_data = [
-            TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code, GeoTyphoonRealData.objects(num=num)[0].date,
+            TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code,
+                         GeoTyphoonRealData.objects(num=num)[0].date,
                          GeoTyphoonRealData.objects(num=num)[0].num)
             for num in query]
-
-        json_data = TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_data, total)).data
+        typhoon_nums = [temp.num for temp in list_data]
+        list_dataFinal = self.addChnameVariable(list_data, nums=typhoon_nums)
+        json_data = TyphoonAndTotalModelSerializer(TyphoonAndTotalModel(list_dataFinal, total)).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
 
@@ -737,8 +818,13 @@ def add_months(sourcedate, months):
 
 
 class DisasterWordView(APIView):
+    '''
+        获取灾情描述word信息
+    '''
+
     def get(self, request):
-        code = '5622'
+        code = request.GET.get('code', None)
+        # code = '5622'
         query = DisasterWordInfo.objects(code=code)
         json_data = DisasterWordModelSerializer(query, many=True).data
         return Response(json_data)
@@ -749,17 +835,18 @@ class StationStatisticsDataView(APIView):
     '''
         获取测站的极值数据
     '''
+
     def get(self, request):
         num = request.GET.get("num", None)
         stationname = request.GET.get('name', None)
         # 根据stationname 与 typhoon num 找到 风暴增水的最大值
         # forecast-realtide 差值的最大值
-        result={}
+        result = {}
         try:
-            max_val,max_date = self.getDeviationVals(num, stationname)
-            result={
-                'max_val':max_val,
-                'max_date':max_date
+            max_val, max_date = self.getDeviationVals(num, stationname)
+            result = {
+                'max_val': max_val,
+                'max_date': max_date
             }
         except Exception as e:
             logging.error(e)
@@ -767,7 +854,7 @@ class StationStatisticsDataView(APIView):
         return Response(result)
         # pass
 
-    def getDeviationVals(self, num: str, stationname: str) :
+    def getDeviationVals(self, num: str, stationname: str):
         '''
             获取差值的数组
         :return:
@@ -785,21 +872,26 @@ class StationStatisticsDataView(APIView):
             # no
             # attribute
             # 'realdata_arr'
-            forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
-            # forecast_arr = [forecast_temp for forecast in temp.forecastdata for forecast_temp in forecast]
-            real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
-            real_arr=real_arr+real_arr_temp
-            forecast_arr=forecast_arr+forecast_arr_temp
+            # TODO:[*] 19-07-30 注意数据库中存取的数据real与forecast是相反的！！
+            # forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            # real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            # 此处需要颠倒一下，上面是之前的未颠倒的，暂时保留
+            real_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            forecast_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            real_arr = real_arr + real_arr_temp
+            forecast_arr = forecast_arr + forecast_arr_temp
             # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
         # err：ValueError: not enough values to unpack (expected 3, got 2)
         # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
-        deviation_arr = [(i,x-y) for i, (x,y) in enumerate(zip(forecast_arr, real_arr))]
+        deviation_arr = [(i, x - y) for i, (x, y) in enumerate(zip(real_arr, forecast_arr))]
         # 找到极值及其所在位置
         max_deviation = max(deviation_arr, key=lambda x: x[1])
-        index=max_deviation[0]
-        max_targetdate=query.startdate+timedelta(hours=index)
-        max_val=max_deviation[1]
-        return max_val,max_targetdate
+        index = max_deviation[0]
+        # TODO:[*] 19-07-30 此处需要转为utc时间 replace(tzinfo=TZ_UTC_0)
+        max_targetdate = query.startdate + timedelta(hours=index)
+        max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
+        max_val = max_deviation[1]
+        return max_val, max_targetdate
 
 
 # 获取所有台风年份
@@ -811,21 +903,24 @@ class GetAllTyphoonYear(APIView):
         lst = list(query)
         return Response(lst)
 
+
 class CheckStationCount4Typhoon(APIView):
     '''
         根据传入的 typhon 判断是否有对应的 测站列表
     '''
-    def get(self,request):
-        num=request.GET.get('num',None)
-        query=StationTideData.objects(typhoonnum=num)
-        count=len(query)
-        result={
-            'count':count
+
+    def get(self, request):
+        num = request.GET.get('num', None)
+        query = StationTideData.objects(typhoonnum=num)
+        count = len(query)
+        result = {
+            'count': count
         }
         return Response(result)
         # pass
 
         # count=query
+
 
 # 获取所有台风编号
 # 这个写死了需要修改
@@ -856,7 +951,9 @@ class GetAllObsStationCode(APIView):
             query = query.filter(typhoonnum=code)
             query = query.filter(startdate__gte=start_date)
             query = query.filter(startdate__lte=end_date)
-            result = query.distinct('code')
+            # 此处暂时改为stationname
+            result = query.distinct('stationname')
+            # result = query.distinct('code')
             lst = list(result)
             return Response(lst)
         except Exception as e:
@@ -907,35 +1004,46 @@ class GetRealDataMbp(APIView):
         print(dic)
         return Response(dic)
 
+
 class GetDisasterPicPath(APIView):
     '''
     根据灾情参数读取所有文件，并生成url路径，贡轮播使用
     '''
-    def get(self,request):
+
+    def get(self, request):
         base_path = settings.DISASTER_PIC_PATH
         num = request.GET.get("num")
         year = request.GET.get("year")
-        img_dir_path = os.path.join(base_path,year,num);
+        img_dir_path = os.path.join(base_path, year, num);
         if not os.path.exists(img_dir_path):
             return Response([])
         img_name_list = os.listdir(img_dir_path)
         reslist = []
-        #暂时先写死img路径
-        get_pic_url = 'data/DisplayDisasterPic/'+year+'/'+num+'/'
+        # 暂时先写死img路径
+        get_pic_url = 'data/DisplayDisasterPic/' + year + '/' + num + '/'
         print(get_pic_url)
         for name in img_name_list:
-            reslist.append(get_pic_url+name);
+            reslist.append(get_pic_url + name);
         return Response(reslist);
 
 
-def DisplayDisasterPic(request,num,year,filename):
+def DisplayDisasterPic(request, num, year, filename):
     '''
     根据路径读取单张图片并返回
     '''
     base_path = settings.DISASTER_PIC_PATH
-    file_path = os.path.join(base_path,year,num,filename)
-    image_data = open(file_path,"rb").read()
-    _,imgtype = os.path.splitext(file_path)
-    content_type = "image/"+imgtype.lstrip('.')
-    return HttpResponse(image_data,content_type=content_type)
-    
+    file_path = os.path.join(base_path, year, num, filename)
+    image_data = open(file_path, "rb").read()
+    _, imgtype = os.path.splitext(file_path)
+    content_type = "image/" + imgtype.lstrip('.')
+    return HttpResponse(image_data, content_type=content_type)
+
+
+class ReadmeView(APIView):
+    '''
+        获取灾情描述word信息
+    '''
+
+    def get(self, request):
+        readme = 'v1.5:19-07-15'
+        return Response(readme)

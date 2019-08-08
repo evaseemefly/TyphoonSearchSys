@@ -9,7 +9,15 @@ from core.stationtide import *
 from core.typhoon import TyphoonRealData
 from conf import setting
 
+from core.stationtide import STATION_TYPE
 
+
+class FILE_TYPE(Enum):
+    '''
+        文件种类
+    '''
+    old='old',
+    present='present'
 
 def main():
     dir_path=setting.DIR_PATH
@@ -21,12 +29,12 @@ def main():
     # station=StationTideRealData(dir_path,file_name)
 
     # 自动化录入测站数据
-    station=StationRealData(dir_path)
-    station.run()
+    # station=StationRealData(dir_path)
+    # station.run(datatype=STATION_TYPE.EXPIRED)
 
     # 自动化录入台风数据
-    # typhoon=TyphoonRealData(dir_path)
-    # typhoon.run()
+    typhoon=TyphoonRealData(dir_path)
+    typhoon.run()
     print('录入完成')
     pass
 
