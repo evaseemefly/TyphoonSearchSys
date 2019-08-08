@@ -252,8 +252,20 @@ class TyphoonNameDictView(BaseView):
         # list_dict = list_dict.distinct('num')
         list_dict = self.getTyphoonChNameDict(nums=num_list)
         json_data = TyphoonNumChDictSerializer(list_dict, many=True).data
+
         return Response(json_data)
 
+class StationNameDictView(BaseView):
+    '''
+        todo:[*] 19-08-07 测站名称的字典视图
+    '''
+    def get(self,request):
+        # 看前台是否传入了names，若未传入则代表获取全部的，大概率是这样
+        names=request.GET.get('names','')
+        dict_names=StationNameDict.objects()
+        json_data=StationNameChDictSerializer(dict_names,many=True).data
+        return Response(json_data)
+        pass
 
 class StationDetailMinList(IStationDetail):
     def load(self, code: str, stationname: str, num: str):

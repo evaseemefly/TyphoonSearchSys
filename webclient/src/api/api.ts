@@ -169,3 +169,15 @@ export /**
       }
     })
   }
+  
+export
+  /**
+   * 获取测站对应的中文名称字典
+   *
+   * @returns
+   */
+  const getStationNameCh = () => {
+    let url = `${host}/gis/dict/station_ch/`
+    return axios.get(url)
+  }
+

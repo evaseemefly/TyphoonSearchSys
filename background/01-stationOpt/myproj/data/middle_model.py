@@ -20,7 +20,8 @@ class GeoTyphoonRealDataMidModel:
         # TODO 注意此处需要修改num的值
         stamp = datetime.strptime(str(stamp_str), '%Y%m%d%H')
         # TODO:[-] 19-07-25 加入时区
-        stamp=local2utc(stamp)
+        # todo:[*] 19-08-06 注意现在确定读取的台风数据为utc时间，此处不需要再做转换
+        # stamp=local2utc(stamp)
         # stamp = stamp.replace(tzinfo=TZ_UTC_8)
         # num_str = str(stamp_str)[2:4] + str('%02d' % num)
         num_str = str(num).zfill(4)

@@ -36,7 +36,9 @@ urlpatterns = [
     path("data/DisplayDisasterPic/<str:year>/<str:num>/<str:filename>",
          views.DisplayDisasterPic),
     url(r'^data/typhoonnamedict/$', TyphoonNameDictView.as_view()),
-    url(r'^other/readme/$$', ReadmeView.as_view())
+    url(r'^other/readme/$$', ReadmeView.as_view()),
+    # todo:[*] 19-08-07 获取所有测站的中英文对照字典
+    url(r'^dict/station_ch/$',StationNameDictView.as_view())
     # path("getAllData",views.getAllData),
     # path("getAreaTyphoonList", views.getAreaTyphoonList),
 ]

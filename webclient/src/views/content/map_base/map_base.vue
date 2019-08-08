@@ -78,6 +78,12 @@ import { tiledMapLayer, echartsLayer } from "@supermap/iclient-leaflet";
 import modal_detail from "@/views/member/modal/modal_detail.vue";
 import { DivIcon, DivIconOptions } from "leaflet";
 
+// 引入cookie的公共组件
+import {
+  loadStationDictChCookie,
+  checkStationDictCookieExist,
+  getStationDictChCookie
+} from "@/common/cookie.ts";
 @Component({
   components: {
     "l-marker": LMarker,
@@ -471,7 +477,11 @@ export default class map_base extends mixins(
     });
   }
   mounted() {
+    var myself = this;
     this.initMap();
+    if (!checkStationDictCookieExist(myself)) {
+      loadStationDictChCookie(myself);
+    }
     // 尝试加载echarts的散点图
     // this.initCharts();
   }
@@ -529,6 +539,8 @@ export default class map_base extends mixins(
       // TODO: [*] 19-04-10 当前的实时台风（含date）被修改后获取后台范围的该台风此时的测站数据列表，并psu至this.station_tide_list中
       if (res.status == 200) {
         myself.clearStationDivs();
+        // todo:[*] 19-08-07 加入了从cookie中取出 测站名称字典
+        var stationNameDict = getStationDictChCookie(myself);
         res.data.map(temp => {
           // console.log(temp);
           try {
@@ -576,7 +588,7 @@ export default class map_base extends mixins(
                   temp_forecast.val_real === -9999 ||
                   temp_forecast.val_forecast === -9999
                     ? 0
-                    : temp_forecast.val_real-temp_forecast.val_forecast  
+                    : temp_forecast.val_real - temp_forecast.val_forecast
                 ]
               )
             );

@@ -28,11 +28,16 @@ import "swiper/dist/css/swiper.css"
 // 引入font-awesome
 import 'font-awesome/css/font-awesome.min.css'
 
+// 引入cookie
+import VueCookies from 'vue-cookie'
+
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
+Vue.use(VueCookies);
 Vue.use(VueAwesomeSwiper)
-new Vue({
+var vue= new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount("#app");
+export default vue

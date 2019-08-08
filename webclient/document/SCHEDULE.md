@@ -328,3 +328,13 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 --- 
 19-07-30 
 - [x] 1.修改`data/stationstatistics`读取此次过程出现的风暴增水的极值的bug
+
+
+---
+
+19-08-06
+- [x] 1.录入的台风数据时间改为utc时间
+---
+
+19-08-07
+- [x] 1.修改前后端读取测站名称（中文）的字典相关功能
