@@ -5,7 +5,6 @@ from datetime import timezone,timedelta
 # 台风气象数据
 
 # 单位 处理台风对应的测站数据的路径
-# DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/demo_data"
 # aw
 # DIR_PATH = r"D:\01proj\typhoon\TyphoonSearchSys\data\station\txt"
 # dell 7530
@@ -13,12 +12,12 @@ from datetime import timezone,timedelta
 # aw 台风数据
 # DIR_PATH = r"D:\01proj\typhoon\TyphoonSearchSys\data\typhoon\test"
 # 单位 处理台风的实时气象数据
-# DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/test/typhoon"
+DIR_PATH=r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/test/typhoon"
 
 # --------------
 # 测站数据
 # mac 15
-DIR_PATH = r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/test/station"
+# DIR_PATH = r"/Users/liusihan/Documents/01project/TyphoonSearchSys/data/test/station"
 # aw 测站数据
 
 # DIR_PATH = r"D:\01proj\typhoon\TyphoonSearchSys\data\station\txt"

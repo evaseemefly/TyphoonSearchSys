@@ -570,7 +570,7 @@ export default class map_base extends mixins(
                 temp_station.code,
                 new Date(temp_forecast.occurred),
                 temp_station.stationname,
-                stationNameDict[temp_station.stationname],
+                stationDict[temp_station.stationname],
                 temp_station.jw,
                 temp_station.lev,
                 temp_station.point,
