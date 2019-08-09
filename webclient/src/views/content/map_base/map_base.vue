@@ -504,6 +504,9 @@ export default class map_base extends mixins(
   onTargetTyphoon(val: DataList_Mid_Model) {
     var myself = this;
     // 更新后
+    // todo:[*] 19-08-09 当前台风变更后，清空station_tide_list
+    // myself.station_tide_list=[];
+    this.allClear();
     loadTyphoonRealData(val).then(res => {
       // console.log(res.data);
       if (res.status === 200) {
@@ -662,6 +665,12 @@ export default class map_base extends mixins(
   //  计算海洋站圆柱体的高度
   iconDivWeight(val) {
     return val.tide * 5;
+  }
+
+  // 清除散点以及station div
+  allClear(): void {
+    this.station_tide_list = [];
+    this.data_scatter_station = [];
   }
 
   // TODO:[*] 19-07-02 将map_common_mixin中的部分方法（注意是方法），放在此处，以后map_common_mixin.ts废弃

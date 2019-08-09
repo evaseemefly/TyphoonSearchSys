@@ -338,3 +338,13 @@ bug 修改 by [stupidanimal](https://github.com/stupidanimal)
 
 19-08-07
 - [x] 1.修改前后端读取测站名称（中文）的字典相关功能
+
+---
+19-08-08
+- [x] 1. 点击具体某个台风后，加载station，若存在station的中文名称，则显示中文，不存在默认显示英文
+- [x] 2. 所有缺省值的直接显示'--'
+显示效果如下：
+![avatar](/document/img/加入中文.png)
+---
+19-08-09
+- [ ] 1. 每次切换台风后初始化`散点`以及`station_tide_list`

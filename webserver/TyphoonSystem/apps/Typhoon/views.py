@@ -1057,5 +1057,5 @@ class ReadmeView(APIView):
     '''
 
     def get(self, request):
-        readme = 'v1.5:19-07-15'
+        readme = 'v2.0:19-08-09'
         return Response(readme)

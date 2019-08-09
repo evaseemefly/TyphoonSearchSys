@@ -53,8 +53,8 @@
               <td
                 :class="[getStationAlarmClass(station),'station_name']"
                 rowspan="1"
-              >{{station.stationnameCh}}</td>
-              <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
+              >{{station.stationnameCh==''?station.stationname:station.stationnameCh}}</td>
+              <td :class="getStationAlarmClass(station)">{{station.tide==-9999?'--':station.tide-station.tide_forecast}}</td>
               <!-- <td class="surge title">警戒</td>
               <td class="surge">{{station.jw}}</td>-->
             </tr>
@@ -67,7 +67,7 @@
           <!-- 缩小至6级以内只显示风暴增水，将宽度设置为50px（固定值） -->
           <table v-show="zoom_mark_minifier" class="table table-bordered " border="1">
             <tr>
-              <td :class="getStationAlarmClass(station)">{{station.tide-station.tide_forecast}}</td>
+              <td :class="getStationAlarmClass(station)">{{station.tide==-9999?'--':station.tide-station.tide_forecast}}</td>
             </tr>
           </table>
         </div>

@@ -9,7 +9,8 @@ import re
 target_path=r'../../data/ext'
 
 file_name = "stationCode.txt"
-mongoengine.connect('typhoon', host="127.0.0.1:27017")
+# mongoengine.connect('typhoon', host="127.0.0.1:27017")
+mongoengine.connect('typhoon', host="192.168.0.109:27017")
 
 
 def produceStationNameList():
