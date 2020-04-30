@@ -22,7 +22,7 @@
     "eslint-plugin-html": "^5.0.3",
     "fecha": "^3.0.2",
     "increase-memory-limit": "^1.0.7",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jshint": "^2.10.1",
     "leaflet": "^1.4.0",
     "leaflet-defaulticon-compatibility": "^0.1.1",
