@@ -2,15 +2,18 @@ import axios from 'axios'
 import { MenuType } from '@/common/enum/menu.ts'
 
 // 后端的请求地址及端口
-// export const host = 'http://127.0.0.1:8000'
+export const host = 'http://127.0.0.1:8000'
 // 实际部署地址及端口
-export const host = 'http://128.5.10.26:8000'
+// export const host = 'http://128.5.10.26:8000'
 // 实际部署地址及端口
 // export const host = 'http://128.5.10.26:8000'
 // 本地docker环境
 // export const host = 'http://127.0.0.1:32773'
 // export const host ="http://127.0.0.1:64807";
 // export const host = 'http://128.5.6.112:8015'
+// TODO:[-] 21-07-23 尝试不联网访问docker
+// export const host = 'http://128.5.10.26:8000'
+
 axios.defaults.withCredentials = true
 axios.defaults.headers = {
   // 'Access-Control-Allow-Headers': 'Authorization,Origin, X-Requested-With, Content-Type, Accept,access-control-allow-methods,access-control-allow-origin',
