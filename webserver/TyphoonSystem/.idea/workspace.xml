@@ -123,14 +123,14 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../TyphoonEnsembleForecastSys/webserver/TyphoonForecastSite" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
-  <component name="RunManager" selected="Django Server.TyphoonSystem">
+  <component name="RunManager" selected="Django 服务器.TyphoonSystem">
     <configuration name="TyphoonSystem" type="Python.DjangoServer" factoryName="Django server">
       <module name="TyphoonSystem" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -180,8 +180,8 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Django Server.typhoon_web" />
-      <item itemvalue="Django Server.TyphoonSystem" />
+      <item itemvalue="Django 服务器.TyphoonSystem" />
+      <item itemvalue="Django 服务器.typhoon_web" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -199,6 +199,8 @@
       <workItem from="1565313203233" duration="2652000" />
       <workItem from="1627017012316" duration="9574000" />
       <workItem from="1627040566128" duration="6688000" />
+      <workItem from="1627105889032" duration="113000" />
+      <workItem from="1627131760372" duration="2162000" />
     </task>
     <servers />
   </component>

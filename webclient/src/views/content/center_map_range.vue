@@ -11,14 +11,14 @@ import {
   loadTyphoonRealData,
   ITyphoonRealDataParamas,
   loadStationTideDataList,
-  ITyphoonRealBaseParams
+  ITyphoonRealBaseParams,
 } from "@/api/api.ts";
 
 import {
   MeteorologyRealData_Mid_Model,
   TideRealData_Mid_Model,
   StationData_Mid_Model,
-  EchartsScatterStationData_Mid_Model
+  EchartsScatterStationData_Mid_Model,
 } from "@/middle_model/typhoon.ts";
 
 // 子组件
@@ -38,7 +38,7 @@ import rightBarDetail from "@/views/member/bar/rightBarDetail.vue";
 import { TyphoonCircleStatus } from "@/common/Status.ts";
 import {
   DataList_Mid_Model,
-  TyphoonRealBase_Mid_Model
+  TyphoonRealBase_Mid_Model,
 } from "@/middle_model/common.ts";
 // 引入枚举
 import { AlarmLevel } from "@/common/enum/map.ts";
@@ -47,7 +47,7 @@ import { AlarmLevel } from "@/common/enum/map.ts";
 import {
   IStation,
   IForecast,
-  IEchartsScatterData
+  IEchartsScatterData,
 } from "@/interface/map/map.ts";
 
 // TODO:[*] 19-05-05 使用mixin的方式拓展的data
@@ -75,7 +75,7 @@ import {
   LPopup,
   LPolyline,
   LCircle,
-  LIcon
+  LIcon,
 } from "vue2-leaflet";
 import { DivIcon, DivIconOptions } from "leaflet";
 
@@ -107,9 +107,9 @@ import { mixins } from "vue-class-component";
     TyphoonList, // 台风列表子组件
     ModalDetail, //modal子组件
     TextForm, // 右侧的加载灾情信息的文本框
-    rightBarDetail
+    rightBarDetail,
     // StationIcon
-  }
+  },
 })
 export default class center_map_range extends mixins(
   MapRangeDataMixin,
@@ -134,19 +134,26 @@ export default class center_map_range extends mixins(
       latlon: latlon,
       range: range,
       size: size,
-      index: index
+      index: index,
       // to: to
     };
-    loadTyphoonList(obj).then(res => {
+    loadTyphoonList(obj).then((res) => {
       if (res.status === 200) {
         var data: any = res.data.list;
         myself.typhoonCodeDataTotal = res.data.total;
         myself.is_show_typhoon_list = false;
         myself.typhoon_code_list = [];
         // data中为台风列表
-        data.forEach(obj => {
+        data.forEach((obj) => {
           myself.typhoon_code_list.push(
-            new DataList_Mid_Model(obj.code, -1, obj.code, obj.year, obj.num,obj.nameCh)
+            new DataList_Mid_Model(
+              obj.code,
+              -1,
+              obj.code,
+              obj.year,
+              obj.num,
+              obj.nameCh
+            )
           );
         });
         myself.is_show_typhoon_list = true;
@@ -185,7 +192,6 @@ export default class center_map_range extends mixins(
   }
 }
 </script>
-
 
 <style>
 /* <style src="./map_range/map.css"> */
