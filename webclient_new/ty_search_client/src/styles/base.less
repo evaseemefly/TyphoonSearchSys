@@ -1,0 +1,93 @@
+// 圆角的单位
+@radius: 0.5rem;
+
+@formmargin: {
+    margin: 1em;
+};
+// 基础的背景深色背景色
+@basebackground-dark: {
+    background: #34495e;
+};
+@baseformbackground-lightgreen: {
+    background: rgb(50, 157, 150);
+};
+@centerbackground: {
+    background: linear-gradient(#465581, #313b59);
+};
+
+@formbox: {
+    // 加入一个阴影效果
+    box-shadow: 2px 2px 3px black;
+};
+
+@formradius: {
+    // 加入四个角的圆角+阴影
+    border-top-left-radius: 15px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+};
+
+// div的遮罩
+@divshadow: {
+    background-color: rgba(0, 0, 0, 0.12);
+};
+
+@formmoreshadow: {
+    box-shadow: 0px 5px 11px #333333;
+};
+
+@bottomradius: {
+    /* 底部圆角 */
+    border-bottom-left-radius: @radius;
+    border-bottom-right-radius: @radius;
+};
+// + 21-12-22 新加入的基础box阴影
+@baseboxshadow: {
+    box-shadow: 3px 7px 10px 0px #000000c7;
+};
+@baseboxbackdrop: {
+    backdrop-filter: blur(4px);
+};
+
+@allradius: {
+    @bottomradius();
+    border-top-left-radius: @radius;
+    border-top-right-radius: @radius;
+};
+
+@center: {
+    height: 86vh;
+    display: flex;
+    flex: 22;
+    background: linear-gradient(rgb(70, 85, 129), rgb(49, 59, 89));
+
+    // TODO:[-] 20-08-04 将地图拉满
+    // position: absolute;
+    left: 0px;
+    right: 0px;
+    height: 100%;
+};
+
+// 加入了内部的padding的center map 的父类
+@centermap: {
+    // padding: 10px;
+};
+
+@button: {
+    margin-left: 0.5em;
+};
+
+@test: {
+    background: black;
+};
+
+// + 21-07-24 加入的 文章 base font，加入了字体阴影
+.font-shadow-base {
+    text-shadow: 2px 2px 8px #212020;
+}
+
+.font-white {
+    color: white;
+    text-shadow: 2px 2px 8px #212020;
+}
