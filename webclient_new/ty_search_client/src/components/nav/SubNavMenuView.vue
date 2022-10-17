@@ -22,6 +22,9 @@
 				>
 					<i class="fa-solid fa-anchor-circle-check"></i>
 				</div>
+				<div class="hidden_box_radius" v-show="checkedSelectLoop">
+					<el-slider v-model="boxRadius" :step="10" :max="1000"></el-slider>
+				</div>
 				<!-- <div
 					class="nav_item_icon fa-solid fa-anchor-circle-check"
 					:class="{ checkedSelectLoop: activate }"
@@ -51,6 +54,7 @@ import { SET_IS_SELECT_LOOP } from '@/store/types'
 export default class SubNavMenuView extends Vue {
 	/** 是否圈选 */
 	checkedSelectLoop = false
+	boxRadius = 100
 	get selectLoopCls(): string {
 		return this.checkedSelectLoop ? 'activate' : 'un_activate'
 	}
@@ -72,6 +76,11 @@ export default class SubNavMenuView extends Vue {
 
 .un_padding {
 	padding: 0px !important;
+}
+.hidden_box_radius {
+	width: 80px;
+	margin-left: 10px;
+	margin-right: 10px;
 }
 
 #sub_nav_menu {

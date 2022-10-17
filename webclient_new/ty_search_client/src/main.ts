@@ -6,6 +6,10 @@ import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 // 注意引入 vue2-leaflet 需要在入口文件手动引入 leaflet.css!
 import 'leaflet/dist/leaflet.css'
+// elementui
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHatWizard } from '@fortawesome/free-solid-svg-icons'
 
@@ -29,6 +33,8 @@ import { faHatWizard } from '@fortawesome/free-solid-svg-icons'
 // Vue.component('font-awesome-icon', FontAwesomeIcon)
 // Vue.component('font-awesome-layers', FontAwesomeLayers)
 // Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
+
+Vue.use(ElementUI)
 
 new Vue({
 	router,

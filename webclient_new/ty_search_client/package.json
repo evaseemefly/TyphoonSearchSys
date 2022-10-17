@@ -24,7 +24,8 @@
 		"vue-router": "^3.5.1",
 		"vue2-leaflet": "^2.2.1",
 		"vuex": "^3.6.2",
-		"vuex-class": "^0.3.2"
+		"vuex-class": "^0.3.2",
+		"element-ui": "^2.15.9"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "~5.0.0",

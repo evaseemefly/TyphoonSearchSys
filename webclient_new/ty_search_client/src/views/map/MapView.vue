@@ -38,6 +38,7 @@
 <script lang="ts">
 // vue 相关组件
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Getter, Mutation, State, namespace } from 'vuex-class'
 import { mixins } from 'vue-class-component'
 // gis引擎组件
 import * as L from 'leaflet'
@@ -58,6 +59,8 @@ import {
 
 // mixin
 import { WMSMixin } from '@/views/map/mixin/wmsMixin'
+// store
+import { GET_IS_SELECT_LOOP } from '@/store/types'
 
 @Component({
 	components: {
@@ -97,6 +100,28 @@ export default class MainMapView extends Vue {
 		maxZoom: 11,
 		// 目前已经使用了 canvas 渲染
 		render: L.canvas(),
+	}
+
+	isSelectLoop = false
+
+	currentLatlng: L.LatLng = new L.LatLng(100, 20)
+
+	@Getter(GET_IS_SELECT_LOOP, { namespace: 'map' }) getSelectLoop
+
+	@Watch('getSelectLoop')
+	onSelectLoop(val: boolean): void {
+		this.isSelectLoop = val
+		const mymap: L.Map = this.$refs.basemap['mapObject']
+		const self = this
+		if (val) {
+			mymap.on('mousedown', (e) => {
+				self.currentLatlng = e.latlng
+				console.log(e.latlng)
+				console.log('被点击了')
+			})
+		} else {
+			mymap.off('mousedown')
+		}
 	}
 }
 </script>
