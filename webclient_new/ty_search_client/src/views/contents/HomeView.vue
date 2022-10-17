@@ -54,7 +54,8 @@ export default class HomeView extends Vue {}
 	}
 	.layout-bottom {
 		height: 50px;
-		width: 100%;
+		// TODO:[-] 22-10-17 win 系统中的浏览器会出现垂直和水平的滚动条
+		// width: 100%;
 		background: #34495e;
 		border-radius: 8px;
 		margin: 5px;

@@ -1,0 +1,64 @@
+@keyframes transform-nav-item-icon-in {
+	0% {
+		color: white;
+	}
+	100% {
+		color: #16a085;
+	}
+}
+
+@keyframes transform-nav-item-icon-out {
+	0% {
+		color: #16a085;
+	}
+	100% {
+		color: white;
+	}
+}
+
+@keyframes transform-activate {
+	0% {
+		color: white;
+	}
+	100% {
+		color: rgb(255, 202, 56) ;
+	}
+}
+
+@keyframes transform-un-activate {
+	0% {
+		color: rgb(255, 202, 56) !important;
+	}
+	100% {
+		color: white;
+	}
+}
+
+.nav_item:hover {
+	// transform: scale(1.1);
+}
+.nav_item_icon {
+	// transition: all 0.5s;
+	// height: 100%;
+	cursor: default; // 默认箭头
+	-moz-user-select: none; /*火狐*/
+	-webkit-user-select: none; /*webkit浏览器*/
+	-ms-user-select: none; /*IE10*/
+	-khtml-user-select: none; /*早期浏览器*/
+	user-select: none; // 取消双击选中
+	display: flex;
+	align-items: center;
+	animation: transform-nav-item-icon-out 0.5s ease-in forwards;
+}
+.nav_item_icon:hover {
+	animation: transform-nav-item-icon-in 0.5s ease-in forwards;
+}
+
+.activate {
+	color: rgb(255, 202, 56) !important;
+	// animation: transform-activate 0.5s ease-in forwards !important;
+}
+
+.un_activate {
+	// animation: transform-un-activate 0.5s ease-in forwards !important;
+}

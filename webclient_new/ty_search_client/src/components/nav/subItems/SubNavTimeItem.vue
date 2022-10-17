@@ -1,24 +1,24 @@
 <template>
 	<div class="nav_item_timebar">
 		<div class="timebar_child">
-			<div>-</div>
+			<div class="nav_item_icon">-</div>
 			<div>2022</div>
-			<div>+</div>
+			<div class="nav_item_icon">+</div>
 		</div>
 		<div class="timebar_child">
-			<div>-</div>
+			<div class="nav_item_icon">-</div>
 			<div>10</div>
-			<div>+</div>
+			<div class="nav_item_icon">+</div>
 		</div>
 		<div class="timebar_child">
-			<div>-</div>
+			<div class="nav_item_icon">-</div>
 			<div>14</div>
-			<div>+</div>
+			<div class="nav_item_icon">+</div>
 		</div>
 		<div class="timebar_child">
-			<div>-</div>
+			<div class="nav_item_icon">-</div>
 			<div>16</div>
-			<div>+</div>
+			<div class="nav_item_icon">+</div>
 		</div>
 	</div>
 </template>
@@ -35,6 +35,7 @@ export default class SubNavTimeItem extends Vue {
 }
 </script>
 <style scoped lang="less">
+@import '../../../styles/btn.less';
 .nav_item_timebar {
 	display: flex;
 	align-items: center;

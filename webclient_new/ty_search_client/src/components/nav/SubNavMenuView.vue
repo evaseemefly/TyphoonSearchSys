@@ -4,33 +4,76 @@
 		<!-- <div class="nav_menu-item" v-for="menItem in menuList" :key="menItem.id">
 			{{ menItem.title }}
 		</div> -->
-		<nav class="nav_item_icons">
-			<i class="fa-solid fa-house"></i>
+		<nav class="nav_item nav_item_icons">
+			<div class="nav_item_icon fa-solid fa-house"></div>
 		</nav>
-		<nav class="nav_item_icons">
-			<!-- <div class="fa-solid fa-house"></div> -->
-			<i class="fa-solid fa-anchor-circle-check"></i>
-			<i class="fa-solid fa-eraser"></i>
+		<nav class="nav_item nav_item_icons un_padding">
+			<div class="nav_item_icon">
+				<!-- <div
+					:class="[
+						checkedSelectLoop ? 'activate' : 'un_activate',
+						'nav_item_icon',
+						'fa-solid fa-anchor-circle-check',
+					]"
+				></div> -->
+				<div
+					:class="[checkedSelectLoop ? 'activate' : 'un_activate', , 'nav_item_icon']"
+					@click="checkedSelectLoop = !checkedSelectLoop"
+				>
+					<i class="fa-solid fa-anchor-circle-check"></i>
+				</div>
+				<!-- <div
+					class="nav_item_icon fa-solid fa-anchor-circle-check"
+					:class="{ checkedSelectLoop: activate }"
+				></div> -->
+				<!-- <i class="nav_item_icon fa-solid fa-anchor-circle-check"></i> -->
+			</div>
+			<div class="nav_item_icon">
+				<div class="nav_item_icon fa-solid fa-eraser"></div>
+			</div>
+			<!-- <i class="nav_item_icon fa-solid fa-eraser"></i>
+			<div class="fa-solid fa-house"></div> -->
 		</nav>
 		<SubNavTimeItem></SubNavTimeItem>
 	</nav>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Mutation, Getter } from 'vuex-class'
 import SubNavTimeItem from '@/components/nav/subItems/SubNavTimeItem.vue'
+// store
+import { SET_IS_SELECT_LOOP } from '@/store/types'
+
 /** + 22-10-14 副导航栏(布局:底部) */
 @Component({
 	components: { SubNavTimeItem },
 })
 export default class SubNavMenuView extends Vue {
-	mydata: any = null
-	mounted() {}
-	get computedTest() {
-		return null
+	/** 是否圈选 */
+	checkedSelectLoop = false
+	get selectLoopCls(): string {
+		return this.checkedSelectLoop ? 'activate' : 'un_activate'
 	}
+
+	@Watch('checkedSelectLoop')
+	onCheckedSelectLoop(val: boolean): void {
+		this.setIsSelectLoop(val)
+	}
+
+	/** 设置是否进行圈选操作 */
+	@Mutation(SET_IS_SELECT_LOOP, { namespace: 'map' }) setIsSelectLoop
 }
 </script>
 <style scoped lang="less">
+@import '../../styles/btn.less';
+.nav_item {
+	// transition: all 0.5s;
+}
+
+.un_padding {
+	padding: 0px !important;
+}
+
 #sub_nav_menu {
 	display: flex;
 	// flex-direction: column;
@@ -51,6 +94,7 @@ export default class SubNavMenuView extends Vue {
 		justify-content: center;
 		align-items: center;
 		min-width: 36px;
+		overflow: hidden;
 		svg {
 			margin-left: 5px;
 			margin-right: 5px;
