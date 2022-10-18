@@ -1,6 +1,7 @@
 import { LayerTypeEnum, MapLayerEnum, RasterLayerEnum } from '@/enum/map'
 
 import { Commit, Dispatch } from 'vuex'
+import { DEFAULT_BOX_LOOP_RADIUS } from '@/const/default'
 import {
 	SET_MAP_NOW,
 	GET_MAP_NOW,
@@ -31,6 +32,8 @@ import {
 	GET_IS_SHOW_RASTER_LEGEND,
 	SET_IS_SELECT_LOOP,
 	GET_IS_SELECT_LOOP,
+	SET_BOX_LOOP_RADIUS,
+	GET_BOX_LOOP_RADIUS,
 } from '../types'
 export interface State {
 	// range:number,
@@ -57,6 +60,8 @@ export interface State {
 	isSelectLoop: boolean
 
 	baseMapKey: MapLayerEnum
+	/** 圈选的半径 */
+	boxLoopRadius: number
 }
 
 // 用来存储应用状态的数据对象
@@ -81,6 +86,7 @@ const state: State = {
 	isInitLayers: false,
 	isShowRasterLegend: false,
 	isSelectLoop: false,
+	boxLoopRadius: DEFAULT_BOX_LOOP_RADIUS,
 }
 
 // 用来改变应用状态的函数
@@ -166,6 +172,9 @@ const mutations = {
 	[SET_IS_SELECT_LOOP](state: State, isSelected: boolean): void {
 		state.isSelectLoop = isSelected
 	},
+	[SET_BOX_LOOP_RADIUS](state: State, radius: number): void {
+		state.boxLoopRadius = radius
+	},
 }
 
 /** @type {*} */
@@ -225,6 +234,9 @@ const getters = {
 	},
 	[GET_IS_SELECT_LOOP]: (state: State): boolean => {
 		return state.isSelectLoop
+	},
+	[GET_BOX_LOOP_RADIUS]: (state: State): number => {
+		return state.boxLoopRadius
 	},
 }
 

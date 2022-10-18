@@ -94,6 +94,11 @@ export const SET_IS_SELECT_LOOP = 'SET_IS_SELECT_LOOP'
 /** 进行地图圈选 true:selected false:un selected */
 export const GET_IS_SELECT_LOOP = 'GET_IS_SELECT_LOOP'
 
+/** + 22-10-18 设置当前圈选范围半径值 */
+export const SET_BOX_LOOP_RADIUS = 'SET_BOX_LOOP_RADIUS'
+/** + 22-10-18 获取当前圈选范围半径值 */
+export const GET_BOX_LOOP_RADIUS = 'GET_BOX_LOOP_RADIUS'
+
 // map - 选中的经纬度位置
 export const SET_CURRENT_LATLNG = 'SET_CURRENT_LATLNG'
 export const GET_CURRENT_LATLNG = 'GET_CURRENT_LATLNG'

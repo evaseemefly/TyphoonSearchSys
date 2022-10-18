@@ -32,6 +32,12 @@
 				:transparent="worldLineWMS.options.transparent"
 				:zIndex="worldLineWMS.options.zindex"
 			></l-wms-tile-layer>
+
+			<LCircle
+				:lat-lng="currentLatlng"
+				:radius="boxRadius * boxRadiusUnit"
+				:color="boxOptions.background"
+			></LCircle>
 		</l-map>
 	</div>
 </template>
@@ -60,7 +66,9 @@ import {
 // mixin
 import { WMSMixin } from '@/views/map/mixin/wmsMixin'
 // store
-import { GET_IS_SELECT_LOOP } from '@/store/types'
+import { GET_IS_SELECT_LOOP, GET_BOX_LOOP_RADIUS } from '@/store/types'
+// 默认常量
+import { DEFAULT_BOX_LOOP_RADIUS, DEFAULT_BOX_LOOP_RADIUS_UNIT } from '@/const/default'
 
 @Component({
 	components: {
@@ -78,7 +86,7 @@ import { GET_IS_SELECT_LOOP } from '@/store/types'
 		'l-map': LMap,
 		'l-tile-layer': LTileLayer,
 		'l-polyline': LPolyline,
-		'l-circle': LCircle,
+		LCircle,
 		'l-icon': LIcon,
 		'l-wms-tile-layer': LWMSTileLayer,
 		'l-geo-json': LGeoJson,
@@ -105,8 +113,19 @@ export default class MainMapView extends Vue {
 	isSelectLoop = false
 
 	currentLatlng: L.LatLng = new L.LatLng(100, 20)
+	/** 圈选半径 */
+	boxRadius = DEFAULT_BOX_LOOP_RADIUS
+	/** 圈选半径基础单位 */
+	boxRadiusUnit = DEFAULT_BOX_LOOP_RADIUS_UNIT
+	/** 圈选选项 */
+	boxOptions = {
+		color: '#2ecc71',
+		background: '#2ecc71',
+	}
 
 	@Getter(GET_IS_SELECT_LOOP, { namespace: 'map' }) getSelectLoop
+
+	@Getter(GET_BOX_LOOP_RADIUS, { namespace: 'map' }) getBoxLoopRadius
 
 	@Watch('getSelectLoop')
 	onSelectLoop(val: boolean): void {
@@ -114,14 +133,21 @@ export default class MainMapView extends Vue {
 		const mymap: L.Map = this.$refs.basemap['mapObject']
 		const self = this
 		if (val) {
-			mymap.on('mousedown', (e) => {
+			mymap.on('click', (e: L.LeafletMouseEvent) => {
+				// @ts-ignore
 				self.currentLatlng = e.latlng
-				console.log(e.latlng)
-				console.log('被点击了')
+
+				console.log(`更新当前位置:lat:${e.latlng.lat},lng:${e.latlng.lng}`)
+				// console.log('被点击了')
 			})
 		} else {
 			mymap.off('mousedown')
 		}
+	}
+
+	@Watch('getBoxLoopRadius')
+	onGetBoxLoopRadius(val: number): void {
+		this.boxRadius = val
 	}
 }
 </script>

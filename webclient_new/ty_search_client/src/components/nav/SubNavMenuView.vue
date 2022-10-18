@@ -45,7 +45,9 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
 import SubNavTimeItem from '@/components/nav/subItems/SubNavTimeItem.vue'
 // store
-import { SET_IS_SELECT_LOOP } from '@/store/types'
+import { SET_IS_SELECT_LOOP, SET_BOX_LOOP_RADIUS } from '@/store/types'
+// 默认常量
+import { DEFAULT_BOX_LOOP_RADIUS } from '@/const/default'
 
 /** + 22-10-14 副导航栏(布局:底部) */
 @Component({
@@ -54,7 +56,7 @@ import { SET_IS_SELECT_LOOP } from '@/store/types'
 export default class SubNavMenuView extends Vue {
 	/** 是否圈选 */
 	checkedSelectLoop = false
-	boxRadius = 100
+	boxRadius = DEFAULT_BOX_LOOP_RADIUS
 	get selectLoopCls(): string {
 		return this.checkedSelectLoop ? 'activate' : 'un_activate'
 	}
@@ -64,8 +66,16 @@ export default class SubNavMenuView extends Vue {
 		this.setIsSelectLoop(val)
 	}
 
+	@Watch('boxRadius')
+	onBoxRadius(val: number): void {
+		this.setBoxLoopRadius(val)
+	}
+
 	/** 设置是否进行圈选操作 */
 	@Mutation(SET_IS_SELECT_LOOP, { namespace: 'map' }) setIsSelectLoop
+
+	/** 设置圈选的半径 */
+	@Mutation(SET_BOX_LOOP_RADIUS, { namespace: 'map' }) setBoxLoopRadius
 }
 </script>
 <style scoped lang="less">
