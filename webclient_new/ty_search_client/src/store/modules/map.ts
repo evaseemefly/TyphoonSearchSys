@@ -1,7 +1,7 @@
 import { LayerTypeEnum, MapLayerEnum, RasterLayerEnum } from '@/enum/map'
-
+import * as L from 'leaflet'
 import { Commit, Dispatch } from 'vuex'
-import { DEFAULT_BOX_LOOP_RADIUS } from '@/const/default'
+import { DEFAULT_BOX_LOOP_LATLNG, DEFAULT_BOX_LOOP_RADIUS } from '@/const/default'
 import {
 	SET_MAP_NOW,
 	GET_MAP_NOW,
@@ -34,6 +34,8 @@ import {
 	GET_IS_SELECT_LOOP,
 	SET_BOX_LOOP_RADIUS,
 	GET_BOX_LOOP_RADIUS,
+	SET_BOX_LOOP_LATLNG,
+	GET_BOX_LOOP_LATLNG,
 } from '../types'
 export interface State {
 	// range:number,
@@ -62,6 +64,8 @@ export interface State {
 	baseMapKey: MapLayerEnum
 	/** 圈选的半径 */
 	boxLoopRadius: number
+	/** 圈选的位置 */
+	boxLoopLatlng: L.LatLng
 }
 
 // 用来存储应用状态的数据对象
@@ -87,6 +91,7 @@ const state: State = {
 	isShowRasterLegend: false,
 	isSelectLoop: false,
 	boxLoopRadius: DEFAULT_BOX_LOOP_RADIUS,
+	boxLoopLatlng: DEFAULT_BOX_LOOP_LATLNG,
 }
 
 // 用来改变应用状态的函数
@@ -175,6 +180,9 @@ const mutations = {
 	[SET_BOX_LOOP_RADIUS](state: State, radius: number): void {
 		state.boxLoopRadius = radius
 	},
+	[SET_BOX_LOOP_LATLNG](state: State, latlng: L.LatLng): void {
+		state.boxLoopLatlng = latlng
+	},
 }
 
 /** @type {*} */
@@ -237,6 +245,9 @@ const getters = {
 	},
 	[GET_BOX_LOOP_RADIUS]: (state: State): number => {
 		return state.boxLoopRadius
+	},
+	[GET_BOX_LOOP_LATLNG]: (state: State): L.LatLng => {
+		return state.boxLoopLatlng
 	},
 }
 

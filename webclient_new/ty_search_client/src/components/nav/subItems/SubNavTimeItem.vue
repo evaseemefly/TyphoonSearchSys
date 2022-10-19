@@ -26,13 +26,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 /** + 22-10-14 时间选择框 */
 @Component({})
-export default class SubNavTimeItem extends Vue {
-	mydata: any = null
-	mounted() {}
-	get computedTest() {
-		return null
-	}
-}
+export default class SubNavTimeItem extends Vue {}
 </script>
 <style scoped lang="less">
 @import '../../../styles/btn.less';
