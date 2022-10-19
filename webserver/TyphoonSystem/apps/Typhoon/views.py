@@ -255,17 +255,20 @@ class TyphoonNameDictView(BaseView):
 
         return Response(json_data)
 
+
 class StationNameDictView(BaseView):
     '''
         todo:[*] 19-08-07 测站名称的字典视图
     '''
-    def get(self,request):
+
+    def get(self, request):
         # 看前台是否传入了names，若未传入则代表获取全部的，大概率是这样
-        names=request.GET.get('names','')
-        dict_names=StationNameDict.objects()
-        json_data=StationNameChDictSerializer(dict_names,many=True).data
+        names = request.GET.get('names', '')
+        dict_names = StationNameDict.objects()
+        json_data = StationNameChDictSerializer(dict_names, many=True).data
         return Response(json_data)
         pass
+
 
 class StationDetailMinList(IStationDetail):
     def load(self, code: str, stationname: str, num: str):
@@ -545,15 +548,20 @@ class FilterByRange(BaseView):
         range = int(request.GET.get('range'))
 
         # 获取index与count
-        index = int(request.GET.get('index'))
-        size = int(request.GET.get('size'))
-        start_index = (index * size)
-        finish_index = (index * size + size)
+        # TODO:[-] 22-10-19 由于台风数据不会太多，所以加入了判断，若传入的 index 与 size 是 -1 即不需要进行分页查询
+        index = int(request.GET.get('index', '-1'))
+        size = int(request.GET.get('size', '-1'))
         # 获取去重后的code list
         nums = self.getTyphoonList(latlon=latlons, range=range)
         total = len(nums)
-        # TODO:[*] 19-07-13 对nums加入排序升序排序
-        codes = nums[start_index:finish_index]
+        if index != -1 and size != -1:
+            start_index = (index * size)
+            finish_index = (index * size + size)
+            # TODO:[*] 19-07-13 对nums加入排序升序排序
+            codes = nums[start_index:finish_index]
+        else:
+            codes = nums
+
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
         # list_data = [GeoTyphoonRealData.objects(code=code)[:1].code
         # for code in codes]
