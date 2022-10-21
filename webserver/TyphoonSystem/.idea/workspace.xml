@@ -1,7 +1,268 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c3522f53-adf7-41d6-a4d7-85dc3f31d3ef" name="Default" comment="" />
+    <list default="true" id="c3522f53-adf7-41d6-a4d7-85dc3f31d3ef" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../PROMISE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../PROMISE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/conf/setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/conf/setting.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/common.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/stationtide.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/stationtide.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/typhoon.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/typhoon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/middle_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/middle_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/File.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/File.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/Paragraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/Paragraph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/data/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/data/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/typhoonNumCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/typhoonNumCode.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/04-stationOpt/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/04-stationOpt/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/04-stationOpt/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/04-stationOpt/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/04-stationOpt/stationCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/04-stationOpt/stationCode.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/05-docx/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/05-docx/1951_5116.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/1951_5116.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/05-docx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../background/05-docx/testFolder/1949_4906.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/testFolder/1949_4906.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/.vscode/launch.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/.vscode/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/1-读取台风气象数据-读取方式-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/1-读取台风气象数据-读取方式-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-精简版-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-精简版-checkpoint.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/1-读取台风气象数据-读取方式.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/1-读取台风气象数据-读取方式.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据-找到标志位.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据-找到标志位.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-精简版.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-精简版.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/3-读取台风气象数据并写入mongo-190522重新修改读取num.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/3-读取台风气象数据并写入mongo-190522重新修改读取num.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/02读取word/01-读取word文件.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/02读取word/01-读取word文件.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/02读取word/02-写入mongo后读取.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/02读取word/02-写入mongo后读取.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/07-11年之后新版的测站数据.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/07-11年之后新版的测站数据.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-不使用n进行切分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-不使用n进行切分.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-使用n进行切分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-使用n进行切分.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-尝试使用+作为标志位.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-尝试使用+作为标志位.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/S1-对于潮位的整行数据拆分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/S1-对于潮位的整行数据拆分.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/4-使用mongoengine进行查询.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/4-使用mongoengine进行查询.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/5-加入point类型-Copy1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/5-加入point类型-Copy1.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/5-加入point类型.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/5-加入point类型.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/S2-对数据按行进行切分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S2-对数据按行进行切分.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/S2-部分测试.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S2-部分测试.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/S3-核对数据使用-无别的用处.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S3-核对数据使用-无别的用处.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/S4-mongoengine嵌套model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S4-mongoengine嵌套model.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/S8-测试查询.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S8-测试查询.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/Untitled.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/Untitled.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/mongo时间查询.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/mongo时间查询.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../byJupyter/测试台风气象数据使用.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/测试台风气象数据使用.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/ext/stationCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../data/ext/stationCode.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../data/ext/typhoonNumCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../data/ext/typhoonNumCode.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../demo_data/5611.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/5611.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../demo_data/5612.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/5612.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../demo_data/CH1956BST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/CH1956BST.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../demo_data/CH1998BST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/CH1998BST.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../demo_data/CH2017BST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/CH2017BST.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/back_up/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/back_up/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/back_up/requirements_backup.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/back_up/requirements_backup.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/middle_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/middle_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/view_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/view_decorator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/common/dateCommon.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/common/dateCommon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/nginx-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/nginx-app.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/supervisor-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/supervisor-app.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/typhoon_uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/typhoon_uwsgi.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi_params" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi_params" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/middle_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/middle_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/view_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/view_decorator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/common/dateCommon.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/common/dateCommon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/env/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/env/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/nginx-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/nginx-app.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/supervisor-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/supervisor-app.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/typhoon_uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/typhoon_uwsgi.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi_params" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi_params" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/vue-nginx/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/vue-nginx/dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../docker/vue-nginx/nginx/default.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/vue-nginx/nginx/default.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/contents.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/contents.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/metadata.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/metadata.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/contents.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/contents.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/metadata.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/metadata.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/contents.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/contents.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/metadata.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/metadata.plist" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../nginx.conf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/babel.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/document/ISSUE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/document/ISSUE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/document/Question.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/document/Question.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/document/SCHEDULE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/document/SCHEDULE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/package-lock.json~3d55349163e1beaf7355aa15a494964779c8ded8" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package-lock.json~3d55349163e1beaf7355aa15a494964779c8ded8" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/package-lock.json~95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package-lock.json~95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/package_210724.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package_210724.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/package_backup_190311.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package_backup_190311.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/App_byzw.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/App_byzw.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/api/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/api/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/api/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/Status.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/Status.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/cookie.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/cookie.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/dict/nameCH.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/dict/nameCH.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/effectControls/collapse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/effectControls/collapse.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/enum/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/enum/map.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/enum/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/enum/menu.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/enum/typhoon.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/enum/typhoon.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/menu/station_detail_tab_list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/menu/station_detail_tab_list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/menu/typhoon_level_option_list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/menu/typhoon_level_option_list.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/interface/map/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/interface/map/map.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/interface/menu/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/interface/menu/menu.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/middle_model/common.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/middle_model/common.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/middle_model/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/middle_model/menu.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/middle_model/typhoon.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/middle_model/typhoon.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/router.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/shims-tsx.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/shims-tsx.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/shims-vue.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/shims-vue.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/modules/chart.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/modules/chart.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/modules/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/modules/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/modules/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/modules/map.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/store_backup.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store_backup.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/About.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/About.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Home.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/LeftBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/LeftBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/SubItem/ConditionSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/SubItem/ConditionSearch.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0408.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0408.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0415.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0415.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0422.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0422.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0430.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0430.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup_19_05_05.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup_19_05_05.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_search_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_search_backup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_vue2map_err.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_vue2map_err.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.bak.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.bak.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map_clear.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map_clear.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static_detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base_data_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_common/map_common_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_common/map_common_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_backup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_data_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.bak.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.bak.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_data_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_test_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_test_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_vuex_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_vuex_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/footer/footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/footer/footer.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/head/header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/head/header.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_bar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_bar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_map.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_err.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_err.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_range.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_range.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDetail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDisaster.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDisaster.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarRealData.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarRealData.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar_backup.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/charts/charts_vuex_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/charts/charts_vuex_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/charts/station_detail_charts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/charts/station_detail_charts.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/charts/typhoon_detail_charts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/charts/typhoon_detail_charts.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_data_list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_data_list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_test.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_test.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_data_list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_data_list.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/disaster_pic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/disaster_pic.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form_data_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text_form.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text_form.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/children/typhoon_level_frame.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/children/typhoon_level_frame.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/legend_frame.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/legend_frame.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/map/map_single.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/map/map_single.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/map/station_icon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/map/station_icon.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/modal/detail_tab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/modal/detail_tab.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/modal/modal_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/modal/modal_detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/search/search_statistic_typhoon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/search/search_statistic_typhoon.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_main.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_stations.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_stations.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/second_bar_condition_search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/second_bar_condition_search.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoonListBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoonListBar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar_data_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range_data_mixin.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/rangeSlider.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/rangeSlider.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/tests/unit/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tests/unit/.eslintrc.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/tests/unit/example.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tests/unit/example.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/tslint_err.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tslint_err.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../webclient/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TyphoonSystem/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/TyphoonSystem/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TyphoonSystem/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/TyphoonSystem/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TyphoonSystem/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/TyphoonSystem/wsgi.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/apps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/middle_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/middle_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/view_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/view_decorator.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/Typhoon/views_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/views_base.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/dateCommon.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/dateCommon.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/env/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/env/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/typhoon_uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/typhoon_uwsgi.ini" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,12 +317,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
-  </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$USER_HOME$/Anaconda3/envs/py37/Lib/site-packages/django/views/decorators/csrf.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$USER_HOME$/Anaconda3/envs/py37/Lib/site-packages/django/core/handlers/base.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$USER_HOME$/Anaconda3/envs/py37/Lib/site-packages/django/views/generic/base.py" root0="SKIP_INSPECTION" />
-    <setting file="file://$USER_HOME$/Anaconda3/envs/py37/Lib/site-packages/rest_framework/views.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -122,24 +377,25 @@
     <option name="showMembers" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../TyphoonEnsembleForecastSys/webserver/TyphoonForecastSite" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Django 服务器.TyphoonSystem">
+  <component name="RunManager" selected="Django 服务器.typhoon_web">
     <configuration name="TyphoonSystem" type="Python.DjangoServer" factoryName="Django server">
       <module name="TyphoonSystem" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
-        <env name="DJANGO_SETTINGS_MODULE" value="TyphoonSystem.settings" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\evase\Anaconda3\envs\py37\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -148,7 +404,7 @@
       <option name="port" value="8000" />
       <option name="host" value="" />
       <option name="additionalOptions" value="" />
-      <option name="browserUrl" value="http://127.0.0.1:8000/" />
+      <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
       <option name="runNoReload" value="false" />
       <option name="useCustomRunCommand" value="false" />
@@ -163,7 +419,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="TyphoonSystem.settings" />
       </envs>
-      <option name="SDK_HOME" value="D:\01Setup\ANACONDA\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\evase\anaconda3\envs\ty_mongo\python.exe" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -201,6 +457,7 @@
       <workItem from="1627040566128" duration="6688000" />
       <workItem from="1627105889032" duration="113000" />
       <workItem from="1627131760372" duration="2162000" />
+      <workItem from="1664177607559" duration="4510000" />
     </task>
     <servers />
   </component>
@@ -245,17 +502,6 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/TyphoonSystem/settings.py</url>
-          <line>177</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/TyphoonSystem/__init__.py">
