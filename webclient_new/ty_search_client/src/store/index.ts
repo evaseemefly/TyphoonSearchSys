@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 // 导入store/modules中的所有.ts，作为一个module引入
 import mapStore from './modules/map'
 import common from './modules/common'
+import typhoon from './modules/typhoon'
 
 Vue.use(Vuex)
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
 	modules: {
 		map: mapStore,
 		common: common,
+		typhoon: typhoon,
 	},
 
 	state: {

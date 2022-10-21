@@ -94,6 +94,11 @@ export const SET_IS_SELECT_LOOP = 'SET_IS_SELECT_LOOP'
 /** 进行地图圈选 true:selected false:un selected */
 export const GET_IS_SELECT_LOOP = 'GET_IS_SELECT_LOOP'
 
+/** 设置当前圈选的位置 */
+export const SET_BOX_LOOP_LATLNG = 'SET_BOX_LOOP_LATLNG'
+/** 获取当前圈选的位置 */
+export const GET_BOX_LOOP_LATLNG = 'GET_BOX_LOOP_LATLNG'
+
 /** + 22-10-18 设置当前圈选范围半径值 */
 export const SET_BOX_LOOP_RADIUS = 'SET_BOX_LOOP_RADIUS'
 /** + 22-10-18 获取当前圈选范围半径值 */
@@ -164,3 +169,9 @@ export const GET_SHOW_TYPHOON_LEGEND_ICON = 'GET_SHOW_TYPHOON_LEGEND_ICON'
 export const SET_IS_SHOW_RASTER_LEGEND = 'SET_IS_SHOW_RASTER_LEGEND'
 /** 获取是否显示 raster图层的图例 */
 export const GET_IS_SHOW_RASTER_LEGEND = 'GET_IS_SHOW_RASTER_LEGEND'
+
+// ---- typhoon ----
+/** 设置当前选中的台风 */
+export const SET_CURRENT_TY = 'SET_CURRENT_TY'
+/** 获取当前选中的台风 */
+export const GET_CURRENT_TY = 'GET_CURRENT_TY'

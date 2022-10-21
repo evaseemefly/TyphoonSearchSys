@@ -5,7 +5,8 @@ import { MenuType } from '@/common/enum/menu.ts'
 // export const host = 'http://127.0.0.1:8000'
 // 实际部署地址及端口
 // export const host = 'http://128.5.10.26:8000'
-export const host = 'http://192.168.0.105:8000'
+// home 5820 server 端口
+export const host = 'http://192.168.50.86:8082'
 // 实际部署地址及端口
 // export const host = 'http://128.5.10.26:8000'
 // 本地docker环境

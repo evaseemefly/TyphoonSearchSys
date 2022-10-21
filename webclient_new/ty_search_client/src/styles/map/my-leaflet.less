@@ -1,0 +1,182 @@
+// 20-07-16 实现的 脉冲 icon 效果样式
+.my-leaflet-pulsing-marker {
+    position: relative;
+    // left: -6px;
+    // top: -6px;
+}
+/* 中间的圆形icon */
+.my-leaflet-pulsing-icon {
+    // -22-03-08 测试时暂时注释
+    border-radius: 100%;
+    /* -webkit-box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, 0.75); */
+    box-shadow: 1px 1px 8px 0 rgba(0, 0, 0, 0.75);
+    background: #76eec6;
+    position: absolute;
+    // TODO:[-] 21-06-02 暂时注释掉
+    width: 12px;
+    height: 12px;
+    left: 4px;
+    top: 4px;
+}
+/* 需要给border一个大小，不然是0*0 */
+.my-leaflet-icon-border {
+    /* 最新的修改是外侧的border div 的长宽与兄弟 icon div 相同，这样不会再做偏移了 */
+    // TODO:[-] 21-06-02 暂时注释掉
+    width: 20px;
+    height: 20px;
+    left: 0px;
+    top: 0px;
+    // ---
+    // -22-03-08 测试时暂时注释
+    border-radius: 100%;
+    position: absolute;
+
+    /* background:rgb(0, 87, 128);
+    border: rgb(228, 33, 33) 2px solid; */
+
+    background: rgba(53, 177, 135, 0.794);
+    border: rgb(25, 221, 205) solid;
+    box-shadow: greenyellow 1px 1px 3px;
+    // -22-03-08 测试时暂时注释
+    animation: up 1.8s ease-out;
+    animation-iteration-count: infinite;
+    animation-delay: 0.2s;
+}
+// TODO:[-] 22-03-15 新加入的自定义台风中心位置icon
+.my-leaflet-custom-icon{
+    // width: 20px;
+    // height: 20px;
+    // left: 0px;
+    // top: 0px;
+    // background-image: url(/public/static/icons/ty_icon.svg);
+    // img{
+    //     width: 20px;
+    //     src: url(/public/static/icons/ty_icon.svg);
+    // }
+    filter:drop-shadow(5px 5px 5px rgba(26,58,70,0.7));
+}
+@keyframes up {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    25% {
+        transform: scale(0.3);
+        /* -webkit-transform: scale(0.3); */
+        opacity: 0.4;
+    }
+    50% {
+        transform: scale(0.5);
+        /* -webkit-transform: scale(0.5); */
+        opacity: 0.6;
+    }
+    75% {
+        transform: scale(1);
+        /* -webkit-transform: scale(1); */
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(1.5);
+        /* -webkit-transform: scale(2); */
+        opacity: 0;
+    }
+}
+
+// 20-07-16 对于 gis form 的样式
+.my-gis-form-marker {
+    border: 0 !important;
+    box-shadow: 4px 3px 10px 1px rgb(59, 55, 55);
+    /* 覆盖 bt -> .card 的圆角 */
+    border-radius: 0.4em;
+    text-shadow: 0 0 black !important;
+    background-color: #dddddd7c !important;
+    // 注意需要手动给一个宽度，不使用 bt 的动态宽度
+    width: 250px;
+    .card-header {
+        text-align: center;
+        text-shadow: 2px 2px 10px grey !important;
+        font-size: 18px !important;
+        font-weight: 500 !important;
+        padding: 0.3rem 1.25rem !important;
+        color: #eff0f2;
+        span {
+            text-shadow: 0 0 4px black;
+        }
+        .gis-form-circle {
+            float: right;
+            width: 20px;
+            height: 20px;
+            border-radius: 100%;
+            background: rgba(53, 177, 135, 0.794);
+            margin: auto;
+            box-shadow: 0 0 4px 0 black;
+        }
+    }
+    .row {
+        text-align: center;
+        text-shadow: 2px 2px 10px grey;
+        margin-bottom: 10px;
+    }
+    /* 注意card有一个左右15px的padding */
+    .card {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+    .row_footer {
+        margin-bottom: 0px !important;
+        margin-left: 0px !important;
+        margin-right: 0px !important;
+    }
+    .card-body {
+        // TODO:[-] 20-07-28 注意不要乱设置全局的强制最高优先级(目前使用less的选择器的方式指定其范围)
+        padding: 0px !important;
+    }
+}
+
+/* 底部div */
+.gis-form-footer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    color: #eff0f2 !important;
+    border: 1px;
+    text-align: center;
+    background: #34a0939b !important;
+    text-shadow: 0 0 4px black;
+}
+
+.gis-form-footer .columnar {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    /* border-right: 1px solid #0000ff; */
+}
+.gis-form-footer .columnar:first-child {
+    border-right: 2px solid #0f151d;
+}
+
+.gis-form-footer .columnar .subitem_top {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+}
+
+.gis-form-footer .columnar .subitem_foot {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.625rem;
+    margin-bottom: 0.3em;
+}
+
+// TODO:[-] 22-03-08 由于默认 divIcon 会默认加上一个
+// margin-left: -6px;
+// margin-top: -6px;
+// 所以手动去掉
+.surge_pulsing_icon_default {
+    margin-top: 0px !important;
+    margin-left: 0px !important;
+}

@@ -34,6 +34,13 @@
 			<div class="nav_item_icon">
 				<div class="nav_item_icon fa-solid fa-eraser"></div>
 			</div>
+			<div class="nav_item_icon" @click="submit()">
+				<div class="fa-solid fa-magnifying-glass-location"></div>
+			</div>
+			<TyphoonListView
+				:typhoonList="filterTyList"
+				:filterTyCount="filterTyCount"
+			></TyphoonListView>
 			<!-- <i class="nav_item_icon fa-solid fa-eraser"></i>
 			<div class="fa-solid fa-house"></div> -->
 		</nav>
@@ -44,19 +51,29 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
 import SubNavTimeItem from '@/components/nav/subItems/SubNavTimeItem.vue'
+import TyphoonListView from '@/components/table/tyListView.vue'
+//
+import * as L from 'leaflet'
 // store
-import { SET_IS_SELECT_LOOP, SET_BOX_LOOP_RADIUS } from '@/store/types'
+import { SET_IS_SELECT_LOOP, SET_BOX_LOOP_RADIUS, GET_BOX_LOOP_LATLNG } from '@/store/types'
 // 默认常量
-import { DEFAULT_BOX_LOOP_RADIUS } from '@/const/default'
-
+import { DEFAULT_BOX_LOOP_RADIUS, DEFAULT_BOX_LOOP_RADIUS_UNIT } from '@/const/default'
+// api
+import { loadTyListByRange } from '@/api/typhoon'
+// mid model
+import { FilterTyMidModel } from '@/middle_model/typhoon'
 /** + 22-10-14 副导航栏(布局:底部) */
 @Component({
-	components: { SubNavTimeItem },
+	components: { SubNavTimeItem, TyphoonListView },
 })
 export default class SubNavMenuView extends Vue {
 	/** 是否圈选 */
 	checkedSelectLoop = false
 	boxRadius = DEFAULT_BOX_LOOP_RADIUS
+
+	filterTyList: FilterTyMidModel[] = []
+	filterTyCount = 0
+
 	get selectLoopCls(): string {
 		return this.checkedSelectLoop ? 'activate' : 'un_activate'
 	}
@@ -66,10 +83,59 @@ export default class SubNavMenuView extends Vue {
 		this.setIsSelectLoop(val)
 	}
 
+	/** 获取最终需要提交的 box range = radis*unit */
+	get submitBoxRadius(): number {
+		return this.boxRadius * DEFAULT_BOX_LOOP_RADIUS_UNIT
+	}
+
 	@Watch('boxRadius')
 	onBoxRadius(val: number): void {
 		this.setBoxLoopRadius(val)
 	}
+	submit(): void {
+		const data: { boxLoopLatlng: L.LatLng; boxRadius: number } = {
+			boxLoopLatlng: this.getBoxLoopLatlng,
+			boxRadius: this.submitBoxRadius,
+		}
+		const self = this
+		this.filterTyList = []
+		loadTyListByRange({
+			latlon: [data.boxLoopLatlng.lat, data.boxLoopLatlng.lng],
+			range: data.boxRadius,
+		}).then(
+			(res: {
+				status: number
+				data: {
+					list: { code: string; nameCh: string; num: string; year: number }[]
+					total: number
+				}
+			}) => {
+				/*
+			  list: Array(8)
+				0: {code: 'Yuri', year: 1991, num: '9128', nameCh: null}				
+				[[Prototype]]				
+				total: 18
+			*/
+				if (res.status === 200 && res.data.list.length > 0) {
+					console.log(res.data)
+					self.filterTyCount = res.data.total
+					res.data.list.forEach((temp) => {
+						self.filterTyList.push(
+							new FilterTyMidModel(
+								temp.code,
+								temp.nameCh === null ? '-' : temp.nameCh,
+								temp.num,
+								temp.year
+							)
+						)
+					})
+				}
+			}
+		)
+		// console.log(data)
+	}
+
+	@Getter(GET_BOX_LOOP_LATLNG, { namespace: 'map' }) getBoxLoopLatlng
 
 	/** 设置是否进行圈选操作 */
 	@Mutation(SET_IS_SELECT_LOOP, { namespace: 'map' }) setIsSelectLoop

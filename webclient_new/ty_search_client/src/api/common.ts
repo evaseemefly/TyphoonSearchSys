@@ -5,9 +5,11 @@
 // home 5820
 // export const host = 'http://127.0.0.1:8082'
 // - 21-10-13 上线测试的实际地址,注意要去掉/
-export const host = 'http://128.5.10.21:8000'
+// export const host = 'http://128.5.10.21:8000'
 // 22-06-05 尝试加入家中 5820 发布服务的配置
 // export const host = 'http://192.168.50.86:8082'
+// 单位本地测试
+export const host = 'http://192.168.0.105:8000'
 
 /** @type {*} 21-03-05 + 新添加的用来加载 geoserver的host */
 // export const hostGeo = 'http://128.5.10.21:8082/geoserver/'
