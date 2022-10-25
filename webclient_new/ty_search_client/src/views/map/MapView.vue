@@ -466,11 +466,58 @@ export default class MainMapView extends Vue {
 		if (this.currentTyPulsingMarker !== null) {
 			mymap.removeLayer(this.currentTyPulsingMarker)
 		}
-
+		/** 当前时刻对应的 ITyPath */
+		let targetTy: ITyPath = null
+		/** 一小时换算成毫秒 */
+		const HOUR_MS_UNIT: number = 60 * 60 * 1000
 		if (this.currentTyCMAPathList.length > 0) {
-			const currentTy = this.currentTyCMAPathList.find((temp) => {
+			targetTy = this.currentTyCMAPathList.find((temp) => {
 				return moment(temp.forecastDt).valueOf() === moment(targetDt).valueOf()
 			})
+
+			// TODO:[*] 22-10-25 加入了插值
+			/*
+			 step:
+			  1- 对 tyCMAPathlist 进行排序，升序
+			  2- 找到临近的前后两个值
+			*/
+			if (targetTy === undefined) {
+				const tyCMAPathList = this.currentTyCMAPathList.sort((a, b) => {
+					return a.forecastDt.getTime() - b.forecastDt.getTime()
+				})
+				/** 下一个时刻的台风实况 */
+				let next: ITyPath = null
+				/** 上一个时刻的台风实况 */
+				let last: ITyPath = null
+				for (let index = 0; index < tyCMAPathList.length - 1; index++) {
+					if (
+						targetDt.getTime() < tyCMAPathList[index + 1].forecastDt.getTime() &&
+						targetDt.getTime() > tyCMAPathList[index].forecastDt.getTime()
+					) {
+						next = tyCMAPathList[index + 1]
+						last = tyCMAPathList[index]
+						/** 前后的时间差(小时) */
+						const diffHours: number =
+							(next.forecastDt.getTime() - last.forecastDt.getTime()) / HOUR_MS_UNIT
+						/**  获取当前时间在 last 与 next 中的位置 */
+						const nowDiffLastDtIndex: number = Math.floor(
+							(targetDt.getTime() - last.forecastDt.getTime()) / HOUR_MS_UNIT
+						)
+						/** 插值计算后的当前时间对应的台风model */
+						const interTy: ITyPath = {
+							forecastDt: targetDt,
+							lat:
+								last.lat + ((next.lat - last.lat) / diffHours) * nowDiffLastDtIndex,
+							lon:
+								last.lon + ((next.lon - last.lon) / diffHours) * nowDiffLastDtIndex,
+							bp: last.bp + ((next.bp - last.bp) / diffHours) * nowDiffLastDtIndex,
+							isForecast: true,
+							tyType: last.tyType,
+						}
+						targetTy = interTy
+					}
+				}
+			}
 			const tyMax = 10
 			const tyMin = 1
 			const tyCirleIcon = new IconTyphoonCirlePulsing({
@@ -483,7 +530,7 @@ export default class MainMapView extends Vue {
 				className: 'surge_pulsing_icon_default',
 				html: tyCirleIcon.toHtml(),
 			})
-			const tyPulsingMarker = L.marker([currentTy.lat, currentTy.lon], {
+			const tyPulsingMarker = L.marker([targetTy.lat, targetTy.lon], {
 				icon: tyDivIcon,
 			})
 			this.currentTyPulsingMarker = tyPulsingMarker.addTo(mymap)

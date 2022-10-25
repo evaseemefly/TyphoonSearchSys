@@ -23,7 +23,7 @@
 					<i class="fa-solid fa-anchor-circle-check"></i>
 				</div>
 				<div class="hidden_box_radius" v-show="checkedSelectLoop">
-					<el-slider v-model="boxRadius" :step="10" :max="1000"></el-slider>
+					<el-slider v-model="boxRadius" :step="1000" :max="3000"></el-slider>
 				</div>
 				<!-- <div
 					class="nav_item_icon fa-solid fa-anchor-circle-check"
@@ -46,7 +46,7 @@
 		</nav>
 		<SubNavTimeItem
 			:forecastDt="forecastDt"
-			:step="dateStep"
+			:step="1"
 			@updateForecastDt="updateForecastDt"
 		></SubNavTimeItem>
 	</nav>
