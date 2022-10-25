@@ -4,7 +4,14 @@
  * @class IconCirlePulsing
  */
 
+import * as L from 'leaflet'
+
 import { IconTypeEnum } from '@/enum/common'
+// 待实现的接口
+import { IStationInfo, IStationIcon } from '@/interface/station'
+import { IToHtml } from '@/interface/leaflet_icon'
+// 中间 model
+import { StationSurgeMidModel } from '@/middle_model/station'
 
 interface IIconPlusingOptions {
 	val?: number
@@ -170,6 +177,12 @@ class IconCirlePulsing {
 	}
 }
 
+/**
+ * @description 台风脉冲圆 icon
+ * @author evaseemefly
+ * @date 2022/10/24
+ * @class IconTyphoonCirlePulsing
+ */
 class IconTyphoonCirlePulsing {
 	// radiusUnit:number=
 	// x 与 y 的偏移量
@@ -471,6 +484,135 @@ const getTyIconUrlByType = (tyType: string) => {
 	return iconUrl
 }
 
+/**
+ * @description 根据 海洋站info集合 以 icon 的形式添加至 map,并返回 layergroup ids 集合
+ * @author evaseemefly
+ * @date 2022/10/23
+ * @param {L.Map} mymap
+ * @param {IStationInfo[]} stationList
+ * @returns {*}  {IStationIcon[]}
+ */
+const addStationIcon2Map = (
+	mymap: L.Map,
+	stationList: IStationInfo[],
+	surgeMax: number
+): number[] => {
+	const zoom = 7
+	const self = this
+	const iconArr: IconCirlePulsing[] = []
+	const iconSurgeMinArr: IToHtml[] = []
+	const stationArr: StationSurgeMidModel[] = []
+	const layerItemsList: IStationIcon[] = []
+
+	const pulsingMarkers: L.Marker[] = []
+	const divMarkers: L.Marker[] = []
+	// 获取极值
+	stationList.forEach((temp) => {
+		/** 海洋站 icon */
+		const icon = new IconCirlePulsing({
+			val: temp.surge,
+			max: surgeMax,
+			min: 0,
+			iconType: IconTypeEnum.TY_PULSING_ICON,
+		})
+		const tempStationSurge = new StationSurgeMidModel(temp.name, temp.code, '', '', new Date())
+		const iconSurgeMin = tempStationSurge.getImplements(zoom, {
+			stationName: temp.name,
+			stationCode: temp.code,
+			surgeMax: surgeMax,
+			surgeMin: 0,
+			surgeVal: temp.surge,
+		})
+		iconArr.push(icon)
+		iconSurgeMinArr.push(iconSurgeMin)
+		stationArr.push(tempStationSurge)
+	})
+	let index = 0
+	// 批量添加至 map 中
+	iconArr.forEach((temp) => {
+		const tempCode = stationArr[index].stationCode
+		const tempStationName = stationArr[index].stationName
+		const stationDivIcon = L.divIcon({
+			className: `surge_pulsing_icon_default ${iconSurgeMinArr[index].getClassName()}`,
+			html: temp.toHtml(),
+			// 目前需要此部分，因为会造成 位置的位移
+			// 坐标，[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]
+			// iconAnchor: [-20, 30]
+		})
+		iconSurgeMinArr.forEach((temp) => {}) // 2- 台站 station data form icon
+		const stationSurgeMinDivICOn = L.divIcon({
+			className: iconSurgeMinArr[index].getClassName(),
+			html: iconSurgeMinArr[index].toHtml(),
+			// 坐标，[相对于原点的水平位置（左加右减），相对原点的垂直位置（上加下减）]
+			iconAnchor: [10, 30],
+		})
+
+		// TODO:[-] 22-10-23
+		const stationCirlePulsingMakrer: L.Marker = L.marker(
+			[stationList[index].lat, stationList[index].lon],
+			{
+				icon: stationDivIcon,
+			}
+		)
+		pulsingMarkers.push(stationCirlePulsingMakrer)
+
+		const stationDivIconMarker: L.Marker = L.marker(
+			[stationList[index].lat, stationList[index].lon],
+			{
+				icon: stationSurgeMinDivICOn,
+				// @ts-ignore
+				customData: { code: tempCode, name: tempStationName },
+				riseOnHover: true, // 鼠标移入zindex升级
+			}
+		).on(
+			'click',
+			(e: {
+				target: {
+					options: {
+						customData: { code: string; name: string }
+					}
+				}
+			}) => {
+				// self.$message(
+				// 	`加载站点:${
+				// 		e.target &&
+				// 		e.target.options &&
+				// 		e.target.options.customData &&
+				// 		e.target.options.customData.name
+				// 	}`
+				// )
+				// self.setCurrentStationCode(
+				// 	e.target &&
+				// 		e.target.options &&
+				// 		e.target.options.customData &&
+				// 		e.target.options.customData.code
+				// )
+				// self.setCurrentStationName(
+				// 	e.target &&
+				// 		e.target.options &&
+				// 		e.target.options.customData &&
+				// 		e.target.options.customData.name
+				// )
+			}
+		)
+
+		divMarkers.push(stationDivIconMarker)
+		// const layerItem: IStationIcon = {
+		// 	cirlePulsingId: stationCirlePulsingLayerId,
+		// 	divIconId: stationDivIconLayerId,
+		// 	code: tempCode,
+		// 	name: tempStationName,
+		// }
+		// layerItemsList.push(layerItem)
+		index++
+	})
+	// @ts-ignore
+	const pulsingLayerGroupId: number = L.layerGroup(pulsingMarkers).addTo(mymap)._leaflet_id
+	// @ts-ignore
+	const divLayerGroupId: number = L.layerGroup(divMarkers).addTo(mymap)._leaflet_id
+	return [pulsingLayerGroupId, divLayerGroupId]
+}
+
 export {
 	IconCirlePulsing,
 	IconMinStationSurge,
@@ -478,4 +620,5 @@ export {
 	IconTyphoonCirlePulsing,
 	IconTyphoonCustom,
 	getTyIconUrlByType,
+	addStationIcon2Map,
 }

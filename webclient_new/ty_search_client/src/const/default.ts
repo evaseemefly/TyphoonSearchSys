@@ -21,7 +21,12 @@ const DEFAULT_TY_NAME_CH = '未选择'
 /** 默认未选择的台风名称(en) */
 const DEFAULT_TY_NAME = 'un-select'
 
+const DEFAULT_TY_NUM = '0000'
+
 const DEFAULT_DATE = new Date(1970, 1, 1)
+
+/** 默认时间间隔(对应时间组件——由当前台风的时间间隔决定) */
+const DEFAULT_DATE_STEP = 1
 
 export {
 	DEFAULT_BOX_LOOP_RADIUS,
@@ -32,4 +37,6 @@ export {
 	DEFAULT_TY_CODE,
 	DEFAULT_TY_NAME_CH,
 	DEFAULT_TY_NAME,
+	DEFAULT_TY_NUM,
+	DEFAULT_DATE_STEP,
 }

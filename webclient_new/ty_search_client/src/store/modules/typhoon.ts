@@ -1,5 +1,10 @@
 import { FilterTyMidModel } from '@/middle_model/typhoon'
-import { SET_CURRENT_TY, GET_CURRENT_TY } from '../types'
+import {
+	SET_CURRENT_TY,
+	GET_CURRENT_TY,
+	SET_CURRENT_TY_FORECAST_DT,
+	GET_CURRENT_TY_FORECAST_DT,
+} from '../types'
 // export enum ProductType {
 //     oil = 0,
 //     rescue = 1
@@ -7,6 +12,7 @@ import { SET_CURRENT_TY, GET_CURRENT_TY } from '../types'
 
 interface ITyphoon {
 	currentTy: FilterTyMidModel
+	forecastDt: Date
 }
 
 // const actions={
@@ -14,10 +20,14 @@ interface ITyphoon {
 // }
 const state: ITyphoon = {
 	currentTy: null,
+	forecastDt: new Date(),
 }
 const getters = {
 	[GET_CURRENT_TY](state: ITyphoon): FilterTyMidModel {
 		return state.currentTy
+	},
+	[GET_CURRENT_TY_FORECAST_DT](state: ITyphoon): Date {
+		return state.forecastDt
 	},
 }
 // 使用dispatch调用
@@ -26,6 +36,9 @@ const actions = {}
 const mutations = {
 	[SET_CURRENT_TY](state: ITyphoon, val: FilterTyMidModel): void {
 		state.currentTy = val
+	},
+	[SET_CURRENT_TY_FORECAST_DT](state: ITyphoon, val: Date): void {
+		state.forecastDt = val
 	},
 }
 

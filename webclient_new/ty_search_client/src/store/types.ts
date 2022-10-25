@@ -175,3 +175,13 @@ export const GET_IS_SHOW_RASTER_LEGEND = 'GET_IS_SHOW_RASTER_LEGEND'
 export const SET_CURRENT_TY = 'SET_CURRENT_TY'
 /** 获取当前选中的台风 */
 export const GET_CURRENT_TY = 'GET_CURRENT_TY'
+
+/** 设置当前台风选定预报时间 */
+export const SET_CURRENT_TY_FORECAST_DT = 'SET_CURRENT_TY_FORECAST_DT'
+/** 获取当前台风选定预报时间 */
+export const GET_CURRENT_TY_FORECAST_DT = 'GET_CURRENT_TY_FORECAST_DT'
+
+/** 设置当前时间间隔 */
+export const SET_DATE_STEP = 'SET_DATE_STEP'
+/** 获取当前时间间隔 */
+export const GET_DATE_STEP = 'GET_DATE_STEP'

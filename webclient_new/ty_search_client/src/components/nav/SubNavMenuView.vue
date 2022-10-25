@@ -44,7 +44,11 @@
 			<!-- <i class="nav_item_icon fa-solid fa-eraser"></i>
 			<div class="fa-solid fa-house"></div> -->
 		</nav>
-		<SubNavTimeItem></SubNavTimeItem>
+		<SubNavTimeItem
+			:forecastDt="forecastDt"
+			:step="dateStep"
+			@updateForecastDt="updateForecastDt"
+		></SubNavTimeItem>
 	</nav>
 </template>
 <script lang="ts">
@@ -55,9 +59,21 @@ import TyphoonListView from '@/components/table/tyListView.vue'
 //
 import * as L from 'leaflet'
 // store
-import { SET_IS_SELECT_LOOP, SET_BOX_LOOP_RADIUS, GET_BOX_LOOP_LATLNG } from '@/store/types'
+import {
+	SET_IS_SELECT_LOOP,
+	SET_BOX_LOOP_RADIUS,
+	GET_BOX_LOOP_LATLNG,
+	GET_CURRENT_TY_FORECAST_DT,
+	SET_CURRENT_TY_FORECAST_DT,
+	GET_DATE_STEP,
+} from '@/store/types'
 // 默认常量
-import { DEFAULT_BOX_LOOP_RADIUS, DEFAULT_BOX_LOOP_RADIUS_UNIT } from '@/const/default'
+import {
+	DEFAULT_BOX_LOOP_RADIUS,
+	DEFAULT_BOX_LOOP_RADIUS_UNIT,
+	DEFAULT_DATE,
+	DEFAULT_DATE_STEP,
+} from '@/const/default'
 // api
 import { loadTyListByRange } from '@/api/typhoon'
 // mid model
@@ -77,6 +93,11 @@ export default class SubNavMenuView extends Vue {
 	get selectLoopCls(): string {
 		return this.checkedSelectLoop ? 'activate' : 'un_activate'
 	}
+
+	forecastDt: Date = new Date()
+
+	/** 时间间隔 */
+	dateStep: number = DEFAULT_DATE_STEP
 
 	@Watch('checkedSelectLoop')
 	onCheckedSelectLoop(val: boolean): void {
@@ -135,13 +156,36 @@ export default class SubNavMenuView extends Vue {
 		// console.log(data)
 	}
 
+	/** 更新当前的 预报时刻  */
+	updateForecastDt(val: Date): void {
+		this.forecastDt = val
+		this.setTyForecastDt(val)
+	}
+
 	@Getter(GET_BOX_LOOP_LATLNG, { namespace: 'map' }) getBoxLoopLatlng
+
+	@Getter(GET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) getTyForecastDt
+
+	@Getter(GET_DATE_STEP, { namespace: 'common' }) getDateStep
 
 	/** 设置是否进行圈选操作 */
 	@Mutation(SET_IS_SELECT_LOOP, { namespace: 'map' }) setIsSelectLoop
 
 	/** 设置圈选的半径 */
 	@Mutation(SET_BOX_LOOP_RADIUS, { namespace: 'map' }) setBoxLoopRadius
+
+	/** 设置当前台风预报时间 */
+	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt
+
+	@Watch('getTyForecastDt')
+	onTyForecast(val: Date): void {
+		this.forecastDt = val
+	}
+
+	@Watch('getDateStep')
+	onDateStep(val: number): void {
+		this.dateStep = val
+	}
 }
 </script>
 <style scoped lang="less">

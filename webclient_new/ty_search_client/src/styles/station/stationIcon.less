@@ -1,0 +1,188 @@
+@import '../base.less';
+.my-station-surge-div {
+    // TODO:[*] 21-04-28 注意此处必须要手动给一个宽度，否则会由于 leaflet-div-icon 给设置一个宽度
+    width: 165px;
+    display: inline-block;
+    // background: rgba(0, 0, 255, 0.829);
+    text-align: center;
+    color: aliceblue;
+    // box-shadow: 7px 8px 10px 1px #8888884f;
+    @baseboxshadow(); // + 21-12-22 替换为 base.less 中的 base box shadow 统一阴影
+    backdrop-filter: blur(4px);
+    // box-shadow: 0 0 10px whitesmoke;
+    /* 边角圆滑处理 */
+    border-radius: 10px;
+    display: flex;
+    // 注意为了防止子容器的颜色超出了父容器设置的圆角
+    overflow: auto;
+    // 新加入的 text 的阴影
+    text-shadow: 1px 3px 4px black;
+    div {
+        // margin: 10px;
+        padding: 10px;
+    }
+    .station-min-div-title {
+        // background: #76eec6d6;
+        // background: #329d96b5;
+        background: #32405c9e;
+        // 若存在剩余空间则填满
+        flex-grow: 2;
+    }
+    .station-min-div-content {
+        // background: linear-gradient(to right,#32405c9e,rgba(50, 157, 150, 0.801));
+    }
+    .liner-default {
+        background: linear-gradient(to right, #32405c9e, rgba(50, 157, 150, 0.801));
+    }
+    .green {
+        // background: rgba(26, 172, 13, 0.795);
+        background: #2ecc70c9;
+    }
+    .blue {
+        // background: #76eec6d6;
+        background: #3498dbcc;
+    }
+    .yellow {
+        background: rgb(226, 226, 13, 0.795);
+    }
+    .orange {
+        background: rgb(235, 159, 17, 0.795);
+    }
+    .red {
+        background: rgb(233, 37, 37, 0.795);
+    }
+}
+
+// 21-05-15 针对 IconFormStationDetialedMidModel 的样式
+#my_station_surge_div {
+    display: inline-block;
+    // background: rgba(0, 0, 255, 0.829);
+    text-align: center;
+    color: aliceblue;
+    box-shadow: 3px 7px 13px 1px #111111;
+    // box-shadow: 0 0 10px whitesmoke;
+    /* 边角圆滑处理 */
+    border-radius: 10px;
+    display: flex;
+    // 注意为了防止子容器的颜色超出了父容器设置的圆角
+    overflow: auto;
+    // 新加入的 text 的阴影
+    text-shadow: 1px 3px 4px black;
+    // div {
+    //   // margin: 10px;
+    //   padding: 10px;
+    // }
+    .station-min-div-title {
+        padding: 10px;
+        background: #32405c9e;
+        // 若存在剩余空间则填满
+        // flex-grow: 2;
+        flex-grow: 0.5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .station-min-div-content {
+        // padding: 10px;
+        flex-grow: 0.5;
+        .station-min-div-content-horizontal {
+            // padding-top: 3px;
+            // padding-left: ;
+            display: flex;
+            .station-min-div-content-field {
+                padding: 6px;
+                width: 50px;
+                flex-grow: 0.5;
+            }
+            .station-min-div-content-val {
+                padding: 6px;
+                flex-grow: 0.5;
+            }
+        }
+    }
+}
+
+// 21-06-02 针对 IconFormTitleStationSurgeMidModel 只显示台站的 form 样式
+// .station-surge-icon-onlytitle{
+//   .my-station-title-surge-div {
+//     display: inline-block;
+//     // background: rgba(0, 0, 255, 0.829);
+//     text-align: center;
+//     color: aliceblue;
+//     box-shadow: 3px 7px 13px 1px #111111;
+//     /* 边角圆滑处理 */
+//     border-radius: 10px;
+//     display: flex;
+//     // 注意为了防止子容器的颜色超出了父容器设置的圆角
+//     overflow: auto;
+//     // 新加入的 text 的阴影
+//     text-shadow: 1px 3px 4px black;
+//     .station-min-div-title {
+//         padding: 10px;
+//         background: #32405c9e;
+//         width: 100px;
+//         // 若存在剩余空间则填满
+//         // flex-grow: 2;
+//         flex-grow: 0.5;
+//         display: flex;
+//         align-items: center;
+//         justify-content: center;
+//     }
+// }
+// }
+// TODO:[-] 21-06-03 新加入了的粗体字体饼加入了阴影与字体
+@font-base: {
+    font-family: Tahoma, Geneva, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    // 新加入的 text 的阴影
+    text-shadow: 1px 3px 4px black;
+};
+.station-surge-icon-onlytitle {
+    .my-station-title-surge-div {
+        width: 80px;
+        display: inline-block;
+        // background: rgba(0, 0, 255, 0.829);
+        text-align: center;
+        color: aliceblue;
+        // box-shadow: 1px 3px 11px 1px #100f0f;
+        // box-shadow: 0 0 10px whitesmoke;
+        /* 边角圆滑处理 */
+        border-radius: 10px;
+        // display: flex;
+        // 注意为了防止子容器的颜色超出了父容器设置的圆角
+        overflow: auto;
+
+        div {
+            // margin: 10px;
+            padding: 10px;
+        }
+        .station-title-div-title {
+            // background: #32405c9e;
+            // 若存在剩余空间则填满
+            flex-grow: 2;
+            @font-base();
+        }
+    }
+}
+
+.liner-cell-default {
+    background: #32405c9e;
+}
+.green {
+    // background: rgba(56, 172, 101, 0.945);
+    background: #2ecc70;
+}
+.blue {
+    // background: #76eec6e8;
+    background: #3498db;
+}
+.yellow {
+    background: rgb(226, 226, 13);
+}
+.orange {
+    background: rgb(235, 159, 17);
+}
+.red {
+    background: rgb(233, 37, 37);
+}

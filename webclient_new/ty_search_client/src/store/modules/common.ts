@@ -13,7 +13,11 @@ import {
 	GET_ISOSURGE_COLOR_SCALE_VAL_RANGE,
 	SET_ISOSURGE_COLOR_SCALE_STR_LIST,
 	GET_ISOSURGE_COLOR_SCALE_STR_LIST,
+	SET_DATE_STEP,
+	GET_DATE_STEP,
 } from '../types'
+
+import { DEFAULT_DATE_STEP } from '@/const/default'
 // export enum ProductType {
 //     oil = 0,
 //     rescue = 1
@@ -25,6 +29,7 @@ interface Common {
 	isoSurgeScaleStrList: string[]
 	isShowOptionsForm: boolean
 	scaleDesc: string
+	step: number
 }
 
 // const actions={
@@ -36,6 +41,7 @@ const state: Common = {
 	isoSurgeScaleStrList: [],
 	isoSurgeScaleValRange: [],
 	scaleDesc: '',
+	step: DEFAULT_DATE_STEP,
 }
 const getters = {
 	[GET_SCALE_RANGE](state: Common): number[] {
@@ -52,6 +58,9 @@ const getters = {
 	},
 	[GET_SCALE_DESC](state: Common): string {
 		return state.scaleDesc
+	},
+	[GET_DATE_STEP](state: Common): number {
+		return state.step
 	},
 }
 // 使用dispatch调用
@@ -72,6 +81,9 @@ const mutations = {
 	},
 	[SET_ISOSURGE_COLOR_SCALE_STR_LIST](state: Common, scaleList: string[]): void {
 		state.isoSurgeScaleStrList = scaleList
+	},
+	[SET_DATE_STEP](state: Common, val: number): void {
+		state.step = val
 	},
 }
 
