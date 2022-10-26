@@ -487,15 +487,18 @@ const getTyIconUrlByType = (tyType: string) => {
 /**
  * @description 根据 海洋站info集合 以 icon 的形式添加至 map,并返回 layergroup ids 集合
  * @author evaseemefly
- * @date 2022/10/23
+ * @date 2022/10/25
  * @param {L.Map} mymap
  * @param {IStationInfo[]} stationList
- * @returns {*}  {IStationIcon[]}
+ * @param {number} surgeMax
+ * @param {(stationTemp: { code: string; name: string }) => void} callbackFunc 回调函数，用来触发 marker.onClick 事件
+ * @returns {*}  {number[]}
  */
 const addStationIcon2Map = (
 	mymap: L.Map,
 	stationList: IStationInfo[],
-	surgeMax: number
+	surgeMax: number,
+	callbackFunc: (stationTemp: { code: string; name: string }) => void
 ): number[] => {
 	const zoom = 7
 	const self = this
@@ -573,26 +576,10 @@ const addStationIcon2Map = (
 					}
 				}
 			}) => {
-				// self.$message(
-				// 	`加载站点:${
-				// 		e.target &&
-				// 		e.target.options &&
-				// 		e.target.options.customData &&
-				// 		e.target.options.customData.name
-				// 	}`
-				// )
-				// self.setCurrentStationCode(
-				// 	e.target &&
-				// 		e.target.options &&
-				// 		e.target.options.customData &&
-				// 		e.target.options.customData.code
-				// )
-				// self.setCurrentStationName(
-				// 	e.target &&
-				// 		e.target.options &&
-				// 		e.target.options.customData &&
-				// 		e.target.options.customData.name
-				// )
+				callbackFunc({
+					code: e.target.options.customData.code,
+					name: e.target.options.customData.name,
+				})
 			}
 		)
 

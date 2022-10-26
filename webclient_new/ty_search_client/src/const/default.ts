@@ -25,8 +25,18 @@ const DEFAULT_TY_NUM = '0000'
 
 const DEFAULT_DATE = new Date(1970, 1, 1)
 
+/** 默认海洋站 code */
+const DEFAULT_STATION_CODE = 'DEFAULT_CODE'
+/** 默认海洋站 name */
+const DEFAULT_STATION_NAME = 'DEFAULT_NAME'
+
 /** 默认时间间隔(对应时间组件——由当前台风的时间间隔决定) */
 const DEFAULT_DATE_STEP = 1
+
+/** 圆的半径的单位系数 @type {*} */
+const DEFAULT_ALERT_TIDE = -999999
+/** 默认基面差值 @type {*} */
+const DEFAULT_SURGE_DIFF = -999999
 
 export {
 	DEFAULT_BOX_LOOP_RADIUS,
@@ -39,4 +49,8 @@ export {
 	DEFAULT_TY_NAME,
 	DEFAULT_TY_NUM,
 	DEFAULT_DATE_STEP,
+	DEFAULT_STATION_CODE,
+	DEFAULT_STATION_NAME,
+	DEFAULT_SURGE_DIFF,
+	DEFAULT_ALERT_TIDE,
 }

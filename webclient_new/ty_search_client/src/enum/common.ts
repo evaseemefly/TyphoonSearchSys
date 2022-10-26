@@ -15,3 +15,10 @@ export enum IconTypeEnum {
 	 */
 	TY_PATH_ICON,
 }
+
+const getEnumVal = <T>(tempEnum: T, index: number): string => {
+	const areaStr = tempEnum[index]
+	return areaStr
+}
+
+export { getEnumVal }

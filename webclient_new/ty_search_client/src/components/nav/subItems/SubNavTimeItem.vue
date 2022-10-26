@@ -1,24 +1,24 @@
 <template>
 	<div class="nav_item_timebar">
 		<div class="timebar_child">
-			<div class="nav_item_icon" @click="addDt('YYYY', -1)">-</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('YYYY', -1)">-</div>
 			<div>{{ convertDt2Str('YYYY') }}</div>
-			<div class="nav_item_icon" @click="addDt('YYYY')">+</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('YYYY')">+</div>
 		</div>
 		<div class="timebar_child">
-			<div class="nav_item_icon" @click="addDt('MM', -1)">-</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('MM', -1)">-</div>
 			<div>{{ convertDt2Str('MM') }}</div>
-			<div class="nav_item_icon" @click="addDt('MM')">+</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('MM')">+</div>
 		</div>
 		<div class="timebar_child">
-			<div class="nav_item_icon" @click="addDt('DD', -1)">-</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('DD', -1)">-</div>
 			<div>{{ convertDt2Str('DD') }}</div>
-			<div class="nav_item_icon" @click="addDt('DD')">+</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('DD')">+</div>
 		</div>
 		<div class="timebar_child">
-			<div class="nav_item_icon" @click="addDt('HH', -step)">-</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('HH', -step)">-</div>
 			<div>{{ convertDt2Str('HH') }}</div>
-			<div class="nav_item_icon" @click="addDt('HH', step)">+</div>
+			<div class="nav_item_icon nav_icon_operator" @click="addDt('HH', step)">+</div>
 		</div>
 	</div>
 </template>
@@ -102,7 +102,7 @@ export default class SubNavTimeItem extends Vue {
 	display: flex;
 	align-items: center;
 	background: #233446;
-	padding: 5px;
+	// padding: 5px;
 	margin: 5px;
 	border-radius: 8px;
 	.timebar_child {
@@ -110,8 +110,23 @@ export default class SubNavTimeItem extends Vue {
 		margin-left: 5px;
 		margin-right: 5px;
 		font-weight: 500;
+		height: 100%;
+		align-items: center;
+		div {
+			height: 100%;
+		}
+		.nav_icon_operator {
+			width: 10px;
+		}
+		.nav_icon_operator:hover {
+			// background: #16a085;
+		}
+
 		div:nth-child(2) {
 			width: 60px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
 		}
 	}
 }

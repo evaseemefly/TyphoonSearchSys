@@ -5,6 +5,7 @@
 			<div class="layout-right"><MainMapView></MainMapView></div>
 		</div>
 		<div class="layout-bottom"><SubNavMenuView></SubNavMenuView></div>
+		<div><StationTideFormView></StationTideFormView></div>
 	</div>
 </template>
 
@@ -13,12 +14,14 @@ import { Component, Vue } from 'vue-property-decorator'
 import MainNavMenuView from '@/components/nav/MainNavMenuView.vue'
 import SubNavMenuView from '@/components/nav/SubNavMenuView.vue'
 import MainMapView from '@/views/map/MapView.vue'
+import StationTideFormView from '@/components/form/stationTideForm.vue'
 
 @Component({
 	components: {
 		MainNavMenuView,
 		SubNavMenuView,
 		MainMapView,
+		StationTideFormView,
 	},
 })
 export default class HomeView extends Vue {}

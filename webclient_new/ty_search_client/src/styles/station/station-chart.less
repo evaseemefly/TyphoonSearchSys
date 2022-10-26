@@ -1,0 +1,231 @@
+@import '../base-form.less';
+@import '../base.less';
+@base_font: {
+	text-shadow: 2px 2px 8px rgb(33, 32, 32);
+};
+// TODO:[-] 21-05-25 此处覆盖了 /src/styles/base-form.less 中的变量，主要是加入了透明度
+@form-header-background-color-start: {
+	background: #16a084e0;
+};
+@form-header-background-color-end: {
+	background-color: rgba(49, 159, 178, 0.733);
+};
+@base-station-form: {
+    min-width: 500px;
+    min-height: 420px;
+};
+.right-station-surge-form {
+	z-index: 1999;
+	border-radius: 5px;
+	position: absolute;
+	// box-shadow: 2px 3px 8px black;
+	// padding: 8px;
+	display: flex;
+	margin-bottom: 8px;
+	cursor: pointer;
+	.my-detail-title {
+		@form-header-text-color();
+		@baseboxshadow();
+		@baseboxbackdrop();
+		width: 40px;
+		height: 150px;
+		writing-mode: vertical-lr;
+		background: rgba(49, 159, 178, 0.733);
+		// margin: 2em;
+		text-shadow: 0 0 4px black;
+		font-size: 20px;
+		border-top-left-radius: 15px;
+		border-bottom-left-radius: 15px;
+		// margin: 5px;
+		margin-left: 5px;
+		// margin-right: 5px;
+		// width: 30px;
+		display: flex;
+		flex-direction: row;
+		box-shadow: 2px 2px 10px rgb(25 40 49 / 86%);
+		margin-top: 50px;
+		// box-shadow: 2px 2px 10px rgb(41 101 141 / 86%);
+		/* text-align: center; */
+		// 实现文字水平垂直居中
+		justify-content: center;
+		align-items: center;
+	}
+	.my-detail-form {
+		display: flex;
+		flex-grow: 1;
+		flex-direction: column;
+		.sub-titles {
+			display: flex;
+			.my-sub-title {
+				@form-header-text-color();
+				text-shadow: 0 0 4px black;
+				font-size: 20px;
+				border-top-left-radius: 15px;
+				border-top-right-radius: 10px;
+				// border-bottom-right-radius: 10px;
+				// border-bottom-left-radius: 10px;
+				// box-shadow: 2px 2px 10px rgb(109, 96, 96);
+				box-shadow: 2px 2px 10px rgba(25, 40, 49, 0.863);
+				// padding: 4px;
+				padding-left: 5px;
+				height: 25px;
+				// flex-grow: 1;
+				// margin-bottom: 5px;
+				// width: 40px;
+				// div 中的内间距
+				padding-right: 15px;
+				padding-left: 15px;
+				height: 45px;
+				margin-right: 5px;
+				margin-left: 5px;
+				// 实现文字水平垂直居中
+				align-items: center;
+				justify-content: center;
+				display: flex;
+				//颜色
+				background: #16a084e0;
+			}
+		}
+		.detail-content {
+			@base_font();
+			padding: 8px;
+			padding-top: 15px;
+			font-size: 0.7em;
+			margin-bottom: 0px !important;
+			//   @formbox();
+			// 加入四个角的圆角+阴影
+			// border-top-left-radius: 15px;
+			border-top-right-radius: 10px;
+			border-bottom-right-radius: 10px;
+			border-bottom-left-radius: 10px;
+			// box-shadow: 2px 2px 10px rgb(109, 96, 96);
+			// box-shadow: 2px 2px 10px rgba(41, 101, 141, 0.863);
+			box-shadow: 3px 6px 10px 0px black;
+			// background: linear-gradient(rgba(50, 157, 150, 0.685), rgba(49, 59, 89, 0.733));
+			background: linear-gradient(rgba(28, 34, 52, 0.733), rgba(49, 59, 89, 0.733));
+			backdrop-filter: blur(4px);
+			flex-grow: 1;
+		}
+	}
+}
+
+.actived {
+	animation: transform-actived 0.5s ease-in forwards;
+	// background: #f39c12;
+}
+.unactived {
+	animation: transform-unactived 0.5s ease-in forwards;
+}
+.disabled {
+	background: #7f8c8d !important;
+}
+
+.form-show{
+    animation: transform-show 0.5s ease-in forwards;
+}
+
+.form-hide{
+    animation: transform-hide 0.5s ease-in forwards;
+}
+
+
+
+// 展开的过渡动画
+// 未展开
+.mybar-right-out {
+	animation: transform-bar-right-out 0.5s ease-in forwards;
+}
+
+// 展开
+.mybar-right-in {
+	// 指定 执行 my-bar-right-in 动画效果，持续1.5s,线性,动画结束时保持结束状态
+	animation: transform-bar-right-in 0.75s ease-in forwards;
+}
+
+@keyframes transform-bar-right-out {
+	0% {
+		// transform: translateX(0px);
+		// to {
+		//   top: 20px;
+		//   right: 50px;
+		// }
+		// top: 20px;
+		// right: 70px;
+		// background-color: rgb(49, 159, 178);
+		// @form-header-background-color-end();
+	}
+	50% {
+		top: 50px;
+		right: -150px;
+	}
+	75% {
+		top: 20px;
+		right: -350px;
+	}
+	100% {
+		top: 20px;
+		right: -520px;
+		height: 400px;
+		width: 500px;
+		// @form-header-background-color-start();
+		// background-color: rgb(49, 59, 89);;
+	}
+}
+
+// 建议所有的transform以 transform 开头
+@keyframes transform-bar-right-in {
+	0% {
+		// transform: translateX(1000px);
+		// left: 40%;
+		// background-color: rgb(49, 159, 178);
+		// @form-header-background-color-end();
+	}
+	70% {
+		// transform: translateX(850px);
+		// left: 40%;
+		// background-color: rgb(49, 159, 178);
+		// @form-header-background-color-end();
+	}
+	100% {
+		// transform: translateX(700px);
+
+		// left: 40%;
+		// background-color: rgb(49, 159, 178);
+		// @form-header-background-color-end();
+	}
+}
+
+@keyframes transform-actived {
+	0% {
+		background: #16a084e0;
+	}
+	100% {
+		background: #f39c12;
+	}
+}
+
+@keyframes transform-unactived {
+	0% {
+		background: #f39c12;
+	}
+	100% {
+		background: #16a084e0;
+	}
+}
+
+@keyframes transform-show {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes transform-hide {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}

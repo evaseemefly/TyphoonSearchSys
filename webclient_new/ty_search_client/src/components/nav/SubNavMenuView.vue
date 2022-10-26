@@ -40,6 +40,7 @@
 			<TyphoonListView
 				:typhoonList="filterTyList"
 				:filterTyCount="filterTyCount"
+				:isLoading="isLoadingTyList"
 			></TyphoonListView>
 			<!-- <i class="nav_item_icon fa-solid fa-eraser"></i>
 			<div class="fa-solid fa-house"></div> -->
@@ -87,8 +88,11 @@ export default class SubNavMenuView extends Vue {
 	checkedSelectLoop = false
 	boxRadius = DEFAULT_BOX_LOOP_RADIUS
 
+	/** 筛选后的台风集合 */
 	filterTyList: FilterTyMidModel[] = []
 	filterTyCount = 0
+	/** 是否在加载筛选后的台风集合 */
+	isLoadingTyList = false
 
 	get selectLoopCls(): string {
 		return this.checkedSelectLoop ? 'activate' : 'un_activate'
@@ -120,39 +124,44 @@ export default class SubNavMenuView extends Vue {
 		}
 		const self = this
 		this.filterTyList = []
+		this.isLoadingTyList = true
 		loadTyListByRange({
 			latlon: [data.boxLoopLatlng.lat, data.boxLoopLatlng.lng],
 			range: data.boxRadius,
-		}).then(
-			(res: {
-				status: number
-				data: {
-					list: { code: string; nameCh: string; num: string; year: number }[]
-					total: number
-				}
-			}) => {
-				/*
+		})
+			.then(
+				(res: {
+					status: number
+					data: {
+						list: { code: string; nameCh: string; num: string; year: number }[]
+						total: number
+					}
+				}) => {
+					/*
 			  list: Array(8)
 				0: {code: 'Yuri', year: 1991, num: '9128', nameCh: null}				
 				[[Prototype]]				
 				total: 18
 			*/
-				if (res.status === 200 && res.data.list.length > 0) {
-					console.log(res.data)
-					self.filterTyCount = res.data.total
-					res.data.list.forEach((temp) => {
-						self.filterTyList.push(
-							new FilterTyMidModel(
-								temp.code,
-								temp.nameCh === null ? '-' : temp.nameCh,
-								temp.num,
-								temp.year
+					if (res.status === 200 && res.data.list.length > 0) {
+						console.log(res.data)
+						self.filterTyCount = res.data.total
+						res.data.list.forEach((temp) => {
+							self.filterTyList.push(
+								new FilterTyMidModel(
+									temp.code,
+									temp.nameCh === null ? '-' : temp.nameCh,
+									temp.num,
+									temp.year
+								)
 							)
-						)
-					})
+						})
+					}
 				}
-			}
-		)
+			)
+			.finally(() => {
+				self.isLoadingTyList = false
+			})
 		// console.log(data)
 	}
 

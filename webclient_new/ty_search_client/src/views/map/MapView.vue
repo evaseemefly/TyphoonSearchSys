@@ -78,6 +78,7 @@ import { addStationIcon2Map, IconTyphoonCirlePulsing } from '@/middle_model/icon
 import { IStationIcon, IStationInfo } from '@/interface/station'
 import { IHttpResponse } from '@/interface/common'
 import { IPoint } from '@/interface/geo'
+import { ITyphoonParams4Station } from '@/interface/station'
 // store
 import {
 	GET_IS_SELECT_LOOP,
@@ -87,6 +88,8 @@ import {
 	GET_CURRENT_TY_FORECAST_DT,
 	SET_CURRENT_TY_FORECAST_DT,
 	SET_DATE_STEP,
+	SET_STATION_CODE,
+	SET_COMPLEX_OPTS_CURRENT_STATION,
 } from '@/store/types'
 // 默认常量
 import {
@@ -99,18 +102,23 @@ import {
 	DEFAULT_TY_NAME_CH,
 	DEFAULT_TY_NAME,
 	DEFAULT_TY_NUM,
+	DEFAULT_STATION_NAME,
 } from '@/const/default'
 // enum
 import { IconTypeEnum } from '@/enum/common'
+import { MenuType } from '@/enum/menu'
 
 // api
 import { loadTyRealDataList, loadStationTideDataList } from '@/api/typhoon'
+import { loadStationDetailDataList } from '@/api/station'
 // 各类插件
 import { TyMiniMarker } from '@/plugins/customerMarker'
 // 工具类
 import { convertTyRealDataMongo2TyCMAPathLine } from '@/middle_model/util'
 import moment from 'moment'
 import { ITyPath } from '@/interface/typhoon'
+import { Collapse } from 'element-ui'
+import station from '@/store/modules/station'
 
 @Component({
 	components: {
@@ -181,6 +189,9 @@ export default class MainMapView extends Vue {
 	currentTyName: string = DEFAULT_TY_NAME
 	/** 当前台风的 cma 台风路径 */
 	currentTyCMAPathList: ITyPath[] = []
+
+	/** 当前选定的海洋站 name (en) */
+	currentStationName: string = DEFAULT_STATION_NAME
 
 	/** 当前时刻的台风所在位置脉冲 icon marker */
 	currentTyPulsingMarker: L.Marker = null
@@ -367,6 +378,12 @@ export default class MainMapView extends Vue {
 	/** 设置台风的时间间隔步长 */
 	@Mutation(SET_DATE_STEP, { namespace: 'common' }) setDateStep
 
+	/** 设置当前选中的海洋站 code */
+	@Mutation(SET_STATION_CODE, { namespace: 'station' }) setStationCode
+
+	/** 设置当前选中的海洋站 complex opts */
+	@Mutation(SET_COMPLEX_OPTS_CURRENT_STATION, { namespace: 'complex' }) setCurrentStationOpts
+
 	/** 获取当前的预报时间 */
 	@Getter(GET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) getTyForecastDt
 
@@ -385,6 +402,30 @@ export default class MainMapView extends Vue {
 		return { currentTyNum, currentTyName, currentTyDateTime }
 	}
 
+	/** 当前海洋站的 opts 选项 */
+	get currentStationOpts(): {
+		currentTyNum: string
+		currentTyCode: string
+		currentStationName: string
+	} {
+		const { currentTyNum, currentTyCode, currentStationName } = this
+		return { currentTyNum, currentTyCode, currentStationName }
+	}
+
+	@Watch('currentStationOpts')
+	onCurrentStationOpts(val: {
+		currentTyNum: string
+		currentTyCode: string
+		currentStationName: string
+	}): void {
+		this.setCurrentStationOpts({
+			tyNum: val.currentTyNum,
+			tyCode: val.currentTyCode,
+			stationName: val.currentStationName,
+		})
+	}
+
+	/** 加载海洋站列表 */
 	@Watch('currentTyOpts')
 	onCurrentTyOpts(val: { currentTyNum; currentTyName; currentTyDateTime }): void {
 		// console.log(`监听到currentTy的参数发生变化:${val}`)
@@ -423,12 +464,12 @@ export default class MainMapView extends Vue {
 			) => {
 				if (res.status === 200) {
 					/*
-				1. forecast: 
+				1. forecast:
 					1. occurred: "2015-07-11T00:00:00Z"
 					2. val_forecast: 651
 					3. val_real: 702
 					4. [[Prototype]]: Object
-				2. station: 
+				2. station:
 					1. code: "DONGSHAN"
 					2. harmonicconstant: "H.G.Y.2009"
 					3. jw: 750
@@ -451,8 +492,27 @@ export default class MainMapView extends Vue {
 						}
 						stationInfoList.push(tempStationInfo)
 					})
-					layerGroupIds = addStationIcon2Map(mymap, stationInfoList, SURGE_MAX)
-					console.log(layerGroupIds)
+					layerGroupIds = addStationIcon2Map(
+						mymap,
+						stationInfoList,
+						SURGE_MAX,
+						(stationTemp: { code: string; name: string }): void => {
+							console.log(
+								`获取当前点击的station marker, name:${stationTemp.name},code:${stationTemp.code}`
+							)
+							// self.setStationCode(stationTemp.code)
+							self.currentStationName = stationTemp.name
+							// loadStationDetailDataList({
+							// 	code: self.currentTyCode,
+							// 	name: stationTemp.name,
+							// 	type: MenuType.all,
+							// 	num: self.currentTyNum,
+							// }).then((res) => {
+							// 	console.log(res.data)
+							// })
+						}
+					)
+					// console.log(layerGroupIds)
 					// TODO:[-] 22-10-23 注意此处会引发一个比较隐蔽的bug,由于是在异步中，更新 ids 需要放在异步方法中，注意！
 					this.stationLayerGroupIds = layerGroupIds
 				}
