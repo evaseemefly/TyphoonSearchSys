@@ -103,6 +103,7 @@ import {
 	DEFAULT_TY_NAME,
 	DEFAULT_TY_NUM,
 	DEFAULT_STATION_NAME,
+	DEFAULT_SURGE_VAL,
 } from '@/const/default'
 // enum
 import { IconTypeEnum } from '@/enum/common'
@@ -488,7 +489,13 @@ export default class MainMapView extends Vue {
 							name: temp.station.stationname,
 							lat: temp.station.point.coordinates[1],
 							lon: temp.station.point.coordinates[0],
-							surge: 'val_real' in temp.forecast ? temp.forecast.val_real : 0,
+							surge:
+								'val_real' in temp.forecast &&
+								'val_real' in temp.forecast &&
+								temp.forecast.val_real !== DEFAULT_SURGE_VAL &&
+								temp.forecast.val_forecast !== DEFAULT_SURGE_VAL
+									? temp.forecast.val_real - temp.forecast.val_forecast
+									: 0,
 						}
 						stationInfoList.push(tempStationInfo)
 					})
@@ -500,19 +507,9 @@ export default class MainMapView extends Vue {
 							console.log(
 								`获取当前点击的station marker, name:${stationTemp.name},code:${stationTemp.code}`
 							)
-							// self.setStationCode(stationTemp.code)
 							self.currentStationName = stationTemp.name
-							// loadStationDetailDataList({
-							// 	code: self.currentTyCode,
-							// 	name: stationTemp.name,
-							// 	type: MenuType.all,
-							// 	num: self.currentTyNum,
-							// }).then((res) => {
-							// 	console.log(res.data)
-							// })
 						}
 					)
-					// console.log(layerGroupIds)
 					// TODO:[-] 22-10-23 注意此处会引发一个比较隐蔽的bug,由于是在异步中，更新 ids 需要放在异步方法中，注意！
 					this.stationLayerGroupIds = layerGroupIds
 				}
