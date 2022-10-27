@@ -63,10 +63,14 @@ export default class TideChartView extends Vue {
 
 	/** 预报时间列表 */
 	forecastDtList: Date[] = []
-	/** 预报值列表 */
+	/** 预报值(天文潮)列表 */
 	forcastValList: number[] = []
 
+	/** 实况值列表 */
 	realValList: number[] = []
+
+	/** 增水列表 */
+	stormSurgeValList: number[] = []
 
 	// 22-02-21 注意四色警戒潮位是对应的总潮位值
 	alertBlue: number = DEFAULT_ALERT_TIDE
@@ -83,7 +87,12 @@ export default class TideChartView extends Vue {
 	yAxisMin = 0
 	yAxisMax = 0
 
-	initCharts(yForecastList: number[], yRealList: number[], xList: Date[]): void {
+	initCharts(
+		yForecastList: number[],
+		yRealList: number[],
+		ySurgeList: number[],
+		xList: Date[]
+	): void {
 		const that = this
 		const nodeDiv = document.getElementById('station_charts')
 		if (nodeDiv) {
@@ -123,39 +132,21 @@ export default class TideChartView extends Vue {
 				legend: {
 					data: [
 						{
-							name: '距离警戒潮位阈值',
-							itemStyle: {
-								color: '#2ecc71',
-							},
-						},
-						{
 							name: '天文潮位',
 							itemStyle: {
+								color: '#ACEDD9',
+							},
+						},
+						{
+							name: '实况',
+							itemStyle: {
+								color: '#FE7BBF',
+							},
+						},
+						{
+							name: '风暴增水',
+							itemStyle: {
 								color: 'rgba(255, 191, 0)',
-							},
-						},
-						{
-							name: '蓝色',
-							itemStyle: {
-								color: 'rgb(19, 184, 196)',
-							},
-						},
-						{
-							name: '黄色',
-							itemStyle: {
-								color: 'rgb(245, 241, 20)',
-							},
-						},
-						{
-							name: '橙色',
-							itemStyle: {
-								color: 'rgb(235, 134, 19)',
-							},
-						},
-						{
-							name: '红色',
-							itemStyle: {
-								color: 'rgb(241, 11, 11)',
 							},
 						},
 					],
@@ -189,9 +180,9 @@ export default class TideChartView extends Vue {
 								color: '#f8f8f7', //字体颜色
 								fontSize: 12, //字体大小
 							},
-							// formatter: (val: Date) => {
-							// 	return fortmatData2YMDHM(val)
-							// },
+							formatter: (val: Date) => {
+								return fortmatData2YMDHM(val)
+							},
 						},
 					},
 				],
@@ -216,27 +207,13 @@ export default class TideChartView extends Vue {
 					{
 						name: '天文潮位',
 						type: 'line',
-						// areaStyle: { color: '#e67e22' },
-						areaStyle: {
-							opacity: 0.4,
-							color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-								{
-									offset: 0,
-									color: 'rgba(128, 255, 165)',
-								},
-								{
-									offset: 1,
-									color: 'rgba(1, 191, 236)',
-								},
-							]),
-						},
 						itemStyle: {
 							formatter: function (params) {
 								return params.toFixed(2)
 							},
 						},
 
-						lineStyle: { color: 'rgba(128, 255, 165)' },
+						lineStyle: { color: '#ACEDD9' },
 
 						data: yForecastList,
 						showSymbol: false,
@@ -244,6 +221,17 @@ export default class TideChartView extends Vue {
 					},
 					{
 						name: '实况',
+						type: 'line',
+						lineStyle: { color: '#FE7BBF' },
+						emphasis: {
+							focus: 'series',
+						},
+						data: yRealList,
+						showSymbol: false,
+						smooth: true,
+					},
+					{
+						name: '风暴增水',
 						type: 'line',
 						areaStyle: {
 							opacity: 0.8,
@@ -254,7 +242,7 @@ export default class TideChartView extends Vue {
 								},
 								{
 									offset: 1,
-									color: 'rgba(224, 62, 76)',
+									color: '#C848B9',
 								},
 							]),
 						},
@@ -262,7 +250,7 @@ export default class TideChartView extends Vue {
 						emphasis: {
 							focus: 'series',
 						},
-						data: yRealList,
+						data: ySurgeList,
 						showSymbol: false,
 						smooth: true,
 					},
@@ -299,7 +287,12 @@ export default class TideChartView extends Vue {
 				val.stationName,
 				MenuType.all,
 				() => {
-					self.initCharts(self.forcastValList, self.realValList, self.forecastDtList)
+					self.initCharts(
+						self.forcastValList,
+						self.realValList,
+						self.stormSurgeValList,
+						self.forecastDtList
+					)
 				}
 			)
 			self.isLoading = false
@@ -318,6 +311,7 @@ export default class TideChartView extends Vue {
 		self.forcastValList = []
 		self.forecastDtList = []
 		self.realValList = []
+		self.stormSurgeValList = []
 		loadStationDetailDataList({
 			code: tyCode,
 			num: tyNum,
@@ -334,15 +328,33 @@ export default class TideChartView extends Vue {
 			*/
 				// 需要分别将 forecast 与 real 存入不同的 list中
 				res.data.forEach((temp) => {
+					// TODO:[-] 22-10-27 此处修改为 若为默认值则赋 NaN,由于对NaN 进行计算只有有NaN结果就为NaN,但对可能包含NaN的数组求 max 或 min 时，需要先剔除 NaN
+					/** 天文潮 */
 					const tempForecastVal =
-						temp.val_forecast !== DEFAULT_SURGE_VAL ? temp.val_forecast : null
-					const tempRealVal = temp.val_real !== DEFAULT_SURGE_VAL ? temp.val_real : null
+						temp.val_forecast !== DEFAULT_SURGE_VAL ? temp.val_forecast : NaN
+					/** 实况增水 */
+					const tempRealVal = temp.val_real !== DEFAULT_SURGE_VAL ? temp.val_real : NaN
+					/** 风暴增水 */
+					const tempStormSurgeVal = tempRealVal - tempForecastVal
+					// const tempStormSurgeVal =
+					// 	temp.val_real !== DEFAULT_SURGE_VAL &&
+					// 	temp.val_forecast !== DEFAULT_SURGE_VAL
+					// 		? tempRealVal - tempForecastVal
+					// 		: null
 					self.forcastValList.push(tempForecastVal)
 					self.forecastDtList.push(new Date(temp.occurred))
 					self.realValList.push(tempRealVal)
+					self.stormSurgeValList.push(tempStormSurgeVal)
 				})
-				const surgeMax = Math.max(...self.forcastValList, ...self.realValList)
-				const surgeMin = Math.min(...self.forcastValList, ...self.realValList)
+				const listNum: number[] = [
+					...self.forcastValList,
+					...self.realValList,
+					...self.stormSurgeValList,
+				].filter((temp) => {
+					return !Number.isNaN(temp)
+				})
+				const surgeMax = Math.max(...listNum)
+				const surgeMin = Math.min(...listNum)
 				self.yAxisMax = surgeMax + MARGIN_TOP
 				self.yAxisMin = surgeMin - MARGIN_BOTTOM
 				// console.log(res)

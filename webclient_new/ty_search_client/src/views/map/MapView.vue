@@ -149,8 +149,9 @@ import station from '@/store/modules/station'
 export default class MainMapView extends Vue {
 	zoom = 7
 	center: number[] = [22.45, 113.8833]
-	url =
-		'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}'
+	// url =
+	// 	'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}'
+	url = 'http://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png'
 	// TODO:[-] 20-11-09 新加入的 map 相关的一些基础静态配置
 	mapOptions: { preferCanvas: boolean; minZoom: number; maxZoom: number; render: any } = {
 		preferCanvas: true,
