@@ -2,266 +2,603 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3522f53-adf7-41d6-a4d7-85dc3f31d3ef" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../PROMISE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../PROMISE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/conf/setting.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/conf/setting.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/common.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/common.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/stationtide.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/stationtide.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/typhoon.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/core/typhoon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/middle_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/middle_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/01-stationOpt/myproj/data/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/File.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/File.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/Paragraph.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/Paragraph.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/core/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/02-wordOpt/project/data/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/02-wordOpt/project/data/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/typhoonNumCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/03-typhoonCodeOpt/typhoonNumCode.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/04-stationOpt/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/04-stationOpt/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/04-stationOpt/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/04-stationOpt/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/04-stationOpt/stationCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/04-stationOpt/stationCode.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/05-docx/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/.vscode/launch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/05-docx/1951_5116.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/1951_5116.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/05-docx/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../background/05-docx/testFolder/1949_4906.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../background/05-docx/testFolder/1949_4906.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/.vscode/launch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/1-读取台风气象数据-读取方式-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/1-读取台风气象数据-读取方式-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-精简版-checkpoint.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/.ipynb_checkpoints/2-读取台风气象数据并写入mongo-精简版-checkpoint.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/1-读取台风气象数据-读取方式.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/1-读取台风气象数据-读取方式.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据-找到标志位.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据-找到标志位.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-写入按年切分文件的台风表头-最终.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-精简版.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/2-读取台风气象数据并写入mongo-精简版.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/3-读取台风气象数据并写入mongo-190522重新修改读取num.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/01读取台风数据/3-读取台风气象数据并写入mongo-190522重新修改读取num.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/02读取word/01-读取word文件.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/02读取word/01-读取word文件.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/02读取word/02-写入mongo后读取.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/02读取word/02-写入mongo后读取.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/07-11年之后新版的测站数据.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/07-11年之后新版的测站数据.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-不使用n进行切分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-不使用n进行切分.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-使用n进行切分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-使用n进行切分.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-尝试使用+作为标志位.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/6-读取台风对应潮位站数据-尝试使用+作为标志位.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/S1-对于潮位的整行数据拆分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/03读取测站数据/S1-对于潮位的整行数据拆分.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/4-使用mongoengine进行查询.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/4-使用mongoengine进行查询.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/5-加入point类型-Copy1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/5-加入point类型-Copy1.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/5-加入point类型.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/5-加入point类型.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/S2-对数据按行进行切分.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S2-对数据按行进行切分.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/S2-部分测试.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S2-部分测试.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/S3-核对数据使用-无别的用处.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S3-核对数据使用-无别的用处.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/S4-mongoengine嵌套model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S4-mongoengine嵌套model.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/S8-测试查询.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/S8-测试查询.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/Untitled.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/Untitled.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/mongo时间查询.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/mongo时间查询.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../byJupyter/测试台风气象数据使用.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../../byJupyter/测试台风气象数据使用.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../data/ext/stationCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../data/ext/stationCode.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../data/ext/typhoonNumCode.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../data/ext/typhoonNumCode.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo_data/5611.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/5611.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo_data/5612.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/5612.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo_data/CH1956BST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/CH1956BST.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo_data/CH1998BST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/CH1998BST.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../demo_data/CH2017BST.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../demo_data/CH2017BST.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/back_up/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/back_up/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/back_up/requirements_backup.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/back_up/requirements_backup.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/TyphoonSystem/wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/middle_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/middle_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/view_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/view_decorator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/apps/Typhoon/views_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/common/dateCommon.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/common/dateCommon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/nginx-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/nginx-app.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/supervisor-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/supervisor-app.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/typhoon_uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/typhoon_uwsgi.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi_params" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/django-uwsgi-nginx/uwsgi_params" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/middle_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/middle_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/view_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/view_decorator.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/apps/Typhoon/views_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/common/dateCommon.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/common/dateCommon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/env/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/env/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/nginx-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/nginx-app.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/supervisor-app.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/supervisor-app.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/typhoon_uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/typhoon_uwsgi.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi_params" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/pull-code/210724/code/uwsgi_params" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/vue-nginx/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/vue-nginx/dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../docker/vue-nginx/nginx/default.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../docker/vue-nginx/nginx/default.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/contents.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/contents.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/metadata.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/routers.mindnode/style.mindnodestyle/metadata.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/contents.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/contents.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/metadata.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/台风历史路径查询.mindnode/style.mindnodestyle/metadata.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/contents.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/contents.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/metadata.plist" beforeDir="false" afterPath="$PROJECT_DIR$/../../ext/各组件目录结构.mindnode/style.mindnodestyle/metadata.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../nginx.conf" beforeDir="false" afterPath="$PROJECT_DIR$/../../nginx.conf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/.eslintrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/babel.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/babel.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/document/ISSUE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/document/ISSUE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/document/Question.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/document/Question.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/document/SCHEDULE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/document/SCHEDULE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/package-lock.json~3d55349163e1beaf7355aa15a494964779c8ded8" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package-lock.json~3d55349163e1beaf7355aa15a494964779c8ded8" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/package-lock.json~95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package-lock.json~95b778bb18b6f7510ee3cad169ca9e6bd1d8a00e" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/package_210724.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package_210724.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/package_backup_190311.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/package_backup_190311.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/App_byzw.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/App_byzw.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/api/api.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/.browserslistrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/.eslintrc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/.prettierrc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/babel.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/package copy.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/favicon.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/reset.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/marker-red.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/ocean_flow_icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/oceanflow_138ada9.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/oceanflow_60a3bc.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/oceanflow_b71540.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/oceanflow_e55039.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/oceanflow_f6b93b.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/of_blue.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/of_earth.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/of_earth_bold.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ocean_flow/of_green.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/oceanflow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/pothole.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/purple.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/red.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty/ty_icon_blue.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty/ty_icon_green.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty/ty_icon_orange.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty/ty_icon_red.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty/ty_icon_yellow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty_icon.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty_icon_blue.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty_icon_green.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty_icon_noshadow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty_icon_oceangrenn.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/ty_icon_yellow.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/两色渐变.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/微信图片_20211202141531.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/微信图片_20211202141637.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/紫色两色渐变.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/icons/绿色渐变.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/license.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ae-d-route-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ae-d-route-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ae-f-route-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ae-national-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ae-national-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ae-s-route-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/airfield-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/airfield-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/airport-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/airport-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/alcohol-shop-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/alcohol-shop-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/american-football-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/american-football-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/amusement-park-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/amusement-park-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/aquarium-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/aquarium-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ar-national-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ar-national-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ar-national-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/art-gallery-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/art-gallery-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/attraction-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/attraction-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-national-highway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-national-highway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-national-route-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-national-route-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-national-route-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-national-route-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-national-route-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-state-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-state-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-state-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-state-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-state-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-tourist-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/au-tourist-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bakery-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bakery-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bank-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bank-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bar-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bar-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/barcelona-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/baseball-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/baseball-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/basketball-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/basketball-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/beach-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/beach-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/beer-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/beer-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bicycle-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bicycle-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bicycle-share.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/border-dot-13.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/boston-t.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bowling-alley-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bowling-alley-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/br-federal-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/br-state-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/br-state-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bridge-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bridge-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/bus.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ca-trans-canada-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ca-trans-canada-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cafe-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cafe-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/campsite-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/campsite-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/car-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/car-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/car-rental-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/car-rental-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/car-repair-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/car-repair-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/casino-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/casino-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/castle-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/castle-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cemetery-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cemetery-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ch-motorway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ch-motorway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/charging-station-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/charging-station-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/chongqing-rail-transit.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cinema-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cinema-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/circle-white-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/circle-white-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/circle-white-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cl-highway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cl-highway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/clothing-store-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/clothing-store-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-nths-expy-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-nths-expy-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-nths-expy-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-nths-expy-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-provincial-expy-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-provincial-expy-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-provincial-expy-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/cn-provincial-expy-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/co-national-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/co-national-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/college-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/college-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/communications-tower-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/communications-tower-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/confectionery-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/confectionery-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/convenience-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/convenience-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/de-motorway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/de-motorway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/de-s-bahn.de-u-bahn.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/de-s-bahn.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/de-u-bahn.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/default-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/default-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/default-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/default-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/default-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/delhi-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/dentist-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/dentist-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/doctor-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/doctor-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/dog-park-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/dog-park-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/dot-10.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/dot-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/dot-9.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/drinking-water-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/drinking-water-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/embassy-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/embassy-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/entrance.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/farm-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/farm-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fast-food-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fast-food-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ferry.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fire-station-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fire-station-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fitness-centre-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fitness-centre-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fuel-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/fuel-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/furniture-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/furniture-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/garden-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/garden-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-dlr.london-overground.london-tfl-rail.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-dlr.london-overground.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-dlr.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-dlr.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-overground.london-tfl-rail.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-overground.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-overground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-tfl-rail.london-overground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-tfl-rail.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-tfl-rail.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gb-national-rail.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/globe-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/globe-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/golf-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/golf-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gr-motorway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gr-motorway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/gr-motorway-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/grocery-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/grocery-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/harbor-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/harbor-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hardware-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hardware-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/heliport-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/heliport-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hk-strategic-route-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hong-kong-mtr.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/horse-riding-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/horse-riding-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hospital-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hospital-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hr-motorway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hr-motorway-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hu-main-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hu-main-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hu-main-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hu-main-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hu-motorway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/hu-motorway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ice-cream-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ice-cream-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/in-national-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/in-national-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/in-national-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/in-state-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/in-state-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/industry-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/industry-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/information-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/information-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/intersection.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/it-motorway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/it-motorway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/jewelry-store-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/jewelry-store-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kiev-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metro-expy-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metro-expy-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metro-expy-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metropolitan-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metropolitan-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metropolitan-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metropolitan-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-metropolitan-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-natl-expy-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-natl-expy-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/kr-natl-hwy-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/landmark-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/landmark-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/laundry-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/laundry-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/level-crossing.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/library-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/library-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/lighthouse-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/lighthouse-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/lodging-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/lodging-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-dlr.london-tfl-rail.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-dlr.london-tfl-rail.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-dlr.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-dlr.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-overground.london-tfl-rail.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-overground.london-tfl-rail.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-overground.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-overground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-tfl-rail.london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-tfl-rail.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/london-underground.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/madrid-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/marker-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/marker-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mexico-city-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/milan-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mobile-phone-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mobile-phone-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/monument-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/monument-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/moscow-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-1.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-7.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-8.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/motorway-exit-9.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mountain-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mountain-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/museum-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/museum-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/music-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/music-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mx-federal-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mx-federal-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mx-federal-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mx-state-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mx-state-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/mx-state-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-expressway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-expressway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-federal-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-federal-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-federal-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-state-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-state-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/my-state-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/new-york-subway.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/nz-state-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/nz-state-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/oneway-large.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/oneway-small.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/oneway-white-large.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/oneway-white-small.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/optician-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/optician-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/osaka-subway.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/oslo-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/paris-metro.paris-rer.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/paris-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/paris-rer.paris-transilien.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/paris-rer.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/paris-transilien.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/park-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/park-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/parking-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/parking-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/parking-garage-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/parking-garage-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pe-national-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pe-national-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pe-regional-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pe-regional-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pharmacy-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pharmacy-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/philadelphia-septa.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/picnic-site-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/picnic-site-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pitch-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/pitch-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/place-of-worship-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/place-of-worship-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/playground-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/playground-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/police-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/police-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/post-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/post-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/prison-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/prison-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rail-light.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rail-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rail.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ranger-station-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ranger-station-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-blue-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-blue-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-blue-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-blue-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-blue-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-green-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-green-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-green-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-green-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-green-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-red-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-red-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-red-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-red-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-red-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-white-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-white-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-white-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-white-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-white-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-yellow-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-yellow-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-yellow-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-yellow-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rectangle-yellow-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-buddhist-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-buddhist-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-christian-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-christian-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-jewish-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-jewish-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-muslim-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-muslim-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-shinto-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/religious-shinto-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-noodle-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-noodle-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-pizza-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-pizza-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-seafood-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/restaurant-seafood-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ro-communal-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ro-communal-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ro-communal-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ro-county-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ro-county-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ro-national-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/ro-national-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/road-closure.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rocket-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/rocket-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/san-francisco-bart.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/school-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/school-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/shoe-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/shoe-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/shop-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/shop-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/si-motorway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/singapore-mrt.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/skateboard-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/skateboard-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/skiing-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/skiing-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/slipway-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/slipway-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/stadium-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/stadium-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/stockholm-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/suitcase-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/suitcase-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/swimming-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/swimming-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/table-tennis-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/table-tennis-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/taipei-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tennis-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tennis-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/th-highway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/th-highway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/th-highway-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/th-motorway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/th-motorway-toll-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/theatre-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/theatre-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/toilet-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/toilet-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tokyo-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/town-hall-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/town-hall-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tr-motorway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tr-motorway-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tr-motorway-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tr-motorway-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/traffic-signal.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/turning-circle-outline.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/turning-circle.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-county-township-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-county-township-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-county-township-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-county-township-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-county-township-6.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-national-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-provincial-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-provincial-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-provincial-expy-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/tw-provincial-expy-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-bia-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-bia-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-bia-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-alternate-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-alternate-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-business-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-business-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-bypass-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-bypass-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-duplex-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-duplex-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-duplex-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-truck-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-highway-truck-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-business-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-business-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-duplex-4.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-duplex-5.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-truck-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/us-interstate-truck-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/veterinary-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/veterinary-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/vienna-u-bahn.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/viewpoint-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/viewpoint-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/volcano-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/volcano-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/volleyball-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/volleyball-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/washington-metro.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/watch-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/watch-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/waterfall-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/waterfall-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/watermill-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/watermill-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/wetland.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/windmill-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/windmill-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/za-national-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/za-national-3.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/za-provincial-2.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/zoo-11.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/sprite_images/zoo-15.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/mapbox/style/style_210610/style.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/wavebaricon/N.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/wavebaricon/S.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level4.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level5.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level6.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level7.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/public/static/windbaricon/level8.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/App.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/api/auth_header.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/api/common.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/api/typhoon.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/assets/logo.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/components/nav/MainNavMenuView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/components/nav/SubNavMenuView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/components/nav/subItems/SubNavIconItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/components/nav/subItems/SubNavTimeItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/components/nav/subItems/SubNavTitleItem.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/components/table/tyListView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/const/default.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/enum/common.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/enum/map.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/enum/typhoon.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/interface/typhoon.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/middle_model/geo.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/middle_model/icon.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/middle_model/leaflet_plugin.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/middle_model/typhoon.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/middle_model/util.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/plugins/canvasMarkerLayer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/plugins/customerMarker.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/plugins/scaleColor.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/private/keys.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/router/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/shims-tsx.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/shims-vue.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/store/constant.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/store/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/store/modules/common.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/store/modules/map.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/store/modules/typhoon.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/store/types.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/styles/base.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/styles/btn.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/styles/map/my-leaflet.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/styles/typhoon/typhoonDivicon.less" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/util/filter.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/views/contents/HomeView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/views/map/MapView.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/views/map/mixin/mapMixin.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/src/views/map/mixin/wmsMixin.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../webclient_new/ty_search_client/vue.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../webclient/src/api/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/api/api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/Status.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/Status.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/cookie.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/cookie.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/dict/nameCH.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/dict/nameCH.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/effectControls/collapse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/effectControls/collapse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/enum/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/enum/map.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/enum/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/enum/menu.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/enum/typhoon.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/enum/typhoon.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/menu/station_detail_tab_list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/menu/station_detail_tab_list.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/common/menu/typhoon_level_option_list.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/common/menu/typhoon_level_option_list.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/interface/map/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/interface/map/map.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/interface/menu/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/interface/menu/menu.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/middle_model/common.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/middle_model/common.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/middle_model/menu.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/middle_model/menu.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/middle_model/typhoon.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/middle_model/typhoon.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/router.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/shims-tsx.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/shims-tsx.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/shims-vue.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/shims-vue.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/modules/chart.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/modules/chart.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/modules/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/modules/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/store/modules/map.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store/modules/map.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/store_backup.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/store_backup.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/About.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/About.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/LeftBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/LeftBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/SubItem/ConditionSearch.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Main/LeftBar/SubItem/ConditionSearch.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0408.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0408.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0415.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0415.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0422.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0422.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0430.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/Test/Search_0430.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup_19_05_05.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_range_backup_19_05_05.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_search_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_map_search_backup.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_vue2map_err.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/backup/center_vue2map_err.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.bak.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.bak.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_range.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_map_search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map_clear.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/center_vue2map_clear.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/form_statistic/form_static_detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_base/map_base_data_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_common/map_common_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_common/map_common_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_backup.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_complexsearch/complex_search_data_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.bak.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.bak.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_data_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_test_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_test_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_vuex_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_range/map_vuex_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/content/map_search/center_map_search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/footer/footer.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/footer/footer.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/head/header.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/head/header.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_bar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_bar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_map.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_map.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_err.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_err.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_range.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/index/index_map_range.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDetail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDetail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDisaster.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarDisaster.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarRealData.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/rightBarRealData.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar_backup.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/bar/right_bar_backup.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/charts/charts_vuex_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/charts/charts_vuex_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/charts/station_detail_charts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/charts/station_detail_charts.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/charts/typhoon_detail_charts.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/charts/typhoon_detail_charts.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_data_list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_data_list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_test.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_bar_test.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_data_list.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/endBar/end_data_list.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/disaster_pic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/disaster_pic.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text/text_form_data_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/form/text_form.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/form/text_form.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/children/typhoon_level_frame.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/children/typhoon_level_frame.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/legend_frame.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/legendFrame/legend_frame.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/map/map_single.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/map/map_single.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/map/station_icon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/map/station_icon.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/modal/detail_tab.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/modal/detail_tab.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/modal/modal_detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/modal/modal_detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/search/search_statistic_typhoon.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/search/search_statistic_typhoon.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_main.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_stations.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/searchByStationMenu/searchByStationMenu_stations.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/second_bar_condition_search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/second_bar_condition_search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoonListBar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoonListBar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/secondBar/typhoon_list_bar/typhoon_list_bar_data_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range_data_mixin.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/range/range_data_mixin.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/src/views/member/slider/rangeSlider.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/src/views/member/slider/rangeSlider.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/tests/unit/.eslintrc.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tests/unit/.eslintrc.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/tests/unit/example.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tests/unit/example.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/tslint_err.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/tslint_err.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/vue.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../webclient/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../webclient/webpack.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TyphoonSystem/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/TyphoonSystem/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TyphoonSystem/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/TyphoonSystem/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TyphoonSystem/wsgi.py" beforeDir="false" afterPath="$PROJECT_DIR$/TyphoonSystem/wsgi.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/apps.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/apps.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/middle_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/middle_models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/tests.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/view_decorator.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/view_decorator.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/Typhoon/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/Typhoon/views_base.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/Typhoon/views_base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/common/dateCommon.py" beforeDir="false" afterPath="$PROJECT_DIR$/common/dateCommon.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/env/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/env/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/manage.py" beforeDir="false" afterPath="$PROJECT_DIR$/manage.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/typhoon_uwsgi.ini" beforeDir="false" afterPath="$PROJECT_DIR$/typhoon_uwsgi.ini" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -426,7 +763,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
       <option name="port" value="8000" />
-      <option name="host" value="" />
+      <option name="host" value="0.0.0.0" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
@@ -457,7 +794,7 @@
       <workItem from="1627040566128" duration="6688000" />
       <workItem from="1627105889032" duration="113000" />
       <workItem from="1627131760372" duration="2162000" />
-      <workItem from="1664177607559" duration="4510000" />
+      <workItem from="1664177607559" duration="7910000" />
     </task>
     <servers />
   </component>

@@ -1,0 +1,38 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		/* Strict Type-Checking Options */
+		// 严格模式将会打开下面的几个选项
+		"strict": false,	// 开启所有严格的类型检查
+		"noEmit":false,	// 不输出文件,即编译后不会生成任何js文件
+		"noEmitOnError": false, // 编译的源文件中存在错误的时候不再输出编译结果文件
+		"alwaysStrict": false,	// // 始终以严格模式检查每个模块，并且在编译后的结果文件中加入"use strict";
+		// "noImplicitAnyForClassMembers":false,// 添加尝试解决 ts 2339 错误
+		"jsx": "preserve",
+		"moduleResolution": "node",
+		"experimentalDecorators": true,
+		"skipLibCheck": true,
+		"esModuleInterop": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"useDefineForClassFields": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"noImplicitAny": false,
+		"strictPropertyInitialization": false,
+		// 对函数参数进行严格逆变比较
+		"strictFunctionTypes": false,
+		"strictBindCallApply": false,
+		"sourceMap": true,
+		// 值为true或false，指定是否为声明文件.d.ts生成map文件
+		"declarationMap": false,
+		"baseUrl": ".",
+		"types": ["webpack-env"],
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+	},
+	"include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "tests/**/*.ts", "tests/**/*.tsx"],
+	"exclude": ["node_modules"]
+}

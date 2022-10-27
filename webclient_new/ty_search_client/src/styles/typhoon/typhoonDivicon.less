@@ -1,0 +1,193 @@
+@import '../base.less';
+/* 台风div */
+// 使用与 右侧 信息栏 中的相同的字体阴影
+// @import '../base-form';
+@base_font: {
+	text-shadow: 2px 2px 8px rgb(33, 32, 32) !important;
+};
+.typhoon_icon_default {
+	width: 750px !important;
+	z-index: 1700 !important;
+}
+
+.typhoon_data_div .row {
+	color: white;
+}
+
+.typhoon_data_div .card-body {
+	color: white;
+}
+
+.typhoon_data_div {
+	color: white;
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+	// box-shadow: 2px 3px 8px black;
+	@baseboxshadow(); // - 21-12-22 统一修改为 base box shadow 的阴影
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+	// background: linear-gradient(to right, #1a6865 30%, rgba(4, 107, 114, 0.103));
+	@base_font();
+	.card-header {
+		text-align: center;
+		background: rgb(50 157 150 / 74%);
+		text-shadow: 2px 2px 8px #212020 !important;
+		border-top-left-radius: 10px;
+		border-top-right-radius: 10px;
+		background: rgba(50, 157, 150, 0.801);
+	}
+	// 台风 divIcon 的中间部分
+	.card-body {
+		background: linear-gradient(rgba(50, 157, 150, 0.801), rgba(49, 59, 89, 0.733));
+		// background: #1a6865;
+	}
+
+	.row {
+		/* color: black; */
+		text-align: center;
+		// text-shadow: 2px 2px 10px grey;
+		margin-bottom: 10px;
+		text-shadow: 2px 2px 8px #212020 !important;
+	}
+
+	/* 注意card有一个左右15px的padding */
+	.card {
+		padding-left: 0px;
+		padding-right: 0px;
+		// background: rgba(223, 63, 63, 0.125) !important;
+	}
+
+	.row_footer {
+		display: flex;
+		flex-direction: row;
+		/* background: #0044cc; */
+		// 由于 在 row_footer -> .typhoon_footer 中填色，所以在此处设置圆角
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		backdrop-filter: blur(4px); // + 21-12-22 加入高斯效果
+		background: rgba(49, 59, 89, 0.596);
+		width: 100%;
+		color: white;
+		border: 1px;
+		text-align: center;
+		overflow: hidden;
+		/* 设置圆角 */
+		// border-bottom-left-radius: 5px;
+		// border-bottom-right-radius: 5px;
+		/* margin-left: -21px;
+                          margin-right: -21px; */
+		/* 底部div */
+
+		.columnar {
+			display: flex;
+			width: 50%;
+			flex-direction: column;
+			border-right: 1px solid #1a6865;
+		}
+
+		.columnar .subitem_top {
+			display: flex;
+			justify-content: center;
+			width: 100%;
+			text-align: center;
+			font-size: 20px;
+		}
+
+		.columnar .subitem_foot {
+			display: flex;
+			width: 100%;
+			justify-content: center;
+			text-align: center;
+			font-size: 0.625rem;
+		}
+	}
+}
+
+// + 22-10-10 自定义 marker 样式
+.leaflet_marker_tyhoon-mini {
+	.my_leaflet-ty-mini-marker {
+		display: flex;
+		background: #2dada9;
+		width: 130px;
+		padding: 5px;
+		color: white;
+		border-radius: 5px;
+		box-shadow: 0 0 10px 0px #000000b5;
+		font-size: 1.1em;
+		font-weight: bold;
+		// margin-top: -40px;
+		// margin-left: 40px;
+		.my-col {
+		}
+		.dt {
+		}
+		.bp {
+		}
+	}
+}
+
+/* .typhoon_icon_default {
+    width: 750px !important;
+  } */
+
+// TODO:[-] + 21-05-14
+#my_station_surge_div {
+	width: 220px;
+	display: inline-block;
+	// background: rgba(0, 0, 255, 0.829);
+	text-align: center;
+	color: aliceblue;
+	box-shadow: 7px 8px 10px 1px #888888;
+	// box-shadow: 0 0 10px whitesmoke;
+	/* 边角圆滑处理 */
+	border-radius: 10px;
+	display: flex;
+	// 注意为了防止子容器的颜色超出了父容器设置的圆角
+	overflow: auto;
+	// 新加入的 text 的阴影
+	text-shadow: 1px 3px 4px black;
+	// div {
+	//   // margin: 10px;
+	//   padding: 10px;
+	// }
+	.station-min-div-title {
+		padding: 10px;
+		background: #32405c9e;
+		// 若存在剩余空间则填满
+		// flex-grow: 2;
+		flex-grow: 0.5;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.station-min-div-content {
+		// padding: 10px;
+		flex-grow: 0.5;
+		.station-min-div-content-horizontal {
+			// padding-top: 3px;
+			// padding-left: ;
+			display: flex;
+			.station-min-div-content-field {
+				padding: 6px;
+				width: 50px;
+				flex-grow: 0.5;
+			}
+			.station-min-div-content-val {
+				padding: 6px;
+				flex-grow: 0.5;
+			}
+		}
+	}
+}
+.green {
+	background: rgba(26, 172, 13, 0.795);
+}
+.yellow {
+	background: rgb(226, 226, 13, 0.795);
+}
+.orange {
+	background: rgb(235, 159, 17, 0.795);
+}
+.red {
+	background: rgb(233, 37, 37, 0.795);
+}
