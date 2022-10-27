@@ -1,5 +1,10 @@
 <template>
-	<div id="typhoon_search_list">
+	<div
+		v-draggable
+		id="typhoon_search_list"
+		v-loading="isLoading"
+		element-loading-background="loadBackground"
+	>
 		<div class="form-header">
 			<h4>匹配台风数量:</h4>
 			<!-- <div class="primary-title"></div> -->
@@ -54,6 +59,11 @@ export default class TyphoonListView extends Vue {
 
 	@Prop({ type: Array, default: [] })
 	typhoonList: FilterTyMidModel[]
+
+	@Prop({ type: Boolean, default: false })
+	isLoading: boolean
+
+	loadBackground = '#38536dac'
 
 	commitTy(val: FilterTyMidModel, index: number): void {
 		this.setCurrentTy(val)

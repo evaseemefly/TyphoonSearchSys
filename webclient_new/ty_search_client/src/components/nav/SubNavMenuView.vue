@@ -23,7 +23,7 @@
 					<i class="fa-solid fa-anchor-circle-check"></i>
 				</div>
 				<div class="hidden_box_radius" v-show="checkedSelectLoop">
-					<el-slider v-model="boxRadius" :step="10" :max="1000"></el-slider>
+					<el-slider v-model="boxRadius" :step="1000" :max="3000"></el-slider>
 				</div>
 				<!-- <div
 					class="nav_item_icon fa-solid fa-anchor-circle-check"
@@ -40,11 +40,16 @@
 			<TyphoonListView
 				:typhoonList="filterTyList"
 				:filterTyCount="filterTyCount"
+				:isLoading="isLoadingTyList"
 			></TyphoonListView>
 			<!-- <i class="nav_item_icon fa-solid fa-eraser"></i>
 			<div class="fa-solid fa-house"></div> -->
 		</nav>
-		<SubNavTimeItem></SubNavTimeItem>
+		<SubNavTimeItem
+			:forecastDt="forecastDt"
+			:step="1"
+			@updateForecastDt="updateForecastDt"
+		></SubNavTimeItem>
 	</nav>
 </template>
 <script lang="ts">
@@ -55,9 +60,21 @@ import TyphoonListView from '@/components/table/tyListView.vue'
 //
 import * as L from 'leaflet'
 // store
-import { SET_IS_SELECT_LOOP, SET_BOX_LOOP_RADIUS, GET_BOX_LOOP_LATLNG } from '@/store/types'
+import {
+	SET_IS_SELECT_LOOP,
+	SET_BOX_LOOP_RADIUS,
+	GET_BOX_LOOP_LATLNG,
+	GET_CURRENT_TY_FORECAST_DT,
+	SET_CURRENT_TY_FORECAST_DT,
+	GET_DATE_STEP,
+} from '@/store/types'
 // 默认常量
-import { DEFAULT_BOX_LOOP_RADIUS, DEFAULT_BOX_LOOP_RADIUS_UNIT } from '@/const/default'
+import {
+	DEFAULT_BOX_LOOP_RADIUS,
+	DEFAULT_BOX_LOOP_RADIUS_UNIT,
+	DEFAULT_DATE,
+	DEFAULT_DATE_STEP,
+} from '@/const/default'
 // api
 import { loadTyListByRange } from '@/api/typhoon'
 // mid model
@@ -71,12 +88,20 @@ export default class SubNavMenuView extends Vue {
 	checkedSelectLoop = false
 	boxRadius = DEFAULT_BOX_LOOP_RADIUS
 
+	/** 筛选后的台风集合 */
 	filterTyList: FilterTyMidModel[] = []
 	filterTyCount = 0
+	/** 是否在加载筛选后的台风集合 */
+	isLoadingTyList = false
 
 	get selectLoopCls(): string {
 		return this.checkedSelectLoop ? 'activate' : 'un_activate'
 	}
+
+	forecastDt: Date = new Date()
+
+	/** 时间间隔 */
+	dateStep: number = DEFAULT_DATE_STEP
 
 	@Watch('checkedSelectLoop')
 	onCheckedSelectLoop(val: boolean): void {
@@ -99,49 +124,77 @@ export default class SubNavMenuView extends Vue {
 		}
 		const self = this
 		this.filterTyList = []
+		this.isLoadingTyList = true
 		loadTyListByRange({
 			latlon: [data.boxLoopLatlng.lat, data.boxLoopLatlng.lng],
 			range: data.boxRadius,
-		}).then(
-			(res: {
-				status: number
-				data: {
-					list: { code: string; nameCh: string; num: string; year: number }[]
-					total: number
-				}
-			}) => {
-				/*
+		})
+			.then(
+				(res: {
+					status: number
+					data: {
+						list: { code: string; nameCh: string; num: string; year: number }[]
+						total: number
+					}
+				}) => {
+					/*
 			  list: Array(8)
 				0: {code: 'Yuri', year: 1991, num: '9128', nameCh: null}				
 				[[Prototype]]				
 				total: 18
 			*/
-				if (res.status === 200 && res.data.list.length > 0) {
-					console.log(res.data)
-					self.filterTyCount = res.data.total
-					res.data.list.forEach((temp) => {
-						self.filterTyList.push(
-							new FilterTyMidModel(
-								temp.code,
-								temp.nameCh === null ? '-' : temp.nameCh,
-								temp.num,
-								temp.year
+					if (res.status === 200 && res.data.list.length > 0) {
+						console.log(res.data)
+						self.filterTyCount = res.data.total
+						res.data.list.forEach((temp) => {
+							self.filterTyList.push(
+								new FilterTyMidModel(
+									temp.code,
+									temp.nameCh === null ? '-' : temp.nameCh,
+									temp.num,
+									temp.year
+								)
 							)
-						)
-					})
+						})
+					}
 				}
-			}
-		)
+			)
+			.finally(() => {
+				self.isLoadingTyList = false
+			})
 		// console.log(data)
 	}
 
+	/** 更新当前的 预报时刻  */
+	updateForecastDt(val: Date): void {
+		this.forecastDt = val
+		this.setTyForecastDt(val)
+	}
+
 	@Getter(GET_BOX_LOOP_LATLNG, { namespace: 'map' }) getBoxLoopLatlng
+
+	@Getter(GET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) getTyForecastDt
+
+	@Getter(GET_DATE_STEP, { namespace: 'common' }) getDateStep
 
 	/** 设置是否进行圈选操作 */
 	@Mutation(SET_IS_SELECT_LOOP, { namespace: 'map' }) setIsSelectLoop
 
 	/** 设置圈选的半径 */
 	@Mutation(SET_BOX_LOOP_RADIUS, { namespace: 'map' }) setBoxLoopRadius
+
+	/** 设置当前台风预报时间 */
+	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt
+
+	@Watch('getTyForecastDt')
+	onTyForecast(val: Date): void {
+		this.forecastDt = val
+	}
+
+	@Watch('getDateStep')
+	onDateStep(val: number): void {
+		this.dateStep = val
+	}
 }
 </script>
 <style scoped lang="less">

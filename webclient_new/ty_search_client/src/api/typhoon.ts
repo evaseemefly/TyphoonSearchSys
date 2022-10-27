@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { host } from './common'
 import authHeader from './auth_header'
+import { ISearchTyStationParams } from '@/middle_model/api_params'
 // 后端的请求地址及端口
 // export const host = host
 axios.defaults.withCredentials = true
@@ -79,4 +80,20 @@ const loadTyRealDataList = (code: string, num: string) => {
 	})
 }
 
-export { loadTyListByRange, loadTyRealDataList }
+/**
+ * 根据 code name date 获取该时刻对应的全部站点
+ * @param par :{
+	code: string
+	name: string
+	date: Date
+}
+ * @returns
+ */
+const loadStationTideDataList = (par: ISearchTyStationParams) => {
+	const url = `${host}${area}/data/stationtide/`
+	return axios.get(url, {
+		params: par,
+	})
+}
+
+export { loadTyListByRange, loadTyRealDataList, loadStationTideDataList }

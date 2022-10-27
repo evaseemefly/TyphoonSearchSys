@@ -20,6 +20,19 @@ class MapMixin extends Vue {
 			})
 		}
 	}
+
+	/** 根据 ids 批量清除 layers */
+	clearLayersByIds(ids: number[]): void {
+		const mymap: L.Map = this.$refs.basemap['mapObject']
+		if (mymap && ids.length > 0) {
+			mymap.eachLayer((layer: L.Layer) => {
+				// @ts-ignore
+				if (layer._leaflet_id in ids) {
+					mymap.removeLayer(layer)
+				}
+			})
+		}
+	}
 }
 
 export { MapMixin }

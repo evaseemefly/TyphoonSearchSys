@@ -161,6 +161,11 @@ export const GET_SHOW_OPTS_FORM = 'GET_SHOW_OPTS_FORM'
 export const SET_SHOW_STATION_ICON = 'SET_SHOW_STATION_ICON'
 export const GET_SHOW_STATION_ICON = 'GET_SHOW_STATION_ICON'
 
+/** 设置当前选定的海洋站 code */
+export const SET_STATION_CODE = 'SET_STATION_CODE'
+/** 获取当前选定的海洋站 code */
+export const GET_STATION_CODE = 'GET_STATION_CODE'
+
 // + 22-04-18 TYPHOON 显示台风图例
 export const SET_SHOW_TYPHOON_LEGEND_ICON = 'SET_SHOW_TYPHOON_LEGEND_ICON'
 export const GET_SHOW_TYPHOON_LEGEND_ICON = 'GET_SHOW_TYPHOON_LEGEND_ICON'
@@ -175,3 +180,20 @@ export const GET_IS_SHOW_RASTER_LEGEND = 'GET_IS_SHOW_RASTER_LEGEND'
 export const SET_CURRENT_TY = 'SET_CURRENT_TY'
 /** 获取当前选中的台风 */
 export const GET_CURRENT_TY = 'GET_CURRENT_TY'
+
+/** 设置当前台风选定预报时间 */
+export const SET_CURRENT_TY_FORECAST_DT = 'SET_CURRENT_TY_FORECAST_DT'
+/** 获取当前台风选定预报时间 */
+export const GET_CURRENT_TY_FORECAST_DT = 'GET_CURRENT_TY_FORECAST_DT'
+
+/** 设置当前时间间隔 */
+export const SET_DATE_STEP = 'SET_DATE_STEP'
+/** 获取当前时间间隔 */
+export const GET_DATE_STEP = 'GET_DATE_STEP'
+
+// -----
+// 各类非单一属性的复杂 complex opts
+/** 设置 { currentTyNum; currentTyName; currentStationName } 用来监听当前海洋站及相关属性的变化 */
+export const SET_COMPLEX_OPTS_CURRENT_STATION = 'SET_COMPLEX_OPTS_CURRENT_STATION'
+/** 获取 { currentTyNum; currentTyName; currentStationName } 用来监听当前海洋站及相关属性的变化 */
+export const GET_COMPLEX_OPTS_CURRENT_STATION = 'GET_COMPLEX_OPTS_CURRENT_STATION'

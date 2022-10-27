@@ -86,3 +86,19 @@
    by _19-07-11_
    ![avatar](document/img/WX20190711-192858.png)
    ![avatar](webclient/document/img/WX20190711-192946.png)
+
+
+----
+22-10-14 日起开始重构此项目
+#### 22-10-25
+1- 重构了页面布局;  
+2- 台风路径加入了线性过度以及对应的台风icon;
+3- 底部`btn-bar`加入了重新设计后的`时间组件`,当前时间组件步长:1h,加入了对当前时刻的对应位置示意的线性插值功能;
+4- 台风列表进行了重构，见右侧
+![avatar](document/img/WX20221025-150840@2x.png)
+
+#### 22-10-26
+1- 加入了海洋站风暴增水组件(tideChartsFormView + stationTideForm);
+2- 以及对应的全部逻辑;
+3- 对于增水form与tySearch form 均加入了拖拽功能.
+![avatar](document/img/QQ20221026-153736@2x.png)

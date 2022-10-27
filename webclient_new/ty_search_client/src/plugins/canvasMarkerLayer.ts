@@ -1,4 +1,5 @@
 /* eslint-disable */
+
 // 本插件来自 http://eJuke.github.io/Leaflet.Canvas-Markers
 
 /*
@@ -20,12 +21,14 @@ import * as L from 'leaflet'
 const CanvasMarkerLayer = (L.Layer ? L.Layer : L.Class).extend({
 	// Add event listeners to initialized section.
 	initialize: function (options) {
+		// @ts-ignore
 		L.setOptions(this, options)
 		this._onClickListeners = []
 		this._onHoverListeners = []
 	},
 
 	setOptions: function (options) {
+		// @ts-ignore
 		L.setOptions(this, options)
 		return this.redraw()
 	},
