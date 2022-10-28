@@ -6,6 +6,8 @@ import abc
 import os
 import logging
 
+from typing import List
+
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.response import Response
@@ -260,9 +262,10 @@ class StationNameDictView(BaseView):
     '''
         todo:[*] 19-08-07 测站名称的字典视图
     '''
+
     def get(self, request):
         # 看前台是否传入了names，若未传入则代表获取全部的，大概率是这样
-       
+
         names = request.GET.get('names', '')
         dict_names = StationNameDict.objects()
         json_data = StationNameChDictSerializer(dict_names, many=True).data
@@ -915,6 +918,30 @@ class StationStatisticsDataView(APIView):
         max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
         max_val = max_deviation[1]
         return max_val, max_targetdate
+
+
+class AllStationExtremumDataView(StationStatisticsDataView):
+    '''
+        + 22-10-28 根据台风编号获取该过程的全部站点的极值情况
+    '''
+
+    def get(self, request: HttpRequest) -> HttpResponse:
+        ty_num: str = request.GET.get('num', None)
+        codes: List[str] = self.get_dist_station_codes(ty_num)
+        list_extremum: List[dict] = []
+        for temp_code in codes:
+            max_val, max_dt = self.getDeviationVals(ty_num, temp_code)
+            temp_extremum: dict = {
+                'station_code': temp_code,
+                'max_val': max_val,
+                'max_date': max_dt
+            }
+            list_extremum.append(temp_extremum)
+        return Response(list_extremum)
+
+    def get_dist_station_codes(self, num: str) -> List[str]:
+        codes = StationTideData.objects(typhoonnum=num).distinct('code')
+        return codes
 
 
 # 获取所有台风年份
