@@ -309,7 +309,7 @@ export default class MainMapView extends Vue {
 									}
 								}
 							}) => {
-								console.log(e.target.options.customData.forecastDt)
+								// console.log(e.target.options.customData.forecastDt)
 								this.currentTyCode = ty.code
 								this.currentTyName = ty.name
 								this.currentTyDateTime = e.target.options.customData.forecastDt
@@ -427,7 +427,7 @@ export default class MainMapView extends Vue {
 		})
 	}
 
-	/** 加载海洋站列表 */
+	/** 根据 tyCode,forecastDt 加载海洋站列表 */
 	@Watch('currentTyOpts')
 	onCurrentTyOpts(val: { currentTyNum; currentTyName; currentTyDateTime }): void {
 		// console.log(`监听到currentTy的参数发生变化:${val}`)

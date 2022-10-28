@@ -81,7 +81,7 @@ export default class TabContent extends Vue {
 		disabled: boolean
 	}> = [
 		{
-			title: '风暴增水',
+			title: '站点详情',
 			index: 0,
 			componetName: 'tide-chart',
 			isGroup: false,

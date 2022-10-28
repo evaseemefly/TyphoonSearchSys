@@ -251,6 +251,7 @@ class IconFormTitleStationSurgeMidModel implements IToHtml {
 	toHtml(): string {
 		const divHtml = `<div class="my-station-title-surge-div">
         <div class="station-title-div-title">${this.stationName}</div>
+		<div class="station-title-div-font font-shadow font-${this.getAlarmColor()}">${this.surge}</div>
         </div>`
 		return divHtml
 	}
