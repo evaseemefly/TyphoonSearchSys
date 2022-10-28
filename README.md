@@ -112,3 +112,5 @@
 1- 对于地图中显示的站点加入了逐时的增水surge值显示,并加入了对应的四色警戒
 ![avatar](document/img/v2_04.png)
 ![avatar](document/img/v2_05.png)
+2- 加入了根据当前台风`tyNum`获取该过程的所有站点的极值情况集合
+![avatar](document/img/v2_06.png)

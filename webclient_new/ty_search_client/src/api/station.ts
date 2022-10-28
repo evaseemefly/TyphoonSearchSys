@@ -23,4 +23,18 @@ const loadStationDetailDataList = (params: ITyphoonParams4Station) => {
 	})
 }
 
-export { loadStationDetailDataList }
+/**
+ * 根据 tyNum 获取该过程的海洋站极值集合
+ *
+ * @param tyNum 台风编号
+ * @returns
+ */
+const loadStationExtremumDataList = (tyNum: string) => {
+	const url = `${host}${area}/data/station/extremum/list/`
+	return axios.get(url, {
+		headers: authHeader(),
+		params: { num: tyNum },
+	})
+}
+
+export { loadStationDetailDataList, loadStationExtremumDataList }

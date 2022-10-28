@@ -6,15 +6,26 @@
 		</div>
 		<div class="layout-bottom"><SubNavMenuView></SubNavMenuView></div>
 		<div><StationTideFormView></StationTideFormView></div>
+		<StationExtremumListView :tyNum="tyNum"></StationExtremumListView>
 	</div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Getter, Mutation, State, namespace } from 'vuex-class'
+
 import MainNavMenuView from '@/components/nav/MainNavMenuView.vue'
 import SubNavMenuView from '@/components/nav/SubNavMenuView.vue'
 import MainMapView from '@/views/map/MapView.vue'
 import StationTideFormView from '@/components/form/stationTideForm.vue'
+import StationExtremumListView from '@/components/table/stationExtremumListView.vue'
+
+// mid model
+import { FilterTyMidModel } from '@/middle_model/typhoon'
+// store
+import { GET_CURRENT_TY } from '@/store/types'
+// 默认值
+import { DEFAULT_TY_NUM } from '@/const/default'
 
 @Component({
 	components: {
@@ -22,9 +33,21 @@ import StationTideFormView from '@/components/form/stationTideForm.vue'
 		SubNavMenuView,
 		MainMapView,
 		StationTideFormView,
+		StationExtremumListView,
 	},
 })
-export default class HomeView extends Vue {}
+export default class HomeView extends Vue {
+	@Getter(GET_CURRENT_TY, { namespace: 'typhoon' }) getCurrentTy
+
+	/** 当前台风编号 */
+	tyNum: string = DEFAULT_TY_NUM
+
+	/** 当前选中的台风 */
+	@Watch('getCurrentTy')
+	onCurrentTy(val: FilterTyMidModel): void {
+		this.tyNum = val.tyNum
+	}
+}
 </script>
 
 <style scoped lang="less">
