@@ -74,13 +74,18 @@ export default class TyphoonListView extends Vue {
 }
 </script>
 <style scoped lang="less">
+@import url('../../styles/base-form.less');
 #typhoon_search_list {
 	position: absolute;
 	top: 80px;
 	right: 50px;
 	width: 300px;
 	// height: 450px;
-	background-color: #20262cd9;
+	// background-color: #20262cd9;
+	// 统一的 shadow 效果
+	@form-base-shadow();
+	// 统一的边角半圆过渡
+	@form-base-radius();
 	z-index: 999;
 	max-height: 600px;
 	.form-header {

@@ -15,13 +15,11 @@ import {
 	GET_ISOSURGE_COLOR_SCALE_STR_LIST,
 	SET_DATE_STEP,
 	GET_DATE_STEP,
+	SET_SELECTED_LOOP,
+	GET_SELECTED_LOOP,
 } from '../types'
 
 import { DEFAULT_DATE_STEP } from '@/const/default'
-// export enum ProductType {
-//     oil = 0,
-//     rescue = 1
-// }
 
 interface Common {
 	scaleRange: number[]
@@ -30,11 +28,16 @@ interface Common {
 	isShowOptionsForm: boolean
 	scaleDesc: string
 	step: number
+	/**
+	 * @description 是否为选择圈选 t:进行圈选 ; f:未进行圈选
+	 * @author evaseemefly
+	 * @date 2022/10/30
+	 * @type {boolean}
+	 * @memberof Common
+	 */
+	isSelectedLoop: boolean
 }
 
-// const actions={
-
-// }
 const state: Common = {
 	scaleRange: [],
 	isShowOptionsForm: false,
@@ -42,6 +45,8 @@ const state: Common = {
 	isoSurgeScaleValRange: [],
 	scaleDesc: '',
 	step: DEFAULT_DATE_STEP,
+	/** 是否为选择圈选 t:进行圈选 ; f:未进行圈选 */
+	isSelectedLoop: false,
 }
 const getters = {
 	[GET_SCALE_RANGE](state: Common): number[] {
@@ -61,6 +66,9 @@ const getters = {
 	},
 	[GET_DATE_STEP](state: Common): number {
 		return state.step
+	},
+	[GET_SELECTED_LOOP](state: Common): boolean {
+		return state.isSelectedLoop
 	},
 }
 // 使用dispatch调用
@@ -84,6 +92,9 @@ const mutations = {
 	},
 	[SET_DATE_STEP](state: Common, val: number): void {
 		state.step = val
+	},
+	[SET_SELECTED_LOOP](state: Common, val: boolean): void {
+		state.isSelectedLoop = val
 	},
 }
 

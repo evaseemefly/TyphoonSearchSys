@@ -125,6 +125,11 @@ export const GET_TIMER_LOCK = 'GET_TIMER_LOCK'
 export const SET_AUTO_PLAY = 'SET_AUTO_PLAY'
 export const GET_AUTO_PLAY = 'GET_AUTO_PLAY'
 
+/** + 22-10-30 设置开启圈选范围 */
+export const SET_SELECTED_LOOP = 'SET_SELECTED_LOOP'
+/** + 22-10-30 获取开启圈选范围 */
+export const GET_SELECTED_LOOP = 'GET_SELECTED_LOOP'
+
 // ----------------
 // geo 相关
 export const SET_GEO_COVERAGEID = 'SET_GEO_COVERAGEID'

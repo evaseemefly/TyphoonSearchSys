@@ -1,28 +1,42 @@
 /* 搜救信息 form 中的 时间+区域的 样式 */
 .coverage_filter_form {
-    display: flex;
+	display: flex;
 }
 .coverage_filter_form .el-form-item {
-    flex: 6;
-    .elf-form-item__content {
-        width: 100%;
-    }
+	flex: 6;
+	.elf-form-item__content {
+		width: 100%;
+	}
 }
 
 // 条件搜索及查询form的阴影统一
 @card-box-shadow: {
-    box-shadow: 0 0 10px 0px black;
+	box-shadow: 0 0 10px 0px black;
 };
 
 // TODO:[-] 20-08-31 新加入的关于 form 的字体以及背景颜色
 @form-header-text-color: {
-    color: whitesmoke;
+	color: whitesmoke;
 };
 @form-header-background-color-start: {
-    background: #16a085;
+	background: #16a085;
 };
 @form-header-background-color-end: {
-    background-color: rgb(49, 159, 178);
+	background-color: rgb(49, 159, 178);
 };
 
+//默认的统一的 shadow form 效果: 阴影+透明+高斯模糊
+@form-base-shadow: {
+	box-shadow: 3px 6px 10px 0px black;
+	// background: linear-gradient(rgba(50, 157, 150, 0.685), rgba(49, 59, 89, 0.733));
+	background: linear-gradient(rgba(28, 34, 52, 0.733), rgba(49, 59, 89, 0.733));
+	backdrop-filter: blur(4px);
+}
 
+// 默认统一的 四角圆角边缘处理(注意是四个角)
+@form-base-radius: {
+    border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+}

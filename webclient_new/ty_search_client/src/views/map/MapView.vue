@@ -40,6 +40,7 @@
 				:color="boxOptions.background"
 				:fillColor="boxOptions.background"
 				:fillOpacity="boxOptions.backgroundOpacity"
+				:visible="getSelectLoop"
 			></LCircle>
 		</l-map>
 	</div>
@@ -177,9 +178,9 @@ export default class MainMapView extends Vue {
 	tempTyMarker: L.Marker<any> = null
 	/** 圈选选项 */
 	boxOptions = {
-		color: '#2ecc71',
+		color: '#1abc9c',
 		colorOpacity: 0.6,
-		background: '#2ecc71',
+		background: '#1abc9c',
 		backgroundOpacity: 0.7,
 	}
 
@@ -216,7 +217,7 @@ export default class MainMapView extends Vue {
 				// @ts-ignore
 				self.currentLatlng = e.latlng
 
-				console.log(`更新当前位置:lat:${e.latlng.lat},lng:${e.latlng.lng}`)
+				// console.log(`更新当前位置:lat:${e.latlng.lat},lng:${e.latlng.lng}`)
 				// console.log('被点击了')
 			})
 		} else {
