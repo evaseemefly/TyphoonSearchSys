@@ -17,6 +17,12 @@ import {
 	GET_DATE_STEP,
 	SET_SELECTED_LOOP,
 	GET_SELECTED_LOOP,
+	SET_SHOW_STATION_DETAIL_FORM,
+	SET_SHOW_STATION_EXTREMUM_FORM,
+	SET_SHOW_TY_SEARCH_FORM,
+	GET_SHOW_STATION_DETAIL_FORM,
+	GET__SHOW_STATION_EXTREMUM_FORM,
+	GET_SHOW_TY_SEARCH_FORM,
 } from '../types'
 
 import { DEFAULT_DATE_STEP } from '@/const/default'
@@ -36,6 +42,12 @@ interface Common {
 	 * @memberof Common
 	 */
 	isSelectedLoop: boolean
+	/** 是否显示台风检索详情窗口 */
+	isShowTySearchDetailForm: boolean
+	/** 是否显示海洋站增水详情窗口 */
+	isShowStationDetailForm: boolean
+	/** 是否显示台风过程海洋站极值窗口 */
+	isShowStationExtremumForm: boolean
 }
 
 const state: Common = {
@@ -47,6 +59,9 @@ const state: Common = {
 	step: DEFAULT_DATE_STEP,
 	/** 是否为选择圈选 t:进行圈选 ; f:未进行圈选 */
 	isSelectedLoop: false,
+	isShowTySearchDetailForm: false,
+	isShowStationDetailForm: false,
+	isShowStationExtremumForm: false,
 }
 const getters = {
 	[GET_SCALE_RANGE](state: Common): number[] {
@@ -69,6 +84,15 @@ const getters = {
 	},
 	[GET_SELECTED_LOOP](state: Common): boolean {
 		return state.isSelectedLoop
+	},
+	[GET_SHOW_TY_SEARCH_FORM](state: Common): boolean {
+		return state.isShowTySearchDetailForm
+	},
+	[GET__SHOW_STATION_EXTREMUM_FORM](state: Common): boolean {
+		return state.isShowStationExtremumForm
+	},
+	[GET_SHOW_STATION_DETAIL_FORM](state: Common): boolean {
+		return state.isShowStationDetailForm
 	},
 }
 // 使用dispatch调用
@@ -95,6 +119,15 @@ const mutations = {
 	},
 	[SET_SELECTED_LOOP](state: Common, val: boolean): void {
 		state.isSelectedLoop = val
+	},
+	[SET_SHOW_STATION_DETAIL_FORM](state: Common, val: boolean): void {
+		state.isShowStationDetailForm = val
+	},
+	[SET_SHOW_STATION_EXTREMUM_FORM](state: Common, val: boolean): void {
+		state.isShowStationExtremumForm = val
+	},
+	[SET_SHOW_TY_SEARCH_FORM](state: Common, val: boolean): void {
+		state.isShowTySearchDetailForm = val
 	},
 }
 
