@@ -21,7 +21,7 @@ import {
 	SET_SHOW_STATION_EXTREMUM_FORM,
 	SET_SHOW_TY_SEARCH_FORM,
 	GET_SHOW_STATION_DETAIL_FORM,
-	GET__SHOW_STATION_EXTREMUM_FORM,
+	GET_SHOW_STATION_EXTREMUM_FORM,
 	GET_SHOW_TY_SEARCH_FORM,
 } from '../types'
 
@@ -88,7 +88,7 @@ const getters = {
 	[GET_SHOW_TY_SEARCH_FORM](state: Common): boolean {
 		return state.isShowTySearchDetailForm
 	},
-	[GET__SHOW_STATION_EXTREMUM_FORM](state: Common): boolean {
+	[GET_SHOW_STATION_EXTREMUM_FORM](state: Common): boolean {
 		return state.isShowStationExtremumForm
 	},
 	[GET_SHOW_STATION_DETAIL_FORM](state: Common): boolean {

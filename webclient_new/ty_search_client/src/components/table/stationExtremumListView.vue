@@ -4,6 +4,7 @@
 		id="station_list"
 		v-loading="isLoading"
 		element-loading-background="loadBackground"
+		v-show="getIsShow"
 	>
 		<div class="form-header">
 			<h4>站点数量:</h4>
@@ -42,13 +43,15 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { DEFAULT_TY_NUM } from '@/const/default'
-
+// store
+import { GET_SHOW_STATION_EXTREMUM_FORM } from '@/store/types'
 // api
 import { loadStationExtremumDataList } from '@/api/station'
 // 接口
 import { IHttpResponse } from '@/interface/common'
 // 工具类
 import { fortmatData2MDHM, filterSurgeAlarmColor } from '@/util/filter'
+import { Getter } from 'vuex-class'
 /** 海洋站极值列表 */
 @Component({
 	filters: {
@@ -90,6 +93,14 @@ export default class StationExtremumListView extends Vue {
 	get getStationCode(): number {
 		return this.stationExtremumList.length
 	}
+
+	/** 是否显示当前窗口 条件:getShowForm */
+	get getIsShow(): boolean {
+		return this.getShowForm
+	}
+
+	/** store -> 是否显示fom t:显示 */
+	@Getter(GET_SHOW_STATION_EXTREMUM_FORM, { namespace: 'common' }) getShowForm
 }
 </script>
 <style scoped lang="less">
