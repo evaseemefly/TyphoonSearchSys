@@ -141,9 +141,10 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-from datetime import timezone,timedelta
-TZ_UTC_0=timezone(timedelta(hours=0))
-TZ_UTC_8=timezone(timedelta(hours=8))
+from datetime import timezone, timedelta
+
+TZ_UTC_0 = timezone(timedelta(hours=0))
+TZ_UTC_8 = timezone(timedelta(hours=8))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
@@ -169,13 +170,16 @@ DISASTER_PIC_PATH = r'/Users/liusihan/Documents/01project/TyphoonSearchSys/disas
 # SESSION_ENGINE = 'mongoengine.django.sessions'
 _MONGODB_USER = 'mongouser'
 _MONGODB_PASSWD = 'password'
-_MONGODB_HOST = 'thehost'
+_MONGODB_HOST = 'host.docker.internal'  # TODO:[*] 22-11-02 尝试使用 docker 作为项目解释器，连接宿主机的 mongo db
+_MONGODB_POST = 27017
 _MONGODB_NAME = 'typhoon'
 _MONGODB_DATABASE_HOST = \
     'mongodb://%s:%s@%s/%s' \
     % (_MONGODB_USER, _MONGODB_PASSWD, _MONGODB_HOST, _MONGODB_NAME)
 
 # mongoengine.connect(_MONGODB_NAME, host=_MONGODB_DATABASE_HOST)
-mongoengine.connect(_MONGODB_NAME)
+# mongoengine.connect(_MONGODB_NAME)
+# todo:[*] 22-11-02 尝试加入 docker 作为 python 解释器，访问宿主机的 mongo 服务
+mongoengine.connect(_MONGODB_NAME, host=_MONGODB_HOST, port=_MONGODB_POST)
 # 线上配置
 # mongoengine.connect('typhoon',host="db")
