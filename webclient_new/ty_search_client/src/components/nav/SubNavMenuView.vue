@@ -67,6 +67,7 @@ import {
 	GET_CURRENT_TY_FORECAST_DT,
 	SET_CURRENT_TY_FORECAST_DT,
 	GET_DATE_STEP,
+	SET_SELECTED_LOOP,
 } from '@/store/types'
 // 默认常量
 import {
@@ -185,6 +186,9 @@ export default class SubNavMenuView extends Vue {
 
 	/** 设置当前台风预报时间 */
 	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt
+
+	/** 设置 选中圈选 */
+	// @Mutation(SET_SELECTED_LOOP, { namespace: 'common' }) setSelectedLoop
 
 	@Watch('getTyForecastDt')
 	onTyForecast(val: Date): void {

@@ -4,11 +4,12 @@
 		id="station_list"
 		v-loading="isLoading"
 		element-loading-background="loadBackground"
+		v-show="getIsShow"
 	>
 		<div class="form-header">
 			<h4>站点数量:</h4>
 			<!-- <div class="primary-title"></div> -->
-			<span>{{ stationCount }}</span>
+			<span>{{ getStationCode }}</span>
 			<!-- <div class="desc"></div> -->
 		</div>
 		<section>
@@ -28,7 +29,9 @@
 						:class="index == selectedTrIndex ? 'activate' : ' '"
 					>
 						<td>{{ stationTemp.stationName }}</td>
-						<td>{{ stationTemp.surge }}</td>
+						<td :class="stationTemp.surge | filterSurgeAlarmColor">
+							{{ stationTemp.surge }}
+						</td>
 						<td>{{ stationTemp.dt | fortmatData2MDHM }}</td>
 					</tr>
 				</tbody>
@@ -40,17 +43,20 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { DEFAULT_TY_NUM } from '@/const/default'
-
+// store
+import { GET_SHOW_STATION_EXTREMUM_FORM } from '@/store/types'
 // api
 import { loadStationExtremumDataList } from '@/api/station'
 // 接口
 import { IHttpResponse } from '@/interface/common'
 // 工具类
-import { fortmatData2MDHM } from '@/util/filter'
+import { fortmatData2MDHM, filterSurgeAlarmColor } from '@/util/filter'
+import { Getter } from 'vuex-class'
 /** 海洋站极值列表 */
 @Component({
 	filters: {
 		fortmatData2MDHM,
+		filterSurgeAlarmColor,
 	},
 })
 export default class StationExtremumListView extends Vue {
@@ -83,16 +89,33 @@ export default class StationExtremumListView extends Vue {
 			}
 		)
 	}
+
+	get getStationCode(): number {
+		return this.stationExtremumList.length
+	}
+
+	/** 是否显示当前窗口 条件:getShowForm */
+	get getIsShow(): boolean {
+		return this.getShowForm
+	}
+
+	/** store -> 是否显示fom t:显示 */
+	@Getter(GET_SHOW_STATION_EXTREMUM_FORM, { namespace: 'common' }) getShowForm
 }
 </script>
 <style scoped lang="less">
+@import url('../../styles/base-form.less');
 #station_list {
+	// 统一的 shadow 效果
+	@form-base-shadow();
+	// 统一的边角半圆过渡
+	@form-base-radius();
 	position: absolute;
 	top: 80px;
 	right: 450px;
 	width: 300px;
 	// height: 450px;
-	background-color: #20262cd9;
+	// background-color: #20262cd9;
 	z-index: 999;
 	max-height: 600px;
 	.form-header {

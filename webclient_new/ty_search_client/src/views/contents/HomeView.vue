@@ -7,6 +7,7 @@
 		<div class="layout-bottom"><SubNavMenuView></SubNavMenuView></div>
 		<div><StationTideFormView></StationTideFormView></div>
 		<StationExtremumListView :tyNum="tyNum"></StationExtremumListView>
+		<ThumbListView></ThumbListView>
 	</div>
 </template>
 
@@ -19,7 +20,7 @@ import SubNavMenuView from '@/components/nav/SubNavMenuView.vue'
 import MainMapView from '@/views/map/MapView.vue'
 import StationTideFormView from '@/components/form/stationTideForm.vue'
 import StationExtremumListView from '@/components/table/stationExtremumListView.vue'
-
+import ThumbListView from '@/components/thumbs/thumbListView.vue'
 // mid model
 import { FilterTyMidModel } from '@/middle_model/typhoon'
 // store
@@ -34,6 +35,7 @@ import { DEFAULT_TY_NUM } from '@/const/default'
 		MainMapView,
 		StationTideFormView,
 		StationExtremumListView,
+		ThumbListView,
 	},
 })
 export default class HomeView extends Vue {

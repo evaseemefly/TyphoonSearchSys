@@ -114,3 +114,8 @@
 ![avatar](document/img/v2_05.png)
 2- 加入了根据当前台风`tyNum`获取该过程的所有站点的极值情况集合
 ![avatar](document/img/v2_06.png)
+
+#### 22-11-01  
+1- 加入了隐藏的关联操作  
+![avatar](document/img/v2_08.png)  
+2- 极值显示列表中加入了对应的四色  

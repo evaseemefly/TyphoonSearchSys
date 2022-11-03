@@ -15,13 +15,17 @@ import {
 	GET_ISOSURGE_COLOR_SCALE_STR_LIST,
 	SET_DATE_STEP,
 	GET_DATE_STEP,
+	SET_SELECTED_LOOP,
+	GET_SELECTED_LOOP,
+	SET_SHOW_STATION_DETAIL_FORM,
+	SET_SHOW_STATION_EXTREMUM_FORM,
+	SET_SHOW_TY_SEARCH_FORM,
+	GET_SHOW_STATION_DETAIL_FORM,
+	GET_SHOW_STATION_EXTREMUM_FORM,
+	GET_SHOW_TY_SEARCH_FORM,
 } from '../types'
 
 import { DEFAULT_DATE_STEP } from '@/const/default'
-// export enum ProductType {
-//     oil = 0,
-//     rescue = 1
-// }
 
 interface Common {
 	scaleRange: number[]
@@ -30,11 +34,22 @@ interface Common {
 	isShowOptionsForm: boolean
 	scaleDesc: string
 	step: number
+	/**
+	 * @description 是否为选择圈选 t:进行圈选 ; f:未进行圈选
+	 * @author evaseemefly
+	 * @date 2022/10/30
+	 * @type {boolean}
+	 * @memberof Common
+	 */
+	isSelectedLoop: boolean
+	/** 是否显示台风检索详情窗口 */
+	isShowTySearchDetailForm: boolean
+	/** 是否显示海洋站增水详情窗口 */
+	isShowStationDetailForm: boolean
+	/** 是否显示台风过程海洋站极值窗口 */
+	isShowStationExtremumForm: boolean
 }
 
-// const actions={
-
-// }
 const state: Common = {
 	scaleRange: [],
 	isShowOptionsForm: false,
@@ -42,6 +57,11 @@ const state: Common = {
 	isoSurgeScaleValRange: [],
 	scaleDesc: '',
 	step: DEFAULT_DATE_STEP,
+	/** 是否为选择圈选 t:进行圈选 ; f:未进行圈选 */
+	isSelectedLoop: false,
+	isShowTySearchDetailForm: false,
+	isShowStationDetailForm: false,
+	isShowStationExtremumForm: false,
 }
 const getters = {
 	[GET_SCALE_RANGE](state: Common): number[] {
@@ -61,6 +81,18 @@ const getters = {
 	},
 	[GET_DATE_STEP](state: Common): number {
 		return state.step
+	},
+	[GET_SELECTED_LOOP](state: Common): boolean {
+		return state.isSelectedLoop
+	},
+	[GET_SHOW_TY_SEARCH_FORM](state: Common): boolean {
+		return state.isShowTySearchDetailForm
+	},
+	[GET_SHOW_STATION_EXTREMUM_FORM](state: Common): boolean {
+		return state.isShowStationExtremumForm
+	},
+	[GET_SHOW_STATION_DETAIL_FORM](state: Common): boolean {
+		return state.isShowStationDetailForm
 	},
 }
 // 使用dispatch调用
@@ -84,6 +116,18 @@ const mutations = {
 	},
 	[SET_DATE_STEP](state: Common, val: number): void {
 		state.step = val
+	},
+	[SET_SELECTED_LOOP](state: Common, val: boolean): void {
+		state.isSelectedLoop = val
+	},
+	[SET_SHOW_STATION_DETAIL_FORM](state: Common, val: boolean): void {
+		state.isShowStationDetailForm = val
+	},
+	[SET_SHOW_STATION_EXTREMUM_FORM](state: Common, val: boolean): void {
+		state.isShowStationExtremumForm = val
+	},
+	[SET_SHOW_TY_SEARCH_FORM](state: Common, val: boolean): void {
+		state.isShowTySearchDetailForm = val
 	},
 }
 

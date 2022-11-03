@@ -8,8 +8,6 @@
 // export const host = 'http://128.5.10.21:8000'
 // 22-06-05 尝试加入家中 5820 发布服务的配置
 // export const host = 'http://192.168.50.86:8082'
-// export const host = 'http://192.168.50.86:8082'
-// export const host = 'http://192.168.0.105:8000'
 // 单位本地测试
 export const host = 'http://192.168.0.105:8000'
 

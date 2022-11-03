@@ -157,16 +157,38 @@ const formatTyLevel2Cls = (val: string): string => {
 	return tyName
 }
 
-// const getAlertDis(item:{stationName: string;
-//   stationCode: string;
-//   id: number;
-//   surgeList: { forecastDt: Date; surge: number }[];
-//   blue: number;
-//   yellow: number;
-//   orgin: number;
-//   red: number;}):number{
-//     return
-//   }
+/**
+ * @description 根据 surge 数值获取对应的 color str
+ * 此处标准与 middle_model/station.ts -> IconFormStationDetialedMidModel.getAlarmColor 一致
+ * @author evaseemefly
+ * @date 2022/10/30
+ * @param {number} val
+ * @returns {*}  {string}
+ */
+const filterSurgeAlarmColor = (val: number): string => {
+	const surge = val
+	let colorStr = ''
+	switch (true) {
+		case surge <= 100:
+			colorStr = 'green'
+			break
+		case surge <= 150:
+			colorStr = 'blue'
+			break
+		case surge <= 200:
+			colorStr = 'yellow'
+			break
+		case surge <= 250:
+			colorStr = 'orange'
+			break
+		case surge > 250:
+			colorStr = 'red'
+			break
+		default:
+			break
+	}
+	return colorStr
+}
 
 export {
 	fortmatData2YMDHM,
@@ -179,4 +201,5 @@ export {
 	formatTyLevel2Str,
 	formatTyLevel2Cls,
 	fortmatData2MDHM,
+	filterSurgeAlarmColor,
 }

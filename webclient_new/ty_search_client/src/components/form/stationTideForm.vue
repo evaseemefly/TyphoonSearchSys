@@ -44,7 +44,7 @@ import {
 	DEFAULT_TY_CODE,
 	DEFAULT_TY_NUM,
 } from '@/const/default'
-import { GET_COMPLEX_OPTS_CURRENT_STATION } from '@/store/types'
+import { GET_COMPLEX_OPTS_CURRENT_STATION, GET_SHOW_STATION_DETAIL_FORM } from '@/store/types'
 import TideChartView from '@/components/charts/tideChartsFormView.vue'
 // 工具类
 import { stickyTopic, reduceTopic } from '@/util/styleUtil'
@@ -107,7 +107,7 @@ export default class TabContent extends Vue {
 	isGroup = false
 
 	get getIsShow(): boolean {
-		return !(this.stationName === DEFAULT_STATION_NAME)
+		return !(this.stationName === DEFAULT_STATION_NAME) || this.getShowStationForm
 	}
 	mounted() {
 		const that = this
@@ -193,6 +193,10 @@ export default class TabContent extends Vue {
 	/** 获取当前选中的海洋站的 opts */
 	@Getter(GET_COMPLEX_OPTS_CURRENT_STATION, { namespace: 'complex' })
 	getterComplexOptsCurrentStation: { tyNum: string; tyCode: string; stationName: string }
+
+	/** 是否显示窗口 t:显示 */
+	@Getter(GET_SHOW_STATION_DETAIL_FORM, { namespace: 'common' })
+	getShowStationForm: boolean
 
 	@Watch('getterComplexOptsCurrentStation')
 	onCurrentStationOpts(val: { tyNum: string; tyCode: string; stationName: string }): void {

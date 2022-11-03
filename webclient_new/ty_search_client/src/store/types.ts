@@ -125,6 +125,11 @@ export const GET_TIMER_LOCK = 'GET_TIMER_LOCK'
 export const SET_AUTO_PLAY = 'SET_AUTO_PLAY'
 export const GET_AUTO_PLAY = 'GET_AUTO_PLAY'
 
+/** + 22-10-30 设置开启圈选范围 */
+export const SET_SELECTED_LOOP = 'SET_SELECTED_LOOP'
+/** + 22-10-30 获取开启圈选范围 */
+export const GET_SELECTED_LOOP = 'GET_SELECTED_LOOP'
+
 // ----------------
 // geo 相关
 export const SET_GEO_COVERAGEID = 'SET_GEO_COVERAGEID'
@@ -156,6 +161,21 @@ export const GET_TY_GROUP_PATH_LATERS_OPTS = 'GET_TY_GROUP_PATH_OPTS'
 // common
 export const SET_SHOW_OPTS_FORM = 'SET_SHOW_OPTS_FORM'
 export const GET_SHOW_OPTS_FORM = 'GET_SHOW_OPTS_FORM'
+
+/** 设置 显示台风搜索窗口 */
+export const SET_SHOW_TY_SEARCH_FORM = 'SET_SHOW_TY_SEARCH_FORM'
+/** 获取 显示台风搜索窗口 */
+export const GET_SHOW_TY_SEARCH_FORM = 'GET_SHOW_TY_SEARCH_FORM'
+
+/** 设置 显示海洋站过程极致窗口 */
+export const SET_SHOW_STATION_EXTREMUM_FORM = 'SET_SHOW_STATION_EXTREMUM_FORM'
+/** 获取 显示海洋站过程极致窗口 */
+export const GET_SHOW_STATION_EXTREMUM_FORM = 'GET_SHOW_STATION_EXTREMUM_FORM'
+
+/** 设置 显示海洋站风暴增水详情窗口 */
+export const SET_SHOW_STATION_DETAIL_FORM = 'SET_SHOW_STATION_DETAIL_FORM'
+/** 获取 显示海洋站风暴增水详情窗口 */
+export const GET_SHOW_STATION_DETAIL_FORM = 'GET_SHOW_STATION_DETAIL_FORM'
 
 // + 22-03-28 STATION
 export const SET_SHOW_STATION_ICON = 'SET_SHOW_STATION_ICON'

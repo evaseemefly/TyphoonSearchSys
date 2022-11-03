@@ -40,6 +40,7 @@
 				:color="boxOptions.background"
 				:fillColor="boxOptions.background"
 				:fillOpacity="boxOptions.backgroundOpacity"
+				:visible="getSelectLoop"
 			></LCircle>
 		</l-map>
 	</div>
@@ -149,9 +150,9 @@ import station from '@/store/modules/station'
 export default class MainMapView extends Vue {
 	zoom = 7
 	center: number[] = [22.45, 113.8833]
-	// url =
-	// 	'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}'
-	url = 'http://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png'
+	url =
+		'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}'
+	// url = 'http://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png'
 	// TODO:[-] 20-11-09 新加入的 map 相关的一些基础静态配置
 	mapOptions: { preferCanvas: boolean; minZoom: number; maxZoom: number; render: any } = {
 		preferCanvas: true,
@@ -177,9 +178,9 @@ export default class MainMapView extends Vue {
 	tempTyMarker: L.Marker<any> = null
 	/** 圈选选项 */
 	boxOptions = {
-		color: '#2ecc71',
+		color: '#1abc9c',
 		colorOpacity: 0.6,
-		background: '#2ecc71',
+		background: '#1abc9c',
 		backgroundOpacity: 0.7,
 	}
 
@@ -216,7 +217,7 @@ export default class MainMapView extends Vue {
 				// @ts-ignore
 				self.currentLatlng = e.latlng
 
-				console.log(`更新当前位置:lat:${e.latlng.lat},lng:${e.latlng.lng}`)
+				// console.log(`更新当前位置:lat:${e.latlng.lat},lng:${e.latlng.lng}`)
 				// console.log('被点击了')
 			})
 		} else {

@@ -4,6 +4,7 @@
 		id="typhoon_search_list"
 		v-loading="isLoading"
 		element-loading-background="loadBackground"
+		v-show="getIsShow"
 	>
 		<div class="form-header">
 			<h4>匹配台风数量:</h4>
@@ -46,7 +47,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
 import { FilterTyMidModel } from '@/middle_model/typhoon'
 // store
-import { SET_CURRENT_TY } from '@/store/types'
+import { SET_CURRENT_TY, GET_SHOW_TY_SEARCH_FORM } from '@/store/types'
 @Component({})
 export default class TyphoonListView extends Vue {
 	// typhoonList: { code: string; name: string; tyNum: string; year: string }[] = [
@@ -70,17 +71,28 @@ export default class TyphoonListView extends Vue {
 		this.selectedTrIndex = index
 	}
 
+	get getIsShow(): boolean {
+		return this.getShowForm
+	}
+
 	@Mutation(SET_CURRENT_TY, { namespace: 'typhoon' }) setCurrentTy
+
+	@Getter(GET_SHOW_TY_SEARCH_FORM, { namespace: 'common' }) getShowForm
 }
 </script>
 <style scoped lang="less">
+@import url('../../styles/base-form.less');
 #typhoon_search_list {
 	position: absolute;
 	top: 80px;
 	right: 50px;
 	width: 300px;
 	// height: 450px;
-	background-color: #20262cd9;
+	// background-color: #20262cd9;
+	// 统一的 shadow 效果
+	@form-base-shadow();
+	// 统一的边角半圆过渡
+	@form-base-radius();
 	z-index: 999;
 	max-height: 600px;
 	.form-header {
