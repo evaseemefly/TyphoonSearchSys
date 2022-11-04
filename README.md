@@ -19,6 +19,8 @@
 [进度](/webclient/document/SCHEDULE.md)
 [相关问题收集](/webclient/document/ISSUE.md)
 [规约](/PROMISE.md)
+- 22-11-04 新加入的工程化文档  
+  - [工程化](/ENGINEERING.md)--具体记录详见(onenote-6-服务器部署)
 
 [部分自己总结的知识点请见](https://github.com/evaseemefly/CodingBook/blob/417c6fb1860c6b5fd77e8a77da1c45d44f3793da/README.md) 以后均汇总至此
 
