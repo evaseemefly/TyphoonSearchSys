@@ -1,0 +1,27 @@
+version: "2.2"
+
+services:
+  django-server:
+    build:
+      context: .
+      dockerfile: ./dockerfiles/django_server_file
+    image: ty_search_mongo:1.5
+    container_name: ty_search_django_sever
+    working_dir: /code
+    command: python3 ./manage.py runserver 0.0.0.0:8000
+    volumes: # 挂载本地盘
+      - /home/nmefc/proj/ty_search_mongo_server/log:/log # 日志
+      - /home/nmefc/proj/ty_search_mongo_server/codes:/code # 实际项目代码
+    ports:
+      - "8084:8000" # 宿主机:docker 端口映射
+    depends_on:
+      - mongo
+    tty: true # 第一次上线测试时加入，去掉上面的 command，手动进入容器后方便查看问题
+
+  mongo:
+    container_name: mongo
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - /home/nmefc/dbs:/data/db

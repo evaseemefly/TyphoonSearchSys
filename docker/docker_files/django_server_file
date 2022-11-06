@@ -1,0 +1,14 @@
+# 当前的 docker images
+FROM ty_search_mongo:1.5 
+
+ENV PYTHONUNBUFFERED 1
+
+# 1- 根目录下创建 /code 目录
+RUN mkdir -p /code
+
+# 2- 将 /code 设置为工作目录
+WORKDIR /code
+
+# 3- 将本地目录下的文件全部拷贝至容器 /code 中
+# TODO:[-] 21-10-11 注意也可以忽略，最好不要拷贝 orm 生成的 migration 的文件
+COPY /home/nmefc/proj/ty_search_mongo_server/codes /code/

@@ -1,0 +1,13 @@
+version: '2.0' #版本号
+services: 
+  nginx:
+    restart: always 
+    image: daocloud.io/library/nginx:1.19.2 #镜像地址
+    container_name: nginx #容器名
+    ports:
+      - 82:82 # 静态文件的访问端口
+      - 8080:8080 # vue 的访问端口
+    volumes:  #数据卷映射地址
+      # 线上环境
+      - /home/nmefc/docker_share/nginx/conf:/etc/nginx/conf.d
+      - /home/nmefc/proj/ty_search_mongo_client/dist:/dist  # 历史台风路径查询 dist

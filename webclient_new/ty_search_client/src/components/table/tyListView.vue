@@ -4,6 +4,7 @@
 		id="typhoon_search_list"
 		v-loading="isLoading"
 		element-loading-background="loadBackground"
+		v-show="getIsShow"
 	>
 		<div class="form-header">
 			<h4>匹配台风数量:</h4>
@@ -46,7 +47,9 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
 import { FilterTyMidModel } from '@/middle_model/typhoon'
 // store
-import { SET_CURRENT_TY } from '@/store/types'
+import { SET_CURRENT_TY, GET_SHOW_TY_SEARCH_FORM } from '@/store/types'
+// enum
+import { IExpandEnum } from '@/enum/common'
 @Component({})
 export default class TyphoonListView extends Vue {
 	// typhoonList: { code: string; name: string; tyNum: string; year: string }[] = [
@@ -70,7 +73,26 @@ export default class TyphoonListView extends Vue {
 		this.selectedTrIndex = index
 	}
 
+	get getIsShow(): boolean {
+		let isShow = false
+		switch (this.getShowForm) {
+			case IExpandEnum.UN_EXPANDED:
+				isShow = false
+				break
+			case IExpandEnum.EXPANDED:
+				isShow = true
+				break
+			case IExpandEnum.UN_SELECTED:
+				isShow = this.filterTyCount !== 0
+				break
+		}
+		return isShow
+	}
+
 	@Mutation(SET_CURRENT_TY, { namespace: 'typhoon' }) setCurrentTy
+
+	/** 获取当前窗口是否展开的状态 */
+	@Getter(GET_SHOW_TY_SEARCH_FORM, { namespace: 'common' }) getShowForm: IExpandEnum
 }
 </script>
 <style scoped lang="less">

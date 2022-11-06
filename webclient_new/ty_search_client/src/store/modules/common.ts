@@ -21,11 +21,12 @@ import {
 	SET_SHOW_STATION_EXTREMUM_FORM,
 	SET_SHOW_TY_SEARCH_FORM,
 	GET_SHOW_STATION_DETAIL_FORM,
-	GET__SHOW_STATION_EXTREMUM_FORM,
+	GET_SHOW_STATION_EXTREMUM_FORM,
 	GET_SHOW_TY_SEARCH_FORM,
 } from '../types'
 
 import { DEFAULT_DATE_STEP } from '@/const/default'
+import { IExpandEnum } from '@/enum/common'
 
 interface Common {
 	scaleRange: number[]
@@ -43,11 +44,11 @@ interface Common {
 	 */
 	isSelectedLoop: boolean
 	/** 是否显示台风检索详情窗口 */
-	isShowTySearchDetailForm: boolean
+	isShowTySearchDetailForm: IExpandEnum
 	/** 是否显示海洋站增水详情窗口 */
-	isShowStationDetailForm: boolean
+	isShowStationDetailForm: IExpandEnum
 	/** 是否显示台风过程海洋站极值窗口 */
-	isShowStationExtremumForm: boolean
+	isShowStationExtremumForm: IExpandEnum
 }
 
 const state: Common = {
@@ -59,9 +60,9 @@ const state: Common = {
 	step: DEFAULT_DATE_STEP,
 	/** 是否为选择圈选 t:进行圈选 ; f:未进行圈选 */
 	isSelectedLoop: false,
-	isShowTySearchDetailForm: false,
-	isShowStationDetailForm: false,
-	isShowStationExtremumForm: false,
+	isShowTySearchDetailForm: IExpandEnum.UN_SELECTED,
+	isShowStationDetailForm: IExpandEnum.UN_SELECTED,
+	isShowStationExtremumForm: IExpandEnum.UN_SELECTED,
 }
 const getters = {
 	[GET_SCALE_RANGE](state: Common): number[] {
@@ -85,13 +86,13 @@ const getters = {
 	[GET_SELECTED_LOOP](state: Common): boolean {
 		return state.isSelectedLoop
 	},
-	[GET_SHOW_TY_SEARCH_FORM](state: Common): boolean {
+	[GET_SHOW_TY_SEARCH_FORM](state: Common): IExpandEnum {
 		return state.isShowTySearchDetailForm
 	},
-	[GET__SHOW_STATION_EXTREMUM_FORM](state: Common): boolean {
+	[GET_SHOW_STATION_EXTREMUM_FORM](state: Common): IExpandEnum {
 		return state.isShowStationExtremumForm
 	},
-	[GET_SHOW_STATION_DETAIL_FORM](state: Common): boolean {
+	[GET_SHOW_STATION_DETAIL_FORM](state: Common): IExpandEnum {
 		return state.isShowStationDetailForm
 	},
 }
@@ -120,13 +121,13 @@ const mutations = {
 	[SET_SELECTED_LOOP](state: Common, val: boolean): void {
 		state.isSelectedLoop = val
 	},
-	[SET_SHOW_STATION_DETAIL_FORM](state: Common, val: boolean): void {
+	[SET_SHOW_STATION_DETAIL_FORM](state: Common, val: IExpandEnum): void {
 		state.isShowStationDetailForm = val
 	},
-	[SET_SHOW_STATION_EXTREMUM_FORM](state: Common, val: boolean): void {
+	[SET_SHOW_STATION_EXTREMUM_FORM](state: Common, val: IExpandEnum): void {
 		state.isShowStationExtremumForm = val
 	},
-	[SET_SHOW_TY_SEARCH_FORM](state: Common, val: boolean): void {
+	[SET_SHOW_TY_SEARCH_FORM](state: Common, val: IExpandEnum): void {
 		state.isShowTySearchDetailForm = val
 	},
 }
