@@ -31,7 +31,7 @@
 				></div> -->
 				<!-- <i class="nav_item_icon fa-solid fa-anchor-circle-check"></i> -->
 			</div>
-			<div class="nav_item_icon">
+			<div class="nav_item_icon" @click="deepClear()">
 				<div class="nav_item_icon fa-solid fa-eraser"></div>
 			</div>
 			<div class="nav_item_icon" @click="submit()">
@@ -55,6 +55,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
+
 import SubNavTimeItem from '@/components/nav/subItems/SubNavTimeItem.vue'
 import TyphoonListView from '@/components/table/tyListView.vue'
 //
@@ -67,6 +68,7 @@ import {
 	GET_CURRENT_TY_FORECAST_DT,
 	SET_CURRENT_TY_FORECAST_DT,
 	GET_DATE_STEP,
+	SET_CURRENT_TY,
 	SET_SELECTED_LOOP,
 } from '@/store/types'
 // 默认常量
@@ -118,6 +120,7 @@ export default class SubNavMenuView extends Vue {
 	onBoxRadius(val: number): void {
 		this.setBoxLoopRadius(val)
 	}
+
 	submit(): void {
 		const data: { boxLoopLatlng: L.LatLng; boxRadius: number } = {
 			boxLoopLatlng: this.getBoxLoopLatlng,
@@ -166,6 +169,11 @@ export default class SubNavMenuView extends Vue {
 		// console.log(data)
 	}
 
+	/** 清理当前的圈选范围以及当前选中的台风 */
+	deepClear(): void {
+		this.setCurrentTy(null)
+	}
+
 	/** 更新当前的 预报时刻  */
 	updateForecastDt(val: Date): void {
 		this.forecastDt = val
@@ -186,6 +194,10 @@ export default class SubNavMenuView extends Vue {
 
 	/** 设置当前台风预报时间 */
 	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt
+
+	/** 设置当前选中的台风 */
+	@Mutation(SET_CURRENT_TY, { namespace: 'typhoon' })
+	setCurrentTy: { (val: FilterTyMidModel): void }
 
 	/** 设置 选中圈选 */
 	// @Mutation(SET_SELECTED_LOOP, { namespace: 'common' }) setSelectedLoop

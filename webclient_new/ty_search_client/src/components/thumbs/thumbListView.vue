@@ -23,7 +23,7 @@ export default class ThumbListView extends Vue {}
 .thumb-list {
 	display: flex;
 	position: absolute;
-	top: 50px;
+	top: 0px;
 	left: 100px;
 	z-index: 9999;
 }

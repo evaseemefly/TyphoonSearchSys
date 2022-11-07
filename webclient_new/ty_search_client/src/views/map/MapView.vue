@@ -193,11 +193,15 @@ export default class MainMapView extends Vue {
 	/** 当前台风的 cma 台风路径 */
 	currentTyCMAPathList: ITyPath[] = []
 
+	tyCMAGroupLayersId: number = DEFAULT_LAYER_ID
+
 	/** 当前选定的海洋站 name (en) */
 	currentStationName: string = DEFAULT_STATION_NAME
 
 	/** 当前时刻的台风所在位置脉冲 icon marker */
 	currentTyPulsingMarker: L.Marker = null
+
+	currentTyPulsingMarkerId: number = DEFAULT_LAYER_ID
 
 	stationLayerGroupIds: number[] = []
 
@@ -245,6 +249,7 @@ export default class MainMapView extends Vue {
 		const mymap: any = this.$refs.basemap['mapObject']
 		const self = this
 		if (ty !== null) {
+			this.clearAllLayersByTy()
 			const code = ty.code
 			const tyNum = ty.tyNum
 			loadTyRealDataList(code, tyNum).then(
@@ -285,12 +290,13 @@ export default class MainMapView extends Vue {
 							)
 						})
 						// 将 mongo ty list -> cma path line
-						// 通用的台风路径
+						/** 通用的台风路径 */
 						const tyCMAPathList =
 							convertTyRealDataMongo2TyCMAPathLine(tyRealDataMongoList)
 						self.currentTyCMAPathList = tyCMAPathList
 						// 将转换为 cma 的台风 list add 2 map
 						// 添加至地图中
+						/** 台风路径  */
 						const cmaPathLine = new TyCMAPathLine(mymap, tyCMAPathList)
 
 						// TODO:[*] 22-05-30 注意此处修改尝试使用 canvas 渲染路径中心点(png)
@@ -302,6 +308,7 @@ export default class MainMapView extends Vue {
 							dateStep = moment(second).hours() - moment(first).hours()
 						}
 						this.setDateStep(dateStep)
+						/** 台风路径 layer */
 						const cmaPathLineLayer = cmaPathLine.add2Map({
 							onClick: (e: {
 								target: {
@@ -360,15 +367,45 @@ export default class MainMapView extends Vue {
 								self.tempTyMarker = null
 							},
 						})
-						// cmaPathLine.add2MapByCanvas()
+						// @ts-ignore
+						self.tyCMAGroupLayersId = cmaPathLineLayer._leaflet_id
+
 						const lastTyLatlng = cmaPathLine.getlastTyLatlng()
 						if (lastTyLatlng) {
 							this.center = [lastTyLatlng.lat, lastTyLatlng.lng]
 						}
-						// console.log(tyCMAPathList)
 					}
 				}
 			)
+		}
+	}
+
+	/** 清除当前的台风的全部layer */
+	clearAllLayersByTy(): void {
+		// 1- 清除当前台风路径 group layer
+		// @ts-ignore
+		this.clearLayerById(this.tyCMAGroupLayersId)
+		// 2- 清除当前台风当前时刻对应的海洋站 group layers
+		this.clearAllStationGroupLayers()
+		// 3- 清除当前台风的脉冲 layer
+		this.clearTyPulsingIconLayer()
+	}
+
+	/** 清除当前所有海洋站的 group layer */
+	clearAllStationGroupLayers(): void {
+		const self = this
+		// this.clearLayersByIds(self.stationLayerGroupIds)
+		this.stationLayerGroupIds.forEach((tempid) => {
+			// @ts-ignore
+			self.clearLayerById(tempid)
+		})
+	}
+
+	/** 清除当前的台风脉冲 layer */
+	clearTyPulsingIconLayer(): void {
+		if (this.currentTyPulsingMarker !== null) {
+			const mymap: L.Map = this.$refs.basemap['mapObject']
+			mymap.removeLayer(this.currentTyPulsingMarker)
 		}
 	}
 
@@ -438,12 +475,7 @@ export default class MainMapView extends Vue {
 		const SURGE_MAX = 300
 		let layerGroupIds: number[] = []
 		this.setTyForecastDt(val.currentTyDateTime)
-		// @ts-ignore
-		// this.clearLayersByIds(self.stationLayerGroupIds)
-		self.stationLayerGroupIds.forEach((tempid) => {
-			// @ts-ignore
-			self.clearLayerById(tempid)
-		})
+		this.clearAllStationGroupLayers()
 		loadStationTideDataList({
 			num: val.currentTyNum,
 			name: val.currentTyName,
@@ -522,9 +554,8 @@ export default class MainMapView extends Vue {
 	/** + 22-10-24 加载 targetDt 的台风脉冲 icon 2 map */
 	addTargetDateTyIcon2Map(targetDt: Date): void {
 		const mymap: L.Map = this.$refs.basemap['mapObject']
-		if (this.currentTyPulsingMarker !== null) {
-			mymap.removeLayer(this.currentTyPulsingMarker)
-		}
+		// 清除当前台风的脉冲 layer
+		this.clearTyPulsingIconLayer()
 		/** 当前时刻对应的 ITyPath */
 		let targetTy: ITyPath = null
 		/** 一小时换算成毫秒 */

@@ -8,6 +8,7 @@
 		<div><StationTideFormView></StationTideFormView></div>
 		<StationExtremumListView :tyNum="tyNum"></StationExtremumListView>
 		<ThumbListView></ThumbListView>
+		<HeaderLogoView title="历史台风风暴潮查询系统"></HeaderLogoView>
 	</div>
 </template>
 
@@ -21,6 +22,7 @@ import MainMapView from '@/views/map/MapView.vue'
 import StationTideFormView from '@/components/form/stationTideForm.vue'
 import StationExtremumListView from '@/components/table/stationExtremumListView.vue'
 import ThumbListView from '@/components/thumbs/thumbListView.vue'
+import HeaderLogoView from '@/components/header/headerLogoView.vue'
 // mid model
 import { FilterTyMidModel } from '@/middle_model/typhoon'
 // store
@@ -36,6 +38,7 @@ import { DEFAULT_TY_NUM } from '@/const/default'
 		StationTideFormView,
 		StationExtremumListView,
 		ThumbListView,
+		HeaderLogoView,
 	},
 })
 export default class HomeView extends Vue {
@@ -47,7 +50,7 @@ export default class HomeView extends Vue {
 	/** 当前选中的台风 */
 	@Watch('getCurrentTy')
 	onCurrentTy(val: FilterTyMidModel): void {
-		this.tyNum = val.tyNum
+		this.tyNum = val !== null ? val.tyNum : DEFAULT_TY_NUM
 	}
 }
 </script>

@@ -25,7 +25,7 @@
 					<tr
 						v-for="(stationTemp, index) in stationExtremumList"
 						:key="stationTemp.id"
-						@click="commitStation(stationTemp, index)"
+						@click="commitStationExtremum(stationTemp, index)"
 						:class="index == selectedTrIndex ? 'activate' : ' '"
 					>
 						<td>{{ stationTemp.stationName }}</td>
@@ -42,16 +42,21 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Getter, Mutation, State, namespace } from 'vuex-class'
 import { DEFAULT_TY_NUM } from '@/const/default'
 // store
-import { GET_SHOW_STATION_EXTREMUM_FORM } from '@/store/types'
+import {
+	GET_SHOW_STATION_EXTREMUM_FORM,
+	SET_STATION_CODE,
+	SET_CURRENT_TY_FORECAST_DT,
+	SET_COMPLEX_OPTS_CURRENT_STATION,
+} from '@/store/types'
 // api
 import { loadStationExtremumDataList } from '@/api/station'
 // 接口
 import { IHttpResponse } from '@/interface/common'
 // 工具类
 import { fortmatData2MDHM, filterSurgeAlarmColor } from '@/util/filter'
-import { Getter } from 'vuex-class'
 // enum
 import { IExpandEnum } from '@/enum/common'
 /** 海洋站极值列表 */
@@ -96,6 +101,18 @@ export default class StationExtremumListView extends Vue {
 		return this.stationExtremumList.length
 	}
 
+	/** 提交选中的 海洋站极值info */
+	commitStationExtremum(val: { stationName: string; surge: number; dt: Date }): void {
+		// console.log(val)
+		this.setStationCode(val.stationName)
+		this.setTyForecastDt(val.dt)
+		this.setStationComplexOpts({
+			tyNum: this.tyNum,
+			tyCode: this.tyNum,
+			stationName: val.stationName,
+		})
+	}
+
 	/** 是否显示当前窗口 条件:getShowForm */
 	get getIsShow(): boolean {
 		let isShow = false
@@ -115,6 +132,18 @@ export default class StationExtremumListView extends Vue {
 
 	/** store -> 是否显示fom t:显示 */
 	@Getter(GET_SHOW_STATION_EXTREMUM_FORM, { namespace: 'common' }) getShowForm: IExpandEnum
+
+	/** 设置当前选中的 海洋站code */
+	@Mutation(SET_STATION_CODE, { namespace: 'station' })
+	setStationCode: { (val: string): void }
+
+	/** 设置当前选中的 台风预报时刻 */
+	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' })
+	setTyForecastDt: { (val: Date): void }
+
+	/** 设置当前海洋站复杂配置 */
+	@Mutation(SET_COMPLEX_OPTS_CURRENT_STATION, { namespace: 'complex' })
+	setStationComplexOpts: { (val: { tyNum: string; tyCode: string; stationName: string }): void }
 }
 </script>
 <style scoped lang="less">
