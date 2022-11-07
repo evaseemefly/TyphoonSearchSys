@@ -1,0 +1,77 @@
+// 主要与 card 样式相关的样式放在此处
+
+.card-list-bar {
+    width: 300px;
+    border-radius: 0.4em;
+    box-shadow: 0 0 4px 0 black;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    background: #7f8c8d71;
+    /* 防止子元素的阴影溢出父元素 */
+    overflow: hidden;
+    /* height: 85px; */
+    color: white;
+    text-shadow: 0 0 4px black;
+}
+
+.board {
+    background: darkgray;
+    width: 300px;
+    height: 30px;
+    position: absolute;
+    z-index: 3;
+    background: #2c3e50;
+    border-bottom-left-radius: 0.4em;
+    border-bottom-right-radius: 0.4em;
+    box-shadow: 0 0 5px black;
+}
+
+.card-list-bar > .card-info {
+    width: 70px;
+    height: 34px;
+    background: #16a085;
+    /* border: 2px black dashed; */
+    margin-left: 4px;
+    margin-right: 4px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    z-index: 1;
+    border-radius: 0.3em;
+    text-align: center;
+    line-height: 40px;
+    /* box-shadow: 0 0 3px black; */
+    box-shadow: 1px 1px 9px black;
+    transition: 1s;
+    /* transition: 1s width; */
+    padding: 2px;
+    // + 21-12-01 修改为flex的布局方式
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-list-bar > .card-info.active {
+    width: 100px;
+    /* height: 80px; */
+    margin-left: 0px;
+    // background: #34495e;
+    z-index: 2;
+    transition: 1s;
+}
+.card-list-bar > .card-info.my-primary {
+    background: #34495e;
+}
+.card-list-bar > .card-info.my-sub {
+    background: #f39c12;
+}
+.card-list-bar > .card-info:hover {
+    width: 100px;
+    /* height: 80px; */
+    margin-left: 0px;
+    background: #1abc9c;
+    z-index: 2;
+    transition: 1s;
+    /* transition: 1s width; */
+    /* transform: scale(1.5, 1.5) */
+}
