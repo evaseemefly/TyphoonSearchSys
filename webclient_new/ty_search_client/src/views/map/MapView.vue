@@ -91,6 +91,7 @@ import {
 	SET_DATE_STEP,
 	SET_STATION_CODE,
 	SET_COMPLEX_OPTS_CURRENT_STATION,
+	GET_BASE_MAP_KEY,
 } from '@/store/types'
 // 默认常量
 import {
@@ -109,6 +110,7 @@ import {
 // enum
 import { IconTypeEnum } from '@/enum/common'
 import { MenuType } from '@/enum/menu'
+import { MapLayerEnum } from '@/enum/map'
 
 // api
 import { loadTyRealDataList, loadStationTideDataList } from '@/api/typhoon'
@@ -248,6 +250,11 @@ export default class MainMapView extends Vue {
 	onCurrentTy(ty: FilterTyMidModel): void {
 		const mymap: any = this.$refs.basemap['mapObject']
 		const self = this
+		// TODO:[-] 22-11-08 注意修改此处为了 触发 onCurrentTyOpts 方法，更新加载对应的当前时间的所有站点的潮位情况并加载至map中
+		console.log(`监听到 MapView.currentTy 发生变化:${ty}`)
+		this.currentTyNum = ty.tyNum
+		this.currentTyCode = ty.code
+
 		if (ty !== null) {
 			this.clearAllLayersByTy()
 			const code = ty.code
@@ -474,6 +481,7 @@ export default class MainMapView extends Vue {
 		/** 潮位数据的上限(单位厘米) */
 		const SURGE_MAX = 300
 		let layerGroupIds: number[] = []
+		console.log(`监听到 MapView.currentTyOpts 发生变化:${val}`)
 		this.setTyForecastDt(val.currentTyDateTime)
 		this.clearAllStationGroupLayers()
 		loadStationTideDataList({
@@ -523,9 +531,17 @@ export default class MainMapView extends Vue {
 							name: temp.station.stationname,
 							lat: temp.station.point.coordinates[1],
 							lon: temp.station.point.coordinates[0],
+							/*
+							 ERROR: Cannot use 'in' operator to search for 'val_real' in null
+							*/
 							surge:
+								temp !== null &&
+								'forecast' in temp &&
+								temp.forecast !== null &&
 								'val_real' in temp.forecast &&
-								'val_real' in temp.forecast &&
+								temp.forecast['val_real'] != null &&
+								'val_forecast' in temp.forecast &&
+								temp.forecast['val_forecast'] &&
 								temp.forecast.val_real !== DEFAULT_SURGE_VAL &&
 								temp.forecast.val_forecast !== DEFAULT_SURGE_VAL
 									? temp.forecast.val_real - temp.forecast.val_forecast
@@ -549,6 +565,28 @@ export default class MainMapView extends Vue {
 				}
 			}
 		)
+	}
+
+	/** 获取当前地图key */
+	@Getter(GET_BASE_MAP_KEY, { namespace: 'map' }) getBaseMapKey
+
+	@Watch('getBaseMapKey')
+	onBaseMapKey(val: MapLayerEnum): void {
+		const mymap: L.Map = this.$refs.basemap['mapObject']
+		switch (true) {
+			// case val === MapLayerEnum.SATELITE_MAP:
+			//     this.url = `https://api.maptiler.com/maps/hybrid/256/{z}/{x}/{y}.jpg?key=${MAPTITLELAYER_TOKEN_KEY}`
+			case val === MapLayerEnum.SATELITE_MAP:
+				this.url = 'http://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png'
+
+				// this.getMapBoxLayerClass('0TuB9SR4KyaoCi4FUrPM').addTo(mymap)
+				break
+			case val === MapLayerEnum.SIMPLE_MAP:
+				// 使用 geoq 的底图
+				this.url =
+					'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}'
+				break
+		}
 	}
 
 	/** + 22-10-24 加载 targetDt 的台风脉冲 icon 2 map */

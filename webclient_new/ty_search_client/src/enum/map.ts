@@ -55,8 +55,10 @@ export enum SurgeProLayerEnum {
  * @enum {number}
  */
 export enum MapLayerEnum {
-	SATELITE_MAP = 4001, // 卫星卫片
-	SIMPLE_MAP = 4002, // 简单底图
+	/** 卫星卫片 */
+	SATELITE_MAP = 4001, //
+	/** 简单底图 */
+	SIMPLE_MAP = 4002, //
 }
 
 /**

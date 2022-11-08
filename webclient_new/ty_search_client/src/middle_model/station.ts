@@ -225,6 +225,7 @@ class IconFormMinStationSurgeMidModel implements IToHtml {
  * + 21-06-03
  * 潮位站 station form
  * 只包含标题
+ * 历史台风查询加载的 station title 使用此实现类
  *
  * @class IconFormTitleStationSurgeMidModel
  * @implements {IToHtml}
@@ -251,7 +252,9 @@ class IconFormTitleStationSurgeMidModel implements IToHtml {
 	toHtml(): string {
 		const divHtml = `<div class="my-station-title-surge-div">
         <div class="station-title-div-title">${this.stationName}</div>
-		<div class="station-title-div-font font-shadow font-${this.getAlarmColor()}">${this.surge}</div>
+		<div class="station-title-div-font font-shadow font-${this.getAlarmColor()}">${
+			this.surge !== 0 ? this.surge : '-'
+		}</div>
         </div>`
 		return divHtml
 	}
@@ -273,6 +276,9 @@ class IconFormTitleStationSurgeMidModel implements IToHtml {
 		const surge = this.surge
 		let colorStr = 'green'
 		switch (true) {
+			case surge <= 0:
+				colorStr = 'default'
+				break
 			case surge <= 100:
 				colorStr = 'green'
 				break

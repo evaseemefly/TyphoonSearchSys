@@ -155,6 +155,9 @@ class IconCirlePulsing {
 		let colorStr = 'green'
 		if (surge) {
 			switch (true) {
+				case surge === 0:
+					colorStr = 'default'
+					break
 				case surge <= 100:
 					colorStr = 'green'
 					break
@@ -394,7 +397,9 @@ class IconMinStationSurge {
 		const divHtml = `<div class="my-station-surge-div">
           <div class="station-min-div-title">${this.stationName}</div>
           <div class="station-min-div-content liner-default ">${this.productTypeStr}</div>
-          <div class="station-min-div-content ${this.getAlarmColor()}">${this.surge}</div>
+          <div class="station-min-div-content ${this.getAlarmColor()}">${
+			this.surge !== 0 ? this.surge : '-'
+		}</div>
         </div>`
 		return divHtml
 	}
@@ -402,6 +407,9 @@ class IconMinStationSurge {
 		const surge = this.surge
 		let colorStr = 'green'
 		switch (true) {
+			case surge === 0:
+				colorStr = 'default'
+				break
 			case surge <= 100:
 				colorStr = 'green'
 				break
