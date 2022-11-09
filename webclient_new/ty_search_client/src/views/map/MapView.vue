@@ -106,6 +106,7 @@ import {
 	DEFAULT_TY_NUM,
 	DEFAULT_STATION_NAME,
 	DEFAULT_SURGE_VAL,
+	DEFAULT_STATION_CODE,
 } from '@/const/default'
 // enum
 import { IconTypeEnum } from '@/enum/common'
@@ -114,7 +115,7 @@ import { MapLayerEnum } from '@/enum/map'
 
 // api
 import { loadTyRealDataList, loadStationTideDataList } from '@/api/typhoon'
-import { loadStationDetailDataList } from '@/api/station'
+import { loadStationDetailDataList, loadStationNameDict } from '@/api/station'
 // 各类插件
 import { TyMiniMarker } from '@/plugins/customerMarker'
 // 工具类
@@ -199,6 +200,7 @@ export default class MainMapView extends Vue {
 
 	/** 当前选定的海洋站 name (en) */
 	currentStationName: string = DEFAULT_STATION_NAME
+	currentStationCode: string = DEFAULT_STATION_CODE
 
 	/** 当前时刻的台风所在位置脉冲 icon marker */
 	currentTyPulsingMarker: L.Marker = null
@@ -206,12 +208,29 @@ export default class MainMapView extends Vue {
 	currentTyPulsingMarkerId: number = DEFAULT_LAYER_ID
 
 	stationLayerGroupIds: number[] = []
+	/** 海洋站名称中英文对照字典 */
+	stationNameDict: { name: string; chname: string }[] = []
 
 	@Getter(GET_IS_SELECT_LOOP, { namespace: 'map' }) getSelectLoop
 
 	@Getter(GET_BOX_LOOP_RADIUS, { namespace: 'map' }) getBoxLoopRadius
 
 	@Getter(GET_CURRENT_TY, { namespace: 'typhoon' }) getCurrentTy
+
+	mounted() {
+		const self = this
+		self.stationNameDict = []
+		//1- 页面首次加载加载站点对应字典
+		loadStationNameDict().then((res: IHttpResponse<{ name: string; chname: string }[]>) => {
+			if (res.status === 200) {
+				res.data.length > 0
+					? res.data.forEach((temp) => {
+							self.stationNameDict.push(temp)
+					  })
+					: ''
+			}
+		})
+	}
 
 	@Watch('getSelectLoop')
 	onSelectLoop(val: boolean): void {
@@ -454,9 +473,10 @@ export default class MainMapView extends Vue {
 		currentTyNum: string
 		currentTyCode: string
 		currentStationName: string
+		currentStationCode: string
 	} {
-		const { currentTyNum, currentTyCode, currentStationName } = this
-		return { currentTyNum, currentTyCode, currentStationName }
+		const { currentTyNum, currentTyCode, currentStationName, currentStationCode } = this
+		return { currentTyNum, currentTyCode, currentStationName, currentStationCode }
 	}
 
 	@Watch('currentStationOpts')
@@ -464,11 +484,13 @@ export default class MainMapView extends Vue {
 		currentTyNum: string
 		currentTyCode: string
 		currentStationName: string
+		currentStationCode: string
 	}): void {
 		this.setCurrentStationOpts({
 			tyNum: val.currentTyNum,
 			tyCode: val.currentTyCode,
 			stationName: val.currentStationName,
+			stationCode: val.currentStationCode,
 		})
 	}
 
@@ -553,10 +575,12 @@ export default class MainMapView extends Vue {
 						mymap,
 						stationInfoList,
 						SURGE_MAX,
+						self.stationNameDict,
 						(stationTemp: { code: string; name: string }): void => {
 							console.log(
 								`获取当前点击的station marker, name:${stationTemp.name},code:${stationTemp.code}`
 							)
+							self.currentStationCode = stationTemp.code
 							self.currentStationName = stationTemp.name
 						}
 					)

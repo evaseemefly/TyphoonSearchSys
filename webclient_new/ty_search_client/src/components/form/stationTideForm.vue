@@ -207,19 +207,30 @@ export default class TabContent extends Vue {
 
 	/** 获取当前选中的海洋站的 opts */
 	@Getter(GET_COMPLEX_OPTS_CURRENT_STATION, { namespace: 'complex' })
-	getterComplexOptsCurrentStation: { tyNum: string; tyCode: string; stationName: string }
+	getterComplexOptsCurrentStation: {
+		tyNum: string
+		tyCode: string
+		stationName: string
+		stationCode: string
+	}
 
 	/** 是否显示窗口 t:显示 */
 	@Getter(GET_SHOW_STATION_DETAIL_FORM, { namespace: 'common' })
 	getShowStationForm: IExpandEnum
 
 	@Watch('getterComplexOptsCurrentStation')
-	onCurrentStationOpts(val: { tyNum: string; tyCode: string; stationName: string }): void {
+	onCurrentStationOpts(val: {
+		tyNum: string
+		tyCode: string
+		stationName: string
+		stationCode: string
+	}): void {
 		// this.stationCode = val.stationName
 		console.log(
-			`监听到 station complex 发生变化: num:${val.tyNum}, code:${val.tyCode}, station name:${val.stationName}`
+			`监听到 station complex 发生变化: num:${val.tyNum}, code:${val.tyCode}, station name:${val.stationName},station code:${val.stationCode}`
 		)
 		this.stationName = val.stationName
+		this.stationCode = val.stationCode
 		this.tyCode = val.tyCode
 		this.tyNum = val.tyNum
 	}
@@ -229,6 +240,7 @@ export default class TabContent extends Vue {
 @import '../../styles/station/station-chart';
 // + 21-12-06 加入重写的 emelemtnui 样式
 @import '../../styles/my-elementui/common';
+@import '../../styles/base-form.less';
 .test {
 	background: rgb(252, 182, 31);
 	color: rgb(235, 232, 70);
@@ -242,5 +254,9 @@ export default class TabContent extends Vue {
 	z-index: 9999;
 	top: 50px;
 	left: 180px;
+	// @form-base-background();
+}
+.detail-content {
+	@form-base-background();
 }
 </style>

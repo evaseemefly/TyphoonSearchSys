@@ -108,6 +108,7 @@ export default class TyphoonListView extends Vue {
 	@form-base-shadow();
 	// 统一的边角半圆过渡
 	@form-base-radius();
+	@form-base-background();
 	z-index: 999;
 	max-height: 600px;
 	.form-header {

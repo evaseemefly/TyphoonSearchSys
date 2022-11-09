@@ -25,6 +25,11 @@
 [部分自己总结的知识点请见](https://github.com/evaseemefly/CodingBook/blob/417c6fb1860c6b5fd77e8a77da1c45d44f3793da/README.md) 以后均汇总至此
 
 ---
+* @copyright: nmefc & [evaseemefly](https://github.com/evaseemefly)  
+* 若有引用请写明出处
+
+---
+
 
 ### 项目界面大致如下：
 
@@ -127,3 +132,10 @@
 ![avatar](document/img/v2_11.png)  
 2- 完成了极值列表与对应预报时刻台风所在位置与站点的联动
 3- 实现了三个缩略按钮的对应逻辑
+
+#### 22-11-09  
+1- 加入了站点名称中英文的映射关系  
+2- 修复了由于 `stationName` 与 `stationCode` 混用导致的部分bug
+3- 修复了由于缺少过程某个站而导致无法加载 极值集合列表组件 与 站点分布无法加载 的bug
+4- 修复了 tideChart 组件中的一些bug并加入了x轴的 format 
+![avatar](document/img/v2_12.png)

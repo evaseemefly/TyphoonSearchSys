@@ -213,7 +213,7 @@ export const GET_DATE_STEP = 'GET_DATE_STEP'
 
 // -----
 // 各类非单一属性的复杂 complex opts
-/** 设置 { currentTyNum; currentTyName; currentStationName } 用来监听当前海洋站及相关属性的变化 */
+/** 设置 { tyNum; tyCode; stationName ; stationCode } 用来监听当前海洋站及相关属性的变化 */
 export const SET_COMPLEX_OPTS_CURRENT_STATION = 'SET_COMPLEX_OPTS_CURRENT_STATION'
-/** 获取 { currentTyNum; currentTyName; currentStationName } 用来监听当前海洋站及相关属性的变化 */
+/** 获取 { tyNum; tyCode; stationName ; stationCode } 用来监听当前海洋站及相关属性的变化 */
 export const GET_COMPLEX_OPTS_CURRENT_STATION = 'GET_COMPLEX_OPTS_CURRENT_STATION'

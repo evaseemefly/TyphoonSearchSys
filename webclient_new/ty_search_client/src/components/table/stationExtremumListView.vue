@@ -52,11 +52,11 @@ import {
 	SET_COMPLEX_OPTS_CURRENT_STATION,
 } from '@/store/types'
 // api
-import { loadStationExtremumDataList } from '@/api/station'
+import { loadStationExtremumDataList, loadStationNameDict } from '@/api/station'
 // 接口
 import { IHttpResponse } from '@/interface/common'
 // 工具类
-import { fortmatData2MDHM, filterSurgeAlarmColor } from '@/util/filter'
+import { fortmatData2MDHM, filterSurgeAlarmColor, filterStationNameCh } from '@/util/filter'
 // enum
 import { IExpandEnum } from '@/enum/common'
 /** 海洋站极值列表 */
@@ -75,7 +75,26 @@ export default class StationExtremumListView extends Vue {
 	stationCount = 0
 
 	/** 海洋站极值集合 */
-	stationExtremumList: { stationName: string; surge: number; dt: Date }[] = []
+	stationExtremumList: { stationCode: string; stationName: string; surge: number; dt: Date }[] =
+		[]
+
+	/** 海洋站名称中英文对照字典 */
+	stationNameDict: { name: string; chname: string }[] = []
+
+	mounted() {
+		const self = this
+		self.stationNameDict = []
+		//1- 页面首次加载加载站点对应字典
+		loadStationNameDict().then((res: IHttpResponse<{ name: string; chname: string }[]>) => {
+			if (res.status === 200) {
+				res.data.length > 0
+					? res.data.forEach((temp) => {
+							self.stationNameDict.push(temp)
+					  })
+					: ''
+			}
+		})
+	}
 
 	@Watch('tyNum')
 	onTyNum(val: string): void {
@@ -85,8 +104,10 @@ export default class StationExtremumListView extends Vue {
 			(res: IHttpResponse<{ station_code: string; max_val: number; max_date: string }[]>) => {
 				if (res.status === 200) {
 					res.data.forEach((temp) => {
+						const nameEn = filterStationNameCh(temp.station_code, self.stationNameDict)
 						self.stationExtremumList.push({
-							stationName: temp.station_code,
+							stationCode: temp.station_code,
+							stationName: nameEn,
 							surge: temp.max_val,
 							dt: new Date(temp.max_date),
 						})
@@ -102,14 +123,20 @@ export default class StationExtremumListView extends Vue {
 	}
 
 	/** 提交选中的 海洋站极值info */
-	commitStationExtremum(val: { stationName: string; surge: number; dt: Date }): void {
+	commitStationExtremum(val: {
+		stationName: string
+		stationCode: string
+		surge: number
+		dt: Date
+	}): void {
 		// console.log(val)
-		this.setStationCode(val.stationName)
+		this.setStationCode(val.stationCode)
 		this.setTyForecastDt(val.dt)
 		this.setStationComplexOpts({
 			tyNum: this.tyNum,
 			tyCode: this.tyNum,
 			stationName: val.stationName,
+			stationCode: val.stationCode,
 		})
 	}
 
@@ -143,7 +170,9 @@ export default class StationExtremumListView extends Vue {
 
 	/** 设置当前海洋站复杂配置 */
 	@Mutation(SET_COMPLEX_OPTS_CURRENT_STATION, { namespace: 'complex' })
-	setStationComplexOpts: { (val: { tyNum: string; tyCode: string; stationName: string }): void }
+	setStationComplexOpts: {
+		(val: { tyNum: string; tyCode: string; stationName: string; stationCode: string }): void
+	}
 }
 </script>
 <style scoped lang="less">
@@ -153,6 +182,7 @@ export default class StationExtremumListView extends Vue {
 	@form-base-shadow();
 	// 统一的边角半圆过渡
 	@form-base-radius();
+	@form-base-background();
 	position: absolute;
 	top: 80px;
 	right: 450px;

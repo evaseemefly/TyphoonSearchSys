@@ -37,4 +37,19 @@ const loadStationExtremumDataList = (tyNum: string) => {
 	})
 }
 
-export { loadStationDetailDataList, loadStationExtremumDataList }
+/**
+ * 获取海洋站中英文字典
+ * @returns  [{
+        "name": "AOJIANG",
+        "chname": "鳌江"
+    },]
+ */
+const loadStationNameDict = () => {
+	const url = `${host}${area}/dict/station_ch/`
+	return axios.get(url, {
+		headers: authHeader(),
+		params: {},
+	})
+}
+
+export { loadStationDetailDataList, loadStationExtremumDataList, loadStationNameDict }

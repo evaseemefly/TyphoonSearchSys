@@ -67,6 +67,7 @@ export default abstract class BaseThumbView extends Vue {
 	// background: black;
 	@form-base-shadow();
 	@form-base-radius();
+	@form-base-background();
 	margin: 10px;
 	color: white;
 

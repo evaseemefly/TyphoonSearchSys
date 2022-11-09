@@ -113,6 +113,9 @@ export default class TideChartView extends Vue {
 						type: 'cross',
 						label: {
 							backgroundColor: '#d4e257',
+							formatter: (params): string => {
+								return fortmatData2MDHM(params.value)
+							},
 						},
 					},
 					// valueFormatter: (val) => val.toFixed(1),
@@ -266,9 +269,9 @@ export default class TideChartView extends Vue {
 		}
 	}
 
-	get currentTyOpts(): { tyCode; tyNum; stationName } {
-		const { tyCode, tyNum, stationName } = this
-		return { tyCode, tyNum, stationName }
+	get currentTyOpts(): { tyCode; tyNum; stationName; stationCode } {
+		const { tyCode, tyNum, stationName, stationCode } = this
+		return { tyCode, tyNum, stationName, stationCode }
 	}
 
 	@Watch('currentTyOpts')
@@ -276,15 +279,20 @@ export default class TideChartView extends Vue {
 		tyCode: string
 		tyNum: string
 		stationName: string
+		stationCode: string
 	}): Promise<void> {
 		const self = this
-		if (val.stationName !== DEFAULT_STATION_NAME) {
+		if (val.stationCode !== DEFAULT_STATION_CODE) {
 			this.clearAllSurgeData()
 			self.isLoading = true
+			// let formatXList: string[] = []
+			// self.forecastDtList.map((temp) => {
+			// 	formatXList.push(fortmatData2MDHM(temp))
+			// })
 			this.loadStationSurgeDataList(
 				val.tyCode,
 				val.tyNum,
-				val.stationName,
+				val.stationCode,
 				MenuType.all,
 				() => {
 					self.initCharts(
@@ -303,7 +311,7 @@ export default class TideChartView extends Vue {
 	loadStationSurgeDataList(
 		tyCode: string,
 		tyNum: string,
-		stationName: string,
+		stationCode: string,
 		forecastType: MenuType,
 		callbackFunc: () => void
 	): void {
@@ -315,7 +323,7 @@ export default class TideChartView extends Vue {
 		loadStationDetailDataList({
 			code: tyCode,
 			num: tyNum,
-			name: stationName,
+			name: stationCode,
 			type: forecastType,
 		}).then(
 			(
@@ -398,6 +406,7 @@ export default class TideChartView extends Vue {
 </script>
 <style scoped lang="less">
 @import '../../styles/station/station-chart.less';
+// @import url('../../styles/base-form.less');
 .my-detail-form {
 	height: 100%;
 	width: 100%;
@@ -409,7 +418,7 @@ export default class TideChartView extends Vue {
 	width: 100%;
 }
 #station_chart_form {
-	@base-station-form();
+	// @form-base-background();
 	height: 100%;
 	width: 100%;
 }
