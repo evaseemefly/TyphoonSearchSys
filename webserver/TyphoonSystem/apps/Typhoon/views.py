@@ -927,21 +927,34 @@ class AllStationExtremumDataView(StationStatisticsDataView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         ty_num: str = request.GET.get('num', None)
-        codes: List[str] = self.get_dist_station_codes(ty_num)
+        # TODO:[-] 22-11-08 由于之前录入数据部分存在 geostationtidedata.code 为对应站点id而非 code，修改为获取 stationname
+        codes: List[str] = self.get_dist_station_names(ty_num)
         list_extremum: List[dict] = []
         for temp_code in codes:
-            max_val, max_dt = self.getDeviationVals(ty_num, temp_code)
-            temp_extremum: dict = {
-                'station_code': temp_code,
-                'max_val': max_val,
-                'max_date': max_dt
-            }
-            list_extremum.append(temp_extremum)
+            try:
+                max_val, max_dt = self.getDeviationVals(ty_num, temp_code)
+                temp_extremum: dict = {
+                    'station_code': temp_code,
+                    'max_val': max_val,
+                    'max_date': max_dt
+                }
+                list_extremum.append(temp_extremum)
+            except Exception as ex:
+                print(f'{ty_num},{temp_code}出现错误:{ex.args}')
         return Response(list_extremum)
 
     def get_dist_station_codes(self, num: str) -> List[str]:
         codes = StationTideData.objects(typhoonnum=num).distinct('code')
         return codes
+
+    def get_dist_station_names(self, num: str) -> List[str]:
+        """
+            + 22-11-08 获取不同的海洋站 names
+            发现的bug，部分站点录入时出现错误，
+            eg: 0421 code 均为站点id，而非 name，此处修改为获取 stationnname
+        """
+        names = StationTideData.objects(typhoonnum=num).distinct('stationname')
+        return names
 
 
 # 获取所有台风年份
