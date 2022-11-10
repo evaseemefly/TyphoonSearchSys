@@ -4,9 +4,9 @@
 		<div class="thumb-btn" @click="onClick(true)">
 			<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
 		</div>
-		<div class="thumb-btn" @click="onClick(false)">
+		<!-- <div class="thumb-btn" @click="onClick(false)">
 			<i class="fa-solid fa-minus"></i>
-		</div>
+		</div> -->
 	</div>
 </template>
 <script lang="ts">

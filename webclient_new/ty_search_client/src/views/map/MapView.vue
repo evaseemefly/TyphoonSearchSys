@@ -271,10 +271,10 @@ export default class MainMapView extends Vue {
 		const self = this
 		// TODO:[-] 22-11-08 注意修改此处为了 触发 onCurrentTyOpts 方法，更新加载对应的当前时间的所有站点的潮位情况并加载至map中
 		console.log(`监听到 MapView.currentTy 发生变化:${ty}`)
-		this.currentTyNum = ty.tyNum
-		this.currentTyCode = ty.code
 
 		if (ty !== null) {
+			this.currentTyNum = ty.tyNum
+			this.currentTyCode = ty.code
 			this.clearAllLayersByTy()
 			const code = ty.code
 			const tyNum = ty.tyNum
@@ -403,6 +403,9 @@ export default class MainMapView extends Vue {
 					}
 				}
 			)
+		} else {
+			// 若传入的 currentTy 为 null 则清空全部 台风相关图层
+			this.clearAllLayersByTy()
 		}
 	}
 
