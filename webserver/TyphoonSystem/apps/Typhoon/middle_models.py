@@ -24,6 +24,16 @@ class TyphoonAndTotalModel:
         self.total = total
 
 
+class TyphoonGeoListMidModel:
+    """
+        + 22-11-11
+        包含台风 code 与 该台风路径集合
+    """
+    def __init__(self, num: str, list_ty_geo: []):
+        self.num = num
+        self.list_ty_geo = list_ty_geo
+
+
 class TideRealMidModel:
     '''
         潮位站的实时数据与实践 mid model

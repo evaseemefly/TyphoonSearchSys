@@ -7,12 +7,15 @@ from . import views
 app_name = '[gis]'
 urlpatterns = [
     # 获取指定日期的预报数据data/stationtide
-    url(r'^point/$', PointInfoView.as_view(), name="gis-get-point"),
+    # url(r'^point/$', PointInfoView.as_view(), name="gis-get-point"),
     url(r'^data/typhoonrealdata/$',
         TyphoonRealDataView.as_view(), name="gis-get-point"),
     url(r'^filter/month/$', FilterByMonth.as_view()),
     url(r'^filter/year/$', FilterByYear.as_view()),
+    # 根据半径及中心点位置查询穿过该区域的所有路径
     url(r'^filter/range/$', FilterByRange.as_view()),
+    # 根据指定区域过滤对应台风并一次性返回全部路径信息
+    url(r'^filter/range/all/geo/$', FilterByDistanceFullGeoInfo.as_view()),
     url(r'^filter/complex/$', FilterByComplexCondition.as_view()),
     url(r'^filter/daterange/$', FilterByDateRange.as_view()),
     url(r'^data/stationtide/$', StationTideDataListView.as_view()),

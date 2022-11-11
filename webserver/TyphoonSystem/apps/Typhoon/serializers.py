@@ -20,6 +20,10 @@ class GeoTyphoonRealDataSerializer(serializers.Serializer):
     # TODO [-] 此处序列化会有问题 类型为PointField，可以通过serializers.DictField()的方式序列化，其他符合geojson格式的对象如何序列化？
     latlon = serializers.DictField()
 
+class GeoTyphoonGroupListDataSerializer(serializers.Serializer):
+    num=serializers.CharField()
+    list_ty_geo=GeoTyphoonRealDataSerializer(many=True)
+
 
 class TyphoonModelSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=10)

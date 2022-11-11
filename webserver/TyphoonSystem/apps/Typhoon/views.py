@@ -10,6 +10,7 @@ from typing import List
 
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -36,18 +37,18 @@ from common.dateCommon import sortTyphoonNum
 
 # Create your views here.
 
-class PointInfoView(APIView):
-    '''
-
-    '''
-
-    def get(self, request):
-        bbxlist = Point.objects.all()
-        # Point.objects.
-        # json_data=BBXInfoSerializer(bbxlist,many=True)
-        # return Response(serialize('json',bbxlist))
-        return Response("")
-        # pass
+# class PointInfoView(APIView):
+#     '''
+#
+#     '''
+#
+#     def get(self, request):
+#         bbxlist = Point.objects.all()
+#         # Point.objects.
+#         # json_data=BBXInfoSerializer(bbxlist,many=True)
+#         # return Response(serialize('json',bbxlist))
+#         return Response("")
+#         # pass
 
 
 class TyphoonRealDataView(APIView):
@@ -537,7 +538,23 @@ class FilterByRange(BaseView):
         根据经纬度[lat,lon]以及range 返回在指定范围内的台风编号
     '''
 
-    def get(self, request):
+    def get(self, request: Request) -> Response:
+        """
+            get 请求处理
+        @param request:
+        @return:
+        """
+        data = self.filter(request)
+        json_data = TyphoonAndTotalModelSerializer(data).data
+        # json_data = TyphoonModelSerializer(list_data, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
+
+    def filter(self, request: Request) -> TyphoonAndTotalModel:
+        """
+            根据请求中的 latlong[] 与 range 进行过滤，过滤经过此圆形区域的全部台风路径
+        @param request:
+        @return:
+        """
         # TODO [-]优先完成此部分 对于第一种传输组的方式
         # latlon=request.GET.get('latlon')
         # TODO 注意python3开始，map返回的是一个迭代器，不是list，需要手动转一下
@@ -610,9 +627,7 @@ class FilterByRange(BaseView):
         list_dataFinal = self.addChnameVariable(list_data, nums=list_typhoonNum)
         # TODO:[*] 19-05-13 返回的加入total
         data = TyphoonAndTotalModel(list_dataFinal, total)
-        json_data = TyphoonAndTotalModelSerializer(data).data
-        # json_data = TyphoonModelSerializer(list_data, many=True).data
-        return Response(json_data, status=status.HTTP_200_OK)
+        return data
 
     def sort(self, list_num) -> []:
         list_num = sorted(list_num)
@@ -639,6 +654,25 @@ class FilterByRange(BaseView):
         # 注意此处去重是要根据 num 进行去重
         return self.sort(
             GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('num'))
+
+
+class FilterByDistanceFullGeoInfo(FilterByRange):
+    """
+        + 22-11-11
+        根据指定区域过滤对应台风并一次性返回全部路径信息
+    """
+
+    def get(self, request: Request) -> Response:
+        # step1: 获取过滤后的全部台风
+        data: TyphoonAndTotalModel = self.filter(request)
+        # step2: 遍历所有匹配的台风获取全部的台风路径信息
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = []
+        for temp_ty in data.list:
+            temp_ty_path_list = GeoTyphoonRealData.objects(num=temp_ty.num)
+            temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty.num, list_ty_geo=temp_ty_path_list)
+            list_ty_geo_path.append(temp_ty_geo_path)
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path,many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
 
 
 class FilterByComplexCondition(BaseView):
