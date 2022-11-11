@@ -19,6 +19,7 @@
 				>
 					{{ item.title }}
 				</div>
+				<div class="my-sub-title right" @click="setExpanded(false)">最小化</div>
 			</div>
 			<div class="detail-content">
 				<component
@@ -44,7 +45,11 @@ import {
 	DEFAULT_TY_CODE,
 	DEFAULT_TY_NUM,
 } from '@/const/default'
-import { GET_COMPLEX_OPTS_CURRENT_STATION, GET_SHOW_STATION_DETAIL_FORM } from '@/store/types'
+import {
+	GET_COMPLEX_OPTS_CURRENT_STATION,
+	GET_SHOW_STATION_DETAIL_FORM,
+	SET_SHOW_STATION_DETAIL_FORM,
+} from '@/store/types'
 import TideChartView from '@/components/charts/tideChartsFormView.vue'
 // 工具类
 import { stickyTopic, reduceTopic } from '@/util/styleUtil'
@@ -212,6 +217,15 @@ export default class TabContent extends Vue {
 		tyCode: string
 		stationName: string
 		stationCode: string
+	}
+
+	/** 设置当前窗口是否展开 */
+	setExpanded(val: boolean): void {
+		this.setShowStationForm(val)
+	}
+
+	@Mutation(SET_SHOW_STATION_DETAIL_FORM, { namespace: 'common' }) setShowStationForm: {
+		(val: boolean): void
 	}
 
 	/** 是否显示窗口 t:显示 */

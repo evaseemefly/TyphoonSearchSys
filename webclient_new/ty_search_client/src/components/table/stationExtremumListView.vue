@@ -4,7 +4,7 @@
 		id="station_list"
 		v-loading="isLoading"
 		element-loading-background="loadBackground"
-		v-show="isExpanded"
+		v-show="getIsShow"
 	>
 		<div class="form-header">
 			<h4>站点数量:</h4>
@@ -92,7 +92,7 @@ export default class StationExtremumListView extends Vue {
 
 	// isShow = true
 
-	isExpanded = false
+	isExpanded = true
 
 	mounted() {
 		const self = this
@@ -189,6 +189,7 @@ export default class StationExtremumListView extends Vue {
 		return isShow
 	}
 
+	/** TODO:[*] 22-11-11 注意此方法与getIsShow  */
 	@Watch('getShowForm')
 	onGetShowForm(val: IExpandEnum): void {
 		let isShow = false

@@ -139,3 +139,12 @@
 3- 修复了由于缺少过程某个站而导致无法加载 极值集合列表组件 与 站点分布无法加载 的bug
 4- 修复了 tideChart 组件中的一些bug并加入了x轴的 format 
 ![avatar](document/img/v2_12.png)
+
+#### 22-11-11  
+1- 在各个子form中加入了最小化按钮，取消了缩略按钮中的最小化按钮，修改了对应的逻辑
+* 在查询集合组件中加入了最小化按钮
+![avatar](document/img/v2_13.png)
+* 在详情中加入了最小化按钮
+![avatar](document/img/v2_14.png)
+* 在缩略组件中取消了最小化按钮
+![avatar](document/img/v2_15.png)
