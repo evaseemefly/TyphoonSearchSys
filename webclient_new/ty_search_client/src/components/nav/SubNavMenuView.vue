@@ -70,6 +70,7 @@ import {
 	GET_DATE_STEP,
 	SET_CURRENT_TY,
 	SET_SELECTED_LOOP,
+	SET_TO_FILTER_TY_SCATTER,
 } from '@/store/types'
 // 默认常量
 import {
@@ -82,6 +83,7 @@ import {
 import { loadTyListByRange } from '@/api/typhoon'
 // mid model
 import { FilterTyMidModel } from '@/middle_model/typhoon'
+
 /** + 22-10-14 副导航栏(布局:底部) */
 @Component({
 	components: { SubNavTimeItem, TyphoonListView },
@@ -129,6 +131,7 @@ export default class SubNavMenuView extends Vue {
 		const self = this
 		this.filterTyList = []
 		this.isLoadingTyList = true
+		this.setToFilterTy4Scatters(true)
 		loadTyListByRange({
 			latlon: [data.boxLoopLatlng.lat, data.boxLoopLatlng.lng],
 			range: data.boxRadius,
@@ -166,7 +169,10 @@ export default class SubNavMenuView extends Vue {
 			.finally(() => {
 				self.isLoadingTyList = false
 			})
+		// const tyScatter = new TyRadiusScatter(data.boxLoopLatlng, data.boxRadius)
+		// const scatters = tyScatter.getScatter()
 		// console.log(data)
+		// this.setToFilterTy4Scatters(false)
 	}
 
 	/** 清理当前的圈选范围以及当前选中的台风 */
@@ -194,6 +200,8 @@ export default class SubNavMenuView extends Vue {
 
 	/** 设置当前台风预报时间 */
 	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt
+
+	@Mutation(SET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) setToFilterTy4Scatters
 
 	/** 设置当前选中的台风 */
 	@Mutation(SET_CURRENT_TY, { namespace: 'typhoon' })

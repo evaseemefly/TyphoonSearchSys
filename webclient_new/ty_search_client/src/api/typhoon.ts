@@ -65,6 +65,44 @@ const loadTyListByRange = (params: ITyphoonParams) => {
 }
 
 /**
+ * + 22-11-12 加载经过指定区域的台风全部散点
+ * @param params
+ * @returns
+ * {
+ * [
+ *	{
+ *	 "num": "4904",
+ *	 "list_ty_geo": [
+ *		 {
+ *			 "code": "Elaine",
+ *			 "date": "1949-06-30T00:00:00Z",
+ *			 "num": "4904",
+ *			 "bp": 1008.0,
+ *			 "wsm": 0.0,
+ *			 "level": 0,
+ *			 "latlon": {
+ *				 "type": "Point",
+ *				 "coordinates": [
+ *					 140.3,
+ *					 5.5
+ *				 ]
+ *			 }
+ *		 },
+ *	]
+ * }
+ */
+const loadTyScattersByRadius = (params: ITyphoonParams) => {
+	const url = `${host}${area}/filter/range/all/geo/`
+	const getData = { ...params }
+	return axios.get(url, {
+		headers: authHeader(),
+		params: {
+			latlon: getData.latlon,
+			range: getData.range,
+		},
+	})
+}
+/**
  * + 22-10-19 根据 code 加载对应的台风的路径及气象信息
  * @param code
  * @returns
@@ -96,4 +134,4 @@ const loadStationTideDataList = (par: ISearchTyStationParams) => {
 	})
 }
 
-export { loadTyListByRange, loadTyRealDataList, loadStationTideDataList }
+export { loadTyListByRange, loadTyRealDataList, loadStationTideDataList, loadTyScattersByRadius }

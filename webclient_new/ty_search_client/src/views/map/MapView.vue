@@ -92,6 +92,8 @@ import {
 	SET_STATION_CODE,
 	SET_COMPLEX_OPTS_CURRENT_STATION,
 	GET_BASE_MAP_KEY,
+	GET_TO_FILTER_TY_SCATTER,
+	SET_TO_FILTER_TY_SCATTER,
 } from '@/store/types'
 // 默认常量
 import {
@@ -118,12 +120,27 @@ import { loadTyRealDataList, loadStationTideDataList } from '@/api/typhoon'
 import { loadStationDetailDataList, loadStationNameDict } from '@/api/station'
 // 各类插件
 import { TyMiniMarker } from '@/plugins/customerMarker'
+import { TyRadiusHeatMap, TyRadiusScatter } from '@/plugins/scatter'
 // 工具类
 import { convertTyRealDataMongo2TyCMAPathLine } from '@/middle_model/util'
 import moment from 'moment'
 import { ITyPath } from '@/interface/typhoon'
 import { Collapse } from 'element-ui'
 import station from '@/store/modules/station'
+// 第三方插件
+// 当前布局会导致此热图插件出错，暂时无法解决
+// import 'heatmap.js'
+// import HeatmapOverlay from '@/plugins/leaflet-heatmap.js'
+// 方式2: 也不可行
+// https://github.com/Leaflet/Leaflet.heat
+import HeatLayer from 'leaflet.heat'
+
+// 其他方式:
+// https://github.com/mejackreed/leaflet-solr-heatmap
+// https://github.com/ursudio/leaflet-webgl-heatmap
+
+// 方式3:
+// import 'simpleheat'
 
 @Component({
 	components: {
@@ -207,13 +224,18 @@ export default class MainMapView extends Vue {
 
 	currentTyPulsingMarkerId: number = DEFAULT_LAYER_ID
 
+	/** 加载的台风散点 group layer id */
+	tyScattersGroupLayerId: number = DEFAULT_LAYER_ID
+
+	tyScatterHeatMapLayer: L.Layer = null
+
 	stationLayerGroupIds: number[] = []
 	/** 海洋站名称中英文对照字典 */
 	stationNameDict: { name: string; chname: string }[] = []
 
-	@Getter(GET_IS_SELECT_LOOP, { namespace: 'map' }) getSelectLoop
+	@Getter(GET_IS_SELECT_LOOP, { namespace: 'map' }) getSelectLoop: boolean
 
-	@Getter(GET_BOX_LOOP_RADIUS, { namespace: 'map' }) getBoxLoopRadius
+	@Getter(GET_BOX_LOOP_RADIUS, { namespace: 'map' }) getBoxLoopRadius: number
 
 	@Getter(GET_CURRENT_TY, { namespace: 'typhoon' }) getCurrentTy
 
@@ -260,9 +282,30 @@ export default class MainMapView extends Vue {
 		this.setBoxLoopLatlng(val)
 	}
 
+	get boxTyByRadius(): {
+		currentLatlng: L.LatLng
+		getBoxLoopRadius: number
+		getSelectLoop: boolean
+	} {
+		const { currentLatlng, getBoxLoopRadius, getSelectLoop } = this
+		return { currentLatlng, getBoxLoopRadius, getSelectLoop }
+	}
+
 	/** 当前选中的台风 */
 	get currentTy(): FilterTyMidModel {
 		return this.getCurrentTy
+	}
+
+	@Watch('boxTyByRadius')
+	onBoxTyByRadius(val: {
+		currentLatlng: L.LatLng
+		getBoxLoopRadius: number
+		getSelectLoop: boolean
+	}): void {
+		if (val.getSelectLoop) {
+			console.log(val)
+			// const tyScatter = new TyRadiusScatter(val.currentLatlng, val.getBoxLoopRadius)
+		}
 	}
 
 	@Watch('currentTy')
@@ -418,6 +461,8 @@ export default class MainMapView extends Vue {
 		this.clearAllStationGroupLayers()
 		// 3- 清除当前台风的脉冲 layer
 		this.clearTyPulsingIconLayer()
+		// 4- 清除当前台风的散点 layer
+		// this.clearTyScattersLayer()
 	}
 
 	/** 清除当前所有海洋站的 group layer */
@@ -438,6 +483,12 @@ export default class MainMapView extends Vue {
 		}
 	}
 
+	/** 清除全部台风(通过 radius过滤的) 的散点 layer */
+	private clearTyScattersLayer(): void {
+		// @ts-ignore
+		this.clearLayerById(this.tyScattersGroupLayerId)
+	}
+
 	/** 设置当前圈选中心位置 */
 	@Mutation(SET_BOX_LOOP_LATLNG, { namespace: 'map' }) setBoxLoopLatlng
 
@@ -453,12 +504,103 @@ export default class MainMapView extends Vue {
 	/** 设置当前选中的海洋站 complex opts */
 	@Mutation(SET_COMPLEX_OPTS_CURRENT_STATION, { namespace: 'complex' }) setCurrentStationOpts
 
+	@Mutation(SET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) setToFilterTy4Scatters
+
 	/** 获取当前的预报时间 */
 	@Getter(GET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) getTyForecastDt
+
+	/** 获取是否执行加载通过制定范围的全部台风散点 */
+	@Getter(GET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) get2FilterTy4Scatters
 
 	@Watch('getTyForecastDt')
 	onTyForecastDt(val: Date): void {
 		this.currentTyDateTime = val
+	}
+
+	/** 监听获取台风散点变量 */
+	@Watch('get2FilterTy4Scatters')
+	async onToFilter4Scatters(val: boolean): Promise<void> {
+		const self = this
+		if (val) {
+			this.clearTyScattersLayer()
+			const mymap: L.Map = this.$refs.basemap['mapObject']
+			// 方式1: 散点
+			const tyScatter = new TyRadiusScatter(
+				this.currentLatlng,
+				this.boxRadius * this.boxRadiusUnit
+			)
+			// 方式2: 热图
+			const tyHeatMap = new TyRadiusHeatMap(
+				this.currentLatlng,
+				this.boxRadius * this.boxRadiusUnit
+			)
+			// 方式1: 散点
+			// tyScatter
+			// 	.getScatter()
+			// 	.then((res) => {
+			// 		// @ts-ignore
+			// 		self.tyScattersGroupLayerId = L.layerGroup(res).addTo(mymap)._leaflet_id
+			// 	})
+			// 	.finally(() => {
+			// 		self.setToFilterTy4Scatters(false)
+			// 	})
+
+			// 方式2: 热图
+			let heatmapData: { lat: number; lng: number; count: number }[] = []
+			await tyHeatMap.getScatter().then((res) => {
+				heatmapData = res
+			})
+
+			// 增加过滤环节
+			const filterHeatmapData = heatmapData.filter((temp) => {
+				return !Number.isNaN(temp.lat) && !Number.isNaN(temp.lng)
+			})
+
+			let heatData: number[][] = []
+			for (let index = 0; index < heatmapData.length; index++) {
+				const element = [
+					heatmapData[index].lat,
+					heatmapData[index].lng,
+					heatmapData[index].count,
+				]
+				heatData.push(element)
+			}
+
+			// 方式1:heatmap.js 会出错
+			// const heatData = {
+			// 	max: 2,
+			// 	data: filterHeatmapData,
+			// }
+			// const heatConfig = {
+			// 	// 此半径可以有效的滤掉由于 status = 2 造成的应该滤掉区域
+			// 	radius: 0.002,
+			// 	// radius: 0.01,
+			// 	maxOpacity: 0.8,
+			// 	scaleRadius: true,
+			// 	useLocalExtrema: true,
+			// 	latField: 'lat',
+			// 	lngField: 'lng',
+			// 	valueField: 'count',
+			// }
+			// // @ts-ignore
+			// let heatLayer: HeatmapOverlay = null
+
+			// mymap.on('resize', function () {
+			// 	mymap.invalidateSize()
+			// })
+			// heatLayer = new HeatmapOverlay(heatConfig)
+			// heatLayer.setData(heatData)
+			// //此处不论是放在异步方法中或是放在外侧均会出现以下错误
+			// /*
+			// 	ERROR:
+			// 	Uncaught (in promise) DOMException: Failed to execute 'drawImage' on 'CanvasRenderingContext2D': The image argument is a canvas element with a width or height of 0.
+			// 	*/
+			// heatLayer.addTo(mymap)
+
+			// 方式2: leaflet.heat  此种方式也不可行
+			// // @ts-ignore
+			var heat = HeatLayer(heatData, { radius: 25 }).addTo(mymap)
+		}
 	}
 
 	@Watch('currentTyDateTime')
