@@ -36,7 +36,10 @@ import {
 	GET_BOX_LOOP_RADIUS,
 	SET_BOX_LOOP_LATLNG,
 	GET_BOX_LOOP_LATLNG,
+	SET_FILTER_TY_SCATTER_MENU_TYPE,
+	GET_FILTER_TY_SCATTER_MENU_TYPE,
 } from '../types'
+import { TyScatterMenuType } from '@/enum/menu'
 export interface State {
 	// range:number,
 	// 风场与流场需要使用的当前时间（datetime）
@@ -66,6 +69,9 @@ export interface State {
 	boxLoopRadius: number
 	/** 圈选的位置 */
 	boxLoopLatlng: L.LatLng
+
+	/** 设置台风 散点|热图 类型 */
+	filterTyScatterMenuType: TyScatterMenuType
 }
 
 // 用来存储应用状态的数据对象
@@ -92,6 +98,7 @@ const state: State = {
 	isSelectLoop: false,
 	boxLoopRadius: DEFAULT_BOX_LOOP_RADIUS,
 	boxLoopLatlng: DEFAULT_BOX_LOOP_LATLNG,
+	filterTyScatterMenuType: TyScatterMenuType.UN_SELECT,
 }
 
 // 用来改变应用状态的函数
@@ -183,6 +190,9 @@ const mutations = {
 	[SET_BOX_LOOP_LATLNG](state: State, latlng: L.LatLng): void {
 		state.boxLoopLatlng = latlng
 	},
+	[SET_FILTER_TY_SCATTER_MENU_TYPE](state: State, val: TyScatterMenuType): void {
+		state.filterTyScatterMenuType = val
+	},
 }
 
 /** @type {*} */
@@ -248,6 +258,9 @@ const getters = {
 	},
 	[GET_BOX_LOOP_LATLNG]: (state: State): L.LatLng => {
 		return state.boxLoopLatlng
+	},
+	[GET_FILTER_TY_SCATTER_MENU_TYPE]: (state: State): TyScatterMenuType => {
+		return state.filterTyScatterMenuType
 	},
 }
 

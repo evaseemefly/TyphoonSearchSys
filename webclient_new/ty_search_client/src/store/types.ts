@@ -104,6 +104,11 @@ export const SET_BOX_LOOP_RADIUS = 'SET_BOX_LOOP_RADIUS'
 /** + 22-10-18 获取当前圈选范围半径值 */
 export const GET_BOX_LOOP_RADIUS = 'GET_BOX_LOOP_RADIUS'
 
+/** 设置 当前圈选范围内的台风 散点|热图 菜单按钮 */
+export const SET_FILTER_TY_SCATTER_MENU_TYPE = 'SET_FILTER_TY_SCATTER_MENU_TYPE'
+/** 设置 当前圈选范围内的台风 散点|热图 菜单按钮 */
+export const GET_FILTER_TY_SCATTER_MENU_TYPE = 'GET_FILTER_TY_SCATTER_MENU_TYPE'
+
 // map - 选中的经纬度位置
 export const SET_CURRENT_LATLNG = 'SET_CURRENT_LATLNG'
 export const GET_CURRENT_LATLNG = 'GET_CURRENT_LATLNG'

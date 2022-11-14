@@ -1,5 +1,5 @@
 <template>
-	<div id="map_content">
+	<div id="map_content" v-loading="loading" element-loading-background="rgba(28, 34, 52, 0.733)">
 		<l-map
 			ref="basemap"
 			:zoom="zoom"
@@ -94,6 +94,7 @@ import {
 	GET_BASE_MAP_KEY,
 	GET_TO_FILTER_TY_SCATTER,
 	SET_TO_FILTER_TY_SCATTER,
+	GET_FILTER_TY_SCATTER_MENU_TYPE,
 } from '@/store/types'
 // 默认常量
 import {
@@ -112,7 +113,7 @@ import {
 } from '@/const/default'
 // enum
 import { IconTypeEnum } from '@/enum/common'
-import { MenuType } from '@/enum/menu'
+import { MenuType, TyScatterMenuType } from '@/enum/menu'
 import { MapLayerEnum } from '@/enum/map'
 
 // api
@@ -129,16 +130,24 @@ import { Collapse } from 'element-ui'
 import station from '@/store/modules/station'
 // 第三方插件
 // 当前布局会导致此热图插件出错，暂时无法解决
-// import 'heatmap.js'
-// import HeatmapOverlay from '@/plugins/leaflet-heatmap.js'
+// 以前使用的 heatmap 出现了问题，暂时不使用
+// 方式1: 使用 heatmap.js 并使用对应 leaflet-heatmap.js 插件
+import 'heatmap.js'
+import HeatmapOverlay from '@/plugins/leaflet-heatmap.js'
+// import HeatmapOverlay from 'heatmap.js/plugins/leaflet-heatmap'
 // 方式2: 也不可行
 // https://github.com/Leaflet/Leaflet.heat
-import HeatLayer from 'leaflet.heat'
+// import HeatLayer from 'leaflet.heat'
 
 // 其他方式:
 // https://github.com/mejackreed/leaflet-solr-heatmap
-// https://github.com/ursudio/leaflet-webgl-heatmap
 
+// 方式4: 使用 leaflet-webgl-heatmap 但由于缺少部分组件，放弃
+// https://github.com/ursudio/leaflet-webgl-heatmap
+// leaflet-webgl-heatmap 需要引入 webgl-heatmap
+// import 'path-browserify'
+// import 'webgl-heatmap'
+// import 'leaflet-webgl-heatmap'
 // 方式3:
 // import 'simpleheat'
 
@@ -184,8 +193,10 @@ export default class MainMapView extends Vue {
 	}
 
 	isSelectLoop = false
+	/** 当前窗口正在加载 */
+	loading = false
 	/** 当前圈选的中心位置 */
-	currentLatlng: L.LatLng = new L.LatLng(30, 150)
+	currentLatlng: L.LatLng = new L.LatLng(28, 130)
 	/** 圈选半径 */
 	boxRadius = DEFAULT_BOX_LOOP_RADIUS
 	/** 圈选半径基础单位 */
@@ -462,7 +473,7 @@ export default class MainMapView extends Vue {
 		// 3- 清除当前台风的脉冲 layer
 		this.clearTyPulsingIconLayer()
 		// 4- 清除当前台风的散点 layer
-		// this.clearTyScattersLayer()
+		this.clearTyScattersLayer()
 	}
 
 	/** 清除当前所有海洋站的 group layer */
@@ -481,6 +492,11 @@ export default class MainMapView extends Vue {
 			const mymap: L.Map = this.$refs.basemap['mapObject']
 			mymap.removeLayer(this.currentTyPulsingMarker)
 		}
+	}
+
+	/** 清除当前选定的圈选位置的中心点 */
+	private clearCurrentLatlng(): void {
+		this.currentLatlng = null
 	}
 
 	/** 清除全部台风(通过 radius过滤的) 的散点 layer */
@@ -510,96 +526,141 @@ export default class MainMapView extends Vue {
 	@Getter(GET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) getTyForecastDt
 
 	/** 获取是否执行加载通过制定范围的全部台风散点 */
-	@Getter(GET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) get2FilterTy4Scatters
+	@Getter(GET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) get2FilterTy4Scatters: {
+		(): boolean
+	}
+
+	/** 设置 当前圈选范围内的台风 散点|热图 菜单按钮 */
+	@Getter(GET_FILTER_TY_SCATTER_MENU_TYPE, { namespace: 'map' }) getFilterTyScatterMenuType: {
+		(): TyScatterMenuType
+	}
 
 	@Watch('getTyForecastDt')
 	onTyForecastDt(val: Date): void {
 		this.currentTyDateTime = val
 	}
 
-	/** 监听获取台风散点变量 */
-	@Watch('get2FilterTy4Scatters')
-	async onToFilter4Scatters(val: boolean): Promise<void> {
+	async loadFilter4Scatters(val: boolean, scatterMenuType: TyScatterMenuType): Promise<void> {
 		const self = this
+		this.clearTyScattersLayer()
 		if (val) {
-			this.clearTyScattersLayer()
 			const mymap: L.Map = this.$refs.basemap['mapObject']
-			// 方式1: 散点
-			const tyScatter = new TyRadiusScatter(
-				this.currentLatlng,
-				this.boxRadius * this.boxRadiusUnit
-			)
-			// 方式2: 热图
-			const tyHeatMap = new TyRadiusHeatMap(
-				this.currentLatlng,
-				this.boxRadius * this.boxRadiusUnit
-			)
-			// 方式1: 散点
-			// tyScatter
-			// 	.getScatter()
-			// 	.then((res) => {
-			// 		// @ts-ignore
-			// 		self.tyScattersGroupLayerId = L.layerGroup(res).addTo(mymap)._leaflet_id
-			// 	})
-			// 	.finally(() => {
-			// 		self.setToFilterTy4Scatters(false)
-			// 	})
+			this.loading = true
+			// this.clearTyScattersLayer()
+			switch (scatterMenuType) {
+				case TyScatterMenuType.SCATTER:
+					// 方式1: 散点
+					const tyScatter = new TyRadiusScatter(
+						this.currentLatlng,
+						this.boxRadius * this.boxRadiusUnit
+					)
+					// 方式1: 散点
+					tyScatter
+						.getScatter()
+						.then((res) => {
+							// @ts-ignore
+							self.tyScattersGroupLayerId = L.layerGroup(res).addTo(mymap)._leaflet_id
+						})
+						.finally(() => {
+							self.setToFilterTy4Scatters(false)
+							self.loading = false
+						})
+					break
+				case TyScatterMenuType.HEATMAP:
+					// 方式2: 热图
+					const tyHeatMap = new TyRadiusHeatMap(
+						this.currentLatlng,
+						this.boxRadius * this.boxRadiusUnit
+					)
 
-			// 方式2: 热图
-			let heatmapData: { lat: number; lng: number; count: number }[] = []
-			await tyHeatMap.getScatter().then((res) => {
-				heatmapData = res
-			})
+					// 方式2: 热图
+					let heatmapData: { lat: number; lng: number; count: number }[] = []
+					await tyHeatMap.getScatter().then((res) => {
+						heatmapData = res
+					})
 
-			// 增加过滤环节
-			const filterHeatmapData = heatmapData.filter((temp) => {
-				return !Number.isNaN(temp.lat) && !Number.isNaN(temp.lng)
-			})
+					// 增加过滤环节
+					const filterHeatmapData = heatmapData.filter((temp) => {
+						return !Number.isNaN(temp.lat) && !Number.isNaN(temp.lng)
+					})
 
-			let heatData: number[][] = []
-			for (let index = 0; index < heatmapData.length; index++) {
-				const element = [
-					heatmapData[index].lat,
-					heatmapData[index].lng,
-					heatmapData[index].count,
-				]
-				heatData.push(element)
+					// 方式1:heatmap.js 会出错
+					const heatData = {
+						max: 2,
+						data: filterHeatmapData,
+					}
+					const heatConfig = {
+						// 此半径可以有效的滤掉由于 status = 2 造成的应该滤掉区域
+						radius: 0.5,
+						// radius: 0.01,
+						maxOpacity: 0.8,
+						scaleRadius: true,
+						useLocalExtrema: true,
+						latField: 'lat',
+						lngField: 'lng',
+						valueField: 'count',
+					}
+					// @ts-ignore
+					// mymap.invalidateSize()
+					let heatLayer = new HeatmapOverlay(heatConfig)
+					heatLayer.setData(heatData)
+
+					//此处不论是放在异步方法中或是放在外侧均会出现以下错误
+					/*
+				ERROR:
+				Uncaught (in promise) DOMException: Failed to execute 'drawImage' on 'CanvasRenderingContext2D': The image argument is a canvas element with a width or height of 0.
+				*/
+					// 解决办法: https://stackoverflow.com/questions/72219281/failed-to-execute-createpattern-on-canvasrenderingcontext2d-the-image-argum
+					// 无效
+					self.tyScattersGroupLayerId = heatLayer.addTo(mymap)._leaflet_id
+					self.loading = false
+					// 方式2: leaflet.heat  此种方式也不可行
+					// let heatData: number[][] = []
+					// for (let index = 0; index < heatmapData.length; index++) {
+					// 	const element = [
+					// 		heatmapData[index].lat,
+					// 		heatmapData[index].lng,
+					// 		heatmapData[index].count,
+					// 	]
+					// 	heatData.push(element)
+					// }
+					// // @ts-ignore
+					// var heat = HeatLayer(heatData, { radius: 25 }).addTo(mymap)
+
+					// 方式4: leaflet-webgl-heatmap
+					// @ts-ignore
+					// var heatmap = L.webGLHeatmap({ size: 1000 })
+					// heatmap.setData(heatData)
+					// // ERROR: TypeError: window.createWebGLHeatmap is not a function
+					// // 引入 webgl-heatmap 后出现
+					// // ERROR in ./node_modules/webgl-heatmap/index.js 8:9-22
+					// // Module not found: Error: Can't resolve 'fs' in '...\node_modules\webgl-heatmap'
+					// // 相同的问题: https://github.com/pyalot/webgl-heatmap/issues/19
+					// // 暂时不使用
+					// mymap.addLayer(heatmap)
+					break
 			}
+		}
+	}
 
-			// 方式1:heatmap.js 会出错
-			// const heatData = {
-			// 	max: 2,
-			// 	data: filterHeatmapData,
-			// }
-			// const heatConfig = {
-			// 	// 此半径可以有效的滤掉由于 status = 2 造成的应该滤掉区域
-			// 	radius: 0.002,
-			// 	// radius: 0.01,
-			// 	maxOpacity: 0.8,
-			// 	scaleRadius: true,
-			// 	useLocalExtrema: true,
-			// 	latField: 'lat',
-			// 	lngField: 'lng',
-			// 	valueField: 'count',
-			// }
-			// // @ts-ignore
-			// let heatLayer: HeatmapOverlay = null
+	get toLoadFilterTy4Scatters() {
+		const { get2FilterTy4Scatters, getFilterTyScatterMenuType } = this
+		return { get2FilterTy4Scatters, getFilterTyScatterMenuType }
+	}
 
-			// mymap.on('resize', function () {
-			// 	mymap.invalidateSize()
-			// })
-			// heatLayer = new HeatmapOverlay(heatConfig)
-			// heatLayer.setData(heatData)
-			// //此处不论是放在异步方法中或是放在外侧均会出现以下错误
-			// /*
-			// 	ERROR:
-			// 	Uncaught (in promise) DOMException: Failed to execute 'drawImage' on 'CanvasRenderingContext2D': The image argument is a canvas element with a width or height of 0.
-			// 	*/
-			// heatLayer.addTo(mymap)
-
-			// 方式2: leaflet.heat  此种方式也不可行
-			// // @ts-ignore
-			var heat = HeatLayer(heatData, { radius: 25 }).addTo(mymap)
+	/** 监听获取台风散点变量 */
+	@Watch('toLoadFilterTy4Scatters')
+	onToLoadFilterTy4Scatters(val: {
+		get2FilterTy4Scatters: boolean
+		getFilterTyScatterMenuType: TyScatterMenuType
+	}): void {
+		if (
+			val.get2FilterTy4Scatters &&
+			val.getFilterTyScatterMenuType !== TyScatterMenuType.UN_SELECT
+		) {
+			this.loadFilter4Scatters(true, val.getFilterTyScatterMenuType)
+		} else if (val.getFilterTyScatterMenuType === TyScatterMenuType.UN_SELECT) {
+			this.clearTyScattersLayer()
 		}
 	}
 

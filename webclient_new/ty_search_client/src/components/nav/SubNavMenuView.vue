@@ -8,35 +8,48 @@
 			<div class="nav_item_icon fa-solid fa-house"></div>
 		</nav>
 		<nav class="nav_item nav_item_icons un_padding">
-			<div class="nav_item_icon">
-				<!-- <div
+			<el-tooltip
+				class="item"
+				effect="dark"
+				content="按位置圈选经过的台风"
+				placement="top-start"
+			>
+				<div class="nav_item_icon">
+					<!-- <div
 					:class="[
 						checkedSelectLoop ? 'activate' : 'un_activate',
 						'nav_item_icon',
 						'fa-solid fa-anchor-circle-check',
 					]"
 				></div> -->
-				<div
-					:class="[checkedSelectLoop ? 'activate' : 'un_activate', , 'nav_item_icon']"
-					@click="checkedSelectLoop = !checkedSelectLoop"
-				>
-					<i class="fa-solid fa-anchor-circle-check"></i>
-				</div>
-				<div class="hidden_box_radius" v-show="checkedSelectLoop">
-					<el-slider v-model="boxRadius" :step="1000" :max="3000"></el-slider>
-				</div>
-				<!-- <div
+					<div
+						:class="[checkedSelectLoop ? 'activate' : 'un_activate', , 'nav_item_icon']"
+						@click="checkedSelectLoop = !checkedSelectLoop"
+					>
+						<i class="fa-solid fa-anchor-circle-check"></i>
+					</div>
+					<div class="hidden_box_radius" v-show="checkedSelectLoop">
+						<el-slider v-model="boxRadius" :step="1000" :max="3000"></el-slider>
+					</div>
+					<!-- <div
 					class="nav_item_icon fa-solid fa-anchor-circle-check"
 					:class="{ checkedSelectLoop: activate }"
 				></div> -->
-				<!-- <i class="nav_item_icon fa-solid fa-anchor-circle-check"></i> -->
-			</div>
-			<div class="nav_item_icon" @click="deepClear()">
-				<div class="nav_item_icon fa-solid fa-eraser"></div>
-			</div>
-			<div class="nav_item_icon" @click="submit()">
-				<div class="fa-solid fa-magnifying-glass-location"></div>
-			</div>
+					<!-- <i class="nav_item_icon fa-solid fa-anchor-circle-check"></i> -->
+				</div>
+			</el-tooltip>
+			<el-tooltip class="item" effect="dark" content="清除" placement="top">
+				<div class="nav_item_icon" @click="deepClear()">
+					<div class="nav_item_icon fa-solid fa-eraser"></div>
+				</div>
+			</el-tooltip>
+
+			<el-tooltip class="item" effect="dark" content="提交查询" placement="top">
+				<div class="nav_item_icon" @click="submit()">
+					<div class="fa-solid fa-magnifying-glass-location"></div>
+				</div>
+			</el-tooltip>
+
 			<TyphoonListView
 				:typhoonList="filterTyList"
 				:filterTyCount="filterTyCount"
@@ -45,6 +58,35 @@
 			<!-- <i class="nav_item_icon fa-solid fa-eraser"></i>
 			<div class="fa-solid fa-house"></div> -->
 		</nav>
+		<el-tooltip
+			class="item"
+			effect="dark"
+			content="加载途经选定区域的台风散点|热图"
+			placement="top"
+		>
+			<nav class="nav_item nav_item_icons">
+				<div
+					:class="[
+						checkedLoadFilterTyScatters ? 'activate' : 'un_activate',
+						,
+						'nav_item_icon',
+					]"
+					@click="checkedLoadFilterTyScatters = !checkedLoadFilterTyScatters"
+				>
+					<i class="fa-solid fa-tornado"></i>
+				</div>
+				<div class="hidden_box_switch" v-show="checkedLoadFilterTyScatters">
+					<el-switch
+						v-model="filterTyIsScatterMenu"
+						active-text="散点"
+						inactive-text="热图"
+					>
+					</el-switch>
+				</div>
+				<!-- <div class="nav_item_icon fa-solid fa-tornado"></div> -->
+			</nav>
+		</el-tooltip>
+
 		<SubNavTimeItem
 			:forecastDt="forecastDt"
 			:step="1"
@@ -71,6 +113,7 @@ import {
 	SET_CURRENT_TY,
 	SET_SELECTED_LOOP,
 	SET_TO_FILTER_TY_SCATTER,
+	SET_FILTER_TY_SCATTER_MENU_TYPE,
 } from '@/store/types'
 // 默认常量
 import {
@@ -83,6 +126,8 @@ import {
 import { loadTyListByRange } from '@/api/typhoon'
 // mid model
 import { FilterTyMidModel } from '@/middle_model/typhoon'
+// 枚举
+import { TyScatterMenuType } from '@/enum/menu'
 
 /** + 22-10-14 副导航栏(布局:底部) */
 @Component({
@@ -104,6 +149,33 @@ export default class SubNavMenuView extends Vue {
 	}
 
 	forecastDt: Date = new Date()
+
+	/** 是否加载过滤后的台风散点(或热图) */
+	isLoadFilterTyScatters = false
+
+	/** 是否选中加载过滤后的台风散点(或热图) */
+	checkedLoadFilterTyScatters = false
+
+	// filterTyScatterMenuType = TyScatterMenuType.SCATTER
+
+	/** 是否选中加载过滤后的台风散点(或热图) */
+	filterTyIsScatterMenu = true
+
+	/** 获取当前台风散点|热图 */
+	get getFilterTyScatterMenuType(): TyScatterMenuType {
+		let scatterMenu = TyScatterMenuType.UN_SELECT
+		if (this.checkedLoadFilterTyScatters) {
+			scatterMenu = this.filterTyIsScatterMenu
+				? TyScatterMenuType.SCATTER
+				: TyScatterMenuType.HEATMAP
+		}
+		return scatterMenu
+	}
+
+	/** 获取是否为台风散点(T:Scatter|F:HeatMap) */
+	// get getTyIsScatterMenu(): boolean {
+	// 	return this.filterTyScatterMenuType === TyScatterMenuType.SCATTER
+	// }
 
 	/** 时间间隔 */
 	dateStep: number = DEFAULT_DATE_STEP
@@ -201,7 +273,13 @@ export default class SubNavMenuView extends Vue {
 	/** 设置当前台风预报时间 */
 	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt
 
-	@Mutation(SET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) setToFilterTy4Scatters
+	@Mutation(SET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) setToFilterTy4Scatters: {
+		(val: boolean): void
+	}
+
+	/** 设置台风 散点|热图 类型 */
+	@Mutation(SET_FILTER_TY_SCATTER_MENU_TYPE, { namespace: 'map' })
+	setFilterTyScatterMenuType: { (val: TyScatterMenuType): void }
 
 	/** 设置当前选中的台风 */
 	@Mutation(SET_CURRENT_TY, { namespace: 'typhoon' })
@@ -219,9 +297,14 @@ export default class SubNavMenuView extends Vue {
 	onDateStep(val: number): void {
 		this.dateStep = val
 	}
+
+	@Watch('getFilterTyScatterMenuType')
+	onTyScatterMenuType(val: TyScatterMenuType): void {
+		this.setFilterTyScatterMenuType(val)
+	}
 }
 </script>
-<style scoped lang="less">
+<style lang="less">
 @import '../../styles/btn.less';
 .nav_item {
 	// transition: all 0.5s;
@@ -232,6 +315,11 @@ export default class SubNavMenuView extends Vue {
 }
 .hidden_box_radius {
 	width: 80px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.hidden_box_switch {
+	width: 120px;
 	margin-left: 10px;
 	margin-right: 10px;
 }

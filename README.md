@@ -148,3 +148,18 @@
 ![avatar](document/img/v2_14.png)
 * 在缩略组件中取消了最小化按钮
 ![avatar](document/img/v2_15.png)
+
+#### 22-11-14  
+1- 加入了根据圈选范围加载途经的所有台风的分布散点|热图;  
+* 散点
+![avatar](document/img/v2_21.png)
+* 热图
+![avatar](document/img/v2_20.png)
+* 加载热图及选定台风
+![avatar](document/img/v2_18.png)  
+2- 底部操作栏中加入了切换按钮  
+逻辑:  
+* 点击展开并默认加载热图
+* 切换散点加载散点  
+![avatar](document/img/v2_22.png)  
+3- 部分按钮加入了描述信息
