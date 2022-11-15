@@ -1,5 +1,6 @@
 import * as L from 'leaflet'
 import moment from 'moment'
+import { convertBp2HeatMapFactor } from './util'
 
 /**
  * @description 过滤台风 mid model
@@ -57,4 +58,32 @@ class TyRealDataMongoMidModel {
 	}
 }
 
-export { FilterTyMidModel, TyRealDataMongoMidModel }
+/**
+ * @description 为热图使用的台风位置及对应的因子(气压)
+ * @author evaseemefly
+ * @date 2022/11/15
+ * @class TyRealDataHeatmapFactorMidModel
+ */
+class TyRealDataBpMidModel {
+	latlng: L.LatLng
+	// factor: number
+	bp: number
+	constructor(latlng: L.LatLng, bp: number) {
+		this.latlng = latlng
+		this.bp = bp
+	}
+
+	/**
+	 * @description 热图因子
+	 * @author evaseemefly
+	 * @date 2022/11/15
+	 * @readonly
+	 * @type {number}
+	 * @memberof TyRealDataBpMidModel
+	 */
+	get factor(): number {
+		return convertBp2HeatMapFactor(this.bp)
+	}
+}
+
+export { FilterTyMidModel, TyRealDataMongoMidModel, TyRealDataBpMidModel }

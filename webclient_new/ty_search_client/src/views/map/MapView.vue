@@ -591,9 +591,11 @@ export default class MainMapView extends Vue {
 					}
 					const heatConfig = {
 						// 此半径可以有效的滤掉由于 status = 2 造成的应该滤掉区域
-						radius: 0.5,
+						radius: 0.5, // 每个数据点的半径
 						// radius: 0.01,
-						maxOpacity: 0.8,
+						maxOpacity: 0.6,
+						minOpacity: 0.2,
+						blur: 0.9, // 模糊因子，越高过度越平滑
 						scaleRadius: true,
 						useLocalExtrema: true,
 						latField: 'lat',

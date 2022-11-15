@@ -163,3 +163,11 @@
 * 切换散点加载散点  
 ![avatar](document/img/v2_22.png)  
 3- 部分按钮加入了描述信息
+
+#### 22-11-15  
+1- 加入了按照中心气压强度(转换为对应台风登记)在`circle`与`heatmap`中加入了权重因子
+* 效果如下:
+  circle
+  ![avatar](document/img/v2_23.png) 
+  热图
+  ![avatar](document/img/v2_24.png)

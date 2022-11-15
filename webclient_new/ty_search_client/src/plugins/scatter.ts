@@ -4,8 +4,11 @@
 
 import { loadTyScattersByRadius } from '@/api/typhoon'
 import { IHttpResponse } from '@/interface/common'
+import { TyRealDataBpMidModel } from '@/middle_model/typhoon'
+import { convertBp2HeatMapFactor, getBpRange } from '@/middle_model/util'
 
 import * as L from 'leaflet'
+import chroma from 'chroma-js'
 
 /**
  * @description 散点接口
@@ -60,8 +63,9 @@ class TyRadiusScatter implements IScatter<L.LatLng[], Promise<L.CircleMarker[]>>
 		this.center = center
 	}
 
-	loadPoints(): Promise<L.LatLng[]> {
-		const tyScatters: L.LatLng[] = []
+	loadPoints(): Promise<TyRealDataBpMidModel[]> {
+		// const tyScatters: L.LatLng[] = []
+		const bpList: TyRealDataBpMidModel[] = []
 		return loadTyScattersByRadius({
 			latlon: [this.center.lat, this.center.lng],
 			range: this.radius,
@@ -87,16 +91,25 @@ class TyRadiusScatter implements IScatter<L.LatLng[], Promise<L.CircleMarker[]>>
 				if (res.status === 200) {
 					res.data.forEach((tempTy) => {
 						tempTy.list_ty_geo.forEach((tempPoint) => {
-							tyScatters.push(
-								L.latLng(
-									tempPoint.latlon.coordinates[1],
-									tempPoint.latlon.coordinates[0]
+							// tyScatters.push(
+							// 	L.latLng(
+							// 		tempPoint.latlon.coordinates[1],
+							// 		tempPoint.latlon.coordinates[0]
+							// 	)
+							// )
+							bpList.push(
+								new TyRealDataBpMidModel(
+									L.latLng(
+										tempPoint.latlon.coordinates[1],
+										tempPoint.latlon.coordinates[0]
+									),
+									tempPoint.bp
 								)
 							)
 						})
 					})
 				}
-				return tyScatters
+				return bpList
 			}
 		)
 		// .finally(() => {
@@ -107,15 +120,18 @@ class TyRadiusScatter implements IScatter<L.LatLng[], Promise<L.CircleMarker[]>>
 	}
 	getScatter(): Promise<L.CircleMarker[]> {
 		const scatterColor = '#3388ff'
+		const BP_MAX = Math.max(...getBpRange())
+		const BP_MIN = Math.min(...getBpRange())
+		const scale = chroma.scale(['#2A4858', '#fafa6e']).domain([BP_MIN, BP_MAX])
 		const scatterMarker: L.CircleMarker[] = []
 		return this.loadPoints().then((res) => {
 			// console.log(res)
 			// @ts-ignore
 			res.forEach((ele) => {
 				scatterMarker.push(
-					new L.CircleMarker([ele.lat, ele.lng], {
+					new L.CircleMarker([ele.latlng.lat, ele.latlng.lng], {
 						radius: 1,
-						color: scatterColor,
+						color: scale(ele.factor).hex(),
 					})
 				)
 			})
@@ -163,8 +179,17 @@ class TyRadiusHeatMap
 		this.radius = radius
 		this.center = center
 	}
-	loadPoints(): Promise<L.LatLng[]> {
+
+	/**
+	 * @description 根据 this.center 与 this.radius 加载该范围内的所有台风 bp mid model
+	 * @author evaseemefly
+	 * @date 2022/11/15
+	 * @returns {*}  {Promise<TyRealDataBpMidModel[]>}
+	 * @memberof TyRadiusHeatMap
+	 */
+	loadPoints(): Promise<TyRealDataBpMidModel[]> {
 		const tyScatters: L.LatLng[] = []
+		const bpList: TyRealDataBpMidModel[] = []
 		return loadTyScattersByRadius({
 			latlon: [this.center.lat, this.center.lng],
 			range: this.radius,
@@ -190,31 +215,48 @@ class TyRadiusHeatMap
 				if (res.status === 200) {
 					res.data.forEach((tempTy) => {
 						tempTy.list_ty_geo.forEach((tempPoint) => {
-							tyScatters.push(
-								L.latLng(
-									tempPoint.latlon.coordinates[1],
-									tempPoint.latlon.coordinates[0]
+							// tyScatters.push(
+							// 	L.latLng(
+							// 		tempPoint.latlon.coordinates[1],
+							// 		tempPoint.latlon.coordinates[0]
+							// 	)
+							// )
+							bpList.push(
+								new TyRealDataBpMidModel(
+									L.latLng(
+										tempPoint.latlon.coordinates[1],
+										tempPoint.latlon.coordinates[0]
+									),
+									tempPoint.bp
 								)
 							)
 						})
 					})
 				}
-				return tyScatters
+				return bpList
 			}
 		)
 	}
 
+	/**
+	 * @description 获取 热图的 散点
+	 * @author evaseemefly
+	 * @date 2022/11/15
+	 * @returns {*}  {Promise<{ lat: number; lng: number; count: number }[]>}
+	 * @memberof TyRadiusHeatMap
+	 */
 	getScatter(): Promise<{ lat: number; lng: number; count: number }[]> {
 		// const scatterColor = '#3388ff'
 		const heatList: { lat: number; lng: number; count: number }[] = []
+
 		return this.loadPoints().then((res) => {
 			// console.log(res)
 			// @ts-ignore
 			res.forEach((ele) => {
 				heatList.push({
-					lat: ele.lat,
-					lng: ele.lng,
-					count: 2,
+					lat: ele.latlng.lat,
+					lng: ele.latlng.lng,
+					count: ele.factor,
 				})
 			})
 			return heatList
