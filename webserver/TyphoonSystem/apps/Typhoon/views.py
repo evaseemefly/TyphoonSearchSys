@@ -6,7 +6,7 @@ import abc
 import os
 import logging
 
-from typing import List
+from typing import List, Set
 
 from django.shortcuts import render
 from rest_framework import status
@@ -498,39 +498,72 @@ class FilterByMonth(BaseView):
         month = kwargs.get('month', datetime.now().month)
         # TODO [*]此处存在的问题不能使用django的xxx__month的方式直接按照月份去过滤
         # return GeoTyphoonRealData.objects.filter(code=code,date__month=6)
+        """
+            原生查询语句如下:
+                
+            db.geotyphoonrealdata.aggregate(
+               [
+                 {
+                   $project:
+                     {
+                       month: { $month: "$date" },
+                       num:"$num"
+                     }
+                 },
+                 {
+                   $match:{
+                     month:2
+                   }
+                 },
+                 {
+                    $group:{
+                        _id:"$num"
+                    }
+                 }
+               ]
+            )
+
+        """
+
+        pipeline = [
+            {"$sort": {"_id": -1}}
+        ]
+
+        # pipeline = [
+        #     {"$sort": {"name": -1}},
+        #     {"$project": {"_id": 0, "name": {"$toUpper": "$name"}}}
+        # ]
+
+        find_qry = [
+            {"$project": {"month": {"$month": "$date"}, "num": "$num"}},
+            {"$match": {"month": month}},
+            {"$group": {"_id": "$num"}}
+        ]
+
+        # {
+        #     "$match":
+        #         {
+        #             "month": month
+        #         }
+        # },
+        # {
+        #     "$group": {
+        #         "_id": "$num"
+        #     }
+        # }
+
+        # ERROR1: TypeError: filter must be an instance of dict, bson.son.SON, or other type that inherits from collections.Mapping
+        # collection = GeoTyphoonRealData._get_collection()
+        # query = collection.find(pipeline)
+        # ERROR2: Unable to get repr for <class 'mongoengine.queryset.queryset.QuerySet'>
+        # ERROR3: pymongo.errors.OperationFailure: Each element of the 'pipeline' array must be an object
+        # TODO:[-] 22-11-16 注意此处 aggregate(*x) 需要加入 * 否则会提示 Each element of the 'pipeline' array must be an object 错误
+        query = GeoTyphoonRealData.objects().aggregate(*find_qry)
+        # [..{_id:xx}]
+        list_query_dist: List[dict] = list(query)
+        # 获取该年份的台风编号
+        list_nums: List[str] = [temp._id for temp in list_query_dist]
         return GeoTyphoonRealData.objects.filter(code=code, date__lte=datetime.now())
-
-
-class FilterByYear(BaseView):
-    '''
-        根据年份进行查询
-    '''
-
-    def get(self, request):
-        # TODO [-]优先完成此部分
-        code = request.GET.get('code')
-        year = request.GET.get('year', datetime.now().year)
-        list = self.getTyphoonList(year=year, code=code)
-        json_data = GeoTyphoonRealDataSerializer(list, many=True).data
-        return Response(json_data)
-
-    def getTyphoonList(self, *args, **kwargs):
-        '''
-            根据code以及month查询台风路径信息
-        :param args:
-        :param kwargs:
-        :return:
-        '''
-        code = kwargs.get('code', "")
-        year = kwargs.get('year')
-        # 获取起止日期
-        start, end = dateCommon.getYearDateRange(year)
-        # TODO [-]此处改为使用mongoengine的方式进行查询
-        return GeoTyphoonRealData.objects(date__lte=end) if code == "" else GeoTyphoonRealData.objects(code=code,
-                                                                                                       date__lte=end)
-        # return GeoTyphoonRealData.objects.filter(code=code,date__lte=end,date__gte=start)
-        # return GeoTyphoonRealData.objects(code=code, date__lte=end)
-        # return GeoTyphoonRealData.objects.filter(code=code, date__gte=start)
 
 
 class FilterByRange(BaseView):
@@ -656,6 +689,73 @@ class FilterByRange(BaseView):
             GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('num'))
 
 
+class FilterByYear(FilterByRange):
+    '''
+        根据年份进行查询
+    '''
+
+    def get(self, request):
+        """
+             {
+                "num": "1711",
+                "list_ty_geo": [
+                    {
+                        "code": "NALGAE",
+                        "date": "2017-08-01T00:00:00Z",
+                        "num": "1711",
+                        "bp": 1004.0,
+                        "wsm": 13.0,
+                        "level": 1,
+                        "latlon": {
+                            "type": "Point",
+                            "coordinates": [
+                                162.4,
+                                26.5
+                            ]
+                        }
+                    },
+             }
+        @param request:
+        @return:
+        """
+        # TODO [-]优先完成此部分
+        code = request.GET.get('code')
+        year = request.GET.get('year', datetime.now().year)
+        list = self.getTyphoonList(year=year, code=code)
+        codes: List[str] = [temp.num for temp in list]
+        dist_codes: Set[str] = set(codes)
+        # 去掉 nameless
+        tup_python_name = ('nameless', '(nameless)')
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = []
+        for temp_ty_num in dist_codes:
+            if temp_ty_num not in tup_python_name:
+                temp_ty_path_list = GeoTyphoonRealData.objects(num=temp_ty_num)
+                temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty_num,
+                                                                                  list_ty_geo=temp_ty_path_list)
+                list_ty_geo_path.append(temp_ty_geo_path)
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path, many=True).data
+        return Response(json_data)
+
+    def getTyphoonList(self, *args, **kwargs) -> List[GeoTyphoonRealData]:
+        '''
+            根据code以及month查询台风路径信息
+        :param args:
+        :param kwargs:
+        :return:
+        '''
+        code = kwargs.get('code', "")
+        year = kwargs.get('year')
+        # 获取起止日期
+        start, end = dateCommon.getYearDateRange(year)
+        # TODO [-]此处改为使用mongoengine的方式进行查询
+        # return GeoTyphoonRealData.objects(date__lte=end, date__gte=start) if code == "" else GeoTyphoonRealData.objects(
+        #     code=code, date__gte=start,
+        #     date__lte=end)
+        return GeoTyphoonRealData.objects.filter(date__lte=end, date__gte=start)
+        # return GeoTyphoonRealData.objects(code=code, date__lte=end)
+        # return GeoTyphoonRealData.objects.filter(code=code, date__gte=start)
+
+
 class FilterByDistanceFullGeoInfo(FilterByRange):
     """
         + 22-11-11
@@ -669,9 +769,10 @@ class FilterByDistanceFullGeoInfo(FilterByRange):
         list_ty_geo_path: List[TyphoonGeoListMidModel] = []
         for temp_ty in data.list:
             temp_ty_path_list = GeoTyphoonRealData.objects(num=temp_ty.num)
-            temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty.num, list_ty_geo=temp_ty_path_list)
+            temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty.num,
+                                                                              list_ty_geo=temp_ty_path_list)
             list_ty_geo_path.append(temp_ty_geo_path)
-        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path,many=True).data
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
 
 
