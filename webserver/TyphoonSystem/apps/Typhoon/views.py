@@ -768,7 +768,7 @@ class FilterByYear(FilterByRange):
         # return GeoTyphoonRealData.objects.filter(code=code, date__gte=start)
 
 
-class FilterByParamsView(FilterByMonth):
+class FilterByParamsView(FilterByMonth, FilterByYear):
     """
         复杂查询过滤视图
     """
@@ -787,8 +787,17 @@ class FilterByParamsView(FilterByMonth):
         # ty_nums_list: List[str] = []
         # 根据过滤类型获取该过滤类型的匹配台风编号
         if filter_type is FilterTypeEnum.UNIQUE_MONTH:
-            month = request.GET.get('month', 1)
+            month_str: str = request.GET.get('month', '1')
+            month: int = int(month_str)
             ty_nums_list: List[str] = self.get_ty_nums(month=month)
+            ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
+        elif filter_type is FilterTypeEnum.UNIQUE_YEAR:
+            year_str: str = request.GET.get('year', '2017')
+            year: int = int(year_str)
+            ty_path_list: List[GeoTyphoonRealData] = self.getTyphoonList(year=year)
+            ty_nums_list: List[str] = [temp.num for temp in ty_path_list]
+            dist_ty_nums: Set[str] = set(ty_nums_list)
+            ty_nums_list: List[str] = [code for code in dist_ty_nums]
             ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
         json_data = TyphoonAndTotalModelSerializer(ty_total).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
