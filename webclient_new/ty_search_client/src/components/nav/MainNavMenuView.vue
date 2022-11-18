@@ -1,42 +1,88 @@
 <template>
-	<nav id="main_nav_menu">
-		<!-- <font-awesome-icon :icon="menuItem.icons" v-for="menuItem in menuList" :key="menuItem.id" /> -->
-		<div class="nav_menu-item" v-for="menuItem in menuList" :key="menuItem.id">
-			<i class="fa fa-1x" :class="menuItem.icon"></i>
-		</div>
-		<!-- <div ></div> -->
-	</nav>
+	<div>
+		<nav id="main_nav_menu">
+			<!-- <font-awesome-icon :icon="menuItem.icons" v-for="menuItem in menuList" :key="menuItem.id" /> -->
+			<div
+				class="nav_menu-item"
+				v-for="menuItem in menuList"
+				:key="menuItem.id"
+				@click="selectedNavMenu = menuItem.menuType"
+			>
+				<i class="fa fa-1x" :class="menuItem.icon"></i>
+			</div>
+			<!-- <div ></div> -->
+		</nav>
+		<!-- <div v-show="isShowContent"></div> -->
+		<ComplexOptionsDrawerView
+			:drawer="isShowContent"
+			@setClose="setCloseDrawer"
+		></ComplexOptionsDrawerView>
+	</div>
 </template>
 <script lang="ts">
+import { MainNavMenuType } from '@/enum/menu'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import ComplexOptionsDrawerView from '@/components/drawer/complexOptionsDrawerView.vue'
 /** + 22-10-14 主要的导航栏(布局左侧) */
 const DEFAULT_NAV_CLS = 'nav_menu-item'
-@Component({})
+@Component({
+	components: {
+		ComplexOptionsDrawerView,
+	},
+})
 export default class MainNavMenuView extends Vue {
 	mydata: any = null
-	menuList: { title: string; desc: string; icon: string; icons: string[] }[] = [
+	// isShowContent = false
+	selectedNavMenu: MainNavMenuType = MainNavMenuType.NULL
+	menuList: {
+		title: string
+		desc: string
+		icon: string
+		icons: string[]
+		menuType: MainNavMenuType
+	}[] = [
 		{
 			title: '台风点选',
 			desc: '测试1测试1测试1',
 			icon: `fa-solid fa-hurricane`,
 			icons: ['fa-solid', 'fa-hurricane'],
+			menuType: MainNavMenuType.FILTER_BY_DISTANCE,
 		},
 		{
 			title: '台风复杂查询',
 			desc: '测试1测试1测试1',
 			icon: `fa-solid fa-magnifying-glass-location`,
 			icons: ['fa-solid', 'fa-magnifying-glass-location'],
+			menuType: MainNavMenuType.FILTER_BY_COMPLEX,
 		},
 		{
 			title: '测试3',
 			desc: '测试1测试1测试1',
 			icon: `fa-solid fa-chart-simple`,
 			icons: ['fa-solid', 'fa-magnifying-glass-location'],
+			menuType: MainNavMenuType.NULL,
 		},
 	]
-	mounted() {}
-	get computedTest() {
-		return null
+
+	/** 关闭 drawer */
+	setCloseDrawer(): void {
+		this.selectedNavMenu = MainNavMenuType.NULL
+	}
+
+	get isShowContent(): boolean {
+		let isShow = false
+		switch (this.selectedNavMenu) {
+			case MainNavMenuType.NULL:
+				isShow = false
+				break
+			case MainNavMenuType.FILTER_BY_DISTANCE:
+				isShow = false
+				break
+			case MainNavMenuType.FILTER_BY_COMPLEX:
+				isShow = true
+				break
+		}
+		return isShow
 	}
 }
 </script>

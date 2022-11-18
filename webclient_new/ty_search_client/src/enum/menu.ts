@@ -25,4 +25,19 @@ enum TyScatterMenuType {
 	HEATMAP,
 	UN_SELECT,
 }
-export { MenuType, TyScatterMenuType }
+
+/**
+ * @description 左侧主要nav栏菜单类型
+ * @author evaseemefly
+ * @date 2022/11/18
+ * @enum {number}
+ */
+enum MainNavMenuType {
+	/** 默认未选择 */
+	NULL,
+	/** 按照距离查询台风 */
+	FILTER_BY_DISTANCE,
+	/** 复杂条件查询 */
+	FILTER_BY_COMPLEX,
+}
+export { MenuType, TyScatterMenuType, MainNavMenuType }

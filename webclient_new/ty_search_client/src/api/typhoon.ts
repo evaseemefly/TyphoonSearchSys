@@ -2,6 +2,9 @@ import axios from 'axios'
 import { host } from './common'
 import authHeader from './auth_header'
 import { ISearchTyStationParams } from '@/middle_model/api_params'
+import { faYammer } from '@fortawesome/free-brands-svg-icons'
+// 枚举
+import { FilterTypeEnum } from '@/enum/filter'
 // 后端的请求地址及端口
 // export const host = host
 axios.defaults.withCredentials = true
@@ -102,6 +105,27 @@ const loadTyScattersByRadius = (params: ITyphoonParams) => {
 		},
 	})
 }
+
+/**
+ * 根据复杂条件查询获取台风对应全部散点
+ * @param parms
+ * @returns
+ */
+const loadTyScatterByComplex = (parms: {
+	filterType: FilterTypeEnum
+	year?: string
+	month?: string
+}) => {
+	const url = `${host}${area}/filter/range/all/geo/`
+	return axios.get(url, {
+		headers: authHeader(),
+		params: {
+			filter_type: parms.filterType,
+			year: parms.year,
+			month: parms.month,
+		},
+	})
+}
 /**
  * + 22-10-19 根据 code 加载对应的台风的路径及气象信息
  * @param code
@@ -134,4 +158,10 @@ const loadStationTideDataList = (par: ISearchTyStationParams) => {
 	})
 }
 
-export { loadTyListByRange, loadTyRealDataList, loadStationTideDataList, loadTyScattersByRadius }
+export {
+	loadTyListByRange,
+	loadTyRealDataList,
+	loadStationTideDataList,
+	loadTyScattersByRadius,
+	loadTyScatterByComplex,
+}
