@@ -30,8 +30,17 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+// 引入事件总线
+import { EventBus } from '@/bus/BUS'
+import {
+	TO_GET_UNIQUE_TY_SEARCH_LIST,
+	TO_GET_UNIQUE_TY_SEARCH_READ_DATA,
+	TO_CLOSE_COMPLEX_OPTS_DRAWER,
+} from '@/bus/types'
+
+import TyphoonComponent from '@/bus/modules/typhoon'
 @Component({})
-export default class center_map extends Vue {
+export default class TyUniqueSearchCardView extends Vue {
 	/** 过滤的年份 */
 	filterYear = ''
 	/** 过滤的月份(全部年份的该月份) */
@@ -56,7 +65,21 @@ export default class center_map extends Vue {
 	}
 
 	/** 提交查询操作  */
-	submit(): void {}
+	submit(): void {
+		// TODO:[-] 22-11-21
+		// TypeError: Cannot read properties of undefined (reading '$emit')
+		// @ts-ignore
+		// this.$bus.$emit('my-add-to-count')
+		/** 提交唯一性查询的参数 */
+		const params: { year: string; month: string } = {
+			year: this.filterYear,
+			month: this.filterMonth,
+		}
+		EventBus.$emit(TO_GET_UNIQUE_TY_SEARCH_READ_DATA, params)
+		EventBus.$emit(TO_GET_UNIQUE_TY_SEARCH_LIST, params)
+		// 触发外侧 drawe 收起
+		EventBus.$emit(TO_CLOSE_COMPLEX_OPTS_DRAWER)
+	}
 }
 </script>
 <style scoped lang="less">

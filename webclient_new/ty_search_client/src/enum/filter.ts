@@ -8,9 +8,9 @@ enum FilterTypeEnum {
 	/** 默认未选择 */
 	NULL,
 	/** 按照年份进行过滤 */
-	FILTER_BY_UNIQUE_YEAR,
+	FILTER_BY_UNIQUE_YEAR = 1002,
 	/** 按照月份进行过滤 */
-	FILTER_BY_UNIQUE_MONTH,
+	FILTER_BY_UNIQUE_MONTH = 1001,
 }
 
 export { FilterTypeEnum }

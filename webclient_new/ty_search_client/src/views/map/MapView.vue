@@ -47,7 +47,7 @@
 </template>
 <script lang="ts">
 // vue 相关组件
-import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch, Emit } from 'vue-property-decorator'
 import { Getter, Mutation, State, namespace } from 'vuex-class'
 import { mixins } from 'vue-class-component'
 // gis引擎组件
@@ -121,7 +121,7 @@ import { loadTyRealDataList, loadStationTideDataList } from '@/api/typhoon'
 import { loadStationDetailDataList, loadStationNameDict } from '@/api/station'
 // 各类插件
 import { TyMiniMarker } from '@/plugins/customerMarker'
-import { TyRadiusHeatMap, TyRadiusScatter } from '@/plugins/scatter'
+import { TyRadiusHeatMap, TyRadiusScatter, TyUniqueFilterScatter } from '@/plugins/scatter'
 // 工具类
 import { convertTyRealDataMongo2TyCMAPathLine } from '@/middle_model/util'
 import moment from 'moment'
@@ -150,6 +150,11 @@ import HeatmapOverlay from '@/plugins/leaflet-heatmap.js'
 // import 'leaflet-webgl-heatmap'
 // 方式3:
 // import 'simpleheat'
+
+// 引入事件总线
+import { EventBus } from '@/bus/BUS'
+import { TO_CLEAR_ALL_LAYER, TO_GET_UNIQUE_TY_SEARCH_READ_DATA } from '@/bus/types'
+import { FilterTypeEnum } from '@/enum/filter'
 
 @Component({
 	components: {
@@ -250,6 +255,11 @@ export default class MainMapView extends Vue {
 
 	@Getter(GET_CURRENT_TY, { namespace: 'typhoon' }) getCurrentTy
 
+	created() {
+		EventBus.$on(TO_GET_UNIQUE_TY_SEARCH_READ_DATA, this.toLoadUniqueTyPathRealData)
+		EventBus.$on(TO_CLEAR_ALL_LAYER, this.clearAllLayersByTy)
+	}
+
 	mounted() {
 		const self = this
 		self.stationNameDict = []
@@ -329,7 +339,8 @@ export default class MainMapView extends Vue {
 		if (ty !== null) {
 			this.currentTyNum = ty.tyNum
 			this.currentTyCode = ty.code
-			this.clearAllLayersByTy()
+			// 注意当前台风边锋变化时不需要清除散点图层
+			this.clearAllLayersByTy(false)
 			const code = ty.code
 			const tyNum = ty.tyNum
 			loadTyRealDataList(code, tyNum).then(
@@ -464,7 +475,7 @@ export default class MainMapView extends Vue {
 	}
 
 	/** 清除当前的台风的全部layer */
-	clearAllLayersByTy(): void {
+	clearAllLayersByTy(clearScatter = true): void {
 		// 1- 清除当前台风路径 group layer
 		// @ts-ignore
 		this.clearLayerById(this.tyCMAGroupLayersId)
@@ -472,8 +483,10 @@ export default class MainMapView extends Vue {
 		this.clearAllStationGroupLayers()
 		// 3- 清除当前台风的脉冲 layer
 		this.clearTyPulsingIconLayer()
-		// 4- 清除当前台风的散点 layer
-		this.clearTyScattersLayer()
+		if (clearScatter) {
+			// 4- 清除当前台风的散点 layer
+			this.clearTyScattersLayer()
+		}
 	}
 
 	/** 清除当前所有海洋站的 group layer */
@@ -540,6 +553,7 @@ export default class MainMapView extends Vue {
 		this.currentTyDateTime = val
 	}
 
+	/** 根据展示类型加载对应的散点 */
 	async loadFilter4Scatters(val: boolean, scatterMenuType: TyScatterMenuType): Promise<void> {
 		const self = this
 		this.clearTyScattersLayer()
@@ -642,6 +656,32 @@ export default class MainMapView extends Vue {
 					// mymap.addLayer(heatmap)
 					break
 			}
+		}
+	}
+
+	async loadTyUniqueFilter4Scatters(
+		scatterMenuType: TyScatterMenuType,
+		filterType: FilterTypeEnum,
+		year: string,
+		month: string
+	): Promise<void> {
+		const self = this
+		const mymap: any = this.$refs.basemap['mapObject']
+		switch (scatterMenuType) {
+			case TyScatterMenuType.SCATTER:
+				const tyScatter = new TyUniqueFilterScatter(filterType, year, month)
+				self.loading = true
+				tyScatter
+					.getScatter()
+					.then((res) => {
+						// @ts-ignore
+						self.tyScattersGroupLayerId = L.layerGroup(res).addTo(mymap)._leaflet_id
+					})
+					.finally(() => {
+						self.setToFilterTy4Scatters(false)
+						self.loading = false
+					})
+				break
 		}
 	}
 
@@ -895,6 +935,27 @@ export default class MainMapView extends Vue {
 			})
 			this.currentTyPulsingMarker = tyPulsingMarker.addTo(mymap)
 		}
+	}
+
+	// @Emit('my-add-to-count')
+	/** + 22-11-21 根据唯一性条件查询获取过滤的所有台风实况 */
+	toLoadUniqueTyPathRealData(params: { year: string; month: string }) {
+		// this.count += n
+		// console.log(`监听到count发声变化:${this.count}`)
+		let tyUniqueFilterType = FilterTypeEnum.NULL
+		this.clearTyScattersLayer()
+		if (params.year !== '') {
+			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_YEAR
+		} else if (params.month !== '') {
+			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_MONTH
+		}
+		let tyScatterMenuType = TyScatterMenuType.SCATTER
+		this.loadTyUniqueFilter4Scatters(
+			tyScatterMenuType,
+			tyUniqueFilterType,
+			params.year,
+			params.month
+		)
 	}
 }
 </script>

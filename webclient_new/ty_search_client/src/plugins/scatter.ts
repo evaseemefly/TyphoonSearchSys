@@ -2,13 +2,14 @@
  * + 22-11-12 加入了各类散点图
  */
 
-import { loadTyScattersByRadius } from '@/api/typhoon'
+import { loadTyScatterByComplex, loadTyScattersByRadius } from '@/api/typhoon'
 import { IHttpResponse } from '@/interface/common'
 import { TyRealDataBpMidModel } from '@/middle_model/typhoon'
 import { convertBp2HeatMapFactor, getBpRange } from '@/middle_model/util'
 
 import * as L from 'leaflet'
 import chroma from 'chroma-js'
+import { FilterTypeEnum } from '@/enum/filter'
 
 /**
  * @description 散点接口
@@ -27,7 +28,33 @@ interface IScatter<T, V> {
 	getScatter(): V
 }
 
-class TyRadiusScatter implements IScatter<L.LatLng[], Promise<L.CircleMarker[]>> {
+/** 抽象 台风散点 父类 */
+abstract class AbsBaseTyScatter implements IScatter<L.LatLng[], Promise<L.CircleMarker[]>> {
+	abstract loadPoints(): Promise<TyRealDataBpMidModel[]>
+
+	getScatter(): Promise<L.CircleMarker[]> {
+		const BP_MAX = Math.max(...getBpRange())
+		const BP_MIN = Math.min(...getBpRange())
+		const scale = chroma.scale(['#2A4858', '#fafa6e']).domain([BP_MIN, BP_MAX])
+		const scatterMarker: L.CircleMarker[] = []
+		return this.loadPoints().then((res) => {
+			// console.log(res)
+			// @ts-ignore
+			res.forEach((ele) => {
+				scatterMarker.push(
+					new L.CircleMarker([ele.latlng.lat, ele.latlng.lng], {
+						radius: 1,
+						color: scale(ele.factor).hex(),
+					})
+				)
+			})
+			return scatterMarker
+		})
+	}
+}
+
+/** 根据半径过滤的台风散点实现类 */
+class TyRadiusScatter extends AbsBaseTyScatter {
 	/**
 	 * @description 台风编号(四位英文)
 	 * @author evaseemefly
@@ -57,7 +84,9 @@ class TyRadiusScatter implements IScatter<L.LatLng[], Promise<L.CircleMarker[]>>
 	 * @memberof TyRadiusScatter
 	 */
 	private radius: number
+
 	constructor(center: L.LatLng, radius: number) {
+		super()
 		// this.tyNum = tyNum
 		this.radius = radius
 		this.center = center
@@ -118,27 +147,69 @@ class TyRadiusScatter implements IScatter<L.LatLng[], Promise<L.CircleMarker[]>>
 		// })
 		// throw new Error('Method not implemented.')
 	}
-	getScatter(): Promise<L.CircleMarker[]> {
-		const scatterColor = '#3388ff'
-		const BP_MAX = Math.max(...getBpRange())
-		const BP_MIN = Math.min(...getBpRange())
-		const scale = chroma.scale(['#2A4858', '#fafa6e']).domain([BP_MIN, BP_MAX])
-		const scatterMarker: L.CircleMarker[] = []
-		return this.loadPoints().then((res) => {
-			// console.log(res)
-			// @ts-ignore
-			res.forEach((ele) => {
-				scatterMarker.push(
-					new L.CircleMarker([ele.latlng.lat, ele.latlng.lng], {
-						radius: 1,
-						color: scale(ele.factor).hex(),
+}
+
+/** 根据唯一性条件过滤的 台风散点实现类 */
+class TyUniqueFilterScatter extends AbsBaseTyScatter {
+	/** 唯一性过滤类型 */
+	uniqueFilterType: FilterTypeEnum = FilterTypeEnum.NULL
+	/** 过滤年份 */
+	year = ''
+	/** 过滤月份 */
+	month = ''
+
+	constructor(filterType: FilterTypeEnum, year = '', month = '') {
+		super()
+		this.year = year
+		this.month = month
+		this.uniqueFilterType = filterType
+	}
+
+	loadPoints(): Promise<TyRealDataBpMidModel[]> {
+		const bpList: TyRealDataBpMidModel[] = []
+		const self = this
+		return loadTyScatterByComplex({
+			filterType: self.uniqueFilterType,
+			year: self.year,
+			month: self.month,
+		}).then(
+			(
+				res: IHttpResponse<
+					{
+						num: number
+						list_ty_geo: {
+							code: string
+							date: Date
+							num: string
+							bp: number
+							wsm: number
+							level: number
+							latlon: {
+								coordinates: number[]
+							}
+						}[]
+					}[]
+				>
+			) => {
+				if (res.status === 200) {
+					res.data.forEach((tempTy) => {
+						tempTy.list_ty_geo.forEach((tempPoint) => {
+							bpList.push(
+								new TyRealDataBpMidModel(
+									L.latLng(
+										tempPoint.latlon.coordinates[1],
+										tempPoint.latlon.coordinates[0]
+									),
+									tempPoint.bp
+								)
+							)
+						})
 					})
-				)
-			})
-			return scatterMarker
-		})
-		// return scatterMarker
-		// throw new Error('Method not implemented.')
+				}
+				// console.log(res.data)
+				return bpList
+			}
+		)
 	}
 }
 
@@ -264,4 +335,4 @@ class TyRadiusHeatMap
 	}
 }
 
-export { TyRadiusScatter, TyRadiusHeatMap }
+export { TyRadiusScatter, TyRadiusHeatMap, TyUniqueFilterScatter }

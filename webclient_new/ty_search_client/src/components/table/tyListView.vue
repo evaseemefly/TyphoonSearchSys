@@ -51,6 +51,8 @@ import { FilterTyMidModel } from '@/middle_model/typhoon'
 import { SET_CURRENT_TY, GET_SHOW_TY_SEARCH_FORM, SET_SHOW_TY_SEARCH_FORM } from '@/store/types'
 // enum
 import { IExpandEnum } from '@/enum/common'
+import { EventBus } from '@/bus/BUS'
+import { TO_CLEAR_ALL_FILTER_TYS } from '@/bus/types'
 @Component({})
 export default class TyphoonListView extends Vue {
 	// typhoonList: { code: string; name: string; tyNum: string; year: string }[] = [
@@ -75,6 +77,8 @@ export default class TyphoonListView extends Vue {
 		this.setCurrentTy(val)
 		this.selectedTrIndex = index
 	}
+
+	clearFilterTys(): void {}
 
 	get getIsShow(): boolean {
 		let isShow = false

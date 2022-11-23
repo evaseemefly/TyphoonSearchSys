@@ -9,9 +9,9 @@
 		>
 			<div class="drawer-content">
 				<div class="options-drawer-card-root">
-					<TyphoonOptionsCard
+					<!-- <TyphoonOptionsCard
 						:defaultOptionsItems="tyGroupDefaultOptions"
-					></TyphoonOptionsCard>
+					></TyphoonOptionsCard> -->
 					<TyUniqueSearchCard></TyUniqueSearchCard>
 				</div>
 			</div>
@@ -30,6 +30,8 @@ import {
 	SET_SHOW_OPTS_FORM,
 	SET_TY_GROUP_PATH_LATERS_OPTS,
 } from '@/store/types'
+import { TO_CLOSE_COMPLEX_OPTS_DRAWER } from '@/bus/types'
+import { EventBus } from '@/bus/BUS'
 // 配置项抽屉
 @Component({ components: { OptionsDrawerCard, TyphoonOptionsCard, TyUniqueSearchCard } })
 export default class OptionsDrawer extends Vue {
@@ -74,6 +76,10 @@ export default class OptionsDrawer extends Vue {
 	mounted() {
 		// TODO:[-] 22-03-15 将 tyGroupDefaultOptions 同步至 store 中
 		this.setTyGroupPathLayersOpts(this.getOptionVals)
+	}
+
+	created() {
+		EventBus.$on(TO_CLOSE_COMPLEX_OPTS_DRAWER, this.handleClose)
 	}
 
 	get getOptionVals(): number[] {

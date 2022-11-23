@@ -123,11 +123,19 @@ import {
 	DEFAULT_DATE_STEP,
 } from '@/const/default'
 // api
-import { loadTyListByRange } from '@/api/typhoon'
+import { loadTyListByRange, loadTyListByUniqueParams } from '@/api/typhoon'
 // mid model
 import { FilterTyMidModel } from '@/middle_model/typhoon'
 // 枚举
 import { TyScatterMenuType } from '@/enum/menu'
+import { FilterTypeEnum } from '@/enum/filter'
+import { IHttpResponse } from '@/interface/common'
+import { EventBus } from '@/bus/BUS'
+import {
+	TO_CLEAR_ALL_FILTER_TYS,
+	TO_CLEAR_ALL_LAYER,
+	TO_GET_UNIQUE_TY_SEARCH_LIST,
+} from '@/bus/types'
 
 /** + 22-10-14 副导航栏(布局:底部) */
 @Component({
@@ -172,6 +180,11 @@ export default class SubNavMenuView extends Vue {
 		return scatterMenu
 	}
 
+	created() {
+		EventBus.$on(TO_GET_UNIQUE_TY_SEARCH_LIST, this.loadTyListByUniqueParams)
+		EventBus.$on(TO_CLEAR_ALL_FILTER_TYS, this.clearFilterTys)
+	}
+
 	/** 获取是否为台风散点(T:Scatter|F:HeatMap) */
 	// get getTyIsScatterMenu(): boolean {
 	// 	return this.filterTyScatterMenuType === TyScatterMenuType.SCATTER
@@ -201,7 +214,7 @@ export default class SubNavMenuView extends Vue {
 			boxRadius: this.submitBoxRadius,
 		}
 		const self = this
-		this.filterTyList = []
+		this.clearFilterTys()
 		this.isLoadingTyList = true
 		this.setToFilterTy4Scatters(true)
 		loadTyListByRange({
@@ -218,8 +231,8 @@ export default class SubNavMenuView extends Vue {
 				}) => {
 					/*
 			  list: Array(8)
-				0: {code: 'Yuri', year: 1991, num: '9128', nameCh: null}				
-				[[Prototype]]				
+				0: {code: 'Yuri', year: 1991, num: '9128', nameCh: null}
+				[[Prototype]]
 				total: 18
 			*/
 					if (res.status === 200 && res.data.list.length > 0) {
@@ -247,9 +260,73 @@ export default class SubNavMenuView extends Vue {
 		// this.setToFilterTy4Scatters(false)
 	}
 
+	/** 根据唯一性条件获取台风集合 */
+	loadTyListByUniqueParams(params: { year: string; month: string }): void {
+		let tyUniqueFilterType = FilterTypeEnum.NULL
+		if (params.year !== '') {
+			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_YEAR
+		} else if (params.month !== '') {
+			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_MONTH
+		}
+		const self = this
+		this.clearFilterTys()
+		this.isLoadingTyList = true
+		// 根据唯一性条件获取台风集合
+		loadTyListByUniqueParams({
+			filterType: tyUniqueFilterType,
+			year: params.year,
+			month: params.month,
+		})
+			.then(
+				(
+					res: IHttpResponse<{
+						list: { code: string; nameCh: string; num: string; year: number }[]
+						total: number
+					}>
+				) => {
+					// console.log(res)
+					if (res.status === 200 && res.data.list.length > 0) {
+						console.log(res.data)
+						self.filterTyCount = res.data.total
+						res.data.list.forEach((temp) => {
+							self.filterTyList.push(
+								new FilterTyMidModel(
+									temp.code,
+									temp.nameCh === null ? '-' : temp.nameCh,
+									temp.num,
+									temp.year
+								)
+							)
+						})
+					}
+				}
+			)
+			.finally(() => {
+				self.isLoadingTyList = false
+			})
+	}
+
 	/** 清理当前的圈选范围以及当前选中的台风 */
 	deepClear(): void {
 		this.setCurrentTy(null)
+		this.busToClearAllLayers()
+		this.busToClearAllFilterTys()
+	}
+
+	/** 清除过滤后的台风 */
+	clearFilterTys(): void {
+		this.filterTyList = []
+		this.filterTyCount = 0
+	}
+
+	/** 通过事件总线清除全部图层 */
+	busToClearAllLayers(): void {
+		EventBus.$emit(TO_CLEAR_ALL_LAYER)
+	}
+
+	/** 通过事件总线清除过滤后的台风 */
+	busToClearAllFilterTys(): void {
+		EventBus.$emit(TO_CLEAR_ALL_FILTER_TYS)
 	}
 
 	/** 更新当前的 预报时刻  */

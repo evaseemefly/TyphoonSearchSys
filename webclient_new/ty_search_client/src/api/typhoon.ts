@@ -5,6 +5,8 @@ import { ISearchTyStationParams } from '@/middle_model/api_params'
 import { faYammer } from '@fortawesome/free-brands-svg-icons'
 // 枚举
 import { FilterTypeEnum } from '@/enum/filter'
+
+import { DEFAULT_COMPLEX_NUM } from '@/const/default'
 // 后端的请求地址及端口
 // export const host = host
 axios.defaults.withCredentials = true
@@ -67,6 +69,23 @@ const loadTyListByRange = (params: ITyphoonParams) => {
 	})
 }
 
+/** 根据 唯一性查询参数 获取台风集合 */
+const loadTyListByUniqueParams = (params: {
+	filterType: FilterTypeEnum
+	year?: string
+	month?: string
+}) => {
+	const url = `${host}${area}/filter/condition/`
+	return axios.get(url, {
+		headers: authHeader(),
+		params: {
+			filter_type: params.filterType,
+			year: params.year !== '' ? params.year : DEFAULT_COMPLEX_NUM,
+			month: params.month !== '' ? params.month : DEFAULT_COMPLEX_NUM,
+		},
+	})
+}
+
 /**
  * + 22-11-12 加载经过指定区域的台风全部散点
  * @param params
@@ -116,13 +135,13 @@ const loadTyScatterByComplex = (parms: {
 	year?: string
 	month?: string
 }) => {
-	const url = `${host}${area}/filter/range/all/geo/`
+	const url = `${host}${area}/filter/unique/all/geo/`
 	return axios.get(url, {
 		headers: authHeader(),
 		params: {
 			filter_type: parms.filterType,
-			year: parms.year,
-			month: parms.month,
+			year: parms.year !== '' ? parms.year : DEFAULT_COMPLEX_NUM,
+			month: parms.month !== '' ? parms.month : DEFAULT_COMPLEX_NUM,
 		},
 	})
 }
@@ -164,4 +183,5 @@ export {
 	loadStationTideDataList,
 	loadTyScattersByRadius,
 	loadTyScatterByComplex,
+	loadTyListByUniqueParams,
 }

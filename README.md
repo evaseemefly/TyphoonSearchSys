@@ -171,3 +171,22 @@
   ![avatar](document/img/v2_23.png) 
   热图
   ![avatar](document/img/v2_24.png)
+
+  #### 2-11-22 
+  实现了按照年份及全部年份的指定月份的全部台风轨迹: 
+  * 条件查询页面
+  ![avatar](document/img/v2_27.png) 
+  1- 加入了加载不同年份的台风轨迹，可以显示年际变化
+  * 2014年
+    ![avatar](document/img/v2_25.png) 
+  * 2015年
+    ![avatar](document/img/v2_26.png) 
+  * 2016年
+    ![avatar](document/img/v2_28.png) 
+  2- 加入了加载1949-2018年的所有指定月份的台风轨迹，可以显示月际变化
+  * 6月份
+    ![avatar](document/img/v2_29.png) 
+  * 7月份
+    ![avatar](document/img/v2_30.png) 
+  * 8月份
+    ![avatar](document/img/v2_31.png) 
