@@ -121,7 +121,12 @@ import { loadTyRealDataList, loadStationTideDataList } from '@/api/typhoon'
 import { loadStationDetailDataList, loadStationNameDict } from '@/api/station'
 // 各类插件
 import { TyMiniMarker } from '@/plugins/customerMarker'
-import { TyRadiusHeatMap, TyRadiusScatter, TyUniqueFilterScatter } from '@/plugins/scatter'
+import {
+	TyRadiusHeatMap,
+	TyRadiusScatter,
+	TyUniqueFilterScatter,
+	TyUniquerFilterHeatMap,
+} from '@/plugins/scatter'
 // 工具类
 import { convertTyRealDataMongo2TyCMAPathLine } from '@/middle_model/util'
 import moment from 'moment'
@@ -544,9 +549,8 @@ export default class MainMapView extends Vue {
 	}
 
 	/** 设置 当前圈选范围内的台风 散点|热图 菜单按钮 */
-	@Getter(GET_FILTER_TY_SCATTER_MENU_TYPE, { namespace: 'map' }) getFilterTyScatterMenuType: {
-		(): TyScatterMenuType
-	}
+	@Getter(GET_FILTER_TY_SCATTER_MENU_TYPE, { namespace: 'map' })
+	getFilterTyScatterMenuType: TyScatterMenuType
 
 	@Watch('getTyForecastDt')
 	onTyForecastDt(val: Date): void {
@@ -576,7 +580,7 @@ export default class MainMapView extends Vue {
 							self.tyScattersGroupLayerId = L.layerGroup(res).addTo(mymap)._leaflet_id
 						})
 						.finally(() => {
-							self.setToFilterTy4Scatters(false)
+							// self.setToFilterTy4Scatters(false)
 							self.loading = false
 						})
 					break
@@ -667,10 +671,11 @@ export default class MainMapView extends Vue {
 	): Promise<void> {
 		const self = this
 		const mymap: any = this.$refs.basemap['mapObject']
+		self.loading = true
 		switch (scatterMenuType) {
 			case TyScatterMenuType.SCATTER:
 				const tyScatter = new TyUniqueFilterScatter(filterType, year, month)
-				self.loading = true
+
 				tyScatter
 					.getScatter()
 					.then((res) => {
@@ -681,6 +686,49 @@ export default class MainMapView extends Vue {
 						self.setToFilterTy4Scatters(false)
 						self.loading = false
 					})
+				break
+			case TyScatterMenuType.HEATMAP:
+				const tyHeatMap = new TyUniquerFilterHeatMap(filterType, year, month)
+
+				// 方式2: 热图
+				let heatmapData: { lat: number; lng: number; count: number }[] = []
+				await tyHeatMap.getScatter().then((res) => {
+					heatmapData = res
+				})
+
+				// 增加过滤环节
+				const filterHeatmapData = heatmapData.filter((temp) => {
+					return !Number.isNaN(temp.lat) && !Number.isNaN(temp.lng)
+				})
+
+				// 方式1:heatmap.js 会出错
+				const heatData = {
+					max: 2,
+					data: filterHeatmapData,
+				}
+				const heatConfig = {
+					// 此半径可以有效的滤掉由于 status = 2 造成的应该滤掉区域
+					radius: 0.5, // 每个数据点的半径
+					// radius: 0.01,
+					maxOpacity: 0.6,
+					minOpacity: 0.2,
+					blur: 0.9, // 模糊因子，越高过度越平滑
+					scaleRadius: true,
+					useLocalExtrema: true,
+					latField: 'lat',
+					lngField: 'lng',
+					valueField: 'count',
+				}
+				// @ts-ignore
+				// mymap.invalidateSize()
+				let heatLayer = new HeatmapOverlay(heatConfig)
+				heatLayer.setData(heatData)
+
+				self.tyScattersGroupLayerId = heatLayer.addTo(mymap)._leaflet_id
+				self.loading = false
+				break
+			default:
+				self.loading = false
 				break
 		}
 	}
@@ -949,7 +997,7 @@ export default class MainMapView extends Vue {
 		} else if (params.month !== '') {
 			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_MONTH
 		}
-		let tyScatterMenuType = TyScatterMenuType.SCATTER
+		let tyScatterMenuType = this.getFilterTyScatterMenuType
 		this.loadTyUniqueFilter4Scatters(
 			tyScatterMenuType,
 			tyUniqueFilterType,

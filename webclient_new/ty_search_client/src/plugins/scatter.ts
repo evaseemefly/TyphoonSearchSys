@@ -53,6 +53,29 @@ abstract class AbsBaseTyScatter implements IScatter<L.LatLng[], Promise<L.Circle
 	}
 }
 
+abstract class AbsBaseTyHeatmap
+	implements IScatter<L.LatLng[], Promise<{ lat: number; lng: number; count: number }[]>>
+{
+	abstract loadPoints(): Promise<TyRealDataBpMidModel[]>
+	getScatter(): Promise<{ lat: number; lng: number; count: number }[]> {
+		// const scatterColor = '#3388ff'
+		const heatList: { lat: number; lng: number; count: number }[] = []
+
+		return this.loadPoints().then((res) => {
+			// console.log(res)
+			// @ts-ignore
+			res.forEach((ele) => {
+				heatList.push({
+					lat: ele.latlng.lat,
+					lng: ele.latlng.lng,
+					count: ele.factor,
+				})
+			})
+			return heatList
+		})
+	}
+}
+
 /** 根据半径过滤的台风散点实现类 */
 class TyRadiusScatter extends AbsBaseTyScatter {
 	/**
@@ -335,4 +358,66 @@ class TyRadiusHeatMap
 	}
 }
 
-export { TyRadiusScatter, TyRadiusHeatMap, TyUniqueFilterScatter }
+class TyUniquerFilterHeatMap extends AbsBaseTyHeatmap {
+	/** 唯一性过滤类型 */
+	uniqueFilterType: FilterTypeEnum = FilterTypeEnum.NULL
+	/** 过滤年份 */
+	year = ''
+	/** 过滤月份 */
+	month = ''
+
+	constructor(filterType: FilterTypeEnum, year = '', month = '') {
+		super()
+		this.year = year
+		this.month = month
+		this.uniqueFilterType = filterType
+	}
+
+	loadPoints(): Promise<TyRealDataBpMidModel[]> {
+		const bpList: TyRealDataBpMidModel[] = []
+		const self = this
+		return loadTyScatterByComplex({
+			filterType: self.uniqueFilterType,
+			year: self.year,
+			month: self.month,
+		}).then(
+			(
+				res: IHttpResponse<
+					{
+						num: number
+						list_ty_geo: {
+							code: string
+							date: Date
+							num: string
+							bp: number
+							wsm: number
+							level: number
+							latlon: {
+								coordinates: number[]
+							}
+						}[]
+					}[]
+				>
+			) => {
+				if (res.status === 200) {
+					res.data.forEach((tempTy) => {
+						tempTy.list_ty_geo.forEach((tempPoint) => {
+							bpList.push(
+								new TyRealDataBpMidModel(
+									L.latLng(
+										tempPoint.latlon.coordinates[1],
+										tempPoint.latlon.coordinates[0]
+									),
+									tempPoint.bp
+								)
+							)
+						})
+					})
+				}
+				return bpList
+			}
+		)
+	}
+}
+
+export { TyRadiusScatter, TyRadiusHeatMap, TyUniqueFilterScatter, TyUniquerFilterHeatMap }
