@@ -828,6 +828,42 @@ class FilterByDistanceFullGeoInfo(FilterByRange):
         return Response(json_data, status=status.HTTP_200_OK)
 
 
+class FilterByUniqueParamsFullGeoInfo(FilterByParamsView):
+    def get(self, request: Request) -> Response:
+        # step1: 获取过滤后的全部台风
+        filter_type_str: str = request.GET.get('filter_type', None)
+        filter_type_int: int = int(filter_type_str) if filter_type_str is not None else FilterTypeEnum.UNLL.value
+        filter_type: FilterTypeEnum = FilterTypeEnum(filter_type_int)
+        ty_total: TyphoonAndTotalModel = None
+        ty_nums_list: List[str] = []
+
+        # 根据过滤类型获取该过滤类型的匹配台风编号
+        if filter_type is FilterTypeEnum.UNIQUE_MONTH:
+            month_str: str = request.GET.get('month', '1')
+            month: int = int(month_str)
+            ty_nums_list: List[str] = self.get_ty_nums(month=month)
+            ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
+        elif filter_type is FilterTypeEnum.UNIQUE_YEAR:
+            year_str: str = request.GET.get('year', '2017')
+            year: int = int(year_str)
+            ty_path_list: List[GeoTyphoonRealData] = self.getTyphoonList(year=year)
+            ty_nums_list: List[str] = [temp.num for temp in ty_path_list]
+            dist_ty_nums: Set[str] = set(ty_nums_list)
+            ty_nums_list: List[str] = [code for code in dist_ty_nums]
+        # step2: 遍历所有匹配的台风获取全部的台风路径信息
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = []
+        # 加入需要忽略的 num:0000 
+        igore_num: str = '0000'
+        for temp_ty in ty_nums_list:
+            if temp_ty != igore_num:
+                temp_ty_path_list = GeoTyphoonRealData.objects(num=temp_ty)
+                temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty,
+                                                                                  list_ty_geo=temp_ty_path_list)
+                list_ty_geo_path.append(temp_ty_geo_path)
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
+
+
 class FilterByComplexCondition(BaseView):
     '''
     复杂条件查询 风速，级别，气压

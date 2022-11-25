@@ -16,6 +16,7 @@ urlpatterns = [
     url(r'^filter/range/$', FilterByRange.as_view()),
     # 根据指定区域过滤对应台风并一次性返回全部路径信息
     url(r'^filter/range/all/geo/$', FilterByDistanceFullGeoInfo.as_view()),
+    url(r'^filter/unique/all/geo/$', FilterByUniqueParamsFullGeoInfo.as_view()),
     url(r'^filter/condition/$', FilterByParamsView.as_view()),  # + 22-11-17 新实现的条件查询
     url(r'^filter/complex/$', FilterByComplexCondition.as_view()),
     url(r'^filter/daterange/$', FilterByDateRange.as_view()),
