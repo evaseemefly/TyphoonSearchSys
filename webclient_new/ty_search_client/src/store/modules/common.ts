@@ -25,6 +25,8 @@ import {
 	GET_SHOW_TY_SEARCH_FORM,
 	SET_TO_FILTER_TY_SCATTER,
 	GET_TO_FILTER_TY_SCATTER,
+	GET_SHADE_NAV_TIME,
+	SET_SHADE_NAV_TIME,
 } from '../types'
 
 import { DEFAULT_DATE_STEP } from '@/const/default'
@@ -53,6 +55,8 @@ interface Common {
 	/** 是否显示台风过程海洋站极值窗口 */
 	isShowStationExtremumForm: IExpandEnum
 	isToFilterTy4Scatter: boolean
+	/** 是否遮罩 time bar */
+	isShadeTimeBar: boolean
 }
 
 const state: Common = {
@@ -68,6 +72,7 @@ const state: Common = {
 	isShowStationDetailForm: IExpandEnum.UN_SELECTED,
 	isShowStationExtremumForm: IExpandEnum.UN_SELECTED,
 	isToFilterTy4Scatter: false,
+	isShadeTimeBar: false,
 }
 const getters = {
 	[GET_SCALE_RANGE](state: Common): number[] {
@@ -102,6 +107,9 @@ const getters = {
 	},
 	[GET_TO_FILTER_TY_SCATTER](state: Common): boolean {
 		return state.isToFilterTy4Scatter
+	},
+	[GET_SHADE_NAV_TIME](state: Common): boolean {
+		return state.isShadeTimeBar
 	},
 }
 // 使用dispatch调用
@@ -140,7 +148,11 @@ const mutations = {
 	},
 	[SET_TO_FILTER_TY_SCATTER](state: Common, val: boolean): void {
 		state.isToFilterTy4Scatter = val
-		console.log(`坚挺到 to filter :${val}`)
+		// console.log(`坚挺到 to filter :${val}`)
+	},
+	[SET_SHADE_NAV_TIME](state: Common, val: boolean): void {
+		state.isShadeTimeBar = val
+		// console.log(`坚挺到 to filter :${val}`)
 	},
 }
 

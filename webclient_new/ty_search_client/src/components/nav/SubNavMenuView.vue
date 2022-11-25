@@ -114,6 +114,7 @@ import {
 	SET_SELECTED_LOOP,
 	SET_TO_FILTER_TY_SCATTER,
 	SET_FILTER_TY_SCATTER_MENU_TYPE,
+	SET_SHADE_NAV_TIME,
 } from '@/store/types'
 // 默认常量
 import {
@@ -256,6 +257,7 @@ export default class SubNavMenuView extends Vue {
 			)
 			.finally(() => {
 				self.isLoadingTyList = false
+				self.setShadeTimebar(true)
 			})
 		// const tyScatter = new TyRadiusScatter(data.boxLoopLatlng, data.boxRadius)
 		// const scatters = tyScatter.getScatter()
@@ -309,6 +311,7 @@ export default class SubNavMenuView extends Vue {
 			)
 			.finally(() => {
 				self.isLoadingTyList = false
+				self.setShadeTimebar(true)
 			})
 	}
 
@@ -352,6 +355,9 @@ export default class SubNavMenuView extends Vue {
 
 	/** 设置圈选的半径 */
 	@Mutation(SET_BOX_LOOP_RADIUS, { namespace: 'map' }) setBoxLoopRadius
+
+	/** 设置 遮罩 timebar */
+	@Mutation(SET_SHADE_NAV_TIME, { namespace: 'common' }) setShadeTimebar
 
 	/** 设置当前台风预报时间 */
 	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt

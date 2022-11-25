@@ -1,5 +1,5 @@
 <template>
-	<div class="nav_item_timebar">
+	<div class="nav_item_timebar" :class="isShade ? 'is-shade' : ''">
 		<div class="timebar_child">
 			<div class="nav_item_icon nav_icon_operator" @click="addDt('YYYY', -1)">-</div>
 			<div>{{ convertDt2Str('YYYY') }}</div>
@@ -24,7 +24,9 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Getter, Mutation, State, namespace } from 'vuex-class'
 import moment from 'moment'
+import { GET_SHADE_NAV_TIME } from '@/store/types'
 /** + 22-10-14 时间选择框 */
 @Component({})
 export default class SubNavTimeItem extends Vue {
@@ -35,6 +37,10 @@ export default class SubNavTimeItem extends Vue {
 	/** 当前的时间步长(单位:小时) */
 	@Prop({ type: Number, default: 1 })
 	step: number
+
+	// @Prop({ type: Boolean, default: true })
+	/** 是否遮罩 t:遮罩|f:不遮罩 */
+	isShade = false
 
 	currentDt: Date = new Date()
 
@@ -94,10 +100,19 @@ export default class SubNavTimeItem extends Vue {
 	setFatherForecastDt(val: Date): void {
 		this.$emit('updateForecastDt', val)
 	}
+
+	/** 是否遮罩 timebar */
+	@Getter(GET_SHADE_NAV_TIME, { namespace: 'common' }) getIsShadeTimeBar: boolean
+
+	@Watch('getIsShadeTimeBar')
+	onGetIsShadeTimebar(val: boolean): void {
+		this.isShade = val
+	}
 }
 </script>
 <style scoped lang="less">
 @import '../../../styles/btn.less';
+@import '../../../styles/base-form.less';
 .nav_item_timebar {
 	display: flex;
 	align-items: center;
@@ -129,5 +144,8 @@ export default class SubNavTimeItem extends Vue {
 			justify-content: center;
 		}
 	}
+}
+.is-shade {
+	@div-filter();
 }
 </style>

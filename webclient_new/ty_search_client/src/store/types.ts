@@ -182,6 +182,12 @@ export const SET_SHOW_STATION_DETAIL_FORM = 'SET_SHOW_STATION_DETAIL_FORM'
 /** 获取 显示海洋站风暴增水详情窗口 */
 export const GET_SHOW_STATION_DETAIL_FORM = 'GET_SHOW_STATION_DETAIL_FORM'
 
+/** 设置 隐藏时间 nav bar */
+export const SET_SHADE_NAV_TIME = 'SET_SHADE_NAV_TIME'
+
+/** 设置 隐藏时间 nav bar */
+export const GET_SHADE_NAV_TIME = 'GET_SHADE_NAV_TIME'
+
 // + 22-03-28 STATION
 export const SET_SHOW_STATION_ICON = 'SET_SHOW_STATION_ICON'
 export const GET_SHOW_STATION_ICON = 'GET_SHOW_STATION_ICON'

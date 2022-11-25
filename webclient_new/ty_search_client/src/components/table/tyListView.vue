@@ -48,7 +48,12 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
 import { FilterTyMidModel } from '@/middle_model/typhoon'
 // store
-import { SET_CURRENT_TY, GET_SHOW_TY_SEARCH_FORM, SET_SHOW_TY_SEARCH_FORM } from '@/store/types'
+import {
+	SET_CURRENT_TY,
+	GET_SHOW_TY_SEARCH_FORM,
+	SET_SHOW_TY_SEARCH_FORM,
+	SET_SHADE_NAV_TIME,
+} from '@/store/types'
 // enum
 import { IExpandEnum } from '@/enum/common'
 import { EventBus } from '@/bus/BUS'
@@ -76,6 +81,7 @@ export default class TyphoonListView extends Vue {
 	commitTy(val: FilterTyMidModel, index: number): void {
 		this.setCurrentTy(val)
 		this.selectedTrIndex = index
+		// this.setShadeTimebar(false)
 	}
 
 	clearFilterTys(): void {}
@@ -123,6 +129,9 @@ export default class TyphoonListView extends Vue {
 	@Mutation(SET_SHOW_TY_SEARCH_FORM, { namespace: 'common' }) setShowTySearchForm
 
 	@Mutation(SET_CURRENT_TY, { namespace: 'typhoon' }) setCurrentTy
+
+	/** 设置 遮罩 timebar */
+	@Mutation(SET_SHADE_NAV_TIME, { namespace: 'common' }) setShadeTimebar
 
 	/** 获取当前窗口是否展开的状态 */
 	@Getter(GET_SHOW_TY_SEARCH_FORM, { namespace: 'common' }) getShowForm: IExpandEnum
