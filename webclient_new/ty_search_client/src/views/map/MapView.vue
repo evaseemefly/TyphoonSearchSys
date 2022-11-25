@@ -187,15 +187,15 @@ import { FilterTypeEnum } from '@/enum/filter'
 	mixins: [WMSMixin, MapMixin],
 })
 export default class MainMapView extends Vue {
-	zoom = 7
-	center: number[] = [22.45, 113.8833]
+	zoom = 5
+	center: number[] = [27.45, 130.8833]
 	url =
 		'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}'
 	// url = 'http://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png'
 	// TODO:[-] 20-11-09 新加入的 map 相关的一些基础静态配置
 	mapOptions: { preferCanvas: boolean; minZoom: number; maxZoom: number; render: any } = {
 		preferCanvas: true,
-		minZoom: 5,
+		minZoom: 4,
 		// 可缩放的最大 level
 		maxZoom: 11,
 		// 目前已经使用了 canvas 渲染

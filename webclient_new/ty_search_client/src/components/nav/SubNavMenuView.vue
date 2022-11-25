@@ -137,6 +137,9 @@ import {
 	TO_GET_UNIQUE_TY_SEARCH_LIST,
 } from '@/bus/types'
 
+//
+import { sortFilterTyList } from '@/util/sortUtil'
+
 /** + 22-10-14 副导航栏(布局:底部) */
 @Component({
 	components: { SubNavTimeItem, TyphoonListView },
@@ -288,8 +291,9 @@ export default class SubNavMenuView extends Vue {
 					if (res.status === 200 && res.data.list.length > 0) {
 						console.log(res.data)
 						self.filterTyCount = res.data.total
+						const sourceFilterTyList: FilterTyMidModel[] = []
 						res.data.list.forEach((temp) => {
-							self.filterTyList.push(
+							sourceFilterTyList.push(
 								new FilterTyMidModel(
 									temp.code,
 									temp.nameCh === null ? '-' : temp.nameCh,
@@ -298,6 +302,8 @@ export default class SubNavMenuView extends Vue {
 								)
 							)
 						})
+
+						self.filterTyList = sortFilterTyList(sourceFilterTyList)
 					}
 				}
 			)

@@ -189,4 +189,11 @@
   * 7月份
     ![avatar](document/img/v2_30.png) 
   * 8月份
-    ![avatar](document/img/v2_31.png) 
+    ![avatar](document/img/v2_31.png)   
+
+#### 2022-11-24 
+加入按照唯一条件查询后的筛选台风加载散点或热图的功能，过滤台风列表按照时间倒序同一年按照台风编号升序，修复了部分bug.
+* 指定月份的热图
+![avatar](document/img/v2_32.png)
+* 过滤台风列表加入了排序
+![avatar](document/img/v2_33.png)
