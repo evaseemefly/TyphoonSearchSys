@@ -56,6 +56,7 @@ import {
 	SET_STATION_CODE,
 	SET_CURRENT_TY_FORECAST_DT,
 	SET_COMPLEX_OPTS_CURRENT_STATION,
+	SET_SHADE_NAV_TIME,
 } from '@/store/types'
 // api
 import { loadStationExtremumDataList, loadStationNameDict } from '@/api/station'
@@ -162,6 +163,7 @@ export default class StationExtremumListView extends Vue {
 		// console.log(val)
 		this.setStationCode(val.stationCode)
 		this.setTyForecastDt(val.dt)
+		this.setShadeTimebar(false)
 		this.setStationComplexOpts({
 			tyNum: this.tyNum,
 			tyCode: this.tyNum,
@@ -227,6 +229,9 @@ export default class StationExtremumListView extends Vue {
 	setStationComplexOpts: {
 		(val: { tyNum: string; tyCode: string; stationName: string; stationCode: string }): void
 	}
+
+	/** 设置 遮罩 timebar */
+	@Mutation(SET_SHADE_NAV_TIME, { namespace: 'common' }) setShadeTimebar
 }
 </script>
 <style scoped lang="less">

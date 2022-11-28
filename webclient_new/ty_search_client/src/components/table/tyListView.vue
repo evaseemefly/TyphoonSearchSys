@@ -81,7 +81,7 @@ export default class TyphoonListView extends Vue {
 	commitTy(val: FilterTyMidModel, index: number): void {
 		this.setCurrentTy(val)
 		this.selectedTrIndex = index
-		// this.setShadeTimebar(false)
+		this.setShadeTimebar(false)
 	}
 
 	clearFilterTys(): void {}
