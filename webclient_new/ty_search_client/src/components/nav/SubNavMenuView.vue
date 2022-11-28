@@ -26,7 +26,8 @@
 						:class="[checkedSelectLoop ? 'activate' : 'un_activate', , 'nav_item_icon']"
 						@click="checkedSelectLoop = !checkedSelectLoop"
 					>
-						<i class="fa-solid fa-anchor-circle-check"></i>
+						<i class="fa-solid fa-location-crosshairs"></i>
+						<!-- <i class="fa-solid fa-anchor-circle-check"></i> -->
 					</div>
 					<div class="hidden_box_radius" v-show="checkedSelectLoop">
 						<el-slider v-model="boxRadius" :step="1000" :max="3000"></el-slider>
@@ -39,7 +40,7 @@
 				</div>
 			</el-tooltip>
 			<el-tooltip class="item" effect="dark" content="清除" placement="top">
-				<div class="nav_item_icon" @click="deepClear()">
+				<div class="nav_item_icon alarm" @click="deepClear()">
 					<div class="nav_item_icon fa-solid fa-eraser"></div>
 				</div>
 			</el-tooltip>
