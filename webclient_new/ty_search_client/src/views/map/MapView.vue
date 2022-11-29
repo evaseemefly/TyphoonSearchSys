@@ -122,6 +122,8 @@ import { loadStationDetailDataList, loadStationNameDict } from '@/api/station'
 // 各类插件
 import { TyMiniMarker } from '@/plugins/customerMarker'
 import {
+	AbsBaseTyHeatmap,
+	AbsBaseTyScatter,
 	TyRadiusHeatMap,
 	TyRadiusScatter,
 	TyUniqueFilterScatter,
@@ -159,7 +161,7 @@ import HeatmapOverlay from '@/plugins/leaflet-heatmap.js'
 // 引入事件总线
 import { EventBus } from '@/bus/BUS'
 import { TO_CLEAR_ALL_LAYER, TO_GET_UNIQUE_TY_SEARCH_READ_DATA } from '@/bus/types'
-import { FilterTypeEnum } from '@/enum/filter'
+import { FilterType4ScattersEnum, FilterTypeEnum } from '@/enum/filter'
 
 @Component({
 	components: {
@@ -308,6 +310,7 @@ export default class MainMapView extends Vue {
 		this.setBoxLoopLatlng(val)
 	}
 
+	/** TODO:[*] 22-11-28 计算属性:获取根据范围圈选的个变量状态(目前未使用) */
 	get boxTyByRadius(): {
 		currentLatlng: L.LatLng
 		getBoxLoopRadius: number
@@ -322,6 +325,7 @@ export default class MainMapView extends Vue {
 		return this.getCurrentTy
 	}
 
+	/** TODO:[*] 22-11-28 监听:获取根据范围圈选的个变量状态(目前未使用) */
 	@Watch('boxTyByRadius')
 	onBoxTyByRadius(val: {
 		currentLatlng: L.LatLng
@@ -334,6 +338,7 @@ export default class MainMapView extends Vue {
 		}
 	}
 
+	/** 监听当前台风,当前台风发生变化加载该台风的台风路径,并添加点击icon对应的事件 */
 	@Watch('currentTy')
 	onCurrentTy(ty: FilterTyMidModel): void {
 		const mymap: any = this.$refs.basemap['mapObject']
@@ -557,7 +562,10 @@ export default class MainMapView extends Vue {
 		this.currentTyDateTime = val
 	}
 
-	/** 根据展示类型加载对应的散点 */
+	/** 根据展示类型加载对应的散点
+	 * - 22-11-29 统一修改为 factoryLoadTy4Scatters
+	 *
+	 */
 	async loadFilter4Scatters(val: boolean, scatterMenuType: TyScatterMenuType): Promise<void> {
 		const self = this
 		this.clearTyScattersLayer()
@@ -663,19 +671,53 @@ export default class MainMapView extends Vue {
 		}
 	}
 
-	async loadTyUniqueFilter4Scatters(
+	/**
+	 *
+	 * @param filterType: 过滤类型: 复杂查询(唯一性查询) | 区域查询
+	 * @param scatterMenuType: 加载散点类型: 散点 | 热图
+	 * @param uniqueParams:	复杂查询(唯一性查询) 条件(可选) :
+	 * @param uniqueParams.uniqueFilterType: 复杂查询类型 按年份 | 按月份
+	 * @param uniqueParams.year 按指定年份进行复杂查询
+	 * @param uniqueParams.month 按指定月份进行复杂查询
+	 */
+	async factoryLoadTy4Scatters(
+		filterType: FilterType4ScattersEnum,
 		scatterMenuType: TyScatterMenuType,
-		filterType: FilterTypeEnum,
-		year: string,
-		month: string
+		uniqueParams?: {
+			uniqueFilterType: FilterTypeEnum
+			year?: string
+			month?: string
+		}
 	): Promise<void> {
 		const self = this
 		const mymap: any = this.$refs.basemap['mapObject']
 		self.loading = true
-		switch (scatterMenuType) {
-			case TyScatterMenuType.SCATTER:
-				const tyScatter = new TyUniqueFilterScatter(filterType, year, month)
+		this.clearTyScattersLayer()
+		// step1: 根据 filterType 判断是 根据条件过滤 还是 根据圈选范围过滤
 
+		switch (scatterMenuType) {
+			// 散点
+			case TyScatterMenuType.SCATTER:
+				let tyScatter: AbsBaseTyScatter = null
+				switch (filterType) {
+					case FilterType4ScattersEnum.FILTER_BY_RADIUS:
+						tyScatter = new TyRadiusScatter(
+							this.currentLatlng,
+							this.boxRadius * this.boxRadiusUnit
+						)
+						break
+					case FilterType4ScattersEnum.FILTER_BY_UNIQUE_QUERY:
+						if (uniqueParams !== undefined) {
+							tyScatter = new TyUniqueFilterScatter(
+								uniqueParams.uniqueFilterType,
+								uniqueParams.year,
+								uniqueParams.month
+							)
+						}
+						break
+					default:
+						break
+				}
 				tyScatter
 					.getScatter()
 					.then((res) => {
@@ -683,48 +725,68 @@ export default class MainMapView extends Vue {
 						self.tyScattersGroupLayerId = L.layerGroup(res).addTo(mymap)._leaflet_id
 					})
 					.finally(() => {
-						self.setToFilterTy4Scatters(false)
+						// self.setToFilterTy4Scatters(false)
 						self.loading = false
 					})
 				break
+			// 热图
 			case TyScatterMenuType.HEATMAP:
-				const tyHeatMap = new TyUniquerFilterHeatMap(filterType, year, month)
-
-				// 方式2: 热图
-				let heatmapData: { lat: number; lng: number; count: number }[] = []
-				await tyHeatMap.getScatter().then((res) => {
-					heatmapData = res
-				})
-
-				// 增加过滤环节
-				const filterHeatmapData = heatmapData.filter((temp) => {
-					return !Number.isNaN(temp.lat) && !Number.isNaN(temp.lng)
-				})
-
-				// 方式1:heatmap.js 会出错
-				const heatData = {
-					max: 2,
-					data: filterHeatmapData,
+				let tyHeatMap: AbsBaseTyHeatmap = null
+				switch (filterType) {
+					case FilterType4ScattersEnum.FILTER_BY_RADIUS:
+						tyHeatMap = new TyRadiusHeatMap(
+							this.currentLatlng,
+							this.boxRadius * this.boxRadiusUnit
+						)
+						break
+					case FilterType4ScattersEnum.FILTER_BY_UNIQUE_QUERY:
+						tyHeatMap = new TyUniquerFilterHeatMap(
+							uniqueParams.uniqueFilterType,
+							uniqueParams.year,
+							uniqueParams.month
+						)
+						break
+					default:
+						break
 				}
-				const heatConfig = {
-					// 此半径可以有效的滤掉由于 status = 2 造成的应该滤掉区域
-					radius: 0.5, // 每个数据点的半径
-					// radius: 0.01,
-					maxOpacity: 0.6,
-					minOpacity: 0.2,
-					blur: 0.9, // 模糊因子，越高过度越平滑
-					scaleRadius: true,
-					useLocalExtrema: true,
-					latField: 'lat',
-					lngField: 'lng',
-					valueField: 'count',
-				}
-				// @ts-ignore
-				// mymap.invalidateSize()
-				let heatLayer = new HeatmapOverlay(heatConfig)
-				heatLayer.setData(heatData)
+				if (tyHeatMap !== null) {
+					// 方式2: 热图
+					let heatmapData: { lat: number; lng: number; count: number }[] = []
+					await tyHeatMap.getScatter().then((res) => {
+						heatmapData = res
+					})
 
-				self.tyScattersGroupLayerId = heatLayer.addTo(mymap)._leaflet_id
+					// 增加过滤环节
+					const filterHeatmapData = heatmapData.filter((temp) => {
+						return !Number.isNaN(temp.lat) && !Number.isNaN(temp.lng)
+					})
+
+					// 方式1:heatmap.js 会出错
+					const heatData = {
+						max: 2,
+						data: filterHeatmapData,
+					}
+					const heatConfig = {
+						// 此半径可以有效的滤掉由于 status = 2 造成的应该滤掉区域
+						radius: 0.5, // 每个数据点的半径
+						// radius: 0.01,
+						maxOpacity: 0.6,
+						minOpacity: 0.2,
+						blur: 0.9, // 模糊因子，越高过度越平滑
+						scaleRadius: true,
+						useLocalExtrema: true,
+						latField: 'lat',
+						lngField: 'lng',
+						valueField: 'count',
+					}
+					// @ts-ignore
+					// mymap.invalidateSize()
+					let heatLayer = new HeatmapOverlay(heatConfig)
+					heatLayer.setData(heatData)
+
+					self.tyScattersGroupLayerId = heatLayer.addTo(mymap)._leaflet_id
+				}
+
 				self.loading = false
 				break
 			default:
@@ -733,6 +795,7 @@ export default class MainMapView extends Vue {
 		}
 	}
 
+	/** 计算属性:监听 是否加载台风散点(bool) 与 散点|热图菜单枚举  */
 	get toLoadFilterTy4Scatters() {
 		const { get2FilterTy4Scatters, getFilterTyScatterMenuType } = this
 		return { get2FilterTy4Scatters, getFilterTyScatterMenuType }
@@ -748,7 +811,11 @@ export default class MainMapView extends Vue {
 			val.get2FilterTy4Scatters &&
 			val.getFilterTyScatterMenuType !== TyScatterMenuType.UN_SELECT
 		) {
-			this.loadFilter4Scatters(true, val.getFilterTyScatterMenuType)
+			this.factoryLoadTy4Scatters(
+				FilterType4ScattersEnum.FILTER_BY_RADIUS,
+				val.getFilterTyScatterMenuType
+			)
+			// this.loadFilter4Scatters(true, val.getFilterTyScatterMenuType)
 		} else if (val.getFilterTyScatterMenuType === TyScatterMenuType.UN_SELECT) {
 			this.clearTyScattersLayer()
 		}
@@ -998,12 +1065,17 @@ export default class MainMapView extends Vue {
 			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_MONTH
 		}
 		let tyScatterMenuType = this.getFilterTyScatterMenuType
-		this.loadTyUniqueFilter4Scatters(
+		this.factoryLoadTy4Scatters(
+			FilterType4ScattersEnum.FILTER_BY_UNIQUE_QUERY,
 			tyScatterMenuType,
-			tyUniqueFilterType,
-			params.year,
-			params.month
+			{ uniqueFilterType: tyUniqueFilterType, year: params.year, month: params.month }
 		)
+		// this.loadTyUniqueFilter4Scatters(
+		// 	tyScatterMenuType,
+		// 	tyUniqueFilterType,
+		// 	params.year,
+		// 	params.month
+		// )
 	}
 }
 </script>

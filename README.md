@@ -197,3 +197,8 @@
 ![avatar](document/img/v2_32.png)
 * 过滤台风列表加入了排序
 ![avatar](document/img/v2_33.png)
+
+#### 22-11-29
+将根据 复杂条件查询(uniquefilter) 与 范围条件查询(rangefilter) 提取为 `factoryLoadTy4Scatters` 方法 ，弃用 `loadFilter4Scatters`   
+* `subNav` 组件 与 `map` 之间的联动
+![avatar](document/img/v2_34.png)

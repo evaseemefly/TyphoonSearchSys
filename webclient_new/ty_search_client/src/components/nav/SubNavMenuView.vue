@@ -201,6 +201,7 @@ export default class SubNavMenuView extends Vue {
 	@Watch('checkedSelectLoop')
 	onCheckedSelectLoop(val: boolean): void {
 		this.setIsSelectLoop(val)
+		this.setToFilterTy4Scatters(val)
 	}
 
 	/** 获取最终需要提交的 box range = radis*unit */
@@ -363,6 +364,7 @@ export default class SubNavMenuView extends Vue {
 	/** 设置当前台风预报时间 */
 	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' }) setTyForecastDt
 
+	/** 设置加载 散点|热图 */
 	@Mutation(SET_TO_FILTER_TY_SCATTER, { namespace: 'common' }) setToFilterTy4Scatters: {
 		(val: boolean): void
 	}

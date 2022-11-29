@@ -57,6 +57,14 @@ abstract class AbsBaseTyHeatmap
 	implements IScatter<L.LatLng[], Promise<{ lat: number; lng: number; count: number }[]>>
 {
 	abstract loadPoints(): Promise<TyRealDataBpMidModel[]>
+
+	/**
+	 * @description 获取散点集合
+	 * @author evaseemefly
+	 * @date 2022/11/29
+	 * @returns {*}  {Promise<{ lat: number; lng: number; count: number }[]>}
+	 * @memberof AbsBaseTyHeatmap
+	 */
 	getScatter(): Promise<{ lat: number; lng: number; count: number }[]> {
 		// const scatterColor = '#3388ff'
 		const heatList: { lat: number; lng: number; count: number }[] = []
@@ -420,4 +428,11 @@ class TyUniquerFilterHeatMap extends AbsBaseTyHeatmap {
 	}
 }
 
-export { TyRadiusScatter, TyRadiusHeatMap, TyUniqueFilterScatter, TyUniquerFilterHeatMap }
+export {
+	TyRadiusScatter,
+	TyRadiusHeatMap,
+	TyUniqueFilterScatter,
+	TyUniquerFilterHeatMap,
+	AbsBaseTyScatter,
+	AbsBaseTyHeatmap,
+}
