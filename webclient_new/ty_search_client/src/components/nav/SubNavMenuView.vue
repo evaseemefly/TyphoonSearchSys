@@ -137,6 +137,7 @@ import {
 	TO_CLEAR_ALL_FILTER_TYS,
 	TO_CLEAR_ALL_LAYER,
 	TO_GET_UNIQUE_TY_SEARCH_LIST,
+	TO_FILTER_TY_PATH_LIST,
 } from '@/bus/types'
 
 //
@@ -214,6 +215,11 @@ export default class SubNavMenuView extends Vue {
 		this.setBoxLoopRadius(val)
 	}
 
+	/** + 22-11-30: 通过事件总线执行 过滤并加载台风路径 */
+	busToFilterTyPathList(): void {
+		EventBus.$emit(TO_FILTER_TY_PATH_LIST)
+	}
+
 	submit(): void {
 		const data: { boxLoopLatlng: L.LatLng; boxRadius: number } = {
 			boxLoopLatlng: this.getBoxLoopLatlng,
@@ -223,6 +229,8 @@ export default class SubNavMenuView extends Vue {
 		this.clearFilterTys()
 		this.isLoadingTyList = true
 		this.setToFilterTy4Scatters(true)
+		// TODO:[*] 22-11-30 新加入的统一通过事件总线的方式执行过滤并加载台风路径的操作
+		this.busToFilterTyPathList()
 		loadTyListByRange({
 			latlon: [data.boxLoopLatlng.lat, data.boxLoopLatlng.lng],
 			range: data.boxRadius,

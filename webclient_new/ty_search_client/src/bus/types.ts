@@ -9,6 +9,11 @@ export const TO_GET_UNIQUE_TY_SEARCH_READ_DATA = 'TO_GET_UNIQUE_TY_SEARCH_READ_D
 export const TO_GET_UNIQUE_TY_SEARCH_LIST = 'TO_GET_UNIQUE_TY_SEARCH_LIST'
 
 /**
+ * + 22-11-30 执行过滤并获取匹配的台风路径操作
+ */
+export const TO_FILTER_TY_PATH_LIST = 'TO_FILTER_TY_PATH_LIST'
+
+/**
  * + 22-11-22 收起复杂配置项 drawer
  */
 export const TO_CLOSE_COMPLEX_OPTS_DRAWER = 'TO_CLOSE_COMPLEX_OPTS_DRAWER'

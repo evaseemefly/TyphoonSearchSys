@@ -160,7 +160,11 @@ import HeatmapOverlay from '@/plugins/leaflet-heatmap.js'
 
 // 引入事件总线
 import { EventBus } from '@/bus/BUS'
-import { TO_CLEAR_ALL_LAYER, TO_GET_UNIQUE_TY_SEARCH_READ_DATA } from '@/bus/types'
+import {
+	TO_CLEAR_ALL_LAYER,
+	TO_FILTER_TY_PATH_LIST,
+	TO_GET_UNIQUE_TY_SEARCH_READ_DATA,
+} from '@/bus/types'
 import { FilterType4ScattersEnum, FilterTypeEnum } from '@/enum/filter'
 
 @Component({
@@ -265,6 +269,7 @@ export default class MainMapView extends Vue {
 	created() {
 		EventBus.$on(TO_GET_UNIQUE_TY_SEARCH_READ_DATA, this.toLoadUniqueTyPathRealData)
 		EventBus.$on(TO_CLEAR_ALL_LAYER, this.clearAllLayersByTy)
+		EventBus.$on(TO_FILTER_TY_PATH_LIST, this.busToFilterTyPathList)
 	}
 
 	mounted() {
@@ -795,30 +800,50 @@ export default class MainMapView extends Vue {
 		}
 	}
 
-	/** 计算属性:监听 是否加载台风散点(bool) 与 散点|热图菜单枚举  */
+	/** 计算属性:监听 是否加载台风散点(bool) 与 散点|热图菜单枚举
+	 * - 22-11-30 不再使用，由事件总线替代 busToFilterTyPathList
+	 */
 	get toLoadFilterTy4Scatters() {
 		const { get2FilterTy4Scatters, getFilterTyScatterMenuType } = this
 		return { get2FilterTy4Scatters, getFilterTyScatterMenuType }
 	}
 
-	/** 监听获取台风散点变量 */
+	/** + 22-11-30 通过 事件总线 加载过滤后的台风路径集合 散点|热图 */
+	busToFilterTyPathList(): void {
+		console.log('由事件总线触发过滤并加载台风路径的操作')
+		this.factoryLoadTy4Scatters(
+			FilterType4ScattersEnum.FILTER_BY_RADIUS,
+			this.getFilterTyScatterMenuType
+		)
+	}
+
+	@Watch('getFilterTyScatterMenuType')
+	onFilterTyScattersMenuType(val: TyScatterMenuType): void {
+		if (val === TyScatterMenuType.UN_SELECT) {
+			this.clearTyScattersLayer()
+		}
+	}
+
+	/** 监听获取台风散点变量
+	 * - 22-11-30 不再使用，由事件总线替代 busToFilterTyPathList
+	 */
 	@Watch('toLoadFilterTy4Scatters')
 	onToLoadFilterTy4Scatters(val: {
 		get2FilterTy4Scatters: boolean
 		getFilterTyScatterMenuType: TyScatterMenuType
 	}): void {
-		if (
-			val.get2FilterTy4Scatters &&
-			val.getFilterTyScatterMenuType !== TyScatterMenuType.UN_SELECT
-		) {
-			this.factoryLoadTy4Scatters(
-				FilterType4ScattersEnum.FILTER_BY_RADIUS,
-				val.getFilterTyScatterMenuType
-			)
-			// this.loadFilter4Scatters(true, val.getFilterTyScatterMenuType)
-		} else if (val.getFilterTyScatterMenuType === TyScatterMenuType.UN_SELECT) {
-			this.clearTyScattersLayer()
-		}
+		// if (
+		// 	val.get2FilterTy4Scatters &&
+		// 	val.getFilterTyScatterMenuType !== TyScatterMenuType.UN_SELECT
+		// ) {
+		// 	this.factoryLoadTy4Scatters(
+		// 		FilterType4ScattersEnum.FILTER_BY_RADIUS,
+		// 		val.getFilterTyScatterMenuType
+		// 	)
+		// 	// this.loadFilter4Scatters(true, val.getFilterTyScatterMenuType)
+		// } else if (val.getFilterTyScatterMenuType === TyScatterMenuType.UN_SELECT) {
+		// 	this.clearTyScattersLayer()
+		// }
 	}
 
 	@Watch('currentTyDateTime')

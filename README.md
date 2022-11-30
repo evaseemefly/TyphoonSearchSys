@@ -202,3 +202,10 @@
 将根据 复杂条件查询(uniquefilter) 与 范围条件查询(rangefilter) 提取为 `factoryLoadTy4Scatters` 方法 ，弃用 `loadFilter4Scatters`   
 * `subNav` 组件 与 `map` 之间的联动
 ![avatar](document/img/v2_34.png)
+
+#### 22-11-30
+最终取消监听`get2FilterTy4Scatters`而触发`factoryLoadTy4Scatters`;  
+改为由事件总线触发`busToFilterTyPathList`加载过滤后的台风路径集合
+![avatar](document/img/v2_35.png)
+修改后逻辑为:
+![avatar](document/img/v2_36.png)
