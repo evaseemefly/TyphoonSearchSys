@@ -244,16 +244,17 @@ export default class SubNavMenuView extends Vue {
 					}
 				}) => {
 					/*
-			  list: Array(8)
-				0: {code: 'Yuri', year: 1991, num: '9128', nameCh: null}
-				[[Prototype]]
-				total: 18
-			*/
+					list: Array(8)
+						0: {code: 'Yuri', year: 1991, num: '9128', nameCh: null}
+						[[Prototype]]
+						total: 18
+					*/
 					if (res.status === 200 && res.data.list.length > 0) {
 						console.log(res.data)
 						self.filterTyCount = res.data.total
+						let sourceFilterTyList: FilterTyMidModel[] = []
 						res.data.list.forEach((temp) => {
-							self.filterTyList.push(
+							sourceFilterTyList.push(
 								new FilterTyMidModel(
 									temp.code,
 									temp.nameCh === null ? '-' : temp.nameCh,
@@ -262,6 +263,7 @@ export default class SubNavMenuView extends Vue {
 								)
 							)
 						})
+						self.filterTyList = sortFilterTyList(sourceFilterTyList)
 					}
 				}
 			)

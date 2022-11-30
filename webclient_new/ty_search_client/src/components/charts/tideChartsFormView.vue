@@ -139,16 +139,25 @@ export default class TideChartView extends Vue {
 							itemStyle: {
 								color: '#ACEDD9',
 							},
+							textStyle: {
+								color: '#ACEDD9',
+							},
 						},
 						{
 							name: '实况',
 							itemStyle: {
 								color: '#FE7BBF',
 							},
+							textStyle: {
+								color: '#FE7BBF',
+							},
 						},
 						{
 							name: '风暴增水',
 							itemStyle: {
+								color: 'rgba(255, 191, 0)',
+							},
+							textStyle: {
 								color: 'rgba(255, 191, 0)',
 							},
 						},

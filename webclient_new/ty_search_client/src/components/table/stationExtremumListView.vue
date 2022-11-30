@@ -262,6 +262,7 @@ export default class StationExtremumListView extends Vue {
 		span {
 			display: flex;
 			align-items: center;
+			color: white;
 		}
 		// +
 		.thumb-btn {
