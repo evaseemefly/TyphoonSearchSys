@@ -82,8 +82,17 @@ export default class StationExtremumListView extends Vue {
 	stationCount = 0
 
 	/** 海洋站极值集合 */
-	stationExtremumList: { stationCode: string; stationName: string; surge: number; dt: Date }[] =
-		[]
+	stationExtremumList: {
+		stationCode: string
+		stationName: string
+		/** 增水 */
+		surge: number
+		dt: Date
+		/** 实况 */
+		realdata: number
+		/** 天文潮 */
+		tide: number
+	}[] = []
 
 	/** 海洋站名称中英文对照字典 */
 	stationNameDict: { name: string; chname: string }[] = []
@@ -124,7 +133,13 @@ export default class StationExtremumListView extends Vue {
 			.then(
 				(
 					res: IHttpResponse<
-						{ station_code: string; max_val: number; max_date: string }[]
+						{
+							station_code: string
+							max_val: number
+							max_date: string
+							realdata_val: number
+							tide_val: number
+						}[]
 					>
 				) => {
 					if (res.status === 200) {
@@ -137,6 +152,8 @@ export default class StationExtremumListView extends Vue {
 								stationCode: temp.station_code,
 								stationName: nameEn,
 								surge: temp.max_val,
+								realdata: temp.realdata_val,
+								tide: temp.tide_val,
 								dt: new Date(temp.max_date),
 							})
 						})
@@ -146,6 +163,7 @@ export default class StationExtremumListView extends Vue {
 			)
 			.finally(() => {
 				self.isLoading = false
+				self.commitStationExtremumList()
 			})
 	}
 
@@ -170,6 +188,11 @@ export default class StationExtremumListView extends Vue {
 			stationName: val.stationName,
 			stationCode: val.stationCode,
 		})
+	}
+
+	/** 提交给父级海洋站极值列表 */
+	commitStationExtremumList(): void {
+		this.$emit('submitStationExtremumList', this.stationExtremumList)
 	}
 
 	/** 是否显示当前窗口 条件:getShowForm */
@@ -242,9 +265,9 @@ export default class StationExtremumListView extends Vue {
 	// 统一的边角半圆过渡
 	@form-base-radius();
 	@form-base-background();
-	position: absolute;
-	top: 80px;
-	right: 450px;
+	// position: absolute;
+	// top: 80px;
+	// right: 450px;
 	width: 300px;
 	// height: 450px;
 	// background-color: #20262cd9;

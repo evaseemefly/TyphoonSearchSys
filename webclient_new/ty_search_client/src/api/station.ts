@@ -38,6 +38,19 @@ const loadStationExtremumDataList = (tyNum: string) => {
 }
 
 /**
+ * 根据 codes(station) 获取该站点的四色警戒潮位信息
+ * @param codes
+ * @returns
+ */
+const loadStationAlertLevelDataList = (codes: string[]) => {
+	const url = `${host}${area}/data/station/alert/list/`
+	return axios.get(url, {
+		headers: authHeader(),
+		params: { codes: codes },
+	})
+}
+
+/**
  * 获取海洋站中英文字典
  * @returns  [{
         "name": "AOJIANG",
@@ -52,4 +65,9 @@ const loadStationNameDict = () => {
 	})
 }
 
-export { loadStationDetailDataList, loadStationExtremumDataList, loadStationNameDict }
+export {
+	loadStationDetailDataList,
+	loadStationExtremumDataList,
+	loadStationNameDict,
+	loadStationAlertLevelDataList,
+}

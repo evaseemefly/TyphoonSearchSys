@@ -7,6 +7,7 @@ import { getEnumVal } from './common'
  * @enum {number}
  */
 export enum AlertTideEnum {
+	GREEN = 5000,
 	BLUE = 5001,
 	YELLOW = 5002,
 	ORANGE = 5003,

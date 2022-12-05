@@ -6,7 +6,8 @@
 		</div>
 		<div class="layout-bottom"><SubNavMenuView></SubNavMenuView></div>
 		<div><StationTideFormView></StationTideFormView></div>
-		<StationExtremumListView :tyNum="tyNum"></StationExtremumListView>
+		<StationLayoutView :tyNum="tyNum"></StationLayoutView>
+		<!-- <StationExtremumListView :tyNum="tyNum"></StationExtremumListView> -->
 		<ThumbListView></ThumbListView>
 		<HeaderLogoView title="历史台风风暴潮查询系统"></HeaderLogoView>
 		<LegendListView></LegendListView>
@@ -22,6 +23,7 @@ import SubNavMenuView from '@/components/nav/SubNavMenuView.vue'
 import MainMapView from '@/views/map/MapView.vue'
 import StationTideFormView from '@/components/form/stationTideForm.vue'
 import StationExtremumListView from '@/components/table/stationExtremumListView.vue'
+import StationLayoutView from '@/components/table/stationLayoutView.vue'
 import ThumbListView from '@/components/thumbs/thumbListView.vue'
 import HeaderLogoView from '@/components/header/headerLogoView.vue'
 import LegendListView from '@/components/toolsBar/legendListView.vue'
@@ -42,6 +44,7 @@ import { DEFAULT_TY_NUM } from '@/const/default'
 		ThumbListView,
 		HeaderLogoView,
 		LegendListView,
+		StationLayoutView,
 	},
 })
 export default class HomeView extends Vue {
