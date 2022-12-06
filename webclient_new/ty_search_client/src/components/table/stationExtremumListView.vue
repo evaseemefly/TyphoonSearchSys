@@ -95,6 +95,7 @@ export default class StationExtremumListView extends Vue {
 	}[] = []
 
 	/** 海洋站名称中英文对照字典 */
+	@Prop({ type: Array, required: true })
 	stationNameDict: { name: string; chname: string }[] = []
 
 	/** 是否加载 */
@@ -104,20 +105,20 @@ export default class StationExtremumListView extends Vue {
 
 	isExpanded = true
 
-	mounted() {
-		const self = this
-		self.stationNameDict = []
-		//1- 页面首次加载加载站点对应字典
-		loadStationNameDict().then((res: IHttpResponse<{ name: string; chname: string }[]>) => {
-			if (res.status === 200) {
-				res.data.length > 0
-					? res.data.forEach((temp) => {
-							self.stationNameDict.push(temp)
-					  })
-					: ''
-			}
-		})
-	}
+	// mounted() {
+	// 	const self = this
+	// 	self.stationNameDict = []
+	// 	//1- 页面首次加载加载站点对应字典
+	// 	loadStationNameDict().then((res: IHttpResponse<{ name: string; chname: string }[]>) => {
+	// 		if (res.status === 200) {
+	// 			res.data.length > 0
+	// 				? res.data.forEach((temp) => {
+	// 						self.stationNameDict.push(temp)
+	// 				  })
+	// 				: ''
+	// 		}
+	// 	})
+	// }
 
 	setExpanded(val: boolean): void {
 		this.isExpanded = val

@@ -213,6 +213,21 @@ const filterStationNameCh = (
 	return stationNameCh
 }
 
+/**
+ * @description 根据传入的实况增水若<=0则说明最大的增水仍为减水，则返回-;否则 tostring
+ * @author evaseemefly
+ * @date 2022/12/06
+ * @param {number} val
+ * @returns {*}  {string}
+ */
+const filterStationAlertTideVal = (val: number): string => {
+	if (val > 0) {
+		return val.toString()
+	} else {
+		return '-'
+	}
+}
+
 export {
 	fortmatData2YMDHM,
 	formatOnlyFirstCol,
@@ -226,4 +241,5 @@ export {
 	fortmatData2MDHM,
 	filterSurgeAlarmColor,
 	filterStationNameCh,
+	filterStationAlertTideVal,
 }

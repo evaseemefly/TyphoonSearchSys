@@ -1,18 +1,23 @@
 <template>
-	<div class="value-process" :style="{ width: lineWidth + 'px' }">
-		<div class="process-line" :style="{ width: absWidth + 'px' }" :class="[alertLevelStr]">
-			{{ value }}
+	<el-tooltip class="item" effect="dark" :content="alertMsg" placement="top-start">
+		<div class="value-process" :style="{ width: lineWidth + 'px' }">
+			<div class="process-line" :style="{ width: absWidth + 'px' }" :class="[alertLevelStr]">
+				{{ realdata }}
+			</div>
+			<div class="process-line-other">
+				<!-- {{ disAlertLevelTitle }}:{{ diffAlertLevelVal | filterStationAlertTideVal }} -->
+			</div>
+			<div class="process-icon"></div>
 		</div>
-		<div class="process-line-other">{{ diffAlertLevelVal }}</div>
-		<div class="process-icon"></div>
-	</div>
+	</el-tooltip>
 </template>
 <script lang="ts">
 import { AlertTideEnum } from '@/enum/surge'
+import { filterStationAlertTideVal } from '@/util/filter'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 /** 显示数值的进度条视图 */
-@Component({})
+@Component({ filters: { filterStationAlertTideVal } })
 export default class ValuePrgressLineView extends Vue {
 	/** 标题 */
 	@Prop({ type: String, default: '', required: false })
@@ -43,11 +48,29 @@ export default class ValuePrgressLineView extends Vue {
 
 	/** 根据 val/max-min * width */
 	get absWidth(): number {
-		if (this.valMax - this.valMin !== 0 && this.value !== 0) {
-			return (this.value / (this.valMax - this.valMin)) * this.lineWidth
+		if (
+			this.valMax - this.valMin !== 0 &&
+			this.realdata !== 0 &&
+			this.valMax >= this.realdata
+		) {
+			return (this.realdata / (this.valMax - this.valMin)) * this.lineWidth
+		} else if (this.valMax < this.realdata) {
+			return this.lineWidth
 		} else {
 			return 0
 		}
+	}
+
+	get alertMsg(): string {
+		let msg = '四色警戒潮位读取错误'
+		if (this.alertTides.length > 3) {
+			msg = `蓝色警戒潮位:${this.alertTides[0].tide}\n
+		黄色警戒潮位:${this.alertTides[1].tide}\n
+		橙色警戒潮位:${this.alertTides[2].tide}\n
+		红色警戒潮位:${this.alertTides[3].tide}\n`
+		}
+
+		return msg
 	}
 
 	/** 获取value 与 alertTides 超越且未超越下一级的 level  */
@@ -55,24 +78,36 @@ export default class ValuePrgressLineView extends Vue {
 		let levelStr = 'green'
 		/** 实况潮位 */
 		let tide = this.realdata
-		for (let index = 0; index < this.alertTides.length; index++) {
-			if (tide > this.alertTides[index].tide) {
-				if (index < this.alertTides.length - 1) {
-					if (tide < this.alertTides[index + 1].tide) {
-						levelStr = this.alertTides[index].alert.toString().toLowerCase()
+		// TODO:[-] 22-12-06 注意此处可能存在警戒潮位为null的情况
+		if (
+			this.alertTides.filter((temp) => {
+				return temp.tide === null
+			}).length > 2
+		) {
+			levelStr = 'null-color'
+		} else {
+			for (let index = 0; index < this.alertTides.length; index++) {
+				if (tide > this.alertTides[index].tide) {
+					if (index < this.alertTides.length - 1) {
+						if (tide < this.alertTides[index + 1].tide) {
+							levelStr = AlertTideEnum[this.alertTides[index].alert].toLowerCase()
+							break
+						}
+					} else {
+						levelStr = AlertTideEnum[this.alertTides[index].alert].toLowerCase()
+						break
 					}
-				} else {
-					levelStr = this.alertTides[index].alert.toString().toLowerCase()
 				}
 			}
 		}
+
 		return levelStr
 	}
 
 	/** 获取超某颜色警戒潮位的描述文字 */
 	get disAlertLevelTitle(): string {
 		let level: AlertTideEnum = AlertTideEnum.GREEN
-		let levelStr = '未达蓝色警戒潮位'
+		let levelStr = '未达蓝'
 		/** 实况潮位 */
 		let tide = this.realdata
 		for (let index = 0; index < this.alertTides.length; index++) {
@@ -80,24 +115,26 @@ export default class ValuePrgressLineView extends Vue {
 				if (index < this.alertTides.length - 1) {
 					if (tide < this.alertTides[index + 1].tide) {
 						level = this.alertTides[index].alert
+						break
 					}
 				} else {
 					level = this.alertTides[index].alert
+					break
 				}
 			}
 		}
 		switch (level) {
 			case AlertTideEnum.BLUE:
-				levelStr = '超蓝色警戒潮位'
+				levelStr = '超蓝'
 				break
 			case AlertTideEnum.YELLOW:
-				levelStr = '超黄色警戒潮位'
+				levelStr = '超黄'
 				break
 			case AlertTideEnum.ORANGE:
-				levelStr = '超橙色警戒潮位'
+				levelStr = '超橙'
 				break
 			case AlertTideEnum.RED:
-				levelStr = '超红色警戒潮位'
+				levelStr = '超红'
 				break
 		}
 		return levelStr
@@ -112,11 +149,16 @@ export default class ValuePrgressLineView extends Vue {
 			if (tide > this.alertTides[index].tide) {
 				if (index < this.alertTides.length - 1) {
 					if (tide < this.alertTides[index + 1].tide) {
-						tide = this.alertTides[index].alert - tide
+						overVal = tide - this.alertTides[index].tide
+						break
 					}
 				} else {
-					tide = this.alertTides[index].alert - tide
+					overVal = tide - this.alertTides[index].tide
+					break
 				}
+			} else {
+				overVal = tide - this.alertTides[index].tide
+				break
 			}
 		}
 		return overVal
@@ -126,8 +168,15 @@ export default class ValuePrgressLineView extends Vue {
 <style scoped lang="less">
 .value-process {
 	display: flex;
+	background: rgba(49, 59, 89, 0.733);
 	.process-line {
-		background: red;
+		// background: red;
 	}
+	.process-line-other {
+		// width: 100%;
+	}
+}
+.null-color {
+	background: rgba(49, 59, 89, 0.98);
 }
 </style>

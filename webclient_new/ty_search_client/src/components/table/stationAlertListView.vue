@@ -3,7 +3,7 @@
 		<div class="form-header">
 			<h4>站点数量:</h4>
 			<!-- <div class="primary-title"></div> -->
-			<span>{{ getStationCount }}</span>
+			<span></span>
 			<div class="thumb-btn" @click="setExpanded(false)">
 				<i class="fa-solid fa-minus"></i>
 			</div>
@@ -20,15 +20,15 @@
 				</thead>
 				<tbody>
 					<tr
-						v-for="(stationTemp, index) in stationExtremumList"
+						v-for="(stationTemp, index) in stationExtremumMergeList"
 						:key="stationTemp.id"
 						@click="commitStationExtremum(stationTemp, index)"
 					>
 						<td>{{ stationTemp.stationName }}</td>
-						<td :class="stationTemp.surge | filterSurgeAlarmColor">
+						<td class="null-color">
 							<ValuePrgressLineView
 								:value="stationTemp.surge"
-								:valMax="200"
+								:valMax="maxVal"
 								:valMin="0"
 								:realdata="stationTemp.realdata"
 								:lineWidth="84"
@@ -51,6 +51,8 @@ import { fortmatData2MDHM, filterSurgeAlarmColor, filterStationNameCh } from '@/
 // 其他组件
 import ValuePrgressLineView from '@/components/progress/valueProgressView.vue'
 import { AlertTideEnum } from '@/enum/surge'
+import { loadStationAlertLevelDataList, loadStationExtremumRealDataist } from '@/api/station'
+import { IHttpResponse } from '@/interface/common'
 
 @Component({
 	filters: {
@@ -66,21 +68,181 @@ export default class StationAlertListView extends Vue {
 	@Prop({ type: Array, required: false })
 	stationCodes: string[]
 
-	@Prop({ type: Array })
+	// @Prop({ type: Array })
+	// stationExtremumList: {
+	// 	stationCode: string
+	// 	stationName: string
+	// 	/** 增水 */
+	// 	surge: number
+	// 	dt: Date
+	// 	/** 实况 */
+	// 	realdata: number
+	// 	/** 天文潮 */
+	// 	tide: number
+	// 	code: string
+	// 	name_en: string
+	// 	alerts: { code: string; alert: AlertTideEnum; tide: number }[]
+	// }[]
+
 	stationExtremumList: {
 		stationCode: string
 		stationName: string
-		/** 增水 */
+		/** 增水=实况-天文潮 */
 		surge: number
 		dt: Date
 		/** 实况 */
 		realdata: number
 		/** 天文潮 */
 		tide: number
+	}[] = []
+
+	stationExtremumMergeList: {
+		stationCode: string
+		stationName: string
+		surge: number
+		dt: Date
 		code: string
 		name_en: string
 		alerts: { code: string; alert: AlertTideEnum; tide: number }[]
-	}[]
+	}[] = []
+
+	/** 海洋站名称中英文对照字典 */
+	@Prop({ type: Array, required: true })
+	stationNameDict: { name: string; chname: string }[] = []
+
+	@Prop({ type: String, required: true })
+	tyNum: string
+
+	isLoading = false
+
+	@Watch('tyNum')
+	onTyNum(val: string): void {
+		const self = this
+		self.stationExtremumList = []
+		this.isLoading = true
+		loadStationExtremumRealDataist(val)
+			.then(
+				(
+					res: IHttpResponse<
+						{
+							station_code: string
+							max_val: number
+							max_date: string
+							realdata_val: number
+							tide_val: number
+						}[]
+					>
+				) => {
+					/** 
+					 * max_date: "2012-08-05T16:00:00Z"
+						max_val: 534
+						realdata_val: 534
+						station_code: "AOJIANG"
+						tide_val: 518
+					 */
+					if (res.status === 200) {
+						let tempStationExtremumList: {
+							stationCode: string
+							stationName: string
+							/** 增水 */
+							surge: number
+							dt: Date
+							/** 实况 */
+							realdata: number
+							/** 天文潮 */
+							tide: number
+						}[] = []
+						res.data.forEach((temp) => {
+							const nameEn = filterStationNameCh(
+								temp.station_code,
+								self.stationNameDict
+							)
+							tempStationExtremumList.push({
+								stationCode: temp.station_code,
+								stationName: nameEn,
+								surge: temp.realdata_val - temp.tide_val, // 最大潮位实况出现时对应的增水值
+								realdata: temp.realdata_val, // 最大潮位实况
+								tide: temp.tide_val, // 天文潮
+								dt: new Date(temp.max_date),
+							})
+						})
+						self.stationExtremumList = tempStationExtremumList
+					}
+					// console.log(res.data)
+				}
+			)
+			.finally(() => {
+				// self.isLoading = false
+			})
+	}
+
+	get maxVal(): number {
+		return Math.max(
+			...this.stationExtremumList.map((temp) => {
+				return temp.realdata
+			})
+		)
+	}
+
+	@Watch('stationExtremumList')
+	onStationExtremumList(
+		val: {
+			stationCode: string
+			stationName: string
+			surge: number
+			dt: Date
+			/** 实况 */
+			realdata: number
+			/** 天文潮 */
+			tide: number
+		}[]
+	): void {
+		const codes: string[] = val.map((temp) => {
+			return temp.stationCode
+		})
+		loadStationAlertLevelDataList(codes).then(
+			(
+				res: IHttpResponse<
+					{
+						code: string
+						name_en: string
+						alerts: { code: string; alert: number; tide: number }[]
+					}[]
+				>
+			) => {
+				if (res.status === 200) {
+					/**
+					 * {
+						"code": "BAO",
+						"name_en": "BOAO",
+						"alerts": [
+							{
+								"code": "BAO",
+								"alert": 5001,
+								"tide": 255
+							},
+						…]
+						}
+				 	*/
+					// 将海洋站极值集合与四色警戒潮位集合merge
+					let stationExtreMergeList = []
+					val.forEach((tempTide) => {
+						const filterRes = res.data.filter((temp) => {
+							return temp.name_en == tempTide.stationCode
+						})
+						if (filterRes.length > 0) {
+							const targetAlert = filterRes[0]
+							let stationExtremumMerge = { ...targetAlert, ...tempTide }
+							stationExtreMergeList.push(stationExtremumMerge)
+						}
+					})
+					this.stationExtremumMergeList = stationExtreMergeList
+
+					// console.log(res.data)
+				}
+			}
+		)
+	}
 }
 </script>
 <style scoped lang="less">

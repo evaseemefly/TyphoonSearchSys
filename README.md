@@ -183,7 +183,7 @@
     ![avatar](document/img/v2_26.png) 
   * 2016年
     ![avatar](document/img/v2_28.png) 
-  2- 加入了加载1949-2018年的所有指定月份的台风轨迹，可以显示月际变化
+    2- 加入了加载1949-2018年的所有指定月份的台风轨迹，可以显示月际变化
   * 6月份
     ![avatar](document/img/v2_29.png) 
   * 7月份
@@ -209,3 +209,10 @@
 ![avatar](document/img/v2_35.png)
 修改后逻辑为:
 ![avatar](document/img/v2_36.png)
+
+#### 22-12-06  
+由于增水极值与实际潮位极值有可能不出现在同一时刻，加入了潮位实况极值的功能。
+![avatar](document/img/v2_38.png)
+根据`tynum`获取对应的海洋站潮位实况极值集合
+站点显示潮位实况 与 对应的四色警戒潮位 以及对应的颜色并以柱状图的形势显示潮位值
+![avatar](document/img/v2_37.png)

@@ -24,13 +24,31 @@ const loadStationDetailDataList = (params: ITyphoonParams4Station) => {
 }
 
 /**
- * 根据 tyNum 获取该过程的海洋站极值集合
+ * 根据 tyNum 获取该过程的海洋站增水极值集合
  *
  * @param tyNum 台风编号
  * @returns
  */
 const loadStationExtremumDataList = (tyNum: string) => {
 	const url = `${host}${area}/data/station/extremum/list/`
+	return axios.get(url, {
+		headers: authHeader(),
+		params: { num: tyNum },
+	})
+}
+
+/**
+ * + 22-12-06 根据 tyNum 获取该过程的海洋站实况极值集合
+ * {max_date: "2012-08-05T16:00:00Z"
+   max_val: 实况增水极值
+   realdata_val: 实况增水极值
+   station_code: "AOJIANG"
+   tide_val: 天文潮}[]
+ * @param tyNum 台风编号
+ * @returns 
+ */
+const loadStationExtremumRealDataist = (tyNum: string) => {
+	const url = `${host}${area}/data/station/extremum/realdata/list/`
 	return axios.get(url, {
 		headers: authHeader(),
 		params: { num: tyNum },
@@ -70,4 +88,5 @@ export {
 	loadStationExtremumDataList,
 	loadStationNameDict,
 	loadStationAlertLevelDataList,
+	loadStationExtremumRealDataist,
 }

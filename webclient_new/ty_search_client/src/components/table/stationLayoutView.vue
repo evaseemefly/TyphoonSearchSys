@@ -2,15 +2,16 @@
 	<div id="station_list_main_layout">
 		<StationExtremumListView
 			:tyNum="tyNum"
-			@submitStationExtremumList="submitStationExtremumList"
+			:stationNameDict="stationNameDict"
 		></StationExtremumListView>
 		<StationAlertListView
-			:stationExtremumList="stationExtremumMergeList"
+			:tyNum="tyNum"
+			:stationNameDict="stationNameDict"
 		></StationAlertListView>
 	</div>
 </template>
 <script lang="ts">
-import { loadStationAlertLevelDataList } from '@/api/station'
+import { loadStationAlertLevelDataList, loadStationNameDict } from '@/api/station'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 // 接口
@@ -31,6 +32,23 @@ export default class StationLayoutView extends Vue {
 
 	stationExtremumList: { stationCode: string; stationName: string; surge: number; dt: Date }[] =
 		[]
+	/** 海洋站名称中英文对照字典 */
+	stationNameDict: { name: string; chname: string }[] = []
+
+	mounted() {
+		const self = this
+		self.stationNameDict = []
+		//1- 页面首次加载加载站点对应字典
+		loadStationNameDict().then((res: IHttpResponse<{ name: string; chname: string }[]>) => {
+			if (res.status === 200) {
+				res.data.length > 0
+					? res.data.forEach((temp) => {
+							self.stationNameDict.push(temp)
+					  })
+					: ''
+			}
+		})
+	}
 
 	/** 海洋站极值融合警戒潮位集合 */
 	stationExtremumMergeList: {
