@@ -1,11 +1,5 @@
 <template>
-	<div
-		v-draggable
-		id="station_list"
-		v-loading="isLoading"
-		element-loading-background="loadBackground"
-		v-show="getIsShow"
-	>
+	<div id="station_list" v-loading="isLoading" element-loading-background="loadBackground">
 		<div class="form-header">
 			<h4>站点数量:</h4>
 			<!-- <div class="primary-title"></div> -->
@@ -32,8 +26,15 @@
 						:class="index == selectedTrIndex ? 'activate' : ' '"
 					>
 						<td>{{ stationTemp.stationName }}</td>
-						<td :class="stationTemp.surge | filterSurgeAlarmColor">
-							{{ stationTemp.surge }}
+						<td>
+							<!-- {{ stationTemp.surge }} -->
+							<SurgeValuePrgressLineView
+								:value="stationTemp.surge"
+								:valMax="maxVal"
+								:valMin="0"
+								:realdata="stationTemp.surge"
+								:lineWidth="84"
+							></SurgeValuePrgressLineView>
 						</td>
 						<td>{{ stationTemp.dt | fortmatData2MDHM }}</td>
 					</tr>
@@ -66,11 +67,16 @@ import { IHttpResponse } from '@/interface/common'
 import { fortmatData2MDHM, filterSurgeAlarmColor, filterStationNameCh } from '@/util/filter'
 // enum
 import { IExpandEnum } from '@/enum/common'
+// 其他组件
+import SurgeValuePrgressLineView from '@/components/progress/surgeValueProgressView.vue'
 /** 海洋站极值列表 */
 @Component({
 	filters: {
 		fortmatData2MDHM,
 		filterSurgeAlarmColor,
+	},
+	components: {
+		SurgeValuePrgressLineView,
 	},
 })
 export default class StationExtremumListView extends Vue {
@@ -96,29 +102,17 @@ export default class StationExtremumListView extends Vue {
 
 	/** 海洋站名称中英文对照字典 */
 	@Prop({ type: Array, required: true })
-	stationNameDict: { name: string; chname: string }[] = []
+	stationNameDict: { name: string; chname: string }[]
 
 	/** 是否加载 */
 	isLoading = false
 
+	/** 当前选中的行序号 */
+	selectedTrIndex = -1
+
 	// isShow = true
 
 	isExpanded = true
-
-	// mounted() {
-	// 	const self = this
-	// 	self.stationNameDict = []
-	// 	//1- 页面首次加载加载站点对应字典
-	// 	loadStationNameDict().then((res: IHttpResponse<{ name: string; chname: string }[]>) => {
-	// 		if (res.status === 200) {
-	// 			res.data.length > 0
-	// 				? res.data.forEach((temp) => {
-	// 						self.stationNameDict.push(temp)
-	// 				  })
-	// 				: ''
-	// 		}
-	// 	})
-	// }
 
 	setExpanded(val: boolean): void {
 		this.isExpanded = val
@@ -172,17 +166,29 @@ export default class StationExtremumListView extends Vue {
 		return this.stationExtremumList.length
 	}
 
+	get maxVal(): number {
+		return Math.max(
+			...this.stationExtremumList.map((temp) => {
+				return temp.surge
+			})
+		)
+	}
+
 	/** 提交选中的 海洋站极值info */
-	commitStationExtremum(val: {
-		stationName: string
-		stationCode: string
-		surge: number
-		dt: Date
-	}): void {
+	commitStationExtremum(
+		val: {
+			stationName: string
+			stationCode: string
+			surge: number
+			dt: Date
+		},
+		index: number
+	): void {
 		// console.log(val)
 		this.setStationCode(val.stationCode)
 		this.setTyForecastDt(val.dt)
 		this.setShadeTimebar(false)
+		this.selectedTrIndex = index
 		this.setStationComplexOpts({
 			tyNum: this.tyNum,
 			tyCode: this.tyNum,
@@ -194,25 +200,6 @@ export default class StationExtremumListView extends Vue {
 	/** 提交给父级海洋站极值列表 */
 	commitStationExtremumList(): void {
 		this.$emit('submitStationExtremumList', this.stationExtremumList)
-	}
-
-	/** 是否显示当前窗口 条件:getShowForm */
-	get getIsShow(): boolean {
-		let isShow = false
-		switch (this.getShowForm) {
-			case IExpandEnum.UN_EXPANDED:
-				isShow = false && this.isExpanded
-				break
-			case IExpandEnum.EXPANDED:
-				// this.setExpanded(true)
-				// this.isExpanded = true
-				isShow = true && this.isExpanded
-				break
-			case IExpandEnum.UN_SELECTED:
-				isShow = this.getStationCount !== 0 && this.isExpanded
-				break
-		}
-		return isShow
 	}
 
 	/** TODO:[*] 22-11-11 注意此方法与getIsShow  */
@@ -234,9 +221,6 @@ export default class StationExtremumListView extends Vue {
 		}
 		this.isExpanded = isShow
 	}
-
-	/** store -> 是否显示fom t:显示 */
-	@Getter(GET_SHOW_STATION_EXTREMUM_FORM, { namespace: 'common' }) getShowForm: IExpandEnum
 
 	/** 设置当前选中的 海洋站code */
 	@Mutation(SET_STATION_CODE, { namespace: 'station' })

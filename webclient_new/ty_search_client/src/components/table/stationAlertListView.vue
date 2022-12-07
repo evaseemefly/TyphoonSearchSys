@@ -1,12 +1,10 @@
 <template>
 	<div id="station_alert_list">
 		<div class="form-header">
-			<h4>站点数量:</h4>
+			<h4>站点总潮位极值集合</h4>
 			<!-- <div class="primary-title"></div> -->
 			<span></span>
-			<div class="thumb-btn" @click="setExpanded(false)">
-				<i class="fa-solid fa-minus"></i>
-			</div>
+
 			<!-- <div class="desc"></div> -->
 		</div>
 		<section>
@@ -14,7 +12,7 @@
 				<thead>
 					<tr>
 						<th>站点名称</th>
-						<th>增水极值</th>
+						<th>总潮位极值</th>
 						<th>时间</th>
 					</tr>
 				</thead>
@@ -26,14 +24,11 @@
 					>
 						<td>{{ stationTemp.stationName }}</td>
 						<td class="null-color">
-							<ValuePrgressLineView
-								:value="stationTemp.surge"
-								:valMax="maxVal"
-								:valMin="0"
+							<TideValuePrgressLineView
 								:realdata="stationTemp.realdata"
 								:lineWidth="84"
 								:alertTides="stationTemp.alerts"
-							></ValuePrgressLineView>
+							></TideValuePrgressLineView>
 						</td>
 						<td>{{ stationTemp.dt | fortmatData2MDHM }}</td>
 					</tr>
@@ -49,7 +44,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 // 工具类
 import { fortmatData2MDHM, filterSurgeAlarmColor, filterStationNameCh } from '@/util/filter'
 // 其他组件
-import ValuePrgressLineView from '@/components/progress/valueProgressView.vue'
+import TideValuePrgressLineView from '@/components/progress/tideValueProgressView.vue'
 import { AlertTideEnum } from '@/enum/surge'
 import { loadStationAlertLevelDataList, loadStationExtremumRealDataist } from '@/api/station'
 import { IHttpResponse } from '@/interface/common'
@@ -60,7 +55,7 @@ import { IHttpResponse } from '@/interface/common'
 		filterSurgeAlarmColor,
 	},
 	components: {
-		ValuePrgressLineView,
+		TideValuePrgressLineView,
 	},
 })
 export default class StationAlertListView extends Vue {
@@ -108,7 +103,7 @@ export default class StationAlertListView extends Vue {
 
 	/** 海洋站名称中英文对照字典 */
 	@Prop({ type: Array, required: true })
-	stationNameDict: { name: string; chname: string }[] = []
+	stationNameDict: { name: string; chname: string }[]
 
 	@Prop({ type: String, required: true })
 	tyNum: string

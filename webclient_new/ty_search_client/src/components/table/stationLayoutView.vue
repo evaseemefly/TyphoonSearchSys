@@ -1,5 +1,5 @@
 <template>
-	<div id="station_list_main_layout">
+	<div v-draggable id="station_list_main_layout" v-show="getIsShow">
 		<StationExtremumListView
 			:tyNum="tyNum"
 			:stationNameDict="stationNameDict"
@@ -13,13 +13,15 @@
 <script lang="ts">
 import { loadStationAlertLevelDataList, loadStationNameDict } from '@/api/station'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
-
+import { Getter, Mutation, State, namespace } from 'vuex-class'
 // 接口
 import { IHttpResponse } from '@/interface/common'
 
 import StationAlertListView from './stationAlertListView.vue'
 import StationExtremumListView from './stationExtremumListView.vue'
 import { AlertTideEnum } from '@/enum/surge'
+import { GET_SHOW_STATION_EXTREMUM_FORM } from '@/store/types'
+import { IExpandEnum } from '@/enum/common'
 @Component({
 	components: {
 		StationAlertListView,
@@ -126,6 +128,27 @@ export default class StationLayoutView extends Vue {
 				}
 			}
 		)
+	}
+
+	/** store -> 是否显示fom t:显示 */
+	@Getter(GET_SHOW_STATION_EXTREMUM_FORM, { namespace: 'common' }) getShowForm: IExpandEnum
+
+	/** 是否显示当前窗口 条件:getShowForm */
+	get getIsShow(): boolean {
+		let isShow = false
+		switch (this.getShowForm) {
+			case IExpandEnum.UN_EXPANDED:
+				isShow = false
+				break
+			case IExpandEnum.EXPANDED:
+				// this.setExpanded(true)
+				// this.isExpanded = true
+				isShow = true
+				break
+			case IExpandEnum.UN_SELECTED:
+				break
+		}
+		return isShow
 	}
 }
 </script>
