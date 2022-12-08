@@ -222,8 +222,9 @@
 ![avatar](document/img/v2_39.png)  
 
 #### 22-12-08  
-修改了柱状图的样式，去掉了 layoutView 的部分逻辑
+1- 修改了柱状图的样式，去掉了 layoutView 的部分逻辑
 ![avatar](document/img/v2_40.png)  
+2- 站点总潮位极值集合也加入了点击加载对应站点以及加载台风对应时刻的逻辑,统一了main与sub menu 的样式，修复了部分样式的bug
 
 #### v2.6总体效果
-![avatar](document/img/v2_41.png)  
+![avatar](document/img/v2_42.png)  

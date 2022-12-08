@@ -102,7 +102,7 @@ export default class MainNavMenuView extends Vue {
 		width: 40px;
 		border-radius: 8px;
 		// box-shadow: inset 0 0 2px rgb(255 255 255 / 40%), inset 0 0 16px 12px #141a22;
-		box-shadow: 0 0 10px 0px black;
+		box-shadow: 0 0 5px 0px black;
 		display: flex;
 		justify-content: center;
 		/* align-content: center; */

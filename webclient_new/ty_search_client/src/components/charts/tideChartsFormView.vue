@@ -33,11 +33,12 @@ import { AlertTideEnum } from '@/enum/surge'
 //
 import { GET_CURRENT_TY_FORECAST_DT, GET_STATION_CODE } from '@/store/types'
 // api
-import { loadStationDetailDataList } from '@/api/station'
+import { loadStationAlertLevelDataList, loadStationDetailDataList } from '@/api/station'
 // 工具方法
 import { fortmatData2YMDHM, fortmatData2MDHM } from '@/util/filter'
 import moment from 'moment'
 import { MenuType } from '@/enum/menu'
+import station from '@/store/modules/station'
 
 const MARGIN_TOP = 20
 const MARGIN_BOTTOM = 20
@@ -74,13 +75,9 @@ export default class TideChartView extends Vue {
 
 	// 22-02-21 注意四色警戒潮位是对应的总潮位值
 	alertBlue: number = DEFAULT_ALERT_TIDE
-	alertBlueD85: number = DEFAULT_ALERT_TIDE
 	alertYellow: number = DEFAULT_ALERT_TIDE
-	alertYellowD85: number = DEFAULT_ALERT_TIDE
 	alertOrange: number = DEFAULT_ALERT_TIDE
-	alertOrangeD85: number = DEFAULT_ALERT_TIDE
 	alertRed: number = DEFAULT_ALERT_TIDE
-	alertRedD85: number = DEFAULT_ALERT_TIDE
 	d85Diff: number = DEFAULT_SURGE_DIFF
 	surgeDiff: number = DEFAULT_SURGE_DIFF
 
@@ -125,9 +122,18 @@ export default class TideChartView extends Vue {
 						const surgeForecast = params[0].data
 						const surgeReal = params[1].data
 
-						content = `天文潮位:${surgeForecast}</br>
+						content = `蓝色警戒潮位:${
+							that.alertBlue !== DEFAULT_ALERT_TIDE ? that.alertBlue : '-'
+						}</br>
+						黄色警戒潮位:${that.alertYellow !== DEFAULT_ALERT_TIDE ? that.alertYellow : '-'}</br>
+						橙色警戒潮位:${that.alertOrange !== DEFAULT_ALERT_TIDE ? that.alertOrange : '-'}</br>
+						红色警戒潮位:${that.alertRed !== DEFAULT_ALERT_TIDE ? that.alertRed : '-'}</br>
+						------</br>
+						天文潮位:${surgeForecast}</br>
 						实况潮位:${surgeReal}</br>
-						风暴增水:${surgeReal - surgeForecast}</br>`
+						风暴增水:${surgeReal - surgeForecast}</br>
+						
+						`
 
 						return content
 					},
@@ -266,6 +272,74 @@ export default class TideChartView extends Vue {
 						showSymbol: false,
 						smooth: true,
 					},
+					{
+						name: '警戒潮位',
+						type: 'line',
+						markLine: {
+							symbol: 'none', // 虚线不显示端点的圆圈及箭头
+							itemStyle: {
+								color: 'rgb(19, 184, 196)',
+							},
+							data: [
+								{
+									name: '蓝色警戒潮位',
+									yAxis: this.alertBlue,
+								},
+							],
+						},
+					},
+					{
+						name: '警戒潮位',
+						type: 'line',
+						markLine: {
+							symbol: 'none',
+							itemStyle: {
+								color: 'rgb(245, 241, 20)',
+							},
+							data: [
+								{
+									name: '黄色警戒潮位',
+									yAxis: this.alertYellow,
+								},
+							],
+						},
+					},
+					{
+						name: '警戒潮位',
+						type: 'line',
+						markLine: {
+							symbol: 'none',
+							itemStyle: {
+								color: 'rgb(235, 134, 19)',
+							},
+							data: [
+								{
+									name: '橙色警戒潮位',
+									yAxis: this.alertOrange,
+								},
+							],
+						},
+					},
+					{
+						name: '警戒潮位',
+						type: 'line',
+						markLine: {
+							symbol: 'none',
+							itemStyle: {
+								color: 'rgb(241, 11, 11)',
+								lineStyle: {
+									cap: 'round',
+									type: 'dotted',
+								},
+							},
+							data: [
+								{
+									name: '红色警戒潮位',
+									yAxis: this.alertRed,
+								},
+							],
+						},
+					},
 				],
 			}
 			// TODO:[-] 22-07-05 加入多条集合路径曲线
@@ -293,11 +367,13 @@ export default class TideChartView extends Vue {
 		const self = this
 		if (val.stationCode !== DEFAULT_STATION_CODE) {
 			this.clearAllSurgeData()
+			this._resetAlertLevels()
 			self.isLoading = true
 			// let formatXList: string[] = []
 			// self.forecastDtList.map((temp) => {
 			// 	formatXList.push(fortmatData2MDHM(temp))
 			// })
+			await this.loadStationAlertsDataList(val.stationCode)
 			this.loadStationSurgeDataList(
 				val.tyCode,
 				val.tyNum,
@@ -312,6 +388,7 @@ export default class TideChartView extends Vue {
 					)
 				}
 			)
+
 			self.isLoading = false
 		}
 	}
@@ -339,7 +416,7 @@ export default class TideChartView extends Vue {
 				res: IHttpResponse<{ val_forecast: number; val_real: number; occurred: string }[]>
 			) => {
 				/*
-				{val_forecast: 136, 
+				{val_forecast: 136,
 				 val_real: 141,
 				 occurred: '2017-08-20T16:00:00Z'}
 			*/
@@ -380,6 +457,44 @@ export default class TideChartView extends Vue {
 		)
 	}
 
+	/** + 22-12-08 加载指定站点的警戒潮位 */
+	async loadStationAlertsDataList(stationCode: string): Promise<void> {
+		const self = this
+		return loadStationAlertLevelDataList([stationCode]).then(
+			(
+				res: IHttpResponse<
+					{
+						code: string
+						name_en: string
+						alerts: { code: string; alert: AlertTideEnum; tide: number }[]
+					}[]
+				>
+			) => {
+				if (res.status === 200) {
+					if (res.data.length > 0) {
+						const alert = res.data[0]
+						alert.alerts.forEach((val) => {
+							switch (val.alert) {
+								case AlertTideEnum.BLUE:
+									self.alertBlue = val.tide
+									break
+								case AlertTideEnum.YELLOW:
+									self.alertYellow = val.tide
+									break
+								case AlertTideEnum.ORANGE:
+									self.alertOrange = val.tide
+									break
+								case AlertTideEnum.RED:
+									self.alertRed = val.tide
+									break
+							}
+						})
+					}
+				}
+			}
+		)
+	}
+
 	/** 清除天文潮集合 */
 	_clearTideList(): void {
 		this.forecastDtList = []
@@ -388,6 +503,14 @@ export default class TideChartView extends Vue {
 
 	/** 清除四色警戒潮位 */
 	_clear4ColorAlert(): void {
+		this.alertBlue = DEFAULT_ALERT_TIDE
+		this.alertYellow = DEFAULT_ALERT_TIDE
+		this.alertOrange = DEFAULT_ALERT_TIDE
+		this.alertRed = DEFAULT_ALERT_TIDE
+	}
+
+	/** 重置四色警戒潮位为默认值 */
+	_resetAlertLevels(): void {
 		this.alertBlue = DEFAULT_ALERT_TIDE
 		this.alertYellow = DEFAULT_ALERT_TIDE
 		this.alertOrange = DEFAULT_ALERT_TIDE

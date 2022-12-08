@@ -410,6 +410,7 @@ export default class SubNavMenuView extends Vue {
 @import '../../styles/btn.less';
 .nav_item {
 	// transition: all 0.5s;
+	box-shadow: 0 0 5px 0px black;
 }
 
 .un_padding {
@@ -433,6 +434,7 @@ export default class SubNavMenuView extends Vue {
 	width: 100%;
 	background: #34495e;
 	color: white;
+	border-radius: 8px;
 	.nav_menu-item {
 		background: #2c3e50;
 	}

@@ -73,7 +73,7 @@ export default class HeaderLogoView extends Vue {
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
-	padding: 5px;
+	// padding: 5px;
 	.menu-icon {
 		margin: 2px;
 	}

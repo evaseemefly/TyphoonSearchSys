@@ -21,6 +21,7 @@
 						v-for="(stationTemp, index) in stationExtremumMergeList"
 						:key="stationTemp.id"
 						@click="commitStationExtremum(stationTemp, index)"
+						:class="index == selectedTrIndex ? 'activate' : ' '"
 					>
 						<td>{{ stationTemp.stationName }}</td>
 						<td class="null-color">
@@ -41,6 +42,7 @@
 <script lang="ts">
 import { List } from 'echarts'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import { Getter, Mutation, State, namespace } from 'vuex-class'
 // 工具类
 import { fortmatData2MDHM, filterSurgeAlarmColor, filterStationNameCh } from '@/util/filter'
 // 其他组件
@@ -48,6 +50,12 @@ import TideValuePrgressLineView from '@/components/progress/tideValueProgressVie
 import { AlertTideEnum } from '@/enum/surge'
 import { loadStationAlertLevelDataList, loadStationExtremumRealDataist } from '@/api/station'
 import { IHttpResponse } from '@/interface/common'
+import {
+	SET_COMPLEX_OPTS_CURRENT_STATION,
+	SET_CURRENT_TY_FORECAST_DT,
+	SET_SHADE_NAV_TIME,
+	SET_STATION_CODE,
+} from '@/store/types'
 
 @Component({
 	filters: {
@@ -93,6 +101,9 @@ export default class StationAlertListView extends Vue {
 	tyNum: string
 
 	isLoading = false
+
+	/** 当前选中的行序号 */
+	selectedTrIndex = -1
 
 	/** 页面加载时的背景颜色 */
 	loadBackground = '#20262cd9'
@@ -225,6 +236,46 @@ export default class StationAlertListView extends Vue {
 			}
 		)
 	}
+
+	/** 提交选中的 海洋站极值info */
+	commitStationExtremum(
+		val: {
+			stationName: string
+			stationCode: string
+			surge: number
+			dt: Date
+		},
+		index: number
+	): void {
+		// console.log(val)
+		this.setStationCode(val.stationCode)
+		this.setTyForecastDt(val.dt)
+		this.setShadeTimebar(false)
+		this.selectedTrIndex = index
+		this.setStationComplexOpts({
+			tyNum: this.tyNum,
+			tyCode: this.tyNum,
+			stationName: val.stationName,
+			stationCode: val.stationCode,
+		})
+	}
+
+	/** 设置当前选中的 海洋站code */
+	@Mutation(SET_STATION_CODE, { namespace: 'station' })
+	setStationCode: { (val: string): void }
+
+	/** 设置当前选中的 台风预报时刻 */
+	@Mutation(SET_CURRENT_TY_FORECAST_DT, { namespace: 'typhoon' })
+	setTyForecastDt: { (val: Date): void }
+
+	/** 设置当前海洋站复杂配置 */
+	@Mutation(SET_COMPLEX_OPTS_CURRENT_STATION, { namespace: 'complex' })
+	setStationComplexOpts: {
+		(val: { tyNum: string; tyCode: string; stationName: string; stationCode: string }): void
+	}
+
+	/** 设置 遮罩 timebar */
+	@Mutation(SET_SHADE_NAV_TIME, { namespace: 'common' }) setShadeTimebar
 }
 </script>
 <style scoped lang="less">

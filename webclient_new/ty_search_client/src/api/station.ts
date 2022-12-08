@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { host } from './common'
 import authHeader from './auth_header'
 
@@ -60,7 +60,17 @@ const loadStationExtremumRealDataist = (tyNum: string) => {
  * @param codes
  * @returns
  */
-const loadStationAlertLevelDataList = (codes: string[]) => {
+const loadStationAlertLevelDataList = (
+	codes: string[]
+): Promise<
+	AxiosResponse<
+		{
+			code: string
+			name_en: string
+			alerts: { code: string; alert: number; tide: number }[]
+		}[]
+	>
+> => {
 	const url = `${host}${area}/data/station/alert/list/`
 	return axios.get(url, {
 		headers: authHeader(),

@@ -120,6 +120,7 @@ export default class SubNavTimeItem extends Vue {
 	// padding: 5px;
 	margin: 5px;
 	border-radius: 8px;
+	box-shadow: 0 0 5px 0px black;
 	.timebar_child {
 		display: flex;
 		margin-left: 5px;
