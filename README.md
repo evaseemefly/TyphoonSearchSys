@@ -219,4 +219,11 @@
 
 #### 22-12-07  
 由于总潮位存在基面不同需要统一并换算的问题，将 `增水极值集合` 修改为柱状图形式;将`站点总潮位极值集合`修改为颜色非柱状图的形式
-![avatar](document/img/v2_39.png)
+![avatar](document/img/v2_39.png)  
+
+#### 22-12-08  
+修改了柱状图的样式，去掉了 layoutView 的部分逻辑
+![avatar](document/img/v2_40.png)  
+
+#### v2.6总体效果
+![avatar](document/img/v2_41.png)  

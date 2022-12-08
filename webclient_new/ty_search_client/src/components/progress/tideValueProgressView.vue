@@ -16,7 +16,7 @@ import { AlertTideEnum } from '@/enum/surge'
 import { filterStationAlertTideVal } from '@/util/filter'
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
-/** 显示数值的进度条视图 */
+/** 总潮位进度条 */
 @Component({ filters: { filterStationAlertTideVal } })
 export default class TideValuePrgressLineView extends Vue {
 	/** 标题 */
@@ -142,8 +142,10 @@ export default class TideValuePrgressLineView extends Vue {
 .value-process {
 	display: flex;
 	background: rgba(49, 59, 89, 0.733);
+	border-radius: 5px;
 	.process-line {
 		width: 100%;
+		border-radius: 5px;
 		// background: red;
 	}
 	.process-line-other {

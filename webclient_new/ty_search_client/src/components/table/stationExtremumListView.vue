@@ -87,6 +87,9 @@ export default class StationExtremumListView extends Vue {
 	/** 海洋站数量 */
 	stationCount = 0
 
+	/** 页面加载时的背景颜色 */
+	loadBackground = '#20262cd9'
+
 	/** 海洋站极值集合 */
 	stationExtremumList: {
 		stationCode: string

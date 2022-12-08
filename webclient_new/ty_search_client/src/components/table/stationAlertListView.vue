@@ -1,5 +1,5 @@
 <template>
-	<div id="station_alert_list">
+	<div id="station_alert_list" v-loading="isLoading" element-loading-background="loadBackground">
 		<div class="form-header">
 			<h4>站点总潮位极值集合</h4>
 			<!-- <div class="primary-title"></div> -->
@@ -63,22 +63,6 @@ export default class StationAlertListView extends Vue {
 	@Prop({ type: Array, required: false })
 	stationCodes: string[]
 
-	// @Prop({ type: Array })
-	// stationExtremumList: {
-	// 	stationCode: string
-	// 	stationName: string
-	// 	/** 增水 */
-	// 	surge: number
-	// 	dt: Date
-	// 	/** 实况 */
-	// 	realdata: number
-	// 	/** 天文潮 */
-	// 	tide: number
-	// 	code: string
-	// 	name_en: string
-	// 	alerts: { code: string; alert: AlertTideEnum; tide: number }[]
-	// }[]
-
 	stationExtremumList: {
 		stationCode: string
 		stationName: string
@@ -109,6 +93,9 @@ export default class StationAlertListView extends Vue {
 	tyNum: string
 
 	isLoading = false
+
+	/** 页面加载时的背景颜色 */
+	loadBackground = '#20262cd9'
 
 	@Watch('tyNum')
 	onTyNum(val: string): void {
@@ -167,7 +154,7 @@ export default class StationAlertListView extends Vue {
 				}
 			)
 			.finally(() => {
-				// self.isLoading = false
+				self.isLoading = false
 			})
 	}
 
