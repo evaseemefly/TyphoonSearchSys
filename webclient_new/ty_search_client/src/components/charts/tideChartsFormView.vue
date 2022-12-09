@@ -247,6 +247,27 @@ export default class TideChartView extends Vue {
 						data: yRealList,
 						showSymbol: false,
 						smooth: true,
+						// 22-12-09 取消了极值的垂直于x轴的标记线
+						// markLine: {
+						// 	symbol: ['none', 'none'],
+						// 	label: { show: false },
+						// 	// lineStyle: { type: 'solid', width: 2 },
+						// 	shadowColor: 'rgba(0, 0, 0, 0.5)',
+						// 	shadowBlur: 10,
+						// 	data: [{ xAxis: that.getRealValMaxIndex }],
+						// },
+						markPoint: {
+							symbol: 'circle',
+							symbolSize: 2,
+							data: [
+								{ type: 'max', name: 'Max' },
+								{ type: 'min', name: 'Min' },
+							],
+							symbolOffset: [0, '-500%'],
+							label: {
+								color: '#fff',
+							},
+						},
 					},
 					{
 						name: '风暴增水',
@@ -271,6 +292,24 @@ export default class TideChartView extends Vue {
 						data: ySurgeList,
 						showSymbol: false,
 						smooth: true,
+						// 22-12-09 取消了极值的垂直于x轴的标记线
+						// markLine: {
+						// 	symbol: ['none', 'none'],
+						// 	label: { show: false },
+						// 	data: [{ xAxis: that.getStormSurgeMaxIndex }],
+						// },
+						markPoint: {
+							symbol: 'circle',
+							symbolSize: 2,
+							data: [
+								{ type: 'max', name: 'Max' },
+								{ type: 'min', name: 'Min' },
+							],
+							symbolOffset: [0, '-500%'],
+							label: {
+								color: '#fff',
+							},
+						},
 					},
 					{
 						name: '警戒潮位',
@@ -531,6 +570,24 @@ export default class TideChartView extends Vue {
 			})
 		}
 		return forecastDtFormatList
+	}
+
+	/** 获取实况极值的所在位置索引 */
+	get getRealValMaxIndex(): number {
+		const maxVal = Math.max(...this.realValList)
+		const index = this.realValList.findIndex((temp) => {
+			return temp === maxVal
+		})
+		return index
+	}
+
+	/** 获取风暴增水极值所在位置索引 */
+	get getStormSurgeMaxIndex(): number {
+		const maxVal = Math.max(...this.stormSurgeValList)
+		const index = this.stormSurgeValList.findIndex((temp) => {
+			return temp === maxVal
+		})
+		return index
 	}
 
 	@Getter(GET_STATION_CODE, { namespace: 'station' }) onCurrentStationCode
