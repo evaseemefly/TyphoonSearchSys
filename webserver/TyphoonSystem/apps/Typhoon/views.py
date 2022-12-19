@@ -6,7 +6,7 @@ import abc
 import os
 import logging
 
-from typing import List, Set
+from typing import List, Set, Dict
 
 from django.shortcuts import render
 from rest_framework import status
@@ -852,7 +852,7 @@ class FilterByUniqueParamsFullGeoInfo(FilterByParamsView):
             ty_nums_list: List[str] = [code for code in dist_ty_nums]
         # step2: 遍历所有匹配的台风获取全部的台风路径信息
         list_ty_geo_path: List[TyphoonGeoListMidModel] = []
-        # 加入需要忽略的 num:0000 
+        # 加入需要忽略的 num:0000
         igore_num: str = '0000'
         for temp_ty in ty_nums_list:
             if temp_ty != igore_num:
@@ -1092,7 +1092,7 @@ class StationStatisticsDataView(APIView):
         # forecast-realtide 差值的最大值
         result = {}
         try:
-            max_val, max_date = self.getDeviationVals(num, stationname)
+            max_val, realdata_val, tide_val, max_date = self.getDeviationVals(num, stationname)
             result = {
                 'max_val': max_val,
                 'max_date': max_date
@@ -1105,8 +1105,8 @@ class StationStatisticsDataView(APIView):
 
     def getDeviationVals(self, num: str, stationname: str):
         '''
-            获取差值的数组
-        :return:
+            获取差值的数组—— 找到增水极值
+        :return: [最大值,实况潮位，天文潮，最大值出现的时间]
         '''
         real_arr = []
         forecast_arr = []
@@ -1140,7 +1140,54 @@ class StationStatisticsDataView(APIView):
         max_targetdate = query.startdate + timedelta(hours=index)
         max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
         max_val = max_deviation[1]
-        return max_val, max_targetdate
+        # + 22-12-05 实况增水值
+        realdata_val = real_arr[index]
+        tide_val = forecast_arr[index]
+        return max_val, realdata_val, tide_val, max_targetdate
+
+    def getRealSurgeMaxVals(self, num: str, stationname: str):
+        """
+                获取实况极大值
+        @param num:
+        @param stationname:
+        @return: [最大值,实况潮位，天文潮，最大值出现的时间]
+        """
+        real_arr = []
+        forecast_arr = []
+        deviation_arr = []
+        query = StationTideData.objects(typhoonnum=num, stationname=stationname).first()
+        # 分别取出real_arr与forecast
+        # for temp in query.realtidedata
+        for temp in query.realtidedata:
+            # AttributeError: 'ForecastData'
+            # object
+            # has
+            # no
+            # attribute
+            # 'realdata_arr'
+            # TODO:[*] 19-07-30 注意数据库中存取的数据real与forecast是相反的！！
+            # forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            # real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            # 此处需要颠倒一下，上面是之前的未颠倒的，暂时保留
+            real_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            forecast_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            real_arr = real_arr + real_arr_temp
+            forecast_arr = forecast_arr + forecast_arr_temp
+            # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
+        # err：ValueError: not enough values to unpack (expected 3, got 2)
+        # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
+        deviation_arr = [(i, x) for i, (x, y) in enumerate(zip(real_arr, forecast_arr))]
+        # 找到极值及其所在位置
+        max_deviation = max(deviation_arr, key=lambda x: x[1])
+        index = max_deviation[0]
+        # TODO:[*] 19-07-30 此处需要转为utc时间 replace(tzinfo=TZ_UTC_0)
+        max_targetdate = query.startdate + timedelta(hours=index)
+        max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
+        max_val = max_deviation[1]
+        # + 22-12-05 实况增水值
+        realdata_val = real_arr[index]
+        tide_val = forecast_arr[index]
+        return max_val, realdata_val, tide_val, max_targetdate
 
 
 class AllStationExtremumDataView(StationStatisticsDataView):
@@ -1155,10 +1202,12 @@ class AllStationExtremumDataView(StationStatisticsDataView):
         list_extremum: List[dict] = []
         for temp_code in codes:
             try:
-                max_val, max_dt = self.getDeviationVals(ty_num, temp_code)
+                max_val, realdata_val, tide_val, max_dt = self.getDeviationVals(ty_num, temp_code)
                 temp_extremum: dict = {
                     'station_code': temp_code,
                     'max_val': max_val,
+                    'realdata_val': realdata_val,
+                    'tide_val': tide_val,
                     'max_date': max_dt
                 }
                 list_extremum.append(temp_extremum)
@@ -1178,6 +1227,76 @@ class AllStationExtremumDataView(StationStatisticsDataView):
         """
         names = StationTideData.objects(typhoonnum=num).distinct('stationname')
         return names
+
+
+class AllStationRealDataExtremumDataView(AllStationExtremumDataView):
+    """
+        + 22-12-6 根据台风编号获取该过程影响站点的实况极值集合
+    """
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """
+
+        @param request:
+        @return: {
+                    'station_code': 海洋站英文名称,
+                    'max_val': 实况极值,
+                    'realdata_val': 实况极值,
+                    'tide_val': 实况极值时刻的天文潮值,
+                    'max_date': 实况极值出现的时间
+                }
+        """
+        ty_num: str = request.GET.get('num', None)
+        # TODO:[-] 22-11-08 由于之前录入数据部分存在 geostationtidedata.code 为对应站点id而非 code，修改为获取 stationname
+        codes: List[str] = self.get_dist_station_names(ty_num)
+        list_extremum: List[dict] = []
+        for temp_code in codes:
+            try:
+                max_val, realdata_val, tide_val, max_dt = self.get_realdata_deviation_vals(ty_num, temp_code)
+                temp_extremum: dict = {
+                    'station_code': temp_code,
+                    'max_val': max_val,
+                    'realdata_val': realdata_val,
+                    'tide_val': tide_val,
+                    'max_date': max_dt
+                }
+                list_extremum.append(temp_extremum)
+            except Exception as ex:
+                print(f'{ty_num},{temp_code}出现错误:{ex.args}')
+        return Response(list_extremum)
+
+    def get_realdata_deviation_vals(self, num: str, stationname: str):
+        '''
+            获取差值的数组—— 找到增水极值
+        :return: [最大值,实况潮位，天文潮，最大值出现的时间]
+        '''
+        real_arr = []
+        forecast_arr = []
+        deviation_arr = []
+        query = StationTideData.objects(typhoonnum=num, stationname=stationname).first()
+        # 分别取出real_arr与forecast
+        # for temp in query.realtidedata
+        for temp in query.realtidedata:
+            # TODO:[*] 19-07-30 注意数据库中存取的数据real与forecast是相反的！！
+            # 此处需要颠倒一下，上面是之前的未颠倒的，暂时保留
+            real_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            forecast_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            real_arr = real_arr + real_arr_temp
+            forecast_arr = forecast_arr + forecast_arr_temp
+            # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
+        # err：ValueError: not enough values to unpack (expected 3, got 2)
+        # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
+        deviation_arr = [(i, x) for i, (x, y) in enumerate(zip(real_arr, forecast_arr))]
+        # 找到极值及其所在位置
+        max_deviation = max(deviation_arr, key=lambda x: x[1])
+        index = max_deviation[0]
+        # TODO:[*] 19-07-30 此处需要转为utc时间 replace(tzinfo=TZ_UTC_0)
+        max_targetdate = query.startdate + timedelta(hours=index)
+        max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
+        max_val = max_deviation[1]
+        # + 22-12-05 实况增水值
+        realdata_val = real_arr[index]
+        tide_val = forecast_arr[index]
+        return max_val, realdata_val, tide_val, max_targetdate
 
 
 # 获取所有台风年份
@@ -1265,6 +1384,59 @@ class GetStationObserveData(APIView):
             return Response(jsonstr)
         except Exception as e:
             return Response([])
+
+
+class StationAlertView(APIView):
+    def get(self, request: Request) -> Response:
+        """
+
+        @param request:
+        @return:
+        """
+        codes: List[str] = request.GET.getlist('codes[]', [])
+        list_alert_dict = self.get_station_alerttide(codes)
+        return Response(list_alert_dict, status=status.HTTP_200_OK)
+
+    def get_station_alerttide(self, names: List[str]) -> List[Dict]:
+        """
+            根据 codes 获取对应的四色警戒潮位
+        @param codes: 海洋站编号数组
+        @return:  匹配的海洋站警戒潮位字典数组集合
+        """
+        # list_alert: List[List[Dict[str, str]]] = []
+        list_alert: List[Dict] = []
+        # list_dict_name_code: List[Dict[str, str]] = self.get_stationname_code_dict(names)
+        dict_name_code: Dict[str, str] = self.get_stationname_code_dict(names)
+        for temp_name in names:
+            temp_code: str = dict_name_code.get(temp_name)
+            # 此处查询完会有 2|4 个结果
+            query = StationAlertDoc.objects.filter(code=temp_code)
+            temp_station_alerts: List[Dict[str, str]] = [
+                {'code': temp_code, 'alert': temp_alert.alert, 'tide': temp_alert.tide} for
+                temp_alert in query]
+            temp_station: {} = {'code': temp_code, 'name_en': temp_name, 'alerts': temp_station_alerts}
+            list_alert.append(temp_station)
+        return list_alert
+
+    def get_stationname_code_dict(self, names: List[str]) -> Dict[str, str]:
+        """
+            根据传入的海洋站 name_en 获取 name_en:code 字典
+        @param names:
+        @return:
+        """
+        list_dict: List[Dict[str, str]] = []
+        dict_name_code: Dict[str, str] = {}
+        for temp_name_en in names:
+            temp_station: StationBaseInfoDoc = StationBaseInfoDoc.objects().filter(name_en=temp_name_en).first()
+            # temp_dict: Dict[str, str] = {temp_station.name_en: temp_station.code}
+            # list_dict.append(temp_dict)
+            if temp_station is not None:
+                try:
+                    dict_name_code[temp_station.name_en] = temp_station.code
+                except Exception as ex:
+                    print(ex.args)
+
+        return dict_name_code
 
 
 class GetRealDataMws(APIView):
