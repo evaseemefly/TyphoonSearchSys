@@ -190,6 +190,44 @@ const filterSurgeAlarmColor = (val: number): string => {
 	return colorStr
 }
 
+/**
+ * @description 根据字典获取对应的海洋站中文名
+ * @author evaseemefly
+ * @date 2022/11/09
+ * @param {string} code
+ * @param {{ name: string; chname: string }[]} [nameDict=[]]
+ * @returns {*}  {string}
+ */
+const filterStationNameCh = (
+	code: string,
+	nameDict: { name: string; chname: string }[] = []
+): string => {
+	/** 当前站点英文名 */
+	const stationNameEn = code
+	const queryName = nameDict.find((temp) => {
+		return temp.name === stationNameEn
+	})
+
+	/** 当前站点中文名 */
+	const stationNameCh = queryName !== undefined ? queryName.chname : stationNameEn
+	return stationNameCh
+}
+
+/**
+ * @description 根据传入的实况增水若<=0则说明最大的增水仍为减水，则返回-;否则 tostring
+ * @author evaseemefly
+ * @date 2022/12/06
+ * @param {number} val
+ * @returns {*}  {string}
+ */
+const filterStationAlertTideVal = (val: number): string => {
+	if (val > 0) {
+		return val.toString()
+	} else {
+		return '-'
+	}
+}
+
 export {
 	fortmatData2YMDHM,
 	formatOnlyFirstCol,
@@ -202,4 +240,6 @@ export {
 	formatTyLevel2Cls,
 	fortmatData2MDHM,
 	filterSurgeAlarmColor,
+	filterStationNameCh,
+	filterStationAlertTideVal,
 }

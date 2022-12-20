@@ -4,9 +4,9 @@
 		<div class="thumb-btn" @click="onClick(true)">
 			<i class="fa-solid fa-up-right-and-down-left-from-center"></i>
 		</div>
-		<div class="thumb-btn" @click="onClick(false)">
+		<!-- <div class="thumb-btn" @click="onClick(false)">
 			<i class="fa-solid fa-minus"></i>
-		</div>
+		</div> -->
 	</div>
 </template>
 <script lang="ts">
@@ -33,16 +33,22 @@ export default abstract class BaseThumbView extends Vue {
 	onClick(val: boolean): void {
 		// console.log(val)
 		this.isShow = val
-	}
 
-	@Watch('isShow')
-	onIsShow(val: boolean): void {
 		if (val) {
 			this.showForm()
 		} else {
 			this.hiddenForm()
 		}
 	}
+
+	// @Watch('isShow')
+	// onIsShow(val: boolean): void {
+	// 	if (val) {
+	// 		this.showForm()
+	// 	} else {
+	// 		this.hiddenForm()
+	// 	}
+	// }
 
 	public abstract showForm(): void
 
@@ -61,6 +67,7 @@ export default abstract class BaseThumbView extends Vue {
 	// background: black;
 	@form-base-shadow();
 	@form-base-radius();
+	@form-base-background();
 	margin: 10px;
 	color: white;
 

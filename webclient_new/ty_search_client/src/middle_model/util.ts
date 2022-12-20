@@ -44,6 +44,54 @@ const convertBp2TyLevel = (bp: number): string => {
 }
 
 /**
+ * @description 为热图使用的，根据传入的台风气压强度转换为热图所需的因子(气压越低因子越大)
+ * @author evaseemefly
+ * @date 2022/11/15
+ * @param {number} bp
+ * @returns {*}  {number}
+ */
+const convertBp2HeatMapFactor = (bp: number): number => {
+	let factor = 0.5
+	switch (true) {
+		// 其他
+		case bp >= 1000:
+			factor = 0.2
+			break
+		// 热带风暴
+		case bp >= 990:
+			factor = 0.4
+			break
+		// 强热带风暴
+		case bp >= 980:
+			factor = 0.6
+			break
+		// 台风
+		case bp >= 960:
+			factor = 0.8
+			break
+		// 强台风
+		case bp >= 940:
+			factor = 1.0
+			break
+		// 超强台风
+		case bp < 940:
+			factor = 1.2
+			break
+	}
+	return factor
+}
+
+/**
+ * @description
+ * @author evaseemefly
+ * @date 2022/11/15
+ * @returns {*}  {number[]}
+ */
+const getBpRange = (): number[] => {
+	return [0.2, 1.2]
+}
+
+/**
  * @description 将 mongo 中的台风路径 data -> tycma list
  * @author evaseemefly
  * @date 2022/10/19
@@ -67,4 +115,9 @@ const convertTyRealDataMongo2TyCMAPathLine = (sourcelist: TyRealDataMongoMidMode
 	return convertTyPathList
 }
 
-export { convertTyRealDataMongo2TyCMAPathLine, convertBp2TyLevel }
+export {
+	convertTyRealDataMongo2TyCMAPathLine,
+	convertBp2TyLevel,
+	convertBp2HeatMapFactor,
+	getBpRange,
+}

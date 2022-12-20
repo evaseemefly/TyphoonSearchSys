@@ -12,6 +12,8 @@ import { IStationInfo, IStationIcon } from '@/interface/station'
 import { IToHtml } from '@/interface/leaflet_icon'
 // 中间 model
 import { StationSurgeMidModel } from '@/middle_model/station'
+// filter
+import { filterStationNameCh } from '@/util/filter'
 
 interface IIconPlusingOptions {
 	val?: number
@@ -155,6 +157,9 @@ class IconCirlePulsing {
 		let colorStr = 'green'
 		if (surge) {
 			switch (true) {
+				case surge === 0:
+					colorStr = 'default'
+					break
 				case surge <= 100:
 					colorStr = 'green'
 					break
@@ -394,7 +399,10 @@ class IconMinStationSurge {
 		const divHtml = `<div class="my-station-surge-div">
           <div class="station-min-div-title">${this.stationName}</div>
           <div class="station-min-div-content liner-default ">${this.productTypeStr}</div>
-          <div class="station-min-div-content ${this.getAlarmColor()}">${this.surge}</div>
+
+          <div class="station-min-div-content ${this.getAlarmColor()}">${
+			this.surge !== 0 ? this.surge : '-'
+		}</div>
         </div>`
 		return divHtml
 	}
@@ -402,6 +410,9 @@ class IconMinStationSurge {
 		const surge = this.surge
 		let colorStr = 'green'
 		switch (true) {
+			case surge === 0:
+				colorStr = 'default'
+				break
 			case surge <= 100:
 				colorStr = 'green'
 				break
@@ -491,6 +502,7 @@ const getTyIconUrlByType = (tyType: string) => {
  * @param {L.Map} mymap
  * @param {IStationInfo[]} stationList
  * @param {number} surgeMax
+ * @param {{ name: string; chname: string }[]} stationNameDict 海洋站中英文对照字典
  * @param {(stationTemp: { code: string; name: string }) => void} callbackFunc 回调函数，用来触发 marker.onClick 事件
  * @returns {*}  {number[]}
  */
@@ -498,6 +510,7 @@ const addStationIcon2Map = (
 	mymap: L.Map,
 	stationList: IStationInfo[],
 	surgeMax: number,
+	stationNameDict: { name: string; chname: string }[],
 	callbackFunc: (stationTemp: { code: string; name: string }) => void
 ): number[] => {
 	const zoom = 7
@@ -518,9 +531,20 @@ const addStationIcon2Map = (
 			min: 0,
 			iconType: IconTypeEnum.TY_PULSING_ICON,
 		})
-		const tempStationSurge = new StationSurgeMidModel(temp.name, temp.code, '', '', new Date())
+
+		/** 当前站点英文名 */
+		const stationNameEn = temp.name
+		/** 当前站点中文名 */
+		const stationNameCh = filterStationNameCh(stationNameEn, stationNameDict)
+		const tempStationSurge = new StationSurgeMidModel(
+			stationNameCh,
+			temp.code,
+			'',
+			'',
+			new Date()
+		)
 		const iconSurgeMin = tempStationSurge.getImplements(zoom, {
-			stationName: temp.name,
+			stationName: stationNameCh,
 			stationCode: temp.code,
 			surgeMax: surgeMax,
 			surgeMin: 0,

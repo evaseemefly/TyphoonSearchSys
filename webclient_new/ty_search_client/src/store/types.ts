@@ -104,6 +104,11 @@ export const SET_BOX_LOOP_RADIUS = 'SET_BOX_LOOP_RADIUS'
 /** + 22-10-18 获取当前圈选范围半径值 */
 export const GET_BOX_LOOP_RADIUS = 'GET_BOX_LOOP_RADIUS'
 
+/** 设置 当前圈选范围内的台风 散点|热图 菜单按钮 */
+export const SET_FILTER_TY_SCATTER_MENU_TYPE = 'SET_FILTER_TY_SCATTER_MENU_TYPE'
+/** 设置 当前圈选范围内的台风 散点|热图 菜单按钮 */
+export const GET_FILTER_TY_SCATTER_MENU_TYPE = 'GET_FILTER_TY_SCATTER_MENU_TYPE'
+
 // map - 选中的经纬度位置
 export const SET_CURRENT_LATLNG = 'SET_CURRENT_LATLNG'
 export const GET_CURRENT_LATLNG = 'GET_CURRENT_LATLNG'
@@ -177,6 +182,12 @@ export const SET_SHOW_STATION_DETAIL_FORM = 'SET_SHOW_STATION_DETAIL_FORM'
 /** 获取 显示海洋站风暴增水详情窗口 */
 export const GET_SHOW_STATION_DETAIL_FORM = 'GET_SHOW_STATION_DETAIL_FORM'
 
+/** 设置 隐藏时间 nav bar */
+export const SET_SHADE_NAV_TIME = 'SET_SHADE_NAV_TIME'
+
+/** 设置 隐藏时间 nav bar */
+export const GET_SHADE_NAV_TIME = 'GET_SHADE_NAV_TIME'
+
 // + 22-03-28 STATION
 export const SET_SHOW_STATION_ICON = 'SET_SHOW_STATION_ICON'
 export const GET_SHOW_STATION_ICON = 'GET_SHOW_STATION_ICON'
@@ -211,9 +222,14 @@ export const SET_DATE_STEP = 'SET_DATE_STEP'
 /** 获取当前时间间隔 */
 export const GET_DATE_STEP = 'GET_DATE_STEP'
 
+/** 设置执行过滤台风并加载对应的散点 */
+export const SET_TO_FILTER_TY_SCATTER = 'SET_TO_FILTER_TY_SCATTER'
+/** 设置执行过滤台风并加载对应的散点 */
+export const GET_TO_FILTER_TY_SCATTER = 'GET_TO_FILTER_TY_SCATTER'
+
 // -----
 // 各类非单一属性的复杂 complex opts
-/** 设置 { currentTyNum; currentTyName; currentStationName } 用来监听当前海洋站及相关属性的变化 */
+/** 设置 { tyNum; tyCode; stationName ; stationCode } 用来监听当前海洋站及相关属性的变化 */
 export const SET_COMPLEX_OPTS_CURRENT_STATION = 'SET_COMPLEX_OPTS_CURRENT_STATION'
-/** 获取 { currentTyNum; currentTyName; currentStationName } 用来监听当前海洋站及相关属性的变化 */
+/** 获取 { tyNum; tyCode; stationName ; stationCode } 用来监听当前海洋站及相关属性的变化 */
 export const GET_COMPLEX_OPTS_CURRENT_STATION = 'GET_COMPLEX_OPTS_CURRENT_STATION'

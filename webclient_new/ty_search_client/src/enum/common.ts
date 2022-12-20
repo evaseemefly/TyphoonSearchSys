@@ -21,4 +21,20 @@ const getEnumVal = <T>(tempEnum: T, index: number): string => {
 	return areaStr
 }
 
+/**
+ * @description 控制 隐藏|展开 的枚举
+ * @author evaseemefly
+ * @date 2022/11/06
+ * @export
+ * @enum {number}
+ */
+export enum IExpandEnum {
+	/** 不展开 */
+	UN_EXPANDED,
+	/** 展开 */
+	EXPANDED,
+	/** 未选择 */
+	UN_SELECTED,
+}
+
 export { getEnumVal }

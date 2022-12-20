@@ -8,9 +8,10 @@
 	>
 		<div class="form-header">
 			<h4>匹配台风数量:</h4>
-			<!-- <div class="primary-title"></div> -->
 			<span>{{ filterTyCount }}</span>
-			<!-- <div class="desc"></div> -->
+			<div class="thumb-btn" @click="setExpanded(false)">
+				<i class="fa-solid fa-minus"></i>
+			</div>
 		</div>
 		<section>
 			<table>
@@ -47,7 +48,16 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import { Mutation, Getter } from 'vuex-class'
 import { FilterTyMidModel } from '@/middle_model/typhoon'
 // store
-import { SET_CURRENT_TY, GET_SHOW_TY_SEARCH_FORM } from '@/store/types'
+import {
+	SET_CURRENT_TY,
+	GET_SHOW_TY_SEARCH_FORM,
+	SET_SHOW_TY_SEARCH_FORM,
+	SET_SHADE_NAV_TIME,
+} from '@/store/types'
+// enum
+import { IExpandEnum } from '@/enum/common'
+import { EventBus } from '@/bus/BUS'
+import { TO_CLEAR_ALL_FILTER_TYS } from '@/bus/types'
 @Component({})
 export default class TyphoonListView extends Vue {
 	// typhoonList: { code: string; name: string; tyNum: string; year: string }[] = [
@@ -64,20 +74,67 @@ export default class TyphoonListView extends Vue {
 	@Prop({ type: Boolean, default: false })
 	isLoading: boolean
 
+	isExpanded = true
+
 	loadBackground = '#38536dac'
 
 	commitTy(val: FilterTyMidModel, index: number): void {
 		this.setCurrentTy(val)
 		this.selectedTrIndex = index
+		this.setShadeTimebar(false)
 	}
 
+	clearFilterTys(): void {}
+
 	get getIsShow(): boolean {
-		return this.getShowForm
+		let isShow = false
+		switch (this.getShowForm) {
+			case IExpandEnum.UN_EXPANDED:
+				isShow = false
+				break
+			case IExpandEnum.EXPANDED:
+				isShow = true
+				break
+			case IExpandEnum.UN_SELECTED:
+				isShow = this.filterTyCount !== 0
+				break
+		}
+		return isShow
 	}
+
+	setExpanded(val: boolean): void {
+		this.isExpanded = val
+		this.setShowTySearchForm(val)
+	}
+
+	@Watch('getShowForm')
+	onGetShowForm(val: IExpandEnum): void {
+		let isShow = false
+		switch (val) {
+			case IExpandEnum.UN_EXPANDED:
+				isShow = false && this.isExpanded
+				break
+			case IExpandEnum.EXPANDED:
+				// this.setExpanded(true)
+				this.isExpanded = true
+				isShow = true && this.isExpanded
+				break
+			case IExpandEnum.UN_SELECTED:
+				isShow = this.filterTyCount !== 0 && this.isExpanded
+				break
+		}
+		this.isExpanded = isShow
+	}
+
+	@Mutation(SET_SHOW_TY_SEARCH_FORM, { namespace: 'common' }) setShowTySearchForm
 
 	@Mutation(SET_CURRENT_TY, { namespace: 'typhoon' }) setCurrentTy
 
-	@Getter(GET_SHOW_TY_SEARCH_FORM, { namespace: 'common' }) getShowForm
+	/** 设置 遮罩 timebar */
+	@Mutation(SET_SHADE_NAV_TIME, { namespace: 'common' }) setShadeTimebar
+
+	/** 获取当前窗口是否展开的状态 */
+	@Getter(GET_SHOW_TY_SEARCH_FORM, { namespace: 'common' }) getShowForm: IExpandEnum
 }
 </script>
 <style scoped lang="less">
@@ -93,6 +150,7 @@ export default class TyphoonListView extends Vue {
 	@form-base-shadow();
 	// 统一的边角半圆过渡
 	@form-base-radius();
+	@form-base-background();
 	z-index: 999;
 	max-height: 600px;
 	.form-header {
@@ -106,6 +164,9 @@ export default class TyphoonListView extends Vue {
 		span {
 			display: flex;
 			align-items: center;
+		}
+		.thumb-btn {
+			@form-header-expand();
 		}
 	}
 	section {

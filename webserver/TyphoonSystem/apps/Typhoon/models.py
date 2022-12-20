@@ -149,6 +149,8 @@ class StationTideData(Document):
 
     def __str__(self):
         return f'code:{self.code}|startdate:{self.startdate}|stationname:{self.stationname}|point:{self.point}|lev:{self.lev}|jw:{self.jw}|harmonicconstant:{self.harmonicconstant}'
+
+
 # 实现方式2：使用djongo
 # class Point(models.Model):
 #     '''
@@ -178,13 +180,14 @@ class DisasterWordInfo(Document):
         灾情word描述信息
     '''
     # 台风code
-    code=StringField(max_length=20)
+    code = StringField(max_length=20)
     # word内容
-    wordDocument=StringField()
+    wordDocument = StringField()
 
-    meta={
-        'collection':'disasterword'
+    meta = {
+        'collection': 'disasterword'
     }
+
 
 class TyphoonNumChDictData(Document):
     '''
@@ -198,6 +201,7 @@ class TyphoonNumChDictData(Document):
     chname = StringField(max_length=50)
     meta = {'collection': 'typhoonnumchdict'}
 
+
 class StationNameDict(Document):
     '''
         测站名称对照表
@@ -206,3 +210,32 @@ class StationNameDict(Document):
     chname = StringField()
 
     meta = {'collection': 'stationnamedict'}
+
+
+class StationAlertDoc(Document):
+    '''
+        海洋站警戒潮位
+    '''
+    code = StringField(max_length=10)
+    tide = IntField()
+    alert = IntField()
+    meta = {'collection': 'stationalert'}
+
+
+class StationBaseInfoDoc(Document):
+    '''
+        海洋站基础信息表
+    '''
+
+    code = StringField(max_length=20)
+    name_ch = StringField(max_length=20)
+    name_en = StringField(max_length=20)
+    lat = FloatField()
+    lon = FloatField()
+    pid = IntField()
+    is_abs = BooleanField()
+    base_level_diff = IntField()
+    d85 = IntField()
+    is_in_use = BooleanField()
+    is_in_common_use = BooleanField()
+    meta = {'collection': 'stationinfo'}

@@ -6,10 +6,11 @@ import abc
 import os
 import logging
 
-from typing import List
+from typing import List, Set, Dict
 
 from django.shortcuts import render
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -32,22 +33,23 @@ from .middle_models import *
 from common import dateCommon
 from .view_decorator import *
 from common.dateCommon import sortTyphoonNum
+from util.my_enum import FilterTypeEnum
 
 
 # Create your views here.
 
-class PointInfoView(APIView):
-    '''
-
-    '''
-
-    def get(self, request):
-        bbxlist = Point.objects.all()
-        # Point.objects.
-        # json_data=BBXInfoSerializer(bbxlist,many=True)
-        # return Response(serialize('json',bbxlist))
-        return Response("")
-        # pass
+# class PointInfoView(APIView):
+#     '''
+#
+#     '''
+#
+#     def get(self, request):
+#         bbxlist = Point.objects.all()
+#         # Point.objects.
+#         # json_data=BBXInfoSerializer(bbxlist,many=True)
+#         # return Response(serialize('json',bbxlist))
+#         return Response("")
+#         # pass
 
 
 class TyphoonRealDataView(APIView):
@@ -473,71 +475,28 @@ class StationDetailListView(APIView):
     #
 
 
-class FilterByMonth(BaseView):
-    '''
-        根据起始月份进行查询（或改成起止日期）
-    '''
-
-    def get(self, request):
-        code = request.GET.get("code", settings.default_typhoon_code)
-        month = int(request.GET.get("month", "1"))
-        list = self.getTyphoonList(code=code, month=month)
-        json_data = GeoTyphoonRealDataSerializer(list, many=True).data
-        return Response(json_data)
-        # pass
-
-    def getTyphoonList(self, *args, **kwargs):
-        '''
-            根据code以及month查询台风路径信息
-        :param args:
-        :param kwargs:
-        :return:
-        '''
-        code = kwargs.get('code', "")
-        month = kwargs.get('month', datetime.now().month)
-        # TODO [*]此处存在的问题不能使用django的xxx__month的方式直接按照月份去过滤
-        # return GeoTyphoonRealData.objects.filter(code=code,date__month=6)
-        return GeoTyphoonRealData.objects.filter(code=code, date__lte=datetime.now())
-
-
-class FilterByYear(BaseView):
-    '''
-        根据年份进行查询
-    '''
-
-    def get(self, request):
-        # TODO [-]优先完成此部分
-        code = request.GET.get('code')
-        year = request.GET.get('year', datetime.now().year)
-        list = self.getTyphoonList(year=year, code=code)
-        json_data = GeoTyphoonRealDataSerializer(list, many=True).data
-        return Response(json_data)
-
-    def getTyphoonList(self, *args, **kwargs):
-        '''
-            根据code以及month查询台风路径信息
-        :param args:
-        :param kwargs:
-        :return:
-        '''
-        code = kwargs.get('code', "")
-        year = kwargs.get('year')
-        # 获取起止日期
-        start, end = dateCommon.getYearDateRange(year)
-        # TODO [-]此处改为使用mongoengine的方式进行查询
-        return GeoTyphoonRealData.objects(date__lte=end) if code == "" else GeoTyphoonRealData.objects(code=code,
-                                                                                                       date__lte=end)
-        # return GeoTyphoonRealData.objects.filter(code=code,date__lte=end,date__gte=start)
-        # return GeoTyphoonRealData.objects(code=code, date__lte=end)
-        # return GeoTyphoonRealData.objects.filter(code=code, date__gte=start)
-
-
 class FilterByRange(BaseView):
     '''
         根据经纬度[lat,lon]以及range 返回在指定范围内的台风编号
     '''
 
-    def get(self, request):
+    def get(self, request: Request) -> Response:
+        """
+            get 请求处理
+        @param request:
+        @return:
+        """
+        data = self.filter(request)
+        json_data = TyphoonAndTotalModelSerializer(data).data
+        # json_data = TyphoonModelSerializer(list_data, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
+
+    def filter(self, request: Request) -> TyphoonAndTotalModel:
+        """
+            根据请求中的 latlong[] 与 range 进行过滤，过滤经过此圆形区域的全部台风路径
+        @param request:
+        @return:
+        """
         # TODO [-]优先完成此部分 对于第一种传输组的方式
         # latlon=request.GET.get('latlon')
         # TODO 注意python3开始，map返回的是一个迭代器，不是list，需要手动转一下
@@ -558,8 +517,8 @@ class FilterByRange(BaseView):
         start_index = (index * size)
         finish_index = (index * size + size)
         # 获取去重后的code list
-        nums = self.getTyphoonList(latlon=latlons, range=range)
-        total = len(nums)
+        nums: List[str] = self.getTyphoonList(latlon=latlons, range=range)
+
         if index != -1 and size != -1:
             start_index = (index * size)
             finish_index = (index * size + size)
@@ -567,7 +526,7 @@ class FilterByRange(BaseView):
             codes = nums[start_index:finish_index]
         else:
             codes = nums
-
+        ty_total = self.get_ty_total(nums)
         # TODO [*] 19-04-01根据code list，获取该code对应的code以及startdate
         # list_data = [GeoTyphoonRealData.objects(code=code)[:1].code
         # for code in codes]
@@ -581,14 +540,23 @@ class FilterByRange(BaseView):
         # list_data = [
         #     TyphoonModel(GeoTyphoonRealData.objects(num=num)[0].code, GeoTyphoonRealData.objects(num=num)[0].date,GeoTyphoonRealData.objects(num=num)[0].num)
         #     for num in nums]
+        return ty_total
+
+    def get_ty_total(self, ty_nums: List[str]) -> TyphoonAndTotalModel:
+        """
+            - 22-11-17 根据 ty_nums 获取 台风统计 model
+        @param ty_nums:
+        @return:
+        """
         tup_python_name = ('nameless', '(nameless)')
         list_data = []
-        for num in codes:
+        total = len(ty_nums)
+        for num in ty_nums:
             obj = GeoTyphoonRealData.objects(num=num)[0]
             if obj.code not in tup_python_name:
                 list_data.append(TyphoonModel(obj.code, obj.date, obj.num))
         # TODO:[*] 19-07-12 加入中文typhoonName
-        list_typhoonNum = [temp.num for temp in list_data]
+        list_typhoonNum: List[str] = [temp.num for temp in list_data]
 
         # 以下部分封装至 BaseView 中的 addChnameVariable 方法中
         # list_namesDict = self.getTyphoonChNameDict(nums=list_typhoonNum)
@@ -610,9 +578,7 @@ class FilterByRange(BaseView):
         list_dataFinal = self.addChnameVariable(list_data, nums=list_typhoonNum)
         # TODO:[*] 19-05-13 返回的加入total
         data = TyphoonAndTotalModel(list_dataFinal, total)
-        json_data = TyphoonAndTotalModelSerializer(data).data
-        # json_data = TyphoonModelSerializer(list_data, many=True).data
-        return Response(json_data, status=status.HTTP_200_OK)
+        return data
 
     def sort(self, list_num) -> []:
         list_num = sorted(list_num)
@@ -639,6 +605,263 @@ class FilterByRange(BaseView):
         # 注意此处去重是要根据 num 进行去重
         return self.sort(
             GeoTyphoonRealData.objects(latlon__near=latlon[::-1], latlon__max_distance=range).distinct('num'))
+
+    def get_ty_real_path(self, ty_nums: List[str]) -> List[TyphoonGeoListMidModel]:
+        # 根据 台风编号获取每个编号对应的台风路径,参考 按年份获取
+        tup_python_name = ('nameless', '(nameless)')
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = []
+        for temp_ty_num in ty_nums:
+            if temp_ty_num not in tup_python_name:
+                temp_ty_path_list = GeoTyphoonRealData.objects(num=temp_ty_num)
+                temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty_num,
+                                                                                  list_ty_geo=temp_ty_path_list)
+                list_ty_geo_path.append(temp_ty_geo_path)
+        return list_ty_geo_path
+
+
+class FilterByMonth(FilterByRange):
+    '''
+        根据起始月份进行查询（或改成起止日期）
+    '''
+
+    def get(self, request):
+        code = request.GET.get("code", settings.default_typhoon_code)
+        month = int(request.GET.get("month", "1"))
+        list_ty_nums: List[str] = self.get_ty_nums(code=code, month=month)
+        # 根据 台风编号获取每个编号对应的台风路径,参考 按年份获取
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = self.get_ty_real_path(list_ty_nums)
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path, many=True).data
+        return Response(json_data)
+
+    def get_ty_nums(self, *args, **kwargs) -> List[str]:
+        """
+            根据code以及month查询台风路径信息
+        @param args:
+        @param kwargs:
+        @return: 台风编号集合
+        """
+        month = kwargs.get('month', datetime.now().month)
+        # TODO [*]此处存在的问题不能使用django的xxx__month的方式直接按照月份去过滤
+        # return GeoTyphoonRealData.objects.filter(code=code,date__month=6)
+        """
+            原生查询语句如下:
+
+            db.geotyphoonrealdata.aggregate(
+               [
+                 {
+                   $project:
+                     {
+                       month: { $month: "$date" },
+                       num:"$num"
+                     }
+                 },
+                 {
+                   $match:{
+                     month:2
+                   }
+                 },
+                 {
+                    $group:{
+                        _id:"$num"
+                    }
+                 }
+               ]
+            )
+
+        """
+
+        # pipeline = [
+        #     {"$sort": {"name": -1}},
+        #     {"$project": {"_id": 0, "name": {"$toUpper": "$name"}}}
+        # ]
+
+        find_qry = [
+            {"$project": {"month": {"$month": "$date"}, "num": "$num"}},
+            {"$match": {"month": month}},
+            {"$group": {"_id": "$num"}}
+        ]
+
+        # {
+        #     "$match":
+        #         {
+        #             "month": month
+        #         }
+        # },
+        # {
+        #     "$group": {
+        #         "_id": "$num"
+        #     }
+        # }
+
+        # ERROR1: TypeError: filter must be an instance of dict, bson.son.SON, or other type that inherits from collections.Mapping
+        # collection = GeoTyphoonRealData._get_collection()
+        # query = collection.find(pipeline)
+        # ERROR2: Unable to get repr for <class 'mongoengine.queryset.queryset.QuerySet'>
+        # ERROR3: pymongo.errors.OperationFailure: Each element of the 'pipeline' array must be an object
+        # TODO:[-] 22-11-16 注意此处 aggregate(*x) 需要加入 * 否则会提示 Each element of the 'pipeline' array must be an object 错误
+        query = GeoTyphoonRealData.objects().aggregate(*find_qry)
+        # [..{_id:xx}]
+        list_query_dist: List[dict] = list(query)
+        # 获取该年份的台风编号
+        list_nums: List[str] = [temp.get('_id') for temp in list_query_dist]
+        return list_nums
+
+
+class FilterByYear(FilterByRange):
+    '''
+        根据年份进行查询
+    '''
+
+    def get(self, request):
+        """
+             {
+                "num": "1711",
+                "list_ty_geo": [
+                    {
+                        "code": "NALGAE",
+                        "date": "2017-08-01T00:00:00Z",
+                        "num": "1711",
+                        "bp": 1004.0,
+                        "wsm": 13.0,
+                        "level": 1,
+                        "latlon": {
+                            "type": "Point",
+                            "coordinates": [
+                                162.4,
+                                26.5
+                            ]
+                        }
+                    },
+             }
+        @param request:
+        @return:
+        """
+        # TODO [-]优先完成此部分
+        code = request.GET.get('code')
+        year = request.GET.get('year', datetime.now().year)
+        list = self.getTyphoonList(year=year, code=code)
+        codes: List[str] = [temp.num for temp in list]
+        dist_codes: Set[str] = set(codes)
+        list_code: List[str] = [code for code in dist_codes]
+        # 去掉 nameless
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = self.get_ty_real_path(list_code)
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path, many=True).data
+        return Response(json_data)
+
+    def getTyphoonList(self, *args, **kwargs) -> List[GeoTyphoonRealData]:
+        '''
+            根据code以及month查询台风路径信息
+        :param args:
+        :param kwargs:
+        :return:
+        '''
+        code = kwargs.get('code', "")
+        year = kwargs.get('year')
+        # 获取起止日期
+        start, end = dateCommon.getYearDateRange(year)
+        # TODO [-]此处改为使用mongoengine的方式进行查询
+        # return GeoTyphoonRealData.objects(date__lte=end, date__gte=start) if code == "" else GeoTyphoonRealData.objects(
+        #     code=code, date__gte=start,
+        #     date__lte=end)
+        return GeoTyphoonRealData.objects.filter(date__lte=end, date__gte=start)
+        # return GeoTyphoonRealData.objects(code=code, date__lte=end)
+        # return GeoTyphoonRealData.objects.filter(code=code, date__gte=start)
+
+
+class FilterByParamsView(FilterByMonth, FilterByYear):
+    """
+        复杂查询过滤视图
+    """
+
+    def get(self, request: Request) -> Response:
+        """
+            必要条件: filter_type 条件过滤类型
+            可选条件: month       指定月份(全部)
+        @param request:
+        @return:
+        """
+        filter_type_str: str = request.GET.get('filter_type', None)
+        filter_type_int: int = int(filter_type_str) if filter_type_str is not None else FilterTypeEnum.UNLL.value
+        filter_type: FilterTypeEnum = FilterTypeEnum(filter_type_int)
+        ty_total: TyphoonAndTotalModel = None
+        # ty_nums_list: List[str] = []
+        # 根据过滤类型获取该过滤类型的匹配台风编号
+        if filter_type is FilterTypeEnum.UNIQUE_MONTH:
+            month_str: str = request.GET.get('month', '1')
+            month: int = int(month_str)
+            ty_nums_list: List[str] = self.get_ty_nums(month=month)
+            ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
+        elif filter_type is FilterTypeEnum.UNIQUE_YEAR:
+            year_str: str = request.GET.get('year', '2017')
+            year: int = int(year_str)
+            ty_path_list: List[GeoTyphoonRealData] = self.getTyphoonList(year=year)
+            ty_nums_list: List[str] = [temp.num for temp in ty_path_list]
+            dist_ty_nums: Set[str] = set(ty_nums_list)
+            ty_nums_list: List[str] = [code for code in dist_ty_nums]
+            ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
+        json_data = TyphoonAndTotalModelSerializer(ty_total).data
+        # json_data = TyphoonModelSerializer(list_data, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
+
+    def filter_unique_month(self, month: str) -> List[str]:
+        nums: List[str] = self.get_ty_nums(month=int(month))
+        return nums
+
+
+class FilterByDistanceFullGeoInfo(FilterByRange):
+    """
+        + 22-11-11
+        根据指定区域过滤对应台风并一次性返回全部路径信息
+    """
+
+    def get(self, request: Request) -> Response:
+        # step1: 获取过滤后的全部台风
+        data: TyphoonAndTotalModel = self.filter(request)
+        # step2: 遍历所有匹配的台风获取全部的台风路径信息
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = []
+        for temp_ty in data.list:
+            temp_ty_path_list = GeoTyphoonRealData.objects(num=temp_ty.num)
+            temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty.num,
+                                                                              list_ty_geo=temp_ty_path_list)
+            list_ty_geo_path.append(temp_ty_geo_path)
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
+
+
+class FilterByUniqueParamsFullGeoInfo(FilterByParamsView):
+    def get(self, request: Request) -> Response:
+        # step1: 获取过滤后的全部台风
+        filter_type_str: str = request.GET.get('filter_type', None)
+        filter_type_int: int = int(filter_type_str) if filter_type_str is not None else FilterTypeEnum.UNLL.value
+        filter_type: FilterTypeEnum = FilterTypeEnum(filter_type_int)
+        ty_total: TyphoonAndTotalModel = None
+        ty_nums_list: List[str] = []
+
+        # 根据过滤类型获取该过滤类型的匹配台风编号
+        if filter_type is FilterTypeEnum.UNIQUE_MONTH:
+            month_str: str = request.GET.get('month', '1')
+            month: int = int(month_str)
+            ty_nums_list: List[str] = self.get_ty_nums(month=month)
+            ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
+        elif filter_type is FilterTypeEnum.UNIQUE_YEAR:
+            year_str: str = request.GET.get('year', '2017')
+            year: int = int(year_str)
+            ty_path_list: List[GeoTyphoonRealData] = self.getTyphoonList(year=year)
+            ty_nums_list: List[str] = [temp.num for temp in ty_path_list]
+            dist_ty_nums: Set[str] = set(ty_nums_list)
+            ty_nums_list: List[str] = [code for code in dist_ty_nums]
+        # step2: 遍历所有匹配的台风获取全部的台风路径信息
+        list_ty_geo_path: List[TyphoonGeoListMidModel] = []
+        # 加入需要忽略的 num:0000
+        igore_num: str = '0000'
+        for temp_ty in ty_nums_list:
+            if temp_ty != igore_num:
+                temp_ty_path_list = GeoTyphoonRealData.objects(num=temp_ty)
+                temp_ty_geo_path: TyphoonGeoListMidModel = TyphoonGeoListMidModel(num=temp_ty,
+                                                                                  list_ty_geo=temp_ty_path_list)
+                list_ty_geo_path.append(temp_ty_geo_path)
+        json_data = GeoTyphoonGroupListDataSerializer(list_ty_geo_path, many=True).data
+        return Response(json_data, status=status.HTTP_200_OK)
 
 
 class FilterByComplexCondition(BaseView):
@@ -869,7 +1092,7 @@ class StationStatisticsDataView(APIView):
         # forecast-realtide 差值的最大值
         result = {}
         try:
-            max_val, max_date = self.getDeviationVals(num, stationname)
+            max_val, realdata_val, tide_val, max_date = self.getDeviationVals(num, stationname)
             result = {
                 'max_val': max_val,
                 'max_date': max_date
@@ -882,8 +1105,8 @@ class StationStatisticsDataView(APIView):
 
     def getDeviationVals(self, num: str, stationname: str):
         '''
-            获取差值的数组
-        :return:
+            获取差值的数组—— 找到增水极值
+        :return: [最大值,实况潮位，天文潮，最大值出现的时间]
         '''
         real_arr = []
         forecast_arr = []
@@ -917,7 +1140,54 @@ class StationStatisticsDataView(APIView):
         max_targetdate = query.startdate + timedelta(hours=index)
         max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
         max_val = max_deviation[1]
-        return max_val, max_targetdate
+        # + 22-12-05 实况增水值
+        realdata_val = real_arr[index]
+        tide_val = forecast_arr[index]
+        return max_val, realdata_val, tide_val, max_targetdate
+
+    def getRealSurgeMaxVals(self, num: str, stationname: str):
+        """
+                获取实况极大值
+        @param num:
+        @param stationname:
+        @return: [最大值,实况潮位，天文潮，最大值出现的时间]
+        """
+        real_arr = []
+        forecast_arr = []
+        deviation_arr = []
+        query = StationTideData.objects(typhoonnum=num, stationname=stationname).first()
+        # 分别取出real_arr与forecast
+        # for temp in query.realtidedata
+        for temp in query.realtidedata:
+            # AttributeError: 'ForecastData'
+            # object
+            # has
+            # no
+            # attribute
+            # 'realdata_arr'
+            # TODO:[*] 19-07-30 注意数据库中存取的数据real与forecast是相反的！！
+            # forecast_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            # real_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            # 此处需要颠倒一下，上面是之前的未颠倒的，暂时保留
+            real_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            forecast_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            real_arr = real_arr + real_arr_temp
+            forecast_arr = forecast_arr + forecast_arr_temp
+            # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
+        # err：ValueError: not enough values to unpack (expected 3, got 2)
+        # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
+        deviation_arr = [(i, x) for i, (x, y) in enumerate(zip(real_arr, forecast_arr))]
+        # 找到极值及其所在位置
+        max_deviation = max(deviation_arr, key=lambda x: x[1])
+        index = max_deviation[0]
+        # TODO:[*] 19-07-30 此处需要转为utc时间 replace(tzinfo=TZ_UTC_0)
+        max_targetdate = query.startdate + timedelta(hours=index)
+        max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
+        max_val = max_deviation[1]
+        # + 22-12-05 实况增水值
+        realdata_val = real_arr[index]
+        tide_val = forecast_arr[index]
+        return max_val, realdata_val, tide_val, max_targetdate
 
 
 class AllStationExtremumDataView(StationStatisticsDataView):
@@ -927,21 +1197,106 @@ class AllStationExtremumDataView(StationStatisticsDataView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         ty_num: str = request.GET.get('num', None)
-        codes: List[str] = self.get_dist_station_codes(ty_num)
+        # TODO:[-] 22-11-08 由于之前录入数据部分存在 geostationtidedata.code 为对应站点id而非 code，修改为获取 stationname
+        codes: List[str] = self.get_dist_station_names(ty_num)
         list_extremum: List[dict] = []
         for temp_code in codes:
-            max_val, max_dt = self.getDeviationVals(ty_num, temp_code)
-            temp_extremum: dict = {
-                'station_code': temp_code,
-                'max_val': max_val,
-                'max_date': max_dt
-            }
-            list_extremum.append(temp_extremum)
+            try:
+                max_val, realdata_val, tide_val, max_dt = self.getDeviationVals(ty_num, temp_code)
+                temp_extremum: dict = {
+                    'station_code': temp_code,
+                    'max_val': max_val,
+                    'realdata_val': realdata_val,
+                    'tide_val': tide_val,
+                    'max_date': max_dt
+                }
+                list_extremum.append(temp_extremum)
+            except Exception as ex:
+                print(f'{ty_num},{temp_code}出现错误:{ex.args}')
         return Response(list_extremum)
 
     def get_dist_station_codes(self, num: str) -> List[str]:
         codes = StationTideData.objects(typhoonnum=num).distinct('code')
         return codes
+
+    def get_dist_station_names(self, num: str) -> List[str]:
+        """
+            + 22-11-08 获取不同的海洋站 names
+            发现的bug，部分站点录入时出现错误，
+            eg: 0421 code 均为站点id，而非 name，此处修改为获取 stationnname
+        """
+        names = StationTideData.objects(typhoonnum=num).distinct('stationname')
+        return names
+
+
+class AllStationRealDataExtremumDataView(AllStationExtremumDataView):
+    """
+        + 22-12-6 根据台风编号获取该过程影响站点的实况极值集合
+    """
+    def get(self, request: HttpRequest) -> HttpResponse:
+        """
+
+        @param request:
+        @return: {
+                    'station_code': 海洋站英文名称,
+                    'max_val': 实况极值,
+                    'realdata_val': 实况极值,
+                    'tide_val': 实况极值时刻的天文潮值,
+                    'max_date': 实况极值出现的时间
+                }
+        """
+        ty_num: str = request.GET.get('num', None)
+        # TODO:[-] 22-11-08 由于之前录入数据部分存在 geostationtidedata.code 为对应站点id而非 code，修改为获取 stationname
+        codes: List[str] = self.get_dist_station_names(ty_num)
+        list_extremum: List[dict] = []
+        for temp_code in codes:
+            try:
+                max_val, realdata_val, tide_val, max_dt = self.get_realdata_deviation_vals(ty_num, temp_code)
+                temp_extremum: dict = {
+                    'station_code': temp_code,
+                    'max_val': max_val,
+                    'realdata_val': realdata_val,
+                    'tide_val': tide_val,
+                    'max_date': max_dt
+                }
+                list_extremum.append(temp_extremum)
+            except Exception as ex:
+                print(f'{ty_num},{temp_code}出现错误:{ex.args}')
+        return Response(list_extremum)
+
+    def get_realdata_deviation_vals(self, num: str, stationname: str):
+        '''
+            获取差值的数组—— 找到增水极值
+        :return: [最大值,实况潮位，天文潮，最大值出现的时间]
+        '''
+        real_arr = []
+        forecast_arr = []
+        deviation_arr = []
+        query = StationTideData.objects(typhoonnum=num, stationname=stationname).first()
+        # 分别取出real_arr与forecast
+        # for temp in query.realtidedata
+        for temp in query.realtidedata:
+            # TODO:[*] 19-07-30 注意数据库中存取的数据real与forecast是相反的！！
+            # 此处需要颠倒一下，上面是之前的未颠倒的，暂时保留
+            real_arr_temp = [forecast_temp for forecast_temp in temp.forecastdata.forecast_arr]
+            forecast_arr_temp = [real_temp for real_temp in temp.realdata.realdata_arr]
+            real_arr = real_arr + real_arr_temp
+            forecast_arr = forecast_arr + forecast_arr_temp
+            # real_arr = [realdata_temp for realdata in temp.realdata_arr for realdata_temp in realdata]
+        # err：ValueError: not enough values to unpack (expected 3, got 2)
+        # TODO :[*] 19-06-30 注意数据库中的 预报值 与 实测值 是相反的
+        deviation_arr = [(i, x) for i, (x, y) in enumerate(zip(real_arr, forecast_arr))]
+        # 找到极值及其所在位置
+        max_deviation = max(deviation_arr, key=lambda x: x[1])
+        index = max_deviation[0]
+        # TODO:[*] 19-07-30 此处需要转为utc时间 replace(tzinfo=TZ_UTC_0)
+        max_targetdate = query.startdate + timedelta(hours=index)
+        max_targetdate = max_targetdate.replace(tzinfo=TZ_UTC_0)
+        max_val = max_deviation[1]
+        # + 22-12-05 实况增水值
+        realdata_val = real_arr[index]
+        tide_val = forecast_arr[index]
+        return max_val, realdata_val, tide_val, max_targetdate
 
 
 # 获取所有台风年份
@@ -1029,6 +1384,59 @@ class GetStationObserveData(APIView):
             return Response(jsonstr)
         except Exception as e:
             return Response([])
+
+
+class StationAlertView(APIView):
+    def get(self, request: Request) -> Response:
+        """
+
+        @param request:
+        @return:
+        """
+        codes: List[str] = request.GET.getlist('codes[]', [])
+        list_alert_dict = self.get_station_alerttide(codes)
+        return Response(list_alert_dict, status=status.HTTP_200_OK)
+
+    def get_station_alerttide(self, names: List[str]) -> List[Dict]:
+        """
+            根据 codes 获取对应的四色警戒潮位
+        @param codes: 海洋站编号数组
+        @return:  匹配的海洋站警戒潮位字典数组集合
+        """
+        # list_alert: List[List[Dict[str, str]]] = []
+        list_alert: List[Dict] = []
+        # list_dict_name_code: List[Dict[str, str]] = self.get_stationname_code_dict(names)
+        dict_name_code: Dict[str, str] = self.get_stationname_code_dict(names)
+        for temp_name in names:
+            temp_code: str = dict_name_code.get(temp_name)
+            # 此处查询完会有 2|4 个结果
+            query = StationAlertDoc.objects.filter(code=temp_code)
+            temp_station_alerts: List[Dict[str, str]] = [
+                {'code': temp_code, 'alert': temp_alert.alert, 'tide': temp_alert.tide} for
+                temp_alert in query]
+            temp_station: {} = {'code': temp_code, 'name_en': temp_name, 'alerts': temp_station_alerts}
+            list_alert.append(temp_station)
+        return list_alert
+
+    def get_stationname_code_dict(self, names: List[str]) -> Dict[str, str]:
+        """
+            根据传入的海洋站 name_en 获取 name_en:code 字典
+        @param names:
+        @return:
+        """
+        list_dict: List[Dict[str, str]] = []
+        dict_name_code: Dict[str, str] = {}
+        for temp_name_en in names:
+            temp_station: StationBaseInfoDoc = StationBaseInfoDoc.objects().filter(name_en=temp_name_en).first()
+            # temp_dict: Dict[str, str] = {temp_station.name_en: temp_station.code}
+            # list_dict.append(temp_dict)
+            if temp_station is not None:
+                try:
+                    dict_name_code[temp_station.name_en] = temp_station.code
+                except Exception as ex:
+                    print(ex.args)
+
+        return dict_name_code
 
 
 class GetRealDataMws(APIView):

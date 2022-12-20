@@ -7,7 +7,7 @@ import {
 	DEFAULT_TY_NUM,
 } from '@/const/default'
 interface IComplex {
-	currentStationOpts: { tyNum: string; tyCode: string; stationName: string }
+	currentStationOpts: { tyNum: string; tyCode: string; stationName: string; stationCode: string }
 }
 
 const state: IComplex = {
@@ -15,6 +15,7 @@ const state: IComplex = {
 		tyNum: DEFAULT_TY_NUM,
 		tyCode: DEFAULT_TY_CODE,
 		stationName: DEFAULT_STATION_NAME,
+		stationCode: DEFAULT_STATION_CODE,
 	},
 }
 const getters = {
@@ -22,6 +23,7 @@ const getters = {
 		tyNum: string
 		tyCode: string
 		stationName: string
+		stationCode: string
 	} {
 		return state.currentStationOpts
 	},
@@ -36,6 +38,7 @@ const mutations = {
 			tyNum: string
 			tyCode: string
 			stationName: string
+			stationCode: string
 		}
 	): void {
 		state.currentStationOpts = val
