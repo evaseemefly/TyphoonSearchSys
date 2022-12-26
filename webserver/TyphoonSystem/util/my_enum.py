@@ -7,7 +7,7 @@ class FilterTypeEnum(Enum):
         过滤枚举类
     """
     # 未选择
-    UNLL=1000
+    UNLL = 1000
     """
         过滤类型枚举
     """
@@ -22,6 +22,11 @@ class FilterTypeEnum(Enum):
     UNIQUE_YEAR = 1002
 
     """
+    按照台风编号进行唯一过滤
+    """
+    UNIQUE_TYNUM = 1003
+
+    """
         按照复杂条件过滤
     """
-    UNIQUE_COMPLEX = 1003
+    UNIQUE_COMPLEX = 1004

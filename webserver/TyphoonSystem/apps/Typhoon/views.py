@@ -768,7 +768,21 @@ class FilterByYear(FilterByRange):
         # return GeoTyphoonRealData.objects.filter(code=code, date__gte=start)
 
 
-class FilterByParamsView(FilterByMonth, FilterByYear):
+class FilterByComplex(FilterByRange):
+    def get_tynums_bynum(self, ty_num) -> List[str]:
+        """
+            + 22-12-26 根据传入的 ty_num 获取对应的台风编号
+        @param ty_num:
+        @return:
+        """
+        list_geo_ty: List[GeoTyphoonRealData] = GeoTyphoonRealData.objects.filter(num=ty_num)
+        ty_nums: List[str] = [temp.num for temp in list_geo_ty]
+        dict_nums: Set[str] = set(ty_nums)
+        dist_ty_nums: List[str] = [code for code in dict_nums]
+        return dist_ty_nums
+
+
+class FilterByParamsView(FilterByMonth, FilterByYear, FilterByComplex):
     """
         复杂查询过滤视图
     """
@@ -799,6 +813,10 @@ class FilterByParamsView(FilterByMonth, FilterByYear):
             dist_ty_nums: Set[str] = set(ty_nums_list)
             ty_nums_list: List[str] = [code for code in dist_ty_nums]
             ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
+        elif filter_type is FilterTypeEnum.UNIQUE_TYNUM:
+            ty_num: str = request.GET.get('ty_num', '2017')
+            ty_nums_list = self.get_tynums_bynum(ty_num)
+            ty_total: TyphoonAndTotalModel = self.get_ty_total(ty_nums_list)
         json_data = TyphoonAndTotalModelSerializer(ty_total).data
         # json_data = TyphoonModelSerializer(list_data, many=True).data
         return Response(json_data, status=status.HTTP_200_OK)
@@ -828,7 +846,7 @@ class FilterByDistanceFullGeoInfo(FilterByRange):
         return Response(json_data, status=status.HTTP_200_OK)
 
 
-class FilterByUniqueParamsFullGeoInfo(FilterByParamsView):
+class FilterByUniqueParamsFullGeoInfo(FilterByParamsView, FilterByComplex):
     def get(self, request: Request) -> Response:
         # step1: 获取过滤后的全部台风
         filter_type_str: str = request.GET.get('filter_type', None)
@@ -850,6 +868,10 @@ class FilterByUniqueParamsFullGeoInfo(FilterByParamsView):
             ty_nums_list: List[str] = [temp.num for temp in ty_path_list]
             dist_ty_nums: Set[str] = set(ty_nums_list)
             ty_nums_list: List[str] = [code for code in dist_ty_nums]
+        elif filter_type is FilterTypeEnum.UNIQUE_TYNUM:
+            # + 22-12-26 按照台风编号进行唯一查询
+            ty_num: str = request.GET.get('ty_num')
+            ty_nums_list = self.get_tynums_bynum(ty_num)
         # step2: 遍历所有匹配的台风获取全部的台风路径信息
         list_ty_geo_path: List[TyphoonGeoListMidModel] = []
         # 加入需要忽略的 num:0000
@@ -1233,6 +1255,7 @@ class AllStationRealDataExtremumDataView(AllStationExtremumDataView):
     """
         + 22-12-6 根据台风编号获取该过程影响站点的实况极值集合
     """
+
     def get(self, request: HttpRequest) -> HttpResponse:
         """
 
