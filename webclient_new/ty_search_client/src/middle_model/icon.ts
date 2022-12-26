@@ -399,6 +399,7 @@ class IconMinStationSurge {
 		const divHtml = `<div class="my-station-surge-div">
           <div class="station-min-div-title">${this.stationName}</div>
           <div class="station-min-div-content liner-default ">${this.productTypeStr}</div>
+
           <div class="station-min-div-content ${this.getAlarmColor()}">${
 			this.surge !== 0 ? this.surge : '-'
 		}</div>
@@ -530,6 +531,7 @@ const addStationIcon2Map = (
 			min: 0,
 			iconType: IconTypeEnum.TY_PULSING_ICON,
 		})
+
 		/** 当前站点英文名 */
 		const stationNameEn = temp.name
 		/** 当前站点中文名 */

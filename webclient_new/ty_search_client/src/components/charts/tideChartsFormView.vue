@@ -33,6 +33,7 @@ import { AlertTideEnum } from '@/enum/surge'
 //
 import { GET_CURRENT_TY_FORECAST_DT, GET_STATION_CODE } from '@/store/types'
 // api
+
 import { loadStationAlertLevelDataList, loadStationDetailDataList } from '@/api/station'
 // 工具方法
 import { fortmatData2YMDHM, fortmatData2MDHM } from '@/util/filter'
@@ -390,6 +391,7 @@ export default class TideChartView extends Vue {
 			this.myChart = myChart
 		}
 	}
+
 
 	get currentTyOpts(): { tyCode; tyNum; stationName; stationCode } {
 		const { tyCode, tyNum, stationName, stationCode } = this

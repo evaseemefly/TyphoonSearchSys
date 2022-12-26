@@ -1,4 +1,5 @@
 <template>
+
 	<div>
 		<nav id="main_nav_menu">
 			<!-- <font-awesome-icon :icon="menuItem.icons" v-for="menuItem in menuList" :key="menuItem.id" /> -->
@@ -25,6 +26,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import ComplexOptionsDrawerView from '@/components/drawer/complexOptionsDrawerView.vue'
 /** + 22-10-14 主要的导航栏(布局左侧) */
 const DEFAULT_NAV_CLS = 'nav_menu-item'
+
 @Component({
 	components: {
 		ComplexOptionsDrawerView,
@@ -32,6 +34,7 @@ const DEFAULT_NAV_CLS = 'nav_menu-item'
 })
 export default class MainNavMenuView extends Vue {
 	mydata: any = null
+
 	// isShowContent = false
 	selectedNavMenu: MainNavMenuType = MainNavMenuType.NULL
 	menuList: {

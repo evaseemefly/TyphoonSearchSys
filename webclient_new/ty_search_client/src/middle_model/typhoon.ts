@@ -58,6 +58,7 @@ class TyRealDataMongoMidModel {
 	}
 }
 
+
 /**
  * @description 为热图使用的台风位置及对应的因子(气压)
  * @author evaseemefly
