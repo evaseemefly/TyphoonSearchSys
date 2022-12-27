@@ -188,11 +188,13 @@ class TyUniqueFilterScatter extends AbsBaseTyScatter {
 	year = ''
 	/** 过滤月份 */
 	month = ''
+	tyNum = ''
 
-	constructor(filterType: FilterTypeEnum, year = '', month = '') {
+	constructor(filterType: FilterTypeEnum, year = '', month = '', tyNum = '') {
 		super()
 		this.year = year
 		this.month = month
+		this.tyNum = tyNum
 		this.uniqueFilterType = filterType
 	}
 
@@ -203,6 +205,7 @@ class TyUniqueFilterScatter extends AbsBaseTyScatter {
 			filterType: self.uniqueFilterType,
 			year: self.year,
 			month: self.month,
+			tyNum: self.tyNum,
 		}).then(
 			(
 				res: IHttpResponse<

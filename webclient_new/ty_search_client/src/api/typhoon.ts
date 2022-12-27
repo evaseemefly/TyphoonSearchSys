@@ -6,7 +6,7 @@ import { faYammer } from '@fortawesome/free-brands-svg-icons'
 // 枚举
 import { FilterTypeEnum } from '@/enum/filter'
 
-import { DEFAULT_COMPLEX_NUM } from '@/const/default'
+import { DEFAULT_COMPLEX_NUM, DEFAULT_TY_NUM } from '@/const/default'
 // 后端的请求地址及端口
 // export const host = host
 axios.defaults.withCredentials = true
@@ -74,6 +74,7 @@ const loadTyListByUniqueParams = (params: {
 	filterType: FilterTypeEnum
 	year?: string
 	month?: string
+	tyNum?: string
 }) => {
 	const url = `${host}${area}/filter/condition/`
 	return axios.get(url, {
@@ -82,6 +83,7 @@ const loadTyListByUniqueParams = (params: {
 			filter_type: params.filterType,
 			year: params.year !== '' ? params.year : DEFAULT_COMPLEX_NUM,
 			month: params.month !== '' ? params.month : DEFAULT_COMPLEX_NUM,
+			ty_num: params.tyNum !== '' ? params.tyNum : DEFAULT_TY_NUM,
 		},
 	})
 }
@@ -134,6 +136,7 @@ const loadTyScatterByComplex = (parms: {
 	filterType: FilterTypeEnum
 	year?: string
 	month?: string
+	tyNum?: string
 }) => {
 	const url = `${host}${area}/filter/unique/all/geo/`
 	return axios.get(url, {
@@ -142,6 +145,7 @@ const loadTyScatterByComplex = (parms: {
 			filter_type: parms.filterType,
 			year: parms.year !== '' ? parms.year : DEFAULT_COMPLEX_NUM,
 			month: parms.month !== '' ? parms.month : DEFAULT_COMPLEX_NUM,
+			ty_num: parms.tyNum !== '' ? parms.tyNum : DEFAULT_TY_NUM,
 		},
 	})
 }

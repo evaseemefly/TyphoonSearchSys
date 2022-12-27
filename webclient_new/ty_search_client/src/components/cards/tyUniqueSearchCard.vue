@@ -10,6 +10,10 @@
 				<span>按月检索</span>
 				<el-input v-model="filterMonth" placeholder="输入月份"></el-input>
 			</div>
+			<div class="card-nav-row">
+				<span>按编号检索</span>
+				<el-input v-model="filterTyNum" placeholder="输入月份"></el-input>
+			</div>
 			<!-- <div class="card-nav-row">
 				<span>按范围检索</span>
 				<el-date-picker
@@ -47,6 +51,8 @@ export default class TyUniqueSearchCardView extends Vue {
 	filterMonth = ''
 	/** 暂时不用 起止时间 */
 	filterStartDt: Date = new Date()
+	/** 过滤台风编号 */
+	filterTyNum = ''
 	// filterEndDt:Date=new Date()
 
 	/** 加入了当输入 月份 则清除 年份输入框输入的内容，不需要加入单选框进行额外的控制 */
@@ -54,6 +60,7 @@ export default class TyUniqueSearchCardView extends Vue {
 	onFilterMonth(val: string): void {
 		if (val !== '') {
 			this.filterYear = ''
+			this.filterTyNum = ''
 		}
 	}
 
@@ -61,6 +68,15 @@ export default class TyUniqueSearchCardView extends Vue {
 	onFilterYear(val: string): void {
 		if (val !== '') {
 			this.filterMonth = ''
+			this.filterTyNum = ''
+		}
+	}
+
+	@Watch('filterTyNum')
+	onFilterTyNum(val: string): void {
+		if (val !== '') {
+			this.filterMonth = ''
+			this.filterYear = ''
 		}
 	}
 
@@ -71,9 +87,10 @@ export default class TyUniqueSearchCardView extends Vue {
 		// @ts-ignore
 		// this.$bus.$emit('my-add-to-count')
 		/** 提交唯一性查询的参数 */
-		const params: { year: string; month: string } = {
+		const params: { year: string; month: string; tyNum: string } = {
 			year: this.filterYear,
 			month: this.filterMonth,
+			tyNum: this.filterTyNum,
 		}
 		EventBus.$emit(TO_GET_UNIQUE_TY_SEARCH_READ_DATA, params)
 		EventBus.$emit(TO_GET_UNIQUE_TY_SEARCH_LIST, params)

@@ -1,9 +1,16 @@
 const { defineConfig } = require('@vue/cli-service')
 const debug = process.env.NODE_ENV !== 'production'
+
+const path = require('path')
+const resolve = (dir) => path.join(__dirname, dir)
 // module.exports = defineConfig({
 //   transpileDependencies: true
 // })
 module.exports = {
+	runtimeCompiler: true,
+	chainWebpack: (config) => {
+		config.resolve.alias.set('@', resolve('src'))
+	},
 	transpileDependencies: true,
 	productionSourceMap: true,
 	// configureWebpack: (config) => {

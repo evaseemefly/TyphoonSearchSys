@@ -11,6 +11,8 @@ enum FilterTypeEnum {
 	FILTER_BY_UNIQUE_YEAR = 1002,
 	/** 按照月份进行过滤 */
 	FILTER_BY_UNIQUE_MONTH = 1001,
+	/** 按照台风编号进行过滤 */
+	FILTER_BY_UNIQUE_TYNUM = 1003,
 }
 
 /**

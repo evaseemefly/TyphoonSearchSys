@@ -278,12 +278,14 @@ export default class SubNavMenuView extends Vue {
 	}
 
 	/** 根据唯一性条件获取台风集合 */
-	loadTyListByUniqueParams(params: { year: string; month: string }): void {
+	loadTyListByUniqueParams(params: { year: string; month: string; tyNum: string }): void {
 		let tyUniqueFilterType = FilterTypeEnum.NULL
 		if (params.year !== '') {
 			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_YEAR
 		} else if (params.month !== '') {
 			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_MONTH
+		} else if (params.tyNum !== '') {
+			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_TYNUM
 		}
 		const self = this
 		this.clearFilterTys()
@@ -293,6 +295,7 @@ export default class SubNavMenuView extends Vue {
 			filterType: tyUniqueFilterType,
 			year: params.year,
 			month: params.month,
+			tyNum: params.tyNum,
 		})
 			.then(
 				(

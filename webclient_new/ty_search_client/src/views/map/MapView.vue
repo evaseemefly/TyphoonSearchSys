@@ -692,6 +692,7 @@ export default class MainMapView extends Vue {
 			uniqueFilterType: FilterTypeEnum
 			year?: string
 			month?: string
+			tyNum?: string
 		}
 	): Promise<void> {
 		const self = this
@@ -1079,7 +1080,7 @@ export default class MainMapView extends Vue {
 
 	// @Emit('my-add-to-count')
 	/** + 22-11-21 根据唯一性条件查询获取过滤的所有台风实况 */
-	toLoadUniqueTyPathRealData(params: { year: string; month: string }) {
+	toLoadUniqueTyPathRealData(params: { year: string; month: string; tyNum: string }) {
 		// this.count += n
 		// console.log(`监听到count发声变化:${this.count}`)
 		let tyUniqueFilterType = FilterTypeEnum.NULL
@@ -1088,12 +1089,19 @@ export default class MainMapView extends Vue {
 			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_YEAR
 		} else if (params.month !== '') {
 			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_MONTH
+		} else if (params.tyNum !== '') {
+			tyUniqueFilterType = FilterTypeEnum.FILTER_BY_UNIQUE_TYNUM
 		}
 		let tyScatterMenuType = this.getFilterTyScatterMenuType
 		this.factoryLoadTy4Scatters(
 			FilterType4ScattersEnum.FILTER_BY_UNIQUE_QUERY,
 			tyScatterMenuType,
-			{ uniqueFilterType: tyUniqueFilterType, year: params.year, month: params.month }
+			{
+				uniqueFilterType: tyUniqueFilterType,
+				year: params.year,
+				month: params.month,
+				tyNum: params.tyNum,
+			}
 		)
 		// this.loadTyUniqueFilter4Scatters(
 		// 	tyScatterMenuType,
