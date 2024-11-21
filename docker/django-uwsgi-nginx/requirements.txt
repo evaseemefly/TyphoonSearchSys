@@ -1,7 +1,7 @@
 dataclasses==0.6
 Django==2.2.1
 django-cors-headers==3.0.1
-djangorestframework==3.9.4
+djangorestframework==3.11.2
 djongo==1.2.32
 mongoengine==0.17.0
 pymongo==3.8.0
